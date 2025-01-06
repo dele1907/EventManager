@@ -1,0 +1,32 @@
+name: Workflow
+on:
+  push:
+    branches:
+      - main # Workflow wird bei jedem Push auf dem Main-Branch ausgeführt
+  workflow_dispatch:  # Ermöglicht das manuelle Starten des Workflows
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Chechout repository
+        uses: actions/checkout@v4.2.2 # Checkout Action vom Github-Marketplace
+
+      - name: setup-java
+        uses: actions/setup-java@v4.5.0 # Setup Action vom Github-Marketplace
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # Caching Abschnitt von hier: https://github.com/actions/cache/blob/main/examples.md#java---maven
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4       # Caching zur Beschleunigung
+        with:
+          path: ~/.m2/repository     # Pfad zu den Maven-Abhängigkeiten
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys:  |
+            ${{ runner.os }}-m2-
+
+      - name: Build and Test
+        run: mvn clean verify        # Maven-Build und Tests ausführen
