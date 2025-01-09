@@ -8,10 +8,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTest {
     @Test
     void createNewUserTest() {
-        User user = new User(IDGenerationHelper.generateRandomString(5), "", "", "", "", "",
+        User user = new User("", "", "", "", "",
                 01223, true);
 
         assertTrue(user != null);
     }
-
+    User user = new User("", "", "", "", "", 0123, true);
+    String validTestPassword = "Hello";
+    String invalidTestPassword = "HellÖ";
+    @Test
+    void comparingPasswordTest() {
+        assertTrue(user.comparingPassword(validTestPassword , "Hello"));
+    }
+    @Test
+    void isValidPasswordTest() {
+        assertTrue(user.isValidPassword(validTestPassword));
+    }
+    @Test
+    void isValidRegistrationPasswordTest() {
+        assertTrue(user.isValidRegistrationPassword(validTestPassword, "Hello"));
+    }
 }
