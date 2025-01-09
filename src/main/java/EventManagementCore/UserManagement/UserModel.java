@@ -2,6 +2,8 @@ package EventManagementCore.UserManagement;
 
 import EventManagementCore.PermissionRoleManagement.Permission;
 
+import java.util.ArrayList;
+
 public abstract class UserModel {
     String userID;
     String name;
@@ -11,7 +13,11 @@ public abstract class UserModel {
     String password;
     int phoneNumber;
     boolean isAdmin;
-    Permission[] permissions;
+    ArrayList<Permission> permissions;
+
+    UserModel() {
+        permissions = new ArrayList<>();
+    }
 
     public void createUser() {}
 
@@ -53,9 +59,13 @@ public abstract class UserModel {
 
     public void editEvent(String eventID) {}
 
+    public void addPermissionToUser(Permission permission) {
+        permissions.add(permission);
+    }
+
 
     //Getter
-    public Permission[] getPermissions() {
+    public ArrayList<Permission> getPermissions() {
         return permissions;
     }
 

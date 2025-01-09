@@ -1,50 +1,28 @@
 package EventManagementCore.PermissionRoleManagement;
 
+import EventManagementCore.UserManagement.User;
+import Helper.PermissionHelper;
+
 public class PermissionManager {
-    private class DummyUser {
-        private String userID;
-        private String name;
-        private String lastName;
-        private boolean isAdmin;
+    private User notAnAdminDummyUser;
 
-        DummyUser(String userID, boolean isAdmin) {
-            this.userID = userID;
-            this.name = "Dummy";
-            this.lastName = "DummyDummy";
-            this.isAdmin = isAdmin;
-        }
-
-        public boolean getIsAdmin() {
-            return isAdmin;
-        }
+    public PermissionManager() {
+        this.notAnAdminDummyUser = new User();
     }
 
-    private DummyUser notAnAdminDummyUser;
+    public boolean userCanHavePermissionDeleteUser(User user) {
+        Permission deleteUserPermission = new Permission("Delete User", true);
 
-    private DummyUser anAdminDummyUser;
+        PermissionHelper.addPermissionToUsersPermissions(user, deleteUserPermission);
 
-    public PermissionManager(String userID) {
-        this.notAnAdminDummyUser = new DummyUser(userID, false);
-        this.anAdminDummyUser = new DummyUser(userID, true);
+        return user.getPermissions().contains(deleteUserPermission);
     }
 
-    public boolean hasPermissionDeleteUser(DummyUser dummyUser) {
-        return dummyUser.getIsAdmin();
-    }
-
-    public boolean hasPermissionAddUserFor(DummyUser dummyUser) {
+    /**public boolean hasPermissionAddUserFor(DummyUser dummyUser) {
         return dummyUser.getIsAdmin();
     }
 
     public boolean hasPermissionEditUser(DummyUser dummyUser) {
         return dummyUser.getIsAdmin();
-    }
-
-    public DummyUser getAnAdminDummyUser() {
-        return this.anAdminDummyUser;
-    }
-
-    public DummyUser getNotAnAdminDummyUser() {
-        return this.notAnAdminDummyUser;
-    }
+    }*/
 }
