@@ -3,7 +3,7 @@ package Helper;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.UserManagement.User;
 
-public class PermissionHelper {
+public class PermissionUserAssignmentHelper {
 
     /**
      * method which checks if the user is an admin and the permission is an admin related permission

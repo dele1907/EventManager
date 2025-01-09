@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import EventManagementCore.UserManagement.User;
 import Helper.IDGenerationHelper;
-import Helper.PermissionHelper;
 import org.junit.jupiter.api.Test;
 
 public class PermissionManagerTestDrive {

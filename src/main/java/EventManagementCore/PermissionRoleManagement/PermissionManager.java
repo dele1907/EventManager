@@ -1,7 +1,7 @@
 package EventManagementCore.PermissionRoleManagement;
 
 import EventManagementCore.UserManagement.User;
-import Helper.PermissionHelper;
+import Helper.PermissionUserAssignmentHelper;
 
 public class PermissionManager {
 
@@ -9,7 +9,7 @@ public class PermissionManager {
         //todo @Dennis replace when Permissions are available in database
         Permission deleteUserPermission = new Permission("Delete User", true);
 
-        PermissionHelper.addPermissionToUsersPermissions(user, deleteUserPermission);
+        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, deleteUserPermission);
 
         return user.getPermissions().contains(deleteUserPermission);
     }
@@ -18,7 +18,7 @@ public class PermissionManager {
         //todo @Dennis replace when Permissions are available in database
         Permission createUserPermission = new Permission("Create User", true);
 
-        PermissionHelper.addPermissionToUsersPermissions(user, createUserPermission);
+        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, createUserPermission);
 
         return user.getPermissions().contains(createUserPermission);
     }
