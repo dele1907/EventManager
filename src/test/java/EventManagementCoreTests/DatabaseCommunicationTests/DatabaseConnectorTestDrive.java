@@ -1,12 +1,12 @@
 package EventManagementCoreTests.DatabaseCommunicationTests;
 
 import EventManagementCore.DatabaseCommunication.DatabaseConnector;
+
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DatabaseConnectorTestDrive {
 
