@@ -18,10 +18,10 @@ public class IDGenerationHelperTestDrive {
     void testIDLength() {
         String randomID = IDGenerationHelper.generateRandomIDString();
 
-        System.out.println("\nRandom ID length should be: " + IDGenerationHelper.ID_DEFAULT_LENGHT);
+        System.out.println("\nRandom ID length should be: " + IDGenerationHelper.ID_DEFAULT_LENGTH);
         System.out.println("Random ID length is: " + randomID.length() + "\n");
 
-        assert (randomID.length() == IDGenerationHelper.ID_DEFAULT_LENGHT);
+        assert (randomID.length() == IDGenerationHelper.ID_DEFAULT_LENGTH);
     }
 
     @Test
