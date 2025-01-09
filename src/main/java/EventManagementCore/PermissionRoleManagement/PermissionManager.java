@@ -22,12 +22,4 @@ public class PermissionManager {
 
         return user.getPermissions().contains(createUserPermission);
     }
-
-    /**public boolean hasPermissionAddUserFor(DummyUser dummyUser) {
-        return dummyUser.getIsAdmin();
-    }
-
-    public boolean hasPermissionEditUser(DummyUser dummyUser) {
-        return dummyUser.getIsAdmin();
-    }*/
 }

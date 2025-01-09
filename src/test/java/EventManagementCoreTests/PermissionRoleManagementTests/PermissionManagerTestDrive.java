@@ -50,29 +50,4 @@ public class PermissionManagerTestDrive {
 
         assertTrue(permissionManager.userCanHavePermissionCreateUser(adminDummyUser));
     }
-    
-    /**@Test
-    void testUserCanHavePermissionDeleteUserForAnAdminUser() {
-        assertTrue(permissionManager.userCanHavePermissionDeleteUser(permissionManager.getAnAdminDummyUser()));
-    }
-
-    @Test
-    void testHasPermissionAddUser() {
-        assert(false);
-    }
-
-    @Test
-    void testHasPermissionEditUser() {
-        assert(false);
-    }
-
-    @Test
-    void testHasPermissionGiveAdminStatusToUser() {
-        assert(false);
-    }
-
-    @Test
-    void testHasPermissionRemoveAdminStatusFromUser() {
-        assert(false);
-    }*/
 }
