@@ -76,5 +76,4 @@ public class PermissionManager {
 
     //#region user related to certain event (& admin) only permissions
     //#endregion user related to certain event (& admin) only permissions
-
 }

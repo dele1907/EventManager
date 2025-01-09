@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public abstract class UserModel {
     String userID;
-    String name;
+    String firstName;
     String lastName;
     String dateOfBirth;
     String eMailAddress;
@@ -93,8 +93,8 @@ public abstract class UserModel {
         return lastName;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getUserID() {
