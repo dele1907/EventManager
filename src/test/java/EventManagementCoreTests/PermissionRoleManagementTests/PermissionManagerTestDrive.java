@@ -13,7 +13,7 @@ public class PermissionManagerTestDrive {
     PermissionManager permissionManager = new PermissionManager();
     User nonAdminDummyUser = new User
             (
-                IDGenerationHelper.generateRandomString(20),
+                IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT),
                     "",
                     "",
                     "",
@@ -25,7 +25,7 @@ public class PermissionManagerTestDrive {
 
     User adminDummyUser = new User
             (
-                    IDGenerationHelper.generateRandomString(20),
+                    IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT),
                     "",
                     "",
                     "",

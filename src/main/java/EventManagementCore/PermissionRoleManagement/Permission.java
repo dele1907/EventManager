@@ -9,7 +9,7 @@ public class Permission {
 
     public Permission(String permissionName, boolean isAdminPermission) {
         this.permissionName = permissionName;
-        this.permissionID = IDGenerationHelper.generateRandomString(20);
+        this.permissionID = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
         this.isAdminPermission = isAdminPermission;
     }
 

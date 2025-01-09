@@ -1,6 +1,7 @@
 package Helper;
 
 public class IDGenerationHelper {
+    public static final int ID_DEFAULT_LENGHT = 20;
 
     /**
      * method to generate random IDs for every purpose an ID has to be provided, as longer the lenght

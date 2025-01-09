@@ -4,11 +4,10 @@ import Helper.IDGenerationHelper;
 import org.junit.jupiter.api.Test;
 
 public class IDGenerationHelperTestDrive {
-    int RANDOM_ID_LENGHT = 15;
 
     @Test
     void testIDIsSet() {
-        String randomID = IDGenerationHelper.generateRandomString(RANDOM_ID_LENGHT);
+        String randomID = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
 
         System.out.println("\nRandom ID is empty: " + randomID.isEmpty());
 
@@ -17,18 +16,18 @@ public class IDGenerationHelperTestDrive {
 
     @Test
     void testIDLength() {
-        String randomID = IDGenerationHelper.generateRandomString(RANDOM_ID_LENGHT);
+        String randomID = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
 
-        System.out.println("\nRandom ID length should be: " + RANDOM_ID_LENGHT);
+        System.out.println("\nRandom ID length should be: " + IDGenerationHelper.ID_DEFAULT_LENGHT);
         System.out.println("Random ID length is: " + randomID.length() + "\n");
 
-        assert (randomID.length() == RANDOM_ID_LENGHT);
+        assert (randomID.length() == IDGenerationHelper.ID_DEFAULT_LENGHT);
     }
 
     @Test
     void testIDIsUnique() {
-        String randomIDOne = IDGenerationHelper.generateRandomString(RANDOM_ID_LENGHT);
-        String randomIDTwo = IDGenerationHelper.generateRandomString(RANDOM_ID_LENGHT);
+        String randomIDOne = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
+        String randomIDTwo = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
         boolean areUniqueIDs = !(randomIDOne.equals(randomIDTwo));
 
         System.out.println("\nGenerated random IDs are different: " + areUniqueIDs);
