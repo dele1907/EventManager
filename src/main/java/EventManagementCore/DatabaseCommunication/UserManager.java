@@ -2,7 +2,6 @@ package EventManagementCore.DatabaseCommunication;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import EventManagementCore.UserManagement.User;
@@ -18,10 +17,10 @@ public class UserManager {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, user.getUserID());
-            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getDateOfBirth());
-            preparedStatement.setString(5, user.geteMailAddress());
+            preparedStatement.setString(5, user.getEMailAddress());
             preparedStatement.setString(6, user.getPassword());
             preparedStatement.setInt(7, user.getPhoneNumber());
             preparedStatement.setString(8, String.valueOf(user.isAdmin()));
