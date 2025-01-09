@@ -4,6 +4,7 @@ import EventManagementCore.PermissionRoleManagement.Permission;
 import org.junit.jupiter.api.Test;
 
 public class PermissionTestDrive {
+
     String PERMISSION_NAME_ADMIN_PERMISSION = "canEditUser";
     String PERMISSION_NAME_NON_ADMIN_PERMISSION = "canNotEditUser";
     private Permission adminPermission = new Permission(PERMISSION_NAME_ADMIN_PERMISSION, true);
