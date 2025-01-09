@@ -13,15 +13,14 @@ public class User extends UserModel{
         this.eMailAddress = eMailAddress;
         this.password = password;
         this.phoneNumber = phoneNumber;
-
         this.isAdmin = false;
     }
 
+    //#region validatePassword
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
 
-    //After testing and review changing the methods to private the test are deleted because they can not access the methods anymore
     private boolean isValidPassword(String password) {
         char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
 
@@ -34,7 +33,6 @@ public class User extends UserModel{
         return true;
     }
 
-    //After testing and review changing the methods to private the test are deleted because they can not access the methods anymore
     private boolean comparingPassword(String password, String checkPassword) {
         if (password.isEmpty() || checkPassword.isEmpty()) {
             return false;
@@ -42,4 +40,5 @@ public class User extends UserModel{
 
         return checkPassword.equals(password);
     }
+    //#endregion validatePassword
 }
