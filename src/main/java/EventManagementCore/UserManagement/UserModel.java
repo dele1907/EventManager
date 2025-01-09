@@ -81,7 +81,7 @@ public abstract class UserModel {
         return password;
     }
 
-    public String geteMailAddress() {
+    public String getEMailAddress() {
         return eMailAddress;
     }
 
