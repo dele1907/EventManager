@@ -3,6 +3,7 @@ package EventManagementCore.PermissionRoleManagement;
 import Helper.IDGenerationHelper;
 
 public class Permission {
+    //TODO @Dennis (Review): Here could be whitespace
     private String permissionName;
     private String permissionID;
     private boolean isAdminPermission;
