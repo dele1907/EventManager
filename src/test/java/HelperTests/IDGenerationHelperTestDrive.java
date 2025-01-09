@@ -7,7 +7,7 @@ public class IDGenerationHelperTestDrive {
 
     @Test
     void testIDIsSet() {
-        String randomID = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
+        String randomID = IDGenerationHelper.generateRandomIDString();
 
         System.out.println("\nRandom ID is empty: " + randomID.isEmpty());
 
@@ -16,7 +16,7 @@ public class IDGenerationHelperTestDrive {
 
     @Test
     void testIDLength() {
-        String randomID = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
+        String randomID = IDGenerationHelper.generateRandomIDString();
 
         System.out.println("\nRandom ID length should be: " + IDGenerationHelper.ID_DEFAULT_LENGHT);
         System.out.println("Random ID length is: " + randomID.length() + "\n");
@@ -26,8 +26,8 @@ public class IDGenerationHelperTestDrive {
 
     @Test
     void testIDIsUnique() {
-        String randomIDOne = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
-        String randomIDTwo = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
+        String randomIDOne = IDGenerationHelper.generateRandomIDString();
+        String randomIDTwo = IDGenerationHelper.generateRandomIDString();
         boolean areUniqueIDs = !(randomIDOne.equals(randomIDTwo));
 
         System.out.println("\nGenerated random IDs are different: " + areUniqueIDs);

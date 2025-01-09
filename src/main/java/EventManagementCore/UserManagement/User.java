@@ -6,7 +6,7 @@ public class User extends UserModel{
     //TODO @Timo (review): here could be whitespace
     public User(String name, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
-        this.userID = IDGenerationHelper.generateRandomString(IDGenerationHelper.ID_DEFAULT_LENGHT);
+        this.userID = IDGenerationHelper.generateRandomIDString(IDGenerationHelper.ID_DEFAULT_LENGHT);
         this.firstName = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
