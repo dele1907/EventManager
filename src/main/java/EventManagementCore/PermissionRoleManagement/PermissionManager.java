@@ -4,18 +4,23 @@ import EventManagementCore.UserManagement.User;
 import Helper.PermissionHelper;
 
 public class PermissionManager {
-    private User notAnAdminDummyUser;
-
-    public PermissionManager() {
-        this.notAnAdminDummyUser = new User();
-    }
 
     public boolean userCanHavePermissionDeleteUser(User user) {
+        //todo @Dennis replace when Permissions are available in database
         Permission deleteUserPermission = new Permission("Delete User", true);
 
         PermissionHelper.addPermissionToUsersPermissions(user, deleteUserPermission);
 
         return user.getPermissions().contains(deleteUserPermission);
+    }
+
+    public boolean userCanHavePermissionCreateUser(User user) {
+        //todo @Dennis replace when Permissions are available in database
+        Permission createUserPermission = new Permission("Create User", true);
+
+        PermissionHelper.addPermissionToUsersPermissions(user, createUserPermission);
+
+        return user.getPermissions().contains(createUserPermission);
     }
 
     /**public boolean hasPermissionAddUserFor(DummyUser dummyUser) {

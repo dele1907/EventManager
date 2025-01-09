@@ -5,19 +5,52 @@ import EventManagementCore.PermissionRoleManagement.PermissionManager;
 import static org.junit.jupiter.api.Assertions.*;
 
 import EventManagementCore.UserManagement.User;
+import Helper.IDGenerationHelper;
 import Helper.PermissionHelper;
 import org.junit.jupiter.api.Test;
 
 public class PermissionManagerTestDrive {
     PermissionManager permissionManager = new PermissionManager();
+    User nonAdminDummyUser = new User
+            (
+                IDGenerationHelper.generateRandomString(20),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    01223,
+                    false
+            );
+
+    User adminDummyUser = new User
+            (
+                    IDGenerationHelper.generateRandomString(20),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    01223,
+                    true
+            );
 
     @Test
     void testUserCanHavePermissionDeleteUserForNotAnAdminUser() {
-        User user = new User();
 
-        assertFalse(permissionManager.userCanHavePermissionDeleteUser(user));
+        assertFalse(permissionManager.userCanHavePermissionDeleteUser(nonAdminDummyUser));
+
+        assertTrue(permissionManager.userCanHavePermissionDeleteUser(adminDummyUser));
     }
 
+    @Test
+    void testUserCanHavePermissionCreateUserForNotAnAdminUser() {
+
+        assertFalse(permissionManager.userCanHavePermissionCreateUser(nonAdminDummyUser));
+
+        assertTrue(permissionManager.userCanHavePermissionCreateUser(adminDummyUser));
+    }
+    
     /**@Test
     void testUserCanHavePermissionDeleteUserForAnAdminUser() {
         assertTrue(permissionManager.userCanHavePermissionDeleteUser(permissionManager.getAnAdminDummyUser()));
