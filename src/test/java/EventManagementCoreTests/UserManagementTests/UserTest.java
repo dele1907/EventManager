@@ -1,8 +1,9 @@
 package EventManagementCoreTests.UserManagementTests;
 
 import EventManagementCore.UserManagement.User;
-import Helper.IDGenerationHelper;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,9 +14,11 @@ public class UserTest {
             "firstTestName@adminmail.com", "AdminEventManager123", 5566778, true);
     User system = new User("System", "", "", "", "goodPassword",0,true);
 
-
+    String validTestPassword = "eventManager123";
+    String inValidTestPassword = "eventManager124";
 
     @Test
+    @Order(1)
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
 
@@ -24,6 +27,7 @@ public class UserTest {
 
     }
     @Test
+    @Order(2)
     @DisplayName("AdminCreatesUser Test")
     void adminUserCreateNewUserTest() {
 
@@ -32,10 +36,9 @@ public class UserTest {
 
     }
 
-    String validTestPassword = "eventManager123";
-    String inValidTestPassword = "eventManager124";
-
     @Test
+    @Order(3)
+    @DisplayName("Password Test")
     void isValidAndIsNotValidRegistrationPasswordTest() {
         assertTrue(testUser.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
@@ -43,19 +46,23 @@ public class UserTest {
     }
 
     @Test
-    void checkExistingEmailAdressForUserTest() {
+    @Order(4)
+    @DisplayName("Existing-Email Test")
+    void checkExistingEmailAddressForUserTest() {
         assertTrue(system.comparingEmailAddress("firstName.lastName@testmail.com"));
     }
 
     @Test
-    @DisplayName("LoginSystem")
-    void authenticateUserTest() {
+    @Order(5)
+    @DisplayName("Login-System Test")
+    void authenticateUserLoginTest() {
         assertTrue(system.authentificateUserLogin("firstName.lastName@testmail.com", "eventManager123"));
     }
 
 
     @Test
-    @DisplayName("AddAndRemoveAdminPermissionToUser Test")
+    @Order(6)
+    @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminPermissionToUserTest() {
         testUser.addAdminStatusToUser();
         assertTrue(testUser.isAdmin());
@@ -64,6 +71,7 @@ public class UserTest {
     }
 
     @Test
+    @Order(7)
     @DisplayName("Cleaning DB after Testing")
     void cleanDBAfterTests() {
         String userID = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
