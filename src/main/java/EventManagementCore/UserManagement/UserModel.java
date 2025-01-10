@@ -29,6 +29,8 @@ public abstract class UserModel {
             boolean isAdmin
     );
 
+    public void editUser(String userID) {}
+
     public abstract boolean deleteUser(String userID);
 
     public boolean deleteEvent(String eventID) {
@@ -60,7 +62,7 @@ public abstract class UserModel {
         this.isAdmin = false;
     }
 
-    public void editUser(String userID) {}
+
 
 
     public void bookEvent(String eventID) {}

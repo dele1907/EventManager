@@ -7,6 +7,7 @@ import Helper.PermissionUserAssignmentHelper;
 
 public class User extends UserModel{
     private UserManager userManager;
+    private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
 
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
@@ -33,13 +34,35 @@ public class User extends UserModel{
 
     @Override
     public void createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
-        //TODO check if User has permission to create new user
-        userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+
+        if (this.isAdmin){
+
+            userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+        }else {
+
+            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+        }
+
+    }
+
+    @Override
+    public void editUser(String userID) {
+
     }
 
     @Override
     public boolean deleteUser(String userID) {
-        return userManager.deleteUserByID(userID);
+
+        if (this.isAdmin){
+
+            return userManager.deleteUserByID(userID);
+        }else {
+
+            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+
+            return false;
+        }
+
     }
 
     @Override

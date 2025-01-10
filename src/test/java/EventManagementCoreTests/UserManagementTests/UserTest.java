@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTest {
     User testUser = new User("firstName", "LastName", "dateOfBirth",
             "firstName.lastName@testmail.com", "eventManager123", 5566778);
+    User testAdminUser = new User("admin","trator","dateOfBirth",
+            "firstName@adminmail.com", "AdminEventManager123", 5566778, true);
 
 
 
