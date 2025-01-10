@@ -35,18 +35,21 @@ public class UserTest {
     String inValidTestPassword = "eventManager124";
 
     @Test
-    void isValidRegistrationPasswordTest() {
+    void isValidAndIsNotValidRegistrationPasswordTest() {
         assertTrue(testUser.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
         assertFalse(testUser.isValidRegistrationPassword(inValidTestPassword, "eventManager123"));
     }
 
+
     @Test
-    @DisplayName("isUserAdminAndIsUserNoAdmin Test")
-    void isUserAdminAndIsNoAdminTest() {
+    @DisplayName("AddAndRemoveAdminPermissionToUser Test")
+    void addAndRemoveAdminPermissionToUserTest() {
         testUser.addAdminStatusToUser();
         assertTrue(testUser.isAdmin());
         testUser.removeAdminStatusFromUser();
         assertFalse(testUser.isAdmin());
     }
+
+
 }

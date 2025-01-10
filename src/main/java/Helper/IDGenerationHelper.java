@@ -8,6 +8,9 @@ public class IDGenerationHelper {
      * method to generate random IDs for every purpose an ID has to be provided
      * */
     public static String generateRandomIDString() {
+
+        //Todo @DennisLeister checking if UserID already exists
+
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder randomString = new StringBuilder();
         java.util.Random randomizer = new java.util.Random();
