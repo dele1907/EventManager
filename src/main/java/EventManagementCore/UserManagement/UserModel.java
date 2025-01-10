@@ -1,5 +1,6 @@
 package EventManagementCore.UserManagement;
 
+import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 
 import java.util.ArrayList;
@@ -14,15 +15,25 @@ public abstract class UserModel {
     int phoneNumber;
     boolean isAdmin;
     ArrayList<Permission> permissions;
+    private UserManager userManager;
 
     UserModel() {
         permissions = new ArrayList<>();
     }
 
-    public void createUser() {}
+    public void createUser(String firstName, String lastName, String dateOfBirth,
+                           String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+
+        User user = new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber);
+
+        user.addAdminStatusToUser();
+
+        userManager.createUser(user);
+
+    }
 
     public boolean deleteUser(String userID) {
-        return false;
+        return userManager.deleteUserByID(userID);
     }
 
     public boolean deleteEvent(String eventID) {
@@ -45,9 +56,13 @@ public abstract class UserModel {
 
     public void addUserToEvent(String userID, String eventID) {}
 
-    public void addAdminStatusToUser(String userID){}
+    public void addAdminStatusToUser(){
+        this.isAdmin = true;
+    }
 
-    public void removeAdminStatusFromUser(String userID){}
+    public void removeAdminStatusFromUser(){
+        this.isAdmin = false;
+    }
 
     public User createNewUser(String type) {
         return null;

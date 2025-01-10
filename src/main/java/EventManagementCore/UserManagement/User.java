@@ -5,7 +5,7 @@ import Helper.IDGenerationHelper;
 public class User extends UserModel{
 
     public User(String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+                String eMailAddress, String password, int phoneNumber) {
         this.userID = IDGenerationHelper.generateRandomIDString();
         this.firstName = firstName;
         this.lastName = lastName;
