@@ -96,8 +96,39 @@ public class UserManager {
     }
 
     // Benutzer ändern (UPDATE)
+    public boolean updateUser(User user) {
+        String sql = "UPDATE user SET firstName = ?, lastName = ?, birthDate = ?, eMail = ?, password = ?, phoneNumber = ?, isAdmin = ? WHERE userID = ?";
+        try (Connection connection = DatabaseConnector.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setString(3, user.getDateOfBirth());
+            preparedStatement.setString(4, user.getEMailAddress());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setInt(6, user.getPhoneNumber());
+            preparedStatement.setBoolean(7, user.isAdmin());
 
+            preparedStatement.setString(8, user.getUserID()); // userID als WHERE-Bedingung
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("User updated successfully.");
+
+                return true;
+            } else {
+                System.out.println("No user found with the given ID.");
+
+                return false;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating user: " + e.getMessage());
+
+            return false;
+        }
+    }
 
     // Benutzer löschen (DELETE)
     public boolean deleteUserByID(String userID) {
@@ -106,6 +137,7 @@ public class UserManager {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, userID);
+
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {

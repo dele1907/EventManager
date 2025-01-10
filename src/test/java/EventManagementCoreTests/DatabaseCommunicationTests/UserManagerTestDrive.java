@@ -13,19 +13,25 @@ public class UserManagerTestDrive {
 
     private UserManager testUserManager;
     private User testUser;
+    private User testUserUpdated;
 
     @BeforeEach
     public void setUp() {
         // Vor jedem Test eine Instanz von UserManager erstellen
         testUserManager = new UserManager();
-        testUser = new User("testUserID", "Max", "Mustermann", "1980-01-01",
+        testUser = new User("testUserID", "Max", "Mustermann", "1980-01-10",
                 "max.mustermann@mail.com", "password123", 1234567890, true);
+        testUserUpdated = new User("testUserID", "Maximilian", "Mustermann-Meyer", "1980-10-01",
+                "max.m@mail.com", "password987", 1357902468, false);
     }
 
     @Test
-    public void testCreateDeleteUser() {
+    public void testCreateUpdateDeleteUser() {
         boolean userCreated = testUserManager.createNewUser(testUser);
         assertTrue(userCreated, "User creation failed but should not.");
+
+        boolean userUpdated = testUserManager.updateUser(testUserUpdated);
+        assertTrue(userUpdated, "User update failed but should not.");
 
         boolean userDeleted = testUserManager.deleteUserByID(testUser.getUserID());
         assertTrue(userDeleted, "User deletion failed but should not.");
@@ -36,6 +42,12 @@ public class UserManagerTestDrive {
         testUserManager.createNewUser(testUser);
         boolean userCreated = testUserManager.createNewUser(testUser);
         assertFalse(userCreated, "User creation was successful but should not.");
+    }
+
+    @Test
+    public void testUpdateUserFailed() {
+        boolean userUpdated = testUserManager.updateUser(testUserUpdated);
+        assertFalse(userUpdated, "User update was successful but should not.");
     }
 
     @Test
