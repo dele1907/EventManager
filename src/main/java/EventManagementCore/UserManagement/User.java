@@ -1,10 +1,12 @@
 package EventManagementCore.UserManagement;
 
+import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import Helper.IDGenerationHelper;
 import Helper.PermissionUserAssignmentHelper;
 
 public class User extends UserModel{
+    private UserManager userManager;
 
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
@@ -33,6 +35,11 @@ public class User extends UserModel{
     public void createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
         //TODO check if User has permission to create new user
         userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+    }
+
+    @Override
+    public boolean deleteUser(String userID) {
+        return userManager.deleteUserByID(userID);
     }
 
     @Override

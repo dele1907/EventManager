@@ -15,8 +15,6 @@ public abstract class UserModel {
     int phoneNumber;
     boolean isAdmin = false;
     ArrayList<Permission> permissions;
-    protected UserManager userManager;
-
     UserModel() {
         permissions = new ArrayList<>();
     }
@@ -31,10 +29,7 @@ public abstract class UserModel {
             boolean isAdmin
     );
 
-    public boolean deleteUser(String userID) {
-        //TODO check user's permission to delete an user
-        return userManager.deleteUserByID(userID);
-    }
+    public abstract boolean deleteUser(String userID);
 
     public boolean deleteEvent(String eventID) {
         return false;
@@ -75,7 +70,7 @@ public abstract class UserModel {
     public abstract void addPermissionToOwnUser(Permission permission);
 
 
-    //Getter
+    //#region Getter
     public ArrayList<Permission> getPermissions() {
         return permissions;
     }
@@ -111,6 +106,5 @@ public abstract class UserModel {
     public String getUserID() {
         return userID;
     }
-
-
+    //#endregion Getter
 }
