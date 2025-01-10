@@ -24,7 +24,7 @@ public class UserManager {
             preparedStatement.setString(5, user.getEMailAddress());
             preparedStatement.setString(6, user.getPassword());
             preparedStatement.setInt(7, user.getPhoneNumber());
-            preparedStatement.setString(8, String.valueOf(user.isAdmin()));
+            preparedStatement.setBoolean(8, user.isAdmin());
 
             preparedStatement.executeUpdate();
             System.out.println("User added successfully.");
