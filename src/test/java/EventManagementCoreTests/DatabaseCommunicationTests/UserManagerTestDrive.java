@@ -25,7 +25,7 @@ public class UserManagerTestDrive {
 
     @Test
     public void testCreateDeleteUser() {
-        boolean userCreated = testUserManager.createUser(testUser);
+        boolean userCreated = testUserManager.createNewUser(testUser);
         assertTrue(userCreated, "User creation failed but should not.");
 
         boolean userDeleted = testUserManager.deleteUserByID(testUser.getUserID());

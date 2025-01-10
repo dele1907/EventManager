@@ -24,7 +24,7 @@ public class PermissionManager {
 
     public boolean userCanHavePermissionCreateUser(User user) {
         //TODO @Dennis replace when Permissions are available in database
-        Permission createUserPermission = new Permission("createUser", true);
+        Permission createUserPermission = new Permission("createNewUser", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, createUserPermission);
 
         return user.getPermissions().contains(createUserPermission);

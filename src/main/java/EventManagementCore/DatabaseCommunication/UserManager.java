@@ -9,7 +9,7 @@ import EventManagementCore.UserManagement.User;
 public class UserManager {
 
     // Benutzer hinzufügen (CREATE)
-    public boolean createUser(User user) {
+    public boolean createNewUser(User user) {
         String sql = "INSERT INTO users (userID, firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin)"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -91,5 +91,6 @@ public class UserManager {
             return false;
         }
     }
+
 
 }

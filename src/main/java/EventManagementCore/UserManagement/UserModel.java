@@ -21,15 +21,15 @@ public abstract class UserModel {
         permissions = new ArrayList<>();
     }
 
-    public void createUser(String firstName, String lastName, String dateOfBirth,
-                           String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
-
+    public void createNewUser(String firstName, String lastName, String dateOfBirth,
+                              String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
         User user = new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber);
 
-        user.addAdminStatusToUser();
+        if (isAdmin) {
+            user.addAdminStatusToUser();
+        }
 
-        userManager.createUser(user);
-
+        userManager.createNewUser(user);
     }
 
     public boolean deleteUser(String userID) {
@@ -49,6 +49,7 @@ public abstract class UserModel {
     }
 
     public User showUserByID (String userID){
+        //User user = userManager.showUserByID();
         return null;
     }
 
@@ -64,11 +65,8 @@ public abstract class UserModel {
         this.isAdmin = false;
     }
 
-    public User createNewUser(String type) {
-        return null;
-    }
-
     public void editUser(String userID) {}
+
 
     public void bookEvent(String eventID) {}
 
