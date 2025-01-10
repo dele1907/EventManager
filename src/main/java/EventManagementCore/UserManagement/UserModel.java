@@ -34,7 +34,10 @@ public abstract class UserModel {
     public abstract boolean deleteUser(String userID);
 
     public User showUserByID (String userID){
-        //User user = userManager.showUserByID();
+        return null;
+    }
+
+    public User getUserByEmail(String eMailAddress){
         return null;
     }
 

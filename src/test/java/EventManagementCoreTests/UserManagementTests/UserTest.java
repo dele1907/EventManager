@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
-    User testUser = new User("firstName", "LastName", "dateOfBirth",
-            "firstName.lastName@testmail.com", "eventManager123", 5566778);
-    User testAdminUser = new User("admin","trator","dateOfBirth",
-            "firstName@adminmail.com", "AdminEventManager123", 5566778, true);
+    User testUser = new User("1234","firstName", "LastName", "dateOfBirth",
+            "firstTestName.lastTestName@testmail.com", "eventManager123", 5566778,false);
+    User testAdminUser = new User("1235","admin","trator","dateOfBirth",
+            "firstTestName@adminmail.com", "AdminEventManager123", 5566778, true);
 
 
 
@@ -51,5 +51,10 @@ public class UserTest {
         assertFalse(testUser.isAdmin());
     }
 
-
+    @Test
+    @DisplayName("Cleaning DB after Testing")
+    void cleanDBAfterTests() {
+        String userID = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
+        assertTrue(testAdminUser.deleteUser(userID));
+    }
 }

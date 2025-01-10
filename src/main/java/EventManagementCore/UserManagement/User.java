@@ -95,6 +95,26 @@ public class User extends UserModel{
     }
 
     @Override
+    public User showUserByID(String userID) {
+
+        if (this.isAdmin){
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public User getUserByEmail(String eMailAddress) {
+
+        if (this.isAdmin){
+
+            return userManager.readUserByEMail(eMailAddress);
+        }
+
+        return null;
+    }
+
+    @Override
     public void addPermissionToOwnUser(Permission permission) {
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(this, permission);
     }
