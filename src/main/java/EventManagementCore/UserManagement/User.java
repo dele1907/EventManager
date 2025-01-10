@@ -6,9 +6,10 @@ import Helper.IDGenerationHelper;
 import Helper.PermissionUserAssignmentHelper;
 
 public class User extends UserModel{
-    private UserManager userManager;
+    private UserManager userManager = new UserManager();
     private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
 
+    //Adminstrator
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
         this.userID = IDGenerationHelper.generateRandomIDString();
@@ -21,6 +22,7 @@ public class User extends UserModel{
         this.isAdmin = isAdmin;
     }
 
+    //User
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber) {
         this.userID = IDGenerationHelper.generateRandomIDString();
@@ -32,15 +34,35 @@ public class User extends UserModel{
         this.phoneNumber = phoneNumber;
     }
 
+    //User-Object for load DB
+    public User(String userID, String firstName, String lastName, String dateOfBirth,
+                String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.eMailAddress = eMailAddress;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
+
+    }
+
     @Override
-    public void createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+    public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
 
         if (this.isAdmin){
 
+            //Todo - Checking if some user already exists (firstName and lastName)
             userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+            return true;
+
         }else {
 
             System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            return false;
+
         }
 
     }

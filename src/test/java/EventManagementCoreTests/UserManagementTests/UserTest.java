@@ -15,26 +15,34 @@ public class UserTest {
 
 
     @Test
-    @DisplayName("CreateUserTest")
-    void createNewUserTest() {
+    @DisplayName("UserCreateUser Test")
+    void userWithoutPermissionCreateNewUserTest() {
 
+        assertFalse(testUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
+                "eventManager123", 11223344, false));
 
-        assertTrue(user != null);
+    }
+    @Test
+    @DisplayName("AdminCreatesUser Test")
+    void adminUserCreateNewUserTest() {
+
+        assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
+                "eventManager123", 11223344, false));
+
     }
 
-    User user = new User("", "", "", "", "", 0123);
-    String validTestPassword = "Hello";
-    String inValidTestPassword = "HellÖ";
+    String validTestPassword = "eventManager123";
+    String inValidTestPassword = "eventManager124";
 
     @Test
     void isValidRegistrationPasswordTest() {
-        assertTrue(user.isValidRegistrationPassword(validTestPassword, "Hello"));
+        assertTrue(testUser.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
-        assertFalse(user.isValidRegistrationPassword(inValidTestPassword, "HellÖ"));
+        assertFalse(testUser.isValidRegistrationPassword(inValidTestPassword, "eventManager123"));
     }
 
     @Test
-    @DisplayName("isUserAdminTest")
+    @DisplayName("isUserAdminAndIsUserNoAdmin Test")
     void isUserAdminAndIsNoAdminTest() {
         testUser.addAdminStatusToUser();
         assertTrue(testUser.isAdmin());

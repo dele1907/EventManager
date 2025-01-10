@@ -19,7 +19,7 @@ public abstract class UserModel {
         permissions = new ArrayList<>();
     }
 
-    public abstract void createNewUser(
+    public abstract boolean createNewUser(
             String firstName,
             String lastName,
             String dateOfBirth,
@@ -33,26 +33,10 @@ public abstract class UserModel {
 
     public abstract boolean deleteUser(String userID);
 
-    public boolean deleteEvent(String eventID) {
-        return false;
-    }
-
-    public String[] showEventIDsByUserID(String userID) {
-        return null;
-    }
-
-    public String[] showUserIDsByEventID(String eventID) {
-        return null;
-    }
-
     public User showUserByID (String userID){
         //User user = userManager.showUserByID();
         return null;
     }
-
-    public void removeUserFromEvent(String userID, String eventID) {}
-
-    public void addUserToEvent(String userID, String eventID) {}
 
     public void addAdminStatusToUser(){
         this.isAdmin = true;
@@ -62,12 +46,30 @@ public abstract class UserModel {
         this.isAdmin = false;
     }
 
+    public String[] showUserIDsByEventID(String eventID) {
+        return null;
+    }
 
 
+    public void createEvent(String eventID) {}
 
     public void bookEvent(String eventID) {}
 
     public void editEvent(String eventID) {}
+
+    public boolean deleteEvent(String eventID) {
+        return false;
+    }
+
+    public void addUserToEvent(String userID, String eventID) {}
+
+    public void removeUserFromEvent(String userID, String eventID) {}
+
+    //public Event showEventByID(String userID){};
+
+    public String[] showEventIDsByUserID(String userID) {
+        return null;
+    }
 
     public abstract void addPermissionToOwnUser(Permission permission);
 
