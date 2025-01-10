@@ -148,4 +148,22 @@ public class User extends UserModel{
         return checkPassword.equals(password);
     }
     //#endregion validatePassword
+
+    public boolean comparingEmailAddress(String emailAddress) {
+        if (getUserByEmail(emailAddress) == null) {
+            System.out.println("Email address not found");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean authentificateUserLogin(String email, String password) {
+        if (comparingEmailAddress(email) && comparingPassword(password, getUserByEmail(email).getPassword())) {
+            System.out.println("You have successfully logged in!");
+            return true;
+        }
+        System.out.println("Wrong email or password!");
+        return false;
+    }
+
 }

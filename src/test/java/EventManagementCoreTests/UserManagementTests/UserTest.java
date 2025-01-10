@@ -11,6 +11,7 @@ public class UserTest {
             "firstTestName.lastTestName@testmail.com", "eventManager123", 5566778,false);
     User testAdminUser = new User("1235","admin","trator","dateOfBirth",
             "firstTestName@adminmail.com", "AdminEventManager123", 5566778, true);
+    User system = new User("System", "", "", "", "goodPassword",0,true);
 
 
 
@@ -39,6 +40,17 @@ public class UserTest {
         assertTrue(testUser.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
         assertFalse(testUser.isValidRegistrationPassword(inValidTestPassword, "eventManager123"));
+    }
+
+    @Test
+    void checkExistingEmailAdressForUserTest() {
+        assertTrue(system.comparingEmailAddress("firstName.lastName@testmail.com"));
+    }
+
+    @Test
+    @DisplayName("LoginSystem")
+    void authenticateUserTest() {
+        assertTrue(system.authentificateUserLogin("firstName.lastName@testmail.com", "eventManager123"));
     }
 
 
