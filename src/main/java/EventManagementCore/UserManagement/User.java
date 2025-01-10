@@ -48,6 +48,13 @@ public class User extends UserModel{
     @Override
     public void editUser(String userID) {
 
+        if (this.isAdmin || this.userID.equals(userID)){
+
+            //edit-Function
+        }else {
+
+            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+        }
     }
 
     @Override
