@@ -155,7 +155,7 @@ public class User extends UserModel{
     }
     //#endregion validatePassword
 
-    public boolean comparingEmailAddress(String emailAddress) {
+    private boolean comparingEmailAddress(String emailAddress) {
 
         if (getUserByEmail(emailAddress) == null) {
 
@@ -163,13 +163,15 @@ public class User extends UserModel{
 
             return false;
         }
+
         return true;
     }
 
     public boolean authentificateUserLogin(String email, String password) {
+
         if (comparingEmailAddress(email)) {
 
-            if (comparingPassword(password, email)) {
+            if (comparingPassword(password, getUserByEmail(email).getPassword())) {
 
                 return true;
             }
