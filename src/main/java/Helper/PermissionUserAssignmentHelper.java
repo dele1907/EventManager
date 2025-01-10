@@ -18,7 +18,7 @@ public class PermissionUserAssignmentHelper {
      * method to add a admin-checked permission to an user
      * */
     public static boolean addPermissionToUsersPermissions(User user, Permission permission) {
-        if (checkAdminUserAdminPermission(user, permission)) {
+        if (checkAdminUserAdminPermission(user, permission) || !permission.isAdminPermission()) {
             user.addPermissionToUser(permission);
 
             return true;
