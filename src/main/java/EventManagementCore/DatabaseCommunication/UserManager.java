@@ -52,8 +52,8 @@ public class UserManager {
                         resultSet.getString("userID"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
-                        resultSet.getString("dateOfBirth"),
-                        resultSet.getString("eMailAddress"),
+                        resultSet.getString("birthDate"),
+                        resultSet.getString("eMail"),
                         resultSet.getString("password"),
                         resultSet.getInt("phoneNumber"),
                         resultSet.getBoolean("isAdmin")
@@ -66,6 +66,38 @@ public class UserManager {
 
         return null;
     }
+
+    public User readUserByEMail(String eMailAddress) {
+        String sql = "SELECT * FROM user WHERE userID = ?";
+        try (Connection connection = DatabaseConnector.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, eMailAddress);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new User(
+                        resultSet.getString("userID"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getString("birthDate"),
+                        resultSet.getString("eMail"),
+                        resultSet.getString("password"),
+                        resultSet.getInt("phoneNumber"),
+                        resultSet.getBoolean("isAdmin")
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error reading user: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    // Benutzer ändern (UPDATE)
+
+
 
     // Benutzer löschen (DELETE)
     public boolean deleteUserByID(String userID) {
