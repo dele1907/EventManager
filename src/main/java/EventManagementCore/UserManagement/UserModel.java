@@ -21,10 +21,18 @@ public abstract class UserModel {
         permissions = new ArrayList<>();
     }
 
-    abstract void createNewUser(String firstName, String lastName, String dateOfBirth,
-                              String eMailAddress, String password, int phoneNumber, boolean isAdmin);
+    public abstract void createNewUser(
+            String firstName,
+            String lastName,
+            String dateOfBirth,
+            String eMailAddress,
+            String password,
+            int phoneNumber,
+            boolean isAdmin
+    );
 
     public boolean deleteUser(String userID) {
+        //TODO check user's permission to delete an user
         return userManager.deleteUserByID(userID);
     }
 
@@ -64,9 +72,7 @@ public abstract class UserModel {
 
     public void editEvent(String eventID) {}
 
-    public void addPermissionToUser(Permission permission) {
-        permissions.add(permission);
-    }
+    public abstract void addPermissionToOwnUser(Permission permission);
 
 
     //Getter

@@ -19,7 +19,7 @@ public class PermissionUserAssignmentHelper {
      * */
     public static boolean addPermissionToUsersPermissions(User user, Permission permission) {
         if (checkAdminUserAdminPermission(user, permission) || !permission.isAdminPermission()) {
-            user.addPermissionToUser(permission);
+            user.addPermissionToOwnUser(permission);
 
             return true;
         }

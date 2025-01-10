@@ -20,7 +20,7 @@ public class PermissionUserAssignmentHelperTestDrive {
     }
 
     @Test
-    void testAddPermissionToUsersPermissions() {
+    void testAddPermissionToOwnUsersPermissions() {
         assertTrue(PermissionUserAssignmentHelper.addPermissionToUsersPermissions(adminUser, adminPermission));
 
         assertTrue(PermissionUserAssignmentHelper.addPermissionToUsersPermissions(adminUser, nonAdminPermission));

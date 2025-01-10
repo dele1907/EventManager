@@ -1,6 +1,8 @@
 package EventManagementCore.UserManagement;
 
+import EventManagementCore.PermissionRoleManagement.Permission;
 import Helper.IDGenerationHelper;
+import Helper.PermissionUserAssignmentHelper;
 
 public class User extends UserModel{
 
@@ -28,8 +30,18 @@ public class User extends UserModel{
     }
 
     @Override
-    void createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+    public void createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+        //TODO check if User has permission to create new user
         userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+    }
+
+    @Override
+    public void addPermissionToOwnUser(Permission permission) {
+        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(this, permission);
+    }
+
+    public void addPermissionToAnotherUser(User user, Permission permission) {
+        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, permission);
     }
 
     //#region validatePassword
