@@ -15,9 +15,9 @@ public class UserManagerTestDrive {
     private User testUser;
     private User testUserUpdated;
 
+    // Vor jedem Test eine Instanz von UserManager und zwei Test-User erstellen:
     @BeforeEach
     public void setUp() {
-        // Vor jedem Test eine Instanz von UserManager erstellen
         testUserManager = new UserManager();
         testUser = new User("testUserID", "Max", "Mustermann", "1980-01-10",
                 "max.mustermann@mail.com", "password123", 1234567890, true);
@@ -25,6 +25,7 @@ public class UserManagerTestDrive {
                 "max.m@mail.com", "password987", 1357902468, false);
     }
 
+    // Testen von Erstellen, Updaten und Löschen eines Users in der Datenbank:
     @Test
     public void testCreateUpdateDeleteUser() {
         boolean userCreated = testUserManager.createNewUser(testUser);
@@ -37,6 +38,7 @@ public class UserManagerTestDrive {
         assertTrue(userDeleted, "User deletion failed but should not.");
     }
 
+    // Testen, ob ein User nicht mehrmals erstellt werden kann:
     @Test
     public void testCreateUserFailed() {
         testUserManager.createNewUser(testUser);
@@ -44,18 +46,21 @@ public class UserManagerTestDrive {
         assertFalse(userCreated, "User creation was successful but should not.");
     }
 
+    // Testen, ob ein Update nur möglich ist, wenn der entsprechende Datensatz vorliegt:
     @Test
     public void testUpdateUserFailed() {
         boolean userUpdated = testUserManager.updateUser(testUserUpdated);
         assertFalse(userUpdated, "User update was successful but should not.");
     }
 
+    // Testen, ob Löschen nur möglich ist, wenn der entsprechende Datensatz vorliegt:
     @Test
     public void testDeleteUserFailed() {
         boolean userDeleted = testUserManager.deleteUserByID("invalidID");
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
+    // Testen, ob ein User anhand der ID korrekt ausgelesen werden kann:
     @Test
     public void testReadUserByID() {
         testUserManager.createNewUser(testUser);
@@ -63,13 +68,14 @@ public class UserManagerTestDrive {
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
-        assertEquals("1980-01-01", userFromDatabase.getDateOfBirth());
+        assertEquals("1980-01-10", userFromDatabase.getDateOfBirth());
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
         assertEquals(true, userFromDatabase.isAdmin());
     }
 
+    // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
     @Test
     public void testReadUserByEMail() {
         testUserManager.createNewUser(testUser);
@@ -77,16 +83,17 @@ public class UserManagerTestDrive {
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
-        assertEquals("1980-01-01", userFromDatabase.getDateOfBirth());
+        assertEquals("1980-01-10", userFromDatabase.getDateOfBirth());
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
         assertEquals(true, userFromDatabase.isAdmin());
     }
 
+    // Nach jedem Test die Datenbank bereinigen:
     @AfterEach
     public void cleanUp() {
-        testUserManager.deleteUserByID("testUserID");
+            testUserManager.deleteUserByID("testUserID");
     }
 
 }
