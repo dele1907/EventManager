@@ -13,24 +13,16 @@ public abstract class UserModel {
     String eMailAddress;
     String password;
     int phoneNumber;
-    boolean isAdmin;
+    boolean isAdmin = false;
     ArrayList<Permission> permissions;
-    private UserManager userManager;
+    protected UserManager userManager;
 
     UserModel() {
         permissions = new ArrayList<>();
     }
 
-    public void createNewUser(String firstName, String lastName, String dateOfBirth,
-                              String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
-        User user = new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber);
-
-        if (isAdmin) {
-            user.addAdminStatusToUser();
-        }
-
-        userManager.createNewUser(user);
-    }
+    abstract void createNewUser(String firstName, String lastName, String dateOfBirth,
+                              String eMailAddress, String password, int phoneNumber, boolean isAdmin);
 
     public boolean deleteUser(String userID) {
         return userManager.deleteUserByID(userID);

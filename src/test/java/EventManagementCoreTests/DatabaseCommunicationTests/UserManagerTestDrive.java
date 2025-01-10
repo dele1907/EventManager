@@ -19,8 +19,7 @@ public class UserManagerTestDrive {
         // Vor jedem Test eine Instanz von UserManager erstellen
         testUserManager = new UserManager();
         testUser = new User("Max", "Mustermann", "1980-01-01",
-                "max.mustermann@mail.com", "password123", 1234567890);
-        testUser.addAdminStatusToUser();
+                "max.mustermann@mail.com", "password123", 1234567890, true);
     }
 
     @Test

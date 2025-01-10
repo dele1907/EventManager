@@ -5,6 +5,18 @@ import Helper.IDGenerationHelper;
 public class User extends UserModel{
 
     public User(String firstName, String lastName, String dateOfBirth,
+                String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+        this.userID = IDGenerationHelper.generateRandomIDString();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.eMailAddress = eMailAddress;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
+    }
+
+    public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber) {
         this.userID = IDGenerationHelper.generateRandomIDString();
         this.firstName = firstName;
@@ -13,7 +25,11 @@ public class User extends UserModel{
         this.eMailAddress = eMailAddress;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.isAdmin = false;
+    }
+
+    @Override
+    void createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+        userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
     }
 
     //#region validatePassword

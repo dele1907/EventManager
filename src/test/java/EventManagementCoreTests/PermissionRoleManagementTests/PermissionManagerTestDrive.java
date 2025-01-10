@@ -9,16 +9,8 @@ import Helper.IDGenerationHelper;
 import org.junit.jupiter.api.Test;
 
 public class PermissionManagerTestDrive {
-    PermissionManager permissionManager = new PermissionManager();
 
-    /**                         Anmerkung
-     *
-     * Ihr habt den Standard-User boolean isAdmin standardmäßig auf False gesetzt
-     * Dadurch ignoriert der User bei der instanzierung den boolean Wert den ihr setzt. Daher braucht der
-     * Konstruktor das Boolean-Argument nicht mehr und ich habe es entfernt. Dafür musste ich das true und false
-     * bei deinen beiden Usern entfernen. Du kannst einen User jetzt nur noch durch die Methode addAdminStatusToUser()
-     * zum Admin machen
-    * */
+    PermissionManager permissionManager = new PermissionManager();
 
     User nonAdminUser = new User
             (
@@ -37,7 +29,8 @@ public class PermissionManagerTestDrive {
                     "",
                     "",
                     "",
-                    01223
+                    01223,
+                    true
 
             );
 
