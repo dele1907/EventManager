@@ -9,7 +9,7 @@ public class User extends UserModel{
     private UserManager userManager = new UserManager();
     private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
 
-    //Adminstrator
+    //Administrator
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
         this.userID = IDGenerationHelper.generateRandomIDString();
@@ -54,7 +54,7 @@ public class User extends UserModel{
 
         if (this.isAdmin){
 
-            //Todo - Checking if some user already exists (firstName and lastName)
+            //Todo - Checking if some user already exists (firstName and lastName) in UserManager
             userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
             return true;
 
