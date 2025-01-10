@@ -15,12 +15,14 @@ public class UserTest {
     User system = new User("System", "", "", "", "goodPassword",0,true);
 
     String validTestPassword = "eventManager123";
-    String inValidTestPassword = "eventManager124";
+    String inValidTestPassword = "eventManagerÄ";
+    String incorrectPassword = "eventManager124";
 
     @Test
     @Order(1)
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
+
 
         assertFalse(testUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
                 "eventManager123", 11223344, false));
@@ -36,24 +38,39 @@ public class UserTest {
 
     }
 
+
+
     @Test
     @Order(3)
-    @DisplayName("Password Test")
+    @DisplayName("Password-Registration Test")
     void isValidAndIsNotValidRegistrationPasswordTest() {
+
         assertTrue(testUser.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
         assertFalse(testUser.isValidRegistrationPassword(inValidTestPassword, "eventManager123"));
+
+
     }
 
     @Test
     @Order(4)
-    @DisplayName("Existing-Email Test")
-    void checkExistingEmailAddressForUserTest() {
-        assertTrue(system.comparingEmailAddress("firstName.lastName@testmail.com"));
+    @DisplayName("Passwort-Login-Test")
+    void isValidPasswordForLogin() {
+
+        assertFalse(testUser.isValidRegistrationPassword(incorrectPassword, "eventManager123"));
+
     }
 
     @Test
     @Order(5)
+    @DisplayName("Existing-Email Test")
+    void checkExistingEmailAddressForUserTest() {
+
+        assertTrue(system.comparingEmailAddress("firstName.lastName@testmail.com"));
+    }
+
+    @Test
+    @Order(6)
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
         assertTrue(system.authentificateUserLogin("firstName.lastName@testmail.com", "eventManager123"));
@@ -61,7 +78,7 @@ public class UserTest {
 
 
     @Test
-    @Order(6)
+    @Order(7)
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminPermissionToUserTest() {
         testUser.addAdminStatusToUser();
@@ -71,7 +88,7 @@ public class UserTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     @DisplayName("Cleaning DB after Testing")
     void cleanDBAfterTests() {
         String userID = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();

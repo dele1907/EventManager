@@ -9,6 +9,7 @@ public class User extends UserModel{
     private UserManager userManager = new UserManager();
     private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
 
+
     //Administrator
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
@@ -54,7 +55,8 @@ public class User extends UserModel{
 
         if (this.isAdmin){
 
-            //Todo - Checking if some user already exists (firstName and lastName) in UserManager
+            // Checking if some user already exists (firstName and lastName, email) in UserManager von Laura
+
             userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
             return true;
 
@@ -165,12 +167,12 @@ public class User extends UserModel{
     }
 
     public boolean authentificateUserLogin(String email, String password) {
+        if (comparingEmailAddress(email)) {
 
-        if (comparingEmailAddress(email) && comparingPassword(password, getUserByEmail(email).getPassword())) {
+            if (comparingPassword(password, email)) {
 
-            System.out.println("You have successfully logged in!");
-
-            return true;
+                return true;
+            }
         }
 
         return false;
