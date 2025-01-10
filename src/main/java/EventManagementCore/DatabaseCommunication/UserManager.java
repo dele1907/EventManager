@@ -2,6 +2,7 @@ package EventManagementCore.DatabaseCommunication;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import EventManagementCore.UserManagement.User;
@@ -10,7 +11,7 @@ public class UserManager {
 
     // Benutzer hinzufügen (CREATE)
     public boolean createNewUser(User user) {
-        String sql = "INSERT INTO users (userID, firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin)"
+        String sql = "INSERT INTO user (userID, firstName, lastName, birthDate, eMail, password, phoneNumber, isAdmin)"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnector.connect();
@@ -37,10 +38,9 @@ public class UserManager {
         }
     }
 
-    /*
     // Benutzer laden (READ)
     public User readUserByID(String userID) {
-        String sql = "SELECT * FROM users WHERE userID = ?";
+        String sql = "SELECT * FROM user WHERE userID = ?";
         try (Connection connection = DatabaseConnector.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -66,11 +66,10 @@ public class UserManager {
 
         return null;
     }
-    */
 
     // Benutzer löschen (DELETE)
     public boolean deleteUserByID(String userID) {
-        String sql = "DELETE FROM users WHERE userID = ?";
+        String sql = "DELETE FROM user WHERE userID = ?";
         try (Connection connection = DatabaseConnector.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -91,6 +90,5 @@ public class UserManager {
             return false;
         }
     }
-
 
 }
