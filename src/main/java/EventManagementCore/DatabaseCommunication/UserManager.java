@@ -68,7 +68,7 @@ public class UserManager {
     }
 
     public User readUserByEMail(String eMailAddress) {
-        String sql = "SELECT * FROM user WHERE userID = ?";
+        String sql = "SELECT * FROM user WHERE eMail = ?";
         try (Connection connection = DatabaseConnector.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
