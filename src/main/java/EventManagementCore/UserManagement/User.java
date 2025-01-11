@@ -140,6 +140,30 @@ public class User extends UserModel{
         user.addPermissionToOwnUser(permission);
     }
 
+    public void addAdminStatusToUserByUserID(String userID) {
+        getUsersPermissionsFromDatabase();
+
+        if (!this.permissions.contains(permissionManager.getGiveAdminStatusPermission().getPermissionID())) {
+            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+
+            return;
+        }
+
+        userManager.readUserByID(userID).addAdminStatusToUser();
+    }
+
+    public void removeAdminStatusFromUserByUserID(String userID) {
+        getUsersPermissionsFromDatabase();
+
+        if (!this.permissions.contains(permissionManager.getRemoveAdminStatusPermission().getPermissionID())) {
+            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+
+            return;
+        }
+
+        userManager.readUserByID(userID).removeAdminStatusFromUser();
+    }
+
     //#region validatePassword
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
