@@ -17,8 +17,6 @@ public class UserTest {
     User system = new User("System", "", "", "", "goodPassword",0,true);
 
 
-
-
     @Test
     @Order(0)
     @DisplayName("UserCreateUser Test")
@@ -43,9 +41,27 @@ public class UserTest {
 
     }
 
-
     @Test
     @Order(2)
+    @DisplayName("EditUser Test")
+    void editUserTest() {
+
+        String userIDFromUserToEdit = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
+        String firstName = "Max";
+        String lastName = "Mustermann";
+        String dateOfBirth = "01/01/2000";
+        String email = "firstName.lastName@testmail.com";
+        String password = "eventManager123";
+        int phoneNumber = 123456;
+
+        testAdminUser.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber);
+
+        assertEquals(email, testAdminUser.getUserByID(userIDFromUserToEdit).getEMailAddress());
+
+    }
+
+    @Test
+    @Order(3)
     @DisplayName("Password-Registration Test")
     void isValidAndIsNotValidRegistrationPasswordTest() {
 
@@ -59,9 +75,8 @@ public class UserTest {
 
     }
 
-
     @Test
-    @Order(3)
+    @Order(4)
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
 
@@ -69,9 +84,8 @@ public class UserTest {
 
     }
 
-
     @Test
-    @Order(4)
+    @Order(5)
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminStatusToUserTest() {
 
@@ -83,7 +97,7 @@ public class UserTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     @DisplayName("Cleaning DB after Testing")
     void cleanDBAfterTests() {
 

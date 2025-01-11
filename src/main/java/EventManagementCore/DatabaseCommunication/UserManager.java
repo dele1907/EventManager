@@ -95,6 +95,8 @@ public class UserManager {
         return null;
     }
 
+    //Todo @Laura updateUser-Methode funktioniert nicht
+
     // Benutzer ändern (UPDATE)
     public boolean updateUser(User user) {
         String sql = "UPDATE user SET firstName = ?, lastName = ?, birthDate = ?, eMail = ?, password = ?, phoneNumber = ?, isAdmin = ? WHERE userID = ?";

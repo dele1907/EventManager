@@ -26,6 +26,7 @@ public class User extends UserModel{
     //User
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber) {
+
         this.userID = IDGenerationHelper.generateRandomIDString();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,6 +50,7 @@ public class User extends UserModel{
         this.isAdmin = isAdmin;
 
     }
+
     //#endregion constructor
 
     @Override
@@ -71,11 +73,22 @@ public class User extends UserModel{
     }
 
     @Override
-    public void editUser(String userID) {
+    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
+
 
         if (this.isAdmin || this.userID.equals(userID)){
 
-            //edit-Function
+            User userToEdit = userManager.readUserByID(userID);
+
+            userToEdit.setFirstName(firstName);
+            userToEdit.setLastName(lastName);
+            userToEdit.setDateOfBirth(dateOfBirth);
+            userToEdit.seteMailAddress(eMailAddress);
+            userToEdit.setPassword(password);
+            userToEdit.setPhoneNumber(phoneNumber);
+
+            userManager.updateUser(userToEdit);
+
         }else {
 
             System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
@@ -98,11 +111,12 @@ public class User extends UserModel{
     }
 
     @Override
-    public User showUserByID(String userID) {
+    public User getUserByID(String userID) {
 
         if (this.isAdmin){
-            return null;
+            return userManager.readUserByID(userID);
         }
+
         return null;
     }
 

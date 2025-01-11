@@ -1,6 +1,5 @@
 package EventManagementCore.UserManagement;
 
-import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 
 import java.util.ArrayList;
@@ -29,11 +28,12 @@ public abstract class UserModel {
             boolean isAdmin
     );
 
-    public void editUser(String userID) {}
+    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
+    }
 
     public abstract boolean deleteUser(String userID);
 
-    public User showUserByID (String userID){
+    public User getUserByID(String userID){
         return null;
     }
 
@@ -114,4 +114,36 @@ public abstract class UserModel {
         return userID;
     }
     //#endregion Getter
+
+    //#region Setter
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void seteMailAddress(String eMailAddress) {
+        this.eMailAddress = eMailAddress;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    //#endregion Setter
 }
