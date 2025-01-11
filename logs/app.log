@@ -1,0 +1,132 @@
+2025-01-12 00:00:38 [main] INFO : 
+                                      
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@  @@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@        @@  @  @  @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Thank you for using jOOQ 3.19.15 (Build date: 2024-11-04T08:17:43Z)
+                                      
+2025-01-12 00:00:38 [main] INFO : 
+
+jOOQ tip of the day: Sometimes, a native query can be the better choice than writing a jOOQ query. Here's when that happens: https://blog.jooq.org/when-to-use-jooq-and-when-to-use-native-sql/
+
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'SoONY7IhPtVzCx1e0z18'
+2025-01-12 00:00:38 [main] INFO : Version                  : Database version is supported by dialect SQLITE: 3.47.1
+2025-01-12 00:00:38 [main] ERROR: User null has no permission to create a new user
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] ERROR: User null has no permission to edit a user
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:00:38 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 00:00:38 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 00:00:38 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 00:00:38 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 00:00:38 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 00:01:44 [main] INFO : User null has no permission to create a new user
+2025-01-12 00:03:27 [main] ERROR: User null has no permission to create a new user
+2025-01-12 00:03:27 [main] ERROR: User null has no permission to edit a user
+2025-01-12 00:04:27 [main] ERROR: User null has no permission to create a new user
+2025-01-12 00:05:08 [main] ERROR: User null has no permission to create a new user
+2025-01-12 00:06:38 [main] ERROR: User has no permission to create a new user
+2025-01-12 00:06:38 [main] ERROR: User has no permission to edit a user

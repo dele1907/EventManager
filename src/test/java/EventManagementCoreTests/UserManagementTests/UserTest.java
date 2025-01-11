@@ -20,7 +20,6 @@ public class UserTest {
     @Order(0)
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
-
         assertNotNull(testUser);
 
         assertFalse(testUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",

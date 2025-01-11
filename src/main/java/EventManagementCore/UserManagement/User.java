@@ -5,12 +5,22 @@ import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
 import Helper.IDGenerationHelper;
 import Helper.PermissionUserAssignmentHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class User extends UserModel{
 
     private UserManager userManager = new UserManager();
     private PermissionManager permissionManager = new PermissionManager();
-    private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
+
+    Logger logger = LogManager.getLogger(User.class);
+
+    private final String NO_PERMISSION_CREATE_USER = "User has no permission to create a new user";
+    private final String NO_PERMISSION_EDIT_USER = "User has no permission to edit a user";
+    private final String NO_PERMISSION_DELETE_USER = "User has no permission to delete a user";
+    private final String NO_PERMISSION_GET_USER_INFORMATION = "User has no permission to get user information";
+    private final String NO_PERMISSION_GIVE_ADMIN_STATUS = "User has no permission to give admin status";
+    private final String NO_PERMISSION_REMOVE_ADMIN_STATUS = "User has no permission to remove admin status";
 
     //#region constructor
     //Administrator
@@ -60,7 +70,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.getPermissions().contains(permissionManager.getCreateUserPermission().getPermissionID())){
-            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            logger.error(NO_PERMISSION_CREATE_USER);
 
             return false;
         }
@@ -77,7 +87,7 @@ public class User extends UserModel{
         if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID()) ||
                 !this.userID.equals(userID)
         ){
-            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            logger.error(NO_PERMISSION_EDIT_USER);
 
             return;
         }
@@ -99,7 +109,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getDeleUserPermission().getPermissionID())){
-            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            logger.error(NO_PERMISSION_DELETE_USER);
 
             return false;
         }
@@ -112,7 +122,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
-            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            logger.error(NO_PERMISSION_GET_USER_INFORMATION);
 
             return null;
         }
@@ -125,6 +135,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+            logger.error(NO_PERMISSION_GET_USER_INFORMATION);
+
             return null;
         }
 
@@ -144,7 +156,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGiveAdminStatusPermission().getPermissionID())) {
-            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            logger.error(NO_PERMISSION_GIVE_ADMIN_STATUS);
 
             return;
         }
@@ -156,7 +168,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getRemoveAdminStatusPermission().getPermissionID())) {
-            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+            logger.error(NO_PERMISSION_REMOVE_ADMIN_STATUS);
 
             return;
         }
