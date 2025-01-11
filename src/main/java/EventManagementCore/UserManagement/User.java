@@ -9,7 +9,7 @@ public class User extends UserModel{
     private UserManager userManager = new UserManager();
     private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
 
-
+    //#region constructor
     //Administrator
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
@@ -49,6 +49,7 @@ public class User extends UserModel{
         this.isAdmin = isAdmin;
 
     }
+    //#endregion constructor
 
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {

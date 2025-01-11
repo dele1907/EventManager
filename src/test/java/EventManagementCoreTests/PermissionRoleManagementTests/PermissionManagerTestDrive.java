@@ -5,7 +5,6 @@ import EventManagementCore.PermissionRoleManagement.PermissionManager;
 import static org.junit.jupiter.api.Assertions.*;
 
 import EventManagementCore.UserManagement.User;
-import Helper.IDGenerationHelper;
 import org.junit.jupiter.api.Test;
 
 public class PermissionManagerTestDrive {
@@ -36,46 +35,46 @@ public class PermissionManagerTestDrive {
 
     //#region admin only permissions tests
     @Test
-    void testUserCanHavePermissionDeleteUserForNotAnAdminUser() {
+    void testUserCanHavePermissionDeleteUserForNotAnAdminUserToUser() {
         System.out.println("\n\n__________________________________");
         System.out.println("Only admin user can delete an user");
         System.out.println("__________________________________");
         System.out.println(
                 "\nNon admin user can delete a new user: " +
-                permissionManager.userCanHavePermissionDeleteUser(nonAdminUser)
+                permissionManager.addPermissionDeleteUserToUsersPermissions(nonAdminUser)
         );
-        assertFalse(permissionManager.userCanHavePermissionDeleteUser(nonAdminUser));
+        assertFalse(permissionManager.addPermissionDeleteUserToUsersPermissions(nonAdminUser));
 
         System.out.println(
                 "Admin user can delete a new user: " +
-                permissionManager.userCanHavePermissionDeleteUser(adminUser)
+                permissionManager.addPermissionDeleteUserToUsersPermissions(adminUser)
         );
-        assertTrue(permissionManager.userCanHavePermissionDeleteUser(adminUser));
+        assertTrue(permissionManager.addPermissionDeleteUserToUsersPermissions(adminUser));
     }
 
     @Test
-    void testUserCanHavePermissionCreateUserForNotAnAdminUser() {
+    void testUserCanHavePermissionCreateUserForNotAnAdminUserToUser() {
         System.out.println("\n\n_____________________________________");
         System.out.println("Only admin user can create a new user");
         System.out.println("_____________________________________");
         System.out.println(
                 "\nNon admin user can create a new user: " +
-                permissionManager.userCanHavePermissionCreateUser(nonAdminUser)
+                permissionManager.addPermissionCreateUserToUserToUsersPermissions(nonAdminUser)
         );
-        assertFalse(permissionManager.userCanHavePermissionCreateUser(nonAdminUser));
+        assertFalse(permissionManager.addPermissionCreateUserToUserToUsersPermissions(nonAdminUser));
 
         System.out.println(
                 "Admin user can create a new user: " +
-                permissionManager.userCanHavePermissionCreateUser(adminUser)
+                permissionManager.addPermissionCreateUserToUserToUsersPermissions(adminUser)
         );
-        assertTrue(permissionManager.userCanHavePermissionCreateUser(adminUser));
+        assertTrue(permissionManager.addPermissionCreateUserToUserToUsersPermissions(adminUser));
     }
 
     @Test
-    void testUserCanHavePermissionEditUserForNotAnAdminUser() {
-        assertFalse(permissionManager.userCanHavePermissionEditUser(nonAdminUser));
+    void testUserCanHavePermissionEditUserForNotAnAdminUserToUser() {
+        assertFalse(permissionManager.addPermissionEditUserToUserToUsersPermissions(nonAdminUser));
 
-        assertTrue(permissionManager.userCanHavePermissionEditUser(adminUser));
+        assertTrue(permissionManager.addPermissionEditUserToUserToUsersPermissions(adminUser));
     }
 
     @Test
@@ -85,15 +84,15 @@ public class PermissionManagerTestDrive {
         System.out.println("_______________________________________________________________________");
         System.out.println(
                 "\nNon admin user can see information of an user: " +
-                permissionManager.getGetUserInformationByUserID(nonAdminUser)
+                permissionManager.addPermissionGetUserInformationByUserIDToUsersPermissions(nonAdminUser)
         );
-        assertFalse(permissionManager.getGetUserInformationByUserID(nonAdminUser));
+        assertFalse(permissionManager.addPermissionGetUserInformationByUserIDToUsersPermissions(nonAdminUser));
 
         System.out.println(
                 "Admin user can see information of an user: " +
-                permissionManager.getGetUserInformationByUserID(adminUser)
+                permissionManager.addPermissionGetUserInformationByUserIDToUsersPermissions(adminUser)
         );
-        assertTrue(permissionManager.getGetUserInformationByUserID(adminUser));
+        assertTrue(permissionManager.addPermissionGetUserInformationByUserIDToUsersPermissions(adminUser));
     }
 
     @Test
@@ -103,16 +102,16 @@ public class PermissionManagerTestDrive {
         System.out.println("__________________________________________________");
         System.out.println(
                 "\nNon admin user can modify admin status of an user: " +
-                permissionManager.getUserCanModifyAdminStatusOfUser(nonAdminUser)
+                permissionManager.addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(nonAdminUser)
         );
-        assertFalse(permissionManager.getUserCanModifyAdminStatusOfUser(nonAdminUser));
+        assertFalse(permissionManager.addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(nonAdminUser));
 
         System.out.println(
                 "Admin user can modify admin status of an user: " +
-                permissionManager.getUserCanModifyAdminStatusOfUser(adminUser) +
+                permissionManager.addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(adminUser) +
                 "\n"
         );
-        assertTrue(permissionManager.getUserCanModifyAdminStatusOfUser(adminUser));
+        assertTrue(permissionManager.addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(adminUser));
     }
 
     @Test
@@ -128,7 +127,7 @@ public class PermissionManagerTestDrive {
 
         System.out.println(
                 "Admin user can have admin permissions: " +
-                        permissionManager.getUserCanModifyAdminStatusOfUser(adminUser) +
+                        permissionManager.addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(adminUser) +
                         "\n"
         );
         assertTrue(permissionManager.getUserHasAdminPermissions(adminUser));

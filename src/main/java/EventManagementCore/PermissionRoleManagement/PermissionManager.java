@@ -6,15 +6,15 @@ import Helper.PermissionUserAssignmentHelper;
 public class PermissionManager {
 
     public boolean getUserHasAdminPermissions(User user) {
-        return getUserCanModifyAdminStatusOfUser(user) &&
-                userCanHavePermissionDeleteUser(user) &&
-                userCanHavePermissionCreateUser(user) &&
-                userCanHavePermissionEditUser(user) &&
-                getGetUserInformationByUserID(user);
+        return addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(user) &&
+                addPermissionDeleteUserToUsersPermissions(user) &&
+                addPermissionCreateUserToUserToUsersPermissions(user) &&
+                addPermissionEditUserToUserToUsersPermissions(user) &&
+                addPermissionGetUserInformationByUserIDToUsersPermissions(user);
     }
 
     //#region admin only permissions
-    public boolean userCanHavePermissionDeleteUser(User user) {
+    public boolean addPermissionDeleteUserToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
         Permission deleteUserPermission = new Permission("deleteUser", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, deleteUserPermission);
@@ -22,7 +22,7 @@ public class PermissionManager {
         return user.getPermissions().contains(deleteUserPermission);
     }
 
-    public boolean userCanHavePermissionCreateUser(User user) {
+    public boolean addPermissionCreateUserToUserToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
         Permission createUserPermission = new Permission("createNewUser", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, createUserPermission);
@@ -30,7 +30,7 @@ public class PermissionManager {
         return user.getPermissions().contains(createUserPermission);
     }
 
-    public boolean userCanHavePermissionEditUser(User user) {
+    public boolean addPermissionEditUserToUserToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
         Permission editUserPermission = new Permission("editUser", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, editUserPermission);
@@ -38,7 +38,7 @@ public class PermissionManager {
         return user.getPermissions().contains(editUserPermission);
     }
 
-    public boolean getGetUserInformationByUserID(User user) {
+    public boolean addPermissionGetUserInformationByUserIDToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
         Permission getUserInformationPermission = new Permission("getUserInformation", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, getUserInformationPermission);
@@ -46,12 +46,13 @@ public class PermissionManager {
         return user.getPermissions().contains(getUserInformationPermission);
     }
 
-    public boolean getUserCanModifyAdminStatusOfUser(User user) {
+    public boolean addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
-        return getUserCanGiveAdminStatusToUser(user) && getUserCanRemoveAdminStatusFromUser(user);
+        return addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(user) &&
+                addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(user);
     }
 
-    private boolean getUserCanGiveAdminStatusToUser(User user) {
+    private boolean addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
         Permission giveAdminStatusPermission = new Permission("giveAdminStatus", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, giveAdminStatusPermission);
@@ -59,7 +60,7 @@ public class PermissionManager {
         return user.getPermissions().contains(giveAdminStatusPermission);
     }
 
-    private boolean getUserCanRemoveAdminStatusFromUser(User user) {
+    private boolean addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(User user) {
         //TODO @Dennis replace when Permissions are available in database
         Permission removeAdminStatusPermission = new Permission("removeAdminStatus", true);
         PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, removeAdminStatusPermission);
