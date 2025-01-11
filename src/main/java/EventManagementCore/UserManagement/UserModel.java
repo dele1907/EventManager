@@ -13,7 +13,7 @@ public abstract class UserModel {
     String password;
     int phoneNumber;
     boolean isAdmin = false;
-    ArrayList<Permission> permissions;
+    ArrayList<String> permissions;
     UserModel() {
         permissions = new ArrayList<>();
     }
@@ -78,7 +78,7 @@ public abstract class UserModel {
 
 
     //#region Getter
-    public ArrayList<Permission> getPermissions() {
+    public ArrayList<String> getPermissions() {
         return permissions;
     }
 

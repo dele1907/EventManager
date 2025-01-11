@@ -4,9 +4,20 @@ import EventManagementCore.DatabaseCommunication.DatabaseConnector;
 import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.UserManagement.User;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import static org.jooq.generated.tables.Permission.PERMISSION;
+import static org.jooq.generated.tables.Has.HAS;
+
+
+
 
 public class PermissionUserAssignmentHelper {
     UserManager userManager = new UserManager();
@@ -42,7 +53,7 @@ public class PermissionUserAssignmentHelper {
 
         String sql = "INSERT INTO has (userID, permissionID) VALUES (?, ?)";
 
-        try (
+        try(
                 Connection connection = DatabaseConnector.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ){
@@ -59,5 +70,27 @@ public class PermissionUserAssignmentHelper {
             return false;
         }
     }
+
+    public static ArrayList<Permission> getPermissionsForUserFromDatabase(User user) {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            List<Permission> permissions = create.select(PERMISSION.fields())
+                    .from(HAS)
+                    .join(PERMISSION)
+                    .on(HAS.PERMISSIONID.eq(PERMISSION.PERMISSIONID))
+                    .where(HAS.USERID.eq(user.getUserID()))
+                    .fetchInto(Permission.class);
+
+            return new ArrayList<>(permissions);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Datenbankfehler beim Abrufen der Berechtigungen.", e);
+        }
+    }
+
+
     //#endregoin database
 }

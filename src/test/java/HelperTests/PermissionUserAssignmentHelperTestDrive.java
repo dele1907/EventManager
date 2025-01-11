@@ -1,5 +1,6 @@
 package HelperTests;
 
+import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.UserManagement.User;
 import Helper.PermissionUserAssignmentHelper;
@@ -11,7 +12,7 @@ public class PermissionUserAssignmentHelperTestDrive {
     PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
 
     User nonAdminUser = new User("","","","","",0000000);
-    User adminUser = new User("","","","","",0000000, true);
+    User adminUser = new UserManager().readUserByID("duuuY5XI4XyPQnzIChVL");
 
     Permission adminPermission = new Permission("canEditUser", true);
     Permission nonAdminPermission = new Permission("canEditOwnUser", false);
@@ -30,6 +31,17 @@ public class PermissionUserAssignmentHelperTestDrive {
         assertFalse(permissionUserAssignmentHelper.addPermissionToUsersPermissions(nonAdminUser, adminPermission));
 
         assertTrue(permissionUserAssignmentHelper.addPermissionToUsersPermissions(nonAdminUser, nonAdminPermission));
+    }
+
+    @Test
+    void testGetAddPermissionsToUserFromDatabase() {
+        System.out.println("adminUser has: " +
+                PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(adminUser).size() +
+                " permissions"
+        );
+        System.out.println("adminUser user should have all 6 admin permissions.");
+
+        assertTrue(PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(adminUser).size() == 6);
     }
 
 }

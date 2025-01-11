@@ -1,5 +1,6 @@
 package EventManagementCoreTests.UserManagementTests;
 
+import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.UserManagement.User;
 import org.junit.jupiter.api.*;
 
@@ -8,11 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTest {
 
-    User testUser = new User("1234","firstName", "LastName", "dateOfBirth",
-            "firstTestName.lastTestName@testmail.com", "eventManager123", 5566778,false);
+    User testUser = new UserManager().readUserByID("SoONY7IhPtVzCx1e0z18");
 
-    User testAdminUser = new User("1235","admin","trator","dateOfBirth",
-            "firstTestName@adminmail.com", "AdminEventManager123", 5566778, true);
+    User testAdminUser = new UserManager().readUserByID("duuuY5XI4XyPQnzIChVL");
 
     User system = new User("System", "", "", "", "goodPassword",0,true);
 
@@ -36,7 +35,7 @@ public class UserTest {
 
         assertNotNull(testAdminUser);
 
-        assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
+        assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@gmail.com",
                 "eventManager123", 11223344, false));
 
     }
@@ -80,7 +79,7 @@ public class UserTest {
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
 
-        assertTrue(system.authentificateUserLogin("firstName.lastName@testmail.com", "eventManager123"));
+        assertTrue(testAdminUser.authentificateUserLogin("firstName.lastName@testmail.com", "eventManager123"));
 
     }
 
@@ -101,7 +100,7 @@ public class UserTest {
     @DisplayName("Cleaning DB after Testing")
     void cleanDBAfterTests() {
 
-        String userID = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
+        String userID = testAdminUser.getUserByEmail("firstName.lastName@gmail.com").getUserID();
         assertTrue(testAdminUser.deleteUser(userID));
     }
 }

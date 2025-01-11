@@ -2,11 +2,14 @@ package EventManagementCore.UserManagement;
 
 import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
+import EventManagementCore.PermissionRoleManagement.PermissionManager;
 import Helper.IDGenerationHelper;
 import Helper.PermissionUserAssignmentHelper;
 
 public class User extends UserModel{
+
     private UserManager userManager = new UserManager();
+    private PermissionManager permissionManager = new PermissionManager();
     private final String MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE = "You don't have the permission to do this!";
 
     //#region constructor
@@ -48,92 +51,89 @@ public class User extends UserModel{
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.isAdmin = isAdmin;
-
     }
 
     //#endregion constructor
 
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+        getUsersPermissionsFromDatabase();
 
-        if (this.isAdmin){
-
-            // Checking if some user already exists (firstName and lastName, email) in UserManager von Laura
-
-            userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
-            return true;
-
-        }else {
-
+        if (!this.getPermissions().contains(permissionManager.getCreateUserPermission().getPermissionID())){
             System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
-            return false;
 
+            return false;
         }
 
+        userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+
+        return true;
     }
 
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
+        getUsersPermissionsFromDatabase();
 
-
-        if (this.isAdmin || this.userID.equals(userID)){
-
-            User userToEdit = userManager.readUserByID(userID);
-
-            userToEdit.setFirstName(firstName);
-            userToEdit.setLastName(lastName);
-            userToEdit.setDateOfBirth(dateOfBirth);
-            userToEdit.seteMailAddress(eMailAddress);
-            userToEdit.setPassword(password);
-            userToEdit.setPhoneNumber(phoneNumber);
-
-            userManager.updateUser(userToEdit);
-
-        }else {
-
+        if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID()) ||
+                !this.userID.equals(userID)
+        ){
             System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+
+            return;
         }
+
+        User userToEdit = userManager.readUserByID(userID);
+
+        userToEdit.setFirstName(firstName);
+        userToEdit.setLastName(lastName);
+        userToEdit.setDateOfBirth(dateOfBirth);
+        userToEdit.seteMailAddress(eMailAddress);
+        userToEdit.setPassword(password);
+        userToEdit.setPhoneNumber(phoneNumber);
+
+        userManager.updateUser(userToEdit);
     }
 
     @Override
     public boolean deleteUser(String userID) {
+        getUsersPermissionsFromDatabase();
 
-        if (this.isAdmin){
-
-            return userManager.deleteUserByID(userID);
-        }else {
-
+        if (!this.permissions.contains(permissionManager.getDeleUserPermission().getPermissionID())){
             System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
 
             return false;
         }
 
+        return userManager.deleteUserByID(userID);
     }
 
     @Override
     public User getUserByID(String userID) {
+        getUsersPermissionsFromDatabase();
 
-        if (this.isAdmin){
-            return userManager.readUserByID(userID);
+        if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+            System.out.println(MISSING_PERMISSION_FOR_ACTION_ERROR_MESSAGE);
+
+            return null;
         }
 
-        return null;
+        return userManager.readUserByID(userID);
     }
 
     @Override
     public User getUserByEmail(String eMailAddress) {
+        getUsersPermissionsFromDatabase();
 
-        if (this.isAdmin){
-
-            return userManager.readUserByEMail(eMailAddress);
+        if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+            return null;
         }
 
-        return null;
+        return userManager.readUserByEMail(eMailAddress);
     }
 
     @Override
     public void addPermissionToOwnUser(Permission permission) {
-        this.permissions.add(permission);
+        this.permissions.add(permission.getPermissionID());
     }
 
     public void addPermissionToAnotherUser(User user, Permission permission) {
@@ -193,6 +193,14 @@ public class User extends UserModel{
         }
 
         return false;
+    }
+
+    public void getUsersPermissionsFromDatabase() {
+        User user = userManager.readUserByID(this.userID);
+
+        for (Permission permission : PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user)) {
+            this.permissions.add(permission.getPermissionID());
+        }
     }
 
 }
