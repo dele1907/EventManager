@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PermissionUserAssignmentHelperTestDrive {
+
     PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
+
     User nonAdminUser = new User("","","","","",0000000);
     User adminUser = new User("","","","","",0000000, true);
 
@@ -21,13 +23,13 @@ public class PermissionUserAssignmentHelperTestDrive {
 
     @Test
     void testAddPermissionToOwnUsersPermissions() {
-        assertTrue(PermissionUserAssignmentHelper.addPermissionToUsersPermissions(adminUser, adminPermission));
+        assertTrue(permissionUserAssignmentHelper.addPermissionToUsersPermissions(adminUser, adminPermission));
 
-        assertTrue(PermissionUserAssignmentHelper.addPermissionToUsersPermissions(adminUser, nonAdminPermission));
+        assertTrue(permissionUserAssignmentHelper.addPermissionToUsersPermissions(adminUser, nonAdminPermission));
 
-        assertFalse(PermissionUserAssignmentHelper.addPermissionToUsersPermissions(nonAdminUser, adminPermission));
+        assertFalse(permissionUserAssignmentHelper.addPermissionToUsersPermissions(nonAdminUser, adminPermission));
 
-        assertTrue(PermissionUserAssignmentHelper.addPermissionToUsersPermissions(nonAdminUser, nonAdminPermission));
+        assertTrue(permissionUserAssignmentHelper.addPermissionToUsersPermissions(nonAdminUser, nonAdminPermission));
     }
 
 }

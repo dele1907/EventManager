@@ -1,71 +1,54 @@
 package EventManagementCore.PermissionRoleManagement;
 
+import EventManagementCore.DatabaseCommunication.DatabaseConnector;
+import EventManagementCore.DatabaseCommunication.UserManager;
 import EventManagementCore.UserManagement.User;
 import Helper.PermissionUserAssignmentHelper;
 
-public class PermissionManager {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    public boolean getUserHasAdminPermissions(User user) {
-        return addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(user) &&
-                addPermissionDeleteUserToUsersPermissions(user) &&
-                addPermissionCreateUserToUserToUsersPermissions(user) &&
-                addPermissionEditUserToUserToUsersPermissions(user) &&
-                addPermissionGetUserInformationByUserIDToUsersPermissions(user);
-    }
+public class PermissionManager {
+    private UserManager userManager = new UserManager();
+    PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
+
+    private Permission deleUserPermission = getPermissionFromDatabaseByPermissionID("EFdTxfa05Ngu9z47jIw2");
+    private Permission createUserPermission = getPermissionFromDatabaseByPermissionID("59zbwnXJmciTIJlANNlB");
+    private Permission editUserPermission = getPermissionFromDatabaseByPermissionID("AVNnGoJ17zscv54hLMao");
+    private Permission getUserInformationPermission = getPermissionFromDatabaseByPermissionID("tsu7mY9GtQQXprG1rgVy");
+    private Permission giveAdminStatusPermission = getPermissionFromDatabaseByPermissionID("NOHKhcZd4THbUPqdZ7I8");
+    private Permission removeAdminStatusPermission = getPermissionFromDatabaseByPermissionID("r71hr0wu8Wwgmh0qTQOh");
 
     //#region admin only permissions
-    public boolean addPermissionDeleteUserToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        Permission deleteUserPermission = new Permission("deleteUser", true);
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, deleteUserPermission);
-
-        return user.getPermissions().contains(deleteUserPermission);
+    public void addPermissionDeleteUserToUsersPermissions(User user) {
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, deleUserPermission);
     }
 
-    public boolean addPermissionCreateUserToUserToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        Permission createUserPermission = new Permission("createNewUser", true);
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, createUserPermission);
-
-        return user.getPermissions().contains(createUserPermission);
+    public void addPermissionCreateUserToUserToUsersPermissions(User user) {
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, createUserPermission);
     }
 
-    public boolean addPermissionEditUserToUserToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        Permission editUserPermission = new Permission("editUser", true);
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, editUserPermission);
-
-        return user.getPermissions().contains(editUserPermission);
+    public void addPermissionEditUserToUserToUsersPermissions(User user) {
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, editUserPermission);
     }
 
-    public boolean addPermissionGetUserInformationByUserIDToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        Permission getUserInformationPermission = new Permission("getUserInformation", true);
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, getUserInformationPermission);
-
-        return user.getPermissions().contains(getUserInformationPermission);
+    public void addPermissionGetUserInformationByUserIDToUsersPermissions(User user) {
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, getUserInformationPermission);
     }
 
-    public boolean addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        return addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(user) &&
-                addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(user);
+    public void addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(User user) {
+        addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(user);
+        addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(user);
     }
 
-    private boolean addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        Permission giveAdminStatusPermission = new Permission("giveAdminStatus", true);
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, giveAdminStatusPermission);
-
-        return user.getPermissions().contains(giveAdminStatusPermission);
+    private void addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(User user) {
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, giveAdminStatusPermission);
     }
 
-    private boolean addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(User user) {
-        //TODO @Dennis replace when Permissions are available in database
-        Permission removeAdminStatusPermission = new Permission("removeAdminStatus", true);
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, removeAdminStatusPermission);
-
-        return user.getPermissions().contains(removeAdminStatusPermission);
+    private void addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(User user) {
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, removeAdminStatusPermission);
     }
     //#endregion admin only permissions
 
@@ -77,4 +60,56 @@ public class PermissionManager {
 
     //#region user related to certain event (& admin) only permissions
     //#endregion user related to certain event (& admin) only permissions
+
+    //#region database
+    public static Permission getPermissionFromDatabaseByPermissionID(String permissionID) {
+        String sql = "SELECT * FROM permission WHERE permissionID = ?";
+
+        try(Connection connection = DatabaseConnector.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, permissionID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Permission(
+                        resultSet.getString("permissionID"),
+                        resultSet.getString("permissionName"),
+                        resultSet.getBoolean("isAdminPermission")
+                );
+            }
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        return null;
+    }
+    //#endregion database
+    
+    //#region getter
+    
+    public Permission getDeleUserPermission() {
+        return deleUserPermission;
+    }
+
+    public Permission getCreateUserPermission() {
+        return createUserPermission;
+    }
+
+    public Permission getEditUserPermission() {
+        return editUserPermission;
+    }
+
+    public Permission getGetUserInformationPermission() {
+        return getUserInformationPermission;
+    }
+
+    public Permission getGiveAdminStatusPermission() {
+        return giveAdminStatusPermission;
+    }
+
+    public Permission getRemoveAdminStatusPermission() {
+        return removeAdminStatusPermission;
+    }
+    //#endregion getter
 }

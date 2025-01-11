@@ -133,11 +133,11 @@ public class User extends UserModel{
 
     @Override
     public void addPermissionToOwnUser(Permission permission) {
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(this, permission);
+        this.permissions.add(permission);
     }
 
     public void addPermissionToAnotherUser(User user, Permission permission) {
-        PermissionUserAssignmentHelper.addPermissionToUsersPermissions(user, permission);
+        user.addPermissionToOwnUser(permission);
     }
 
     //#region validatePassword

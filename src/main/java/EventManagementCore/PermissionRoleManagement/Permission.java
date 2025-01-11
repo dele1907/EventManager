@@ -14,6 +14,12 @@ public class Permission {
         this.isAdminPermission = isAdminPermission;
     }
 
+    public Permission(String permissionID, String permissionName, boolean isAdminPermission) {
+        this.permissionName = permissionName;
+        this.permissionID = permissionID;
+        this.isAdminPermission = isAdminPermission;
+    }
+
     public String getPermissionName() {
         return permissionName;
     }
