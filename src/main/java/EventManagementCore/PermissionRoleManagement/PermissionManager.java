@@ -1,7 +1,7 @@
 package EventManagementCore.PermissionRoleManagement;
 
 import EventManagementCore.DatabaseCommunication.DatabaseConnector;
-import EventManagementCore.DatabaseCommunication.UserManager;
+import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
 import Helper.PermissionUserAssignmentHelper;
 

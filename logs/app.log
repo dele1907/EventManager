@@ -3782,3 +3782,412 @@ jOOQ tip of the day: Keyset pagination is usually a faster and more useful way t
 2025-01-12 16:51:20 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
 2025-01-12 16:51:20 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
 2025-01-12 16:51:20 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:42 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : 
+                                      
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@  @@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@        @@  @  @  @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Thank you for using jOOQ 3.19.15 (Build date: 2024-11-04T08:17:43Z)
+                                      
+2025-01-12 17:13:43 [main] INFO : 
+
+jOOQ tip of the day: Thinking of building a query with jOOQ and executing it elsewhere? Think again: https://blog.jooq.org/why-you-should-execute-jooq-queries-with-jooq/
+
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'GwQo2aW6AnTTv4KUe8t0'
+2025-01-12 17:13:43 [main] INFO : Version                  : Database version is supported by dialect SQLITE: 3.47.1
+2025-01-12 17:13:43 [main] ERROR: User has no permission to create a new user
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : User added successfully
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] ERROR: User has no permission to edit a user
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = ?
+2025-01-12 17:13:43 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from has join permission on has.permissionID = permission.permissionID where has.userID = 'duuuY5XI4XyPQnzIChVL'
+2025-01-12 17:13:43 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser                  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser                |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser  |true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-12 17:13:43 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-12 17:13:43 [main] DEBUG: Fetched row(s)           : 5 (or more)
+2025-01-12 17:13:43 [main] INFO : Connection to SQLite established
+2025-01-12 17:13:43 [main] INFO : User deleted successfully

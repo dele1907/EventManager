@@ -1,6 +1,6 @@
 package EventManagementCoreTests.PermissionRoleManagementTests;
 
-import EventManagementCore.DatabaseCommunication.UserManager;
+import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
 
