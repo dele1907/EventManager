@@ -13,7 +13,7 @@ public class LoggerHelper {
     * */
 
     //#region new logger
-    public static Logger getLogger(Class<?> objectClass) {
+    private static Logger getLogger(Class<?> objectClass) {
         Logger logger = LogManager.getLogger(objectClass);
 
         return logger;
