@@ -23,6 +23,7 @@ public class User extends UserModel{
     private final String NO_PERMISSION_REMOVE_ADMIN_STATUS = "User has no permission to remove admin status";
 
     //#region constructor
+
     //Administrator
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
@@ -64,6 +65,8 @@ public class User extends UserModel{
     }
     //#endregion constructor
 
+    //#region CRUD-Operations
+
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
         getUsersPermissionsFromDatabase();
@@ -75,7 +78,9 @@ public class User extends UserModel{
         }
 
         userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
-        System.out.println(this.getUserByEmail(eMailAddress).toString());
+
+        //System.out.println(this.getUserByEmail(eMailAddress).toString());
+
         return true;
     }
 
@@ -102,6 +107,9 @@ public class User extends UserModel{
 
         userManager.updateUser(userToEdit);
 
+        System.out.println("User after Editing: " + this.getUserByEmail(eMailAddress).toString()); //Steht ihr nur solange bis userEdit funktioniert
+
+        //logger.info(this.getUserByEmail(eMailAddress).toString());
     }
 
     @Override
@@ -142,6 +150,7 @@ public class User extends UserModel{
 
         return userManager.readUserByEMail(eMailAddress);
     }
+    //#endregion CRUD-Operations
 
     @Override
     public void addPermissionToOwnUser(Permission permission) {
@@ -176,7 +185,7 @@ public class User extends UserModel{
         this.removeAdminStatusFromUser(userManager.readUserByID(userID));
     }
 
-    //#region validatePassword
+    //#region Registration & Authentification
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
@@ -204,7 +213,6 @@ public class User extends UserModel{
 
         return checkPassword.equals(password);
     }
-    //#endregion validatePassword
 
     private boolean comparingEmailAddress(String emailAddress) {
 
@@ -230,6 +238,7 @@ public class User extends UserModel{
 
         return false;
     }
+    //#endregion Registration & Authentification
 
     public void getUsersPermissionsFromDatabase() {
         User user = userManager.readUserByID(this.userID);

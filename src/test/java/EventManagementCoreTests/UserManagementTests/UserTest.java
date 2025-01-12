@@ -24,6 +24,7 @@ public class UserTest {
         assertFalse(testUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
                 "eventManager123", 11223344, false));
 
+
     }
 
     @Test
@@ -35,6 +36,7 @@ public class UserTest {
 
         assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
                 "eventManager123", 11223344, false));
+
 
     }
 
