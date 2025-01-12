@@ -41,12 +41,12 @@ public abstract class UserModel {
         return null;
     }
 
-    public void addAdminStatusToUser(){
-        this.isAdmin = true;
+    public void addAdminStatusToUser(User user){
+        user.isAdmin = true;
     }
 
-    public void removeAdminStatusFromUser(){
-        this.isAdmin = false;
+    public void removeAdminStatusFromUser(User user) {
+        user.isAdmin = false;
     }
 
     public String[] showUserIDsByEventID(String eventID) {

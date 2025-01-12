@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTest {
 
-    User testUser = new UserManager().readUserByID("SoONY7IhPtVzCx1e0z18");
+    User testUser = new UserManager().readUserByID("GwQo2aW6AnTTv4KUe8t0"); //SoONY7IhPtVzCx1e0z18
 
     User testAdminUser = new UserManager().readUserByID("duuuY5XI4XyPQnzIChVL");
 
@@ -20,7 +20,6 @@ public class UserTest {
     @Order(0)
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
-        assertNotNull(testUser);
 
         assertFalse(testUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
                 "eventManager123", 11223344, false));
@@ -34,7 +33,7 @@ public class UserTest {
 
         assertNotNull(testAdminUser);
 
-        assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@gmail.com",
+        assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
                 "eventManager123", 11223344, false));
 
     }
@@ -66,9 +65,9 @@ public class UserTest {
         String validTestPassword = "eventManager123";
         String inValidTestPassword = "eventManagerÄ";
 
-        assertFalse(testUser.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
+        assertFalse(system.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
 
-        assertTrue(testUser.isValidRegistrationPassword(validTestPassword, "eventManager123"));
+        assertTrue(system.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
 
     }
@@ -87,10 +86,10 @@ public class UserTest {
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminStatusToUserTest() {
 
-        testUser.addAdminStatusToUser();
+        testAdminUser.addAdminStatusToUser(testUser);
         assertTrue(testUser.isAdmin());
 
-        testUser.removeAdminStatusFromUser();
+        testAdminUser.removeAdminStatusFromUser(testUser);
         assertFalse(testUser.isAdmin());
     }
 
@@ -99,7 +98,7 @@ public class UserTest {
     @DisplayName("Cleaning DB after Testing")
     void cleanDBAfterTests() {
 
-        String userID = testAdminUser.getUserByEmail("firstName.lastName@gmail.com").getUserID();
+        String userID = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
         assertTrue(testAdminUser.deleteUser(userID));
     }
 }
