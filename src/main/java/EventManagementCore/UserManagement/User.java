@@ -36,7 +36,7 @@ public class User extends UserModel{
         this.isAdmin = isAdmin;
     }
 
-    //User
+    //Standard-User
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber) {
 
@@ -62,7 +62,6 @@ public class User extends UserModel{
         this.phoneNumber = phoneNumber;
         this.isAdmin = isAdmin;
     }
-
     //#endregion constructor
 
     @Override
