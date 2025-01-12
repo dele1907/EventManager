@@ -1,6 +1,6 @@
 package EventManagementCore.UserManagement;
 
-import EventManagementCore.DatabaseCommunication.UserManager;
+import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
 import Helper.IDGenerationHelper;
@@ -100,9 +100,8 @@ public class User extends UserModel{
         userToEdit.setPassword(password);
         userToEdit.setPhoneNumber(phoneNumber);
 
-        User editedUser = new User(userID,firstName,lastName,dateOfBirth,eMailAddress,password,phoneNumber, false);
+        userManager.updateUser(userToEdit);
 
-        userManager.updateUser(editedUser);
     }
 
     @Override
