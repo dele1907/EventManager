@@ -69,13 +69,14 @@ public class PermissionUserAssignmentHelper {
                 );
 
                 return true;
-            } else {
-                LoggerHelper.getInfoMessage(PermissionUserAssignmentHelper.class,
-                        "Failed to add permission for user " + user.getFirstName()
-                );
-
-                return false;
             }
+
+            LoggerHelper.getErrorMessage(
+                    PermissionUserAssignmentHelper.class,
+                    "Failed to add permission for user " + user.getFirstName()
+            );
+
+            return false;
         } catch (Exception e) {
             LoggerHelper.getErrorMessage(PermissionUserAssignmentHelper.class, e.getMessage());
 
