@@ -87,6 +87,8 @@ public class User extends UserModel{
         return true;
     }
 
+    //Todo @Finn @Timo Herausfinden warum editUser, editierte User nicht in der DB verändert
+
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
         getUsersPermissionsFromDatabase();
