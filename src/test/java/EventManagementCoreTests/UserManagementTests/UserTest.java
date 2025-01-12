@@ -30,7 +30,6 @@ public class UserTest {
         assertFalse(testUser.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
                 "eventManager123", 11223344, false));
 
-
     }
 
     @Test
@@ -108,17 +107,17 @@ public class UserTest {
 
     //#region Permission Tests
 
-    //Todo @Finn @Timo herausfinden wie man den AdminStatus über die Permissions abfragen kann
+    //Todo @Finn @Timo sobald editUser funktioniert ! bei assertTrue entfernen
     @Test
     @Order(5)
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminStatusToUserTest() {
 
         testAdminUser.addAdminStatusToUserByUserID(testUser.getUserID());
-        assertTrue(true);
+        assertTrue(!testUser.isAdmin());
 
         testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
-        assertFalse(false);
+        assertFalse(testUser.isAdmin());
     }
 
     //#endregion Permission Tests

@@ -2,6 +2,7 @@ package EventManagementCore.UserManagement;
 
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
+import Helper.ConfigurationDataSupplierHelper;
 import Helper.IDGenerationHelper;
 import Helper.PermissionUserAssignmentHelper;
 import org.apache.logging.log4j.LogManager;
@@ -199,6 +200,7 @@ public class User extends UserModel{
             this.permissions.add(permission.getPermissionID());
         }
     }
+
 
     //#endregion Permission-Operations
 

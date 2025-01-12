@@ -85,6 +85,7 @@ public abstract class UserModel {
         user.isAdmin = false;
     }
 
+
     //#endregion Permission-Operations
 
     //#region Getter
