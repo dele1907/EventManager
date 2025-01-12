@@ -49,23 +49,35 @@ public class PermissionUserAssignmentHelper {
 
     //#regoin database
     private boolean addPermissionForUserToDatabase(Permission permission, User user) {
-        user = userManager.readUserByID(user.getUserID());
+        try (Connection connection = DatabaseConnector.connect()) {
+            DSLContext create = DSL.using(connection);
 
-        String sql = "INSERT INTO has (userID, permissionID) VALUES (?, ?)";
+            int result = create.insertInto(
+                            HAS,
+                            HAS.USERID,
+                            HAS.PERMISSIONID
+                    )
+                        .values(user.getUserID(), permission.getPermissionID())
+                        .execute();
 
-        try(
-                Connection connection = DatabaseConnector.connect();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ){
-            preparedStatement.setString(1, user.getUserID());
-            preparedStatement.setString(2, permission.getPermissionID());
+            if (result > 0) {
+                LoggerHelper.getInfoMessage(PermissionUserAssignmentHelper.class,
+                        "Permission " +
+                                permission.getPermissionName() +
+                                " added successfully for user " +
+                                user.getFirstName()
+                );
 
-            preparedStatement.executeUpdate();
-            System.out.println("Permission" + permission.getPermissionName() + "added successfully for user " + user.getFirstName());
+                return true;
+            } else {
+                LoggerHelper.getInfoMessage(PermissionUserAssignmentHelper.class,
+                        "Failed to add permission for user " + user.getFirstName()
+                );
 
-            return true;
+                return false;
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LoggerHelper.getErrorMessage(PermissionUserAssignmentHelper.class, e.getMessage());
 
             return false;
         }
