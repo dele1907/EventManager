@@ -4,12 +4,18 @@ import EventManagementCore.DatabaseCommunication.DatabaseConnector;
 import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
 import Helper.ConfigurationDataSupplierHelper;
+import Helper.LoggerHelper;
 import Helper.PermissionUserAssignmentHelper;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static org.jooq.generated.tables.Permission.PERMISSION;
 
 public class PermissionManager {
 
@@ -77,23 +83,27 @@ public class PermissionManager {
 
     //#region database
     public static Permission getPermissionFromDatabaseByPermissionID(String permissionID) {
-        String sql = "SELECT * FROM permission WHERE permissionID = ?";
+        try (Connection connection = DatabaseConnector.connect()) {
 
-        try(Connection connection = DatabaseConnector.connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, permissionID);
+            DSLContext create = DSL.using(connection);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            Record record =  create.select()
+                    .from(PERMISSION)
+                    .where(PERMISSION.PERMISSIONID.eq(permissionID))
+                    .fetchOne();
 
-            if (resultSet.next()) {
+            if (record != null) {
+
                 return new Permission(
-                        resultSet.getString(ConfigurationDataSupplierHelper.getColumnPermissionID()),
-                        resultSet.getString(ConfigurationDataSupplierHelper.getColumnPermissionName()),
-                        resultSet.getBoolean(ConfigurationDataSupplierHelper.getColumnPermissionIsAdminPermission())
+                        record.get(PERMISSION.PERMISSIONID),
+                        record.get(PERMISSION.PERMISSIONNAME),
+                        record.get(PERMISSION.ISADMINPERMISSION)
                 );
             }
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+        }
+
+        catch (SQLException exception) {
+            LoggerHelper.getErrorMessage(PermissionManager.class, exception.getMessage());
         }
 
         return null;
