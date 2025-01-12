@@ -1,6 +1,6 @@
-package EventManagementCoreTests.DatabaseCommunicationTests;
+package EventManagementCoreTests.UserManagementTests;
 
-import EventManagementCore.DatabaseCommunication.UserManager;
+import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
 
 import org.junit.jupiter.api.AfterEach;
@@ -20,7 +20,7 @@ public class UserManagerTestDrive {
     public void setUp() {
         testUserManager = new UserManager();
         testUser = new User("testUserID", "Max", "Mustermann", "1980-01-10",
-                "max.mustermann@mail.com", "password123", 1234567890, true);
+                "max.mustermann@mail.com", "password123", 1234567890, false);
         testUserUpdated = new User("testUserID", "Maximilian", "Mustermann-Meyer", "1980-10-01",
                 "max.m@mail.com", "password987", 1357902468, false);
     }
@@ -72,7 +72,7 @@ public class UserManagerTestDrive {
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
-        assertEquals(true, userFromDatabase.isAdmin());
+        assertEquals(false, userFromDatabase.isAdmin());
     }
 
     // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
@@ -87,13 +87,13 @@ public class UserManagerTestDrive {
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
-        assertEquals(true, userFromDatabase.isAdmin());
+        assertEquals(false, userFromDatabase.isAdmin());
     }
 
     // Nach jedem Test die Datenbank bereinigen:
     @AfterEach
     public void cleanUp() {
-            testUserManager.deleteUserByID("testUserID");
+        testUserManager.deleteUserByID("testUserID");
     }
 
 }

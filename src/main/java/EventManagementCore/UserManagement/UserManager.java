@@ -1,13 +1,27 @@
-package EventManagementCore.DatabaseCommunication;
+package EventManagementCore.UserManagement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import EventManagementCore.DatabaseCommunication.DatabaseConnector;
 import EventManagementCore.UserManagement.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserManager {
+
+    private final String USER_ADDED = "User added successfully";
+    private final String USER_NOT_ADDED = "Error adding user: ";
+    private final String USER_NOT_READ = "Error reading user: ";
+    private final String USER_UPDATED = "User updated successfully";
+    private final String USER_NOT_UPDATED = "Error updating user: ";
+    private final String USER_NOT_FOUND = "No user found with the given ID";
+    private final String USER_DELETED = "User deleted successfully";
+    private final String USER_NOT_DELETED = "Error deleting user: ";
+
+    Logger logger = LogManager.getLogger(DatabaseConnector.class);
 
     // Benutzer hinzufügen (CREATE)
     public boolean createNewUser(User user) {
@@ -27,12 +41,12 @@ public class UserManager {
             preparedStatement.setBoolean(8, user.isAdmin());
 
             preparedStatement.executeUpdate();
-            System.out.println("User added successfully.");
+            logger.info(USER_ADDED);
 
             return true;
 
         } catch (SQLException e) {
-            System.out.println("Error adding user: " + e.getMessage());
+            logger.error(USER_NOT_ADDED + e.getMessage());
 
             return false;
         }
@@ -61,7 +75,7 @@ public class UserManager {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error reading user: " + e.getMessage());
+            logger.error(USER_NOT_READ + e.getMessage());
         }
 
         return null;
@@ -89,17 +103,15 @@ public class UserManager {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error reading user: " + e.getMessage());
+            logger.error(USER_NOT_READ + e.getMessage());
         }
 
         return null;
     }
 
-    //Todo @Laura updateUser-Methode funktioniert nicht
-
     // Benutzer ändern (UPDATE)
     public boolean updateUser(User user) {
-        String sql = "UPDATE user SET firstName = ?, lastName = ?, birthDate = ?, eMail = ?, password = ?, phoneNumber = ?, isAdmin = ? WHERE userID = ?";
+        String sql = "UPDATE user SET firstName = ?, lastName = ?, birthDate = ?, eMail = ?, password = ?, phoneNumber = ? WHERE userID = ?";
         try (Connection connection = DatabaseConnector.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -109,24 +121,23 @@ public class UserManager {
             preparedStatement.setString(4, user.getEMailAddress());
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setInt(6, user.getPhoneNumber());
-            preparedStatement.setBoolean(7, user.isAdmin());
 
-            preparedStatement.setString(8, user.getUserID()); // userID als WHERE-Bedingung
+            preparedStatement.setString(7, user.getUserID()); // userID als WHERE-Bedingung
 
             int rowsUpdated = preparedStatement.executeUpdate();
 
             if (rowsUpdated > 0) {
-                System.out.println("User updated successfully.");
+                logger.info(USER_UPDATED);
 
                 return true;
             } else {
-                System.out.println("No user found with the given ID.");
+                logger.info(USER_NOT_FOUND);
 
                 return false;
             }
 
         } catch (SQLException e) {
-            System.out.println("Error updating user: " + e.getMessage());
+            logger.error(USER_NOT_UPDATED + e.getMessage());
 
             return false;
         }
@@ -143,15 +154,15 @@ public class UserManager {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("User deleted successfully.");
+                logger.info(USER_DELETED);
             } else {
-                System.out.println("No user found to delete.");
+                logger.info(USER_NOT_FOUND);
             }
 
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            System.out.println("Error deleting user: " + e.getMessage());
+            logger.error(USER_NOT_DELETED + e.getMessage());
 
             return false;
         }
