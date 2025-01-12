@@ -87,9 +87,9 @@ public class PermissionManager {
 
             if (resultSet.next()) {
                 return new Permission(
-                        resultSet.getString("permissionID"),
-                        resultSet.getString("permissionName"),
-                        resultSet.getBoolean("isAdminPermission")
+                        resultSet.getString(ConfigurationDataSupplierHelper.getColumnPermissionID()),
+                        resultSet.getString(ConfigurationDataSupplierHelper.getColumnPermissionName()),
+                        resultSet.getBoolean(ConfigurationDataSupplierHelper.getColumnPermissionIsAdminPermission())
                 );
             }
         } catch (SQLException exception) {

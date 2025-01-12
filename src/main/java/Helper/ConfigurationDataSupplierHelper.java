@@ -9,7 +9,11 @@ public class ConfigurationDataSupplierHelper {
     private static final String GIVE_USER_ADMIN_STATUS_PERMISSION_ID = "NOHKhcZd4THbUPqdZ7I8";
     private static final String REMOVE_USER_ADMIN_STATUS_PERMISSION_ID = "r71hr0wu8Wwgmh0qTQOh";
 
+    private static final String COLUMN_PERMISSION_ID = "permissionID";
+    private static final String COLUMN_PERMISSION_NAME = "permissionName";
+    private static final String COLUMN_PERMISSION_IS_ADMIN_PERMISSION = "isAdminPermission";
 
+    //#region permissionIDs
     public static String getDeleteUserPermissionID() {
         return DELETE_USER_PERMISSION_ID;
     }
@@ -33,4 +37,19 @@ public class ConfigurationDataSupplierHelper {
     public static String getRemoveUserAdminStatusPermissionID() {
         return REMOVE_USER_ADMIN_STATUS_PERMISSION_ID;
     }
+    //#endregion permissionIDs
+
+    //#region column names permission database
+    public static String getColumnPermissionID() {
+        return COLUMN_PERMISSION_ID;
+    }
+
+    public static String getColumnPermissionName() {
+        return COLUMN_PERMISSION_NAME;
+    }
+
+    public static String getColumnPermissionIsAdminPermission() {
+        return COLUMN_PERMISSION_IS_ADMIN_PERMISSION;
+    }
+    //#endregion column names permission database
 }
