@@ -1,6 +1,6 @@
 package EventManagementCoreTests.UserManagementTests;
 
-import EventManagementCore.DatabaseCommunication.UserManager;
+import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
 import org.junit.jupiter.api.*;
 
