@@ -1,6 +1,5 @@
 package EventManagementCore.UserManagement;
 
-import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
 import Helper.IDGenerationHelper;
@@ -15,12 +14,16 @@ public class User extends UserModel{
 
     Logger logger = LogManager.getLogger(User.class);
 
+    //#region Constant variables
+
     private final String NO_PERMISSION_CREATE_USER = "User has no permission to create a new user";
     private final String NO_PERMISSION_EDIT_USER = "User has no permission to edit a user";
     private final String NO_PERMISSION_DELETE_USER = "User has no permission to delete a user";
     private final String NO_PERMISSION_GET_USER_INFORMATION = "User has no permission to get user information";
     private final String NO_PERMISSION_GIVE_ADMIN_STATUS = "User has no permission to give admin status";
     private final String NO_PERMISSION_REMOVE_ADMIN_STATUS = "User has no permission to remove admin status";
+
+    //#endregion Constant variables
 
     //#region constructor
 
@@ -150,8 +153,10 @@ public class User extends UserModel{
 
         return userManager.readUserByEMail(eMailAddress);
     }
+
     //#endregion CRUD-Operations
 
+    //#region Permission-Operations
     @Override
     public void addPermissionToOwnUser(Permission permission) {
         this.permissions.add(permission.getPermissionID());
@@ -185,7 +190,17 @@ public class User extends UserModel{
         this.removeAdminStatusFromUser(userManager.readUserByID(userID));
     }
 
-    //#region Registration & Authentification
+    public void getUsersPermissionsFromDatabase() {
+        User user = userManager.readUserByID(this.userID);
+
+        for (Permission permission : PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user)) {
+            this.permissions.add(permission.getPermissionID());
+        }
+    }
+
+    //#endregion Permission-Operations
+
+    //#region Registration & Authentication
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
@@ -226,27 +241,16 @@ public class User extends UserModel{
         return true;
     }
 
-    public boolean authentificateUserLogin(String email, String password) {
+    public boolean authenticationUserLogin(String email, String password) {
 
         if (comparingEmailAddress(email)) {
 
-            if (comparingPassword(password, getUserByEmail(email).getPassword())) {
-
-                return true;
-            }
+            return comparingPassword(password, getUserByEmail(email).getPassword());
         }
 
         return false;
     }
-    //#endregion Registration & Authentification
-
-    public void getUsersPermissionsFromDatabase() {
-        User user = userManager.readUserByID(this.userID);
-
-        for (Permission permission : PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user)) {
-            this.permissions.add(permission.getPermissionID());
-        }
-    }
+    //#endregion Registration & Authentication
 
     @Override
     public String toString() {

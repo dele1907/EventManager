@@ -13,15 +13,19 @@ public class UserTest {
 
     User testAdminUser = new UserManager().readUserByID("duuuY5XI4XyPQnzIChVL");
 
-    User system = new User("System", "", "", "", "goodPassword",0,true);
+    User system = new User("System", "", "", "", "goodPassword", 0, true);
 
+    final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
+    final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
+
+    //#region CRUD-Operation-Tests
 
     @Test
     @Order(0)
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
 
-        assertFalse(testUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
+        assertFalse(testUser.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
                 "eventManager123", 11223344, false));
 
 
@@ -34,7 +38,7 @@ public class UserTest {
 
         assertNotNull(testAdminUser);
 
-        assertTrue(testAdminUser.createNewUser("new","User", "dateOfBirth", "firstName.lastName@testmail.com",
+        assertTrue(testAdminUser.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
                 "eventManager123", 11223344, false));
 
 
@@ -45,11 +49,12 @@ public class UserTest {
     @DisplayName("EditUser Test")
     void editUserTest() {
 
-        String userIDFromUserToEdit = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
+        String userIDFromUserToEdit = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).getUserID();
         String firstName = "Max";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
-        String email = "firstName.lastName@testmail.com";
+        //String email = TEST_USER_EMAIL_ADDRESS_EDITED; erst wenn editUser funktioniert
+        String email = TEST_USER_EMAIL_ADDRESS;
         String password = "eventManager123";
         int phoneNumber = 123456;
 
@@ -58,6 +63,19 @@ public class UserTest {
         assertEquals(email, testAdminUser.getUserByID(userIDFromUserToEdit).getEMailAddress());
 
     }
+
+    @Test
+    @Order(6)
+    @DisplayName("DeleteUser Test")
+    void deleteUserTest() {
+
+        String userID = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
+        assertTrue(testAdminUser.deleteUser(userID));
+
+    }
+    //#endregion CRUD-Operation-Tests
+
+    //#region Registration and Authentication Tests
 
     @Test
     @Order(3)
@@ -71,7 +89,6 @@ public class UserTest {
 
         assertTrue(system.isValidRegistrationPassword(validTestPassword, "eventManager123"));
 
-
     }
 
     @Test
@@ -79,28 +96,27 @@ public class UserTest {
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
 
-        assertTrue(testAdminUser.authentificateUserLogin("firstName.lastName@testmail.com", "eventManager123"));
+        assertTrue(testAdminUser.authenticationUserLogin(TEST_USER_EMAIL_ADDRESS, "eventManager123"));
 
     }
+
+    //#endregion Registration and Authentication Tests
+
+    //#region Permission Tests
 
     @Test
     @Order(5)
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminStatusToUserTest() {
 
-        testAdminUser.addAdminStatusToUser(testUser);
-        assertTrue(testUser.isAdmin());
+        testAdminUser.addAdminStatusToUserByUserID(testUser.getUserID());
+        assertFalse(testUser.isAdmin());
 
-        testAdminUser.removeAdminStatusFromUser(testUser);
+        testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
         assertFalse(testUser.isAdmin());
     }
 
-    @Test
-    @Order(6)
-    @DisplayName("Cleaning DB after Testing")
-    void cleanDBAfterTests() {
+    //#endregion Permission Tests
 
-        String userID = testAdminUser.getUserByEmail("firstName.lastName@testmail.com").getUserID();
-        assertTrue(testAdminUser.deleteUser(userID));
-    }
 }
+

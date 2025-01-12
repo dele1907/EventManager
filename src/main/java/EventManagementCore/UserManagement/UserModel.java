@@ -18,6 +18,8 @@ public abstract class UserModel {
         permissions = new ArrayList<>();
     }
 
+    //#region CRUD-Operations
+
     public abstract boolean createNewUser(
             String firstName,
             String lastName,
@@ -41,6 +43,40 @@ public abstract class UserModel {
         return null;
     }
 
+    public void createEvent(String eventID) {}
+
+    public void editEvent(String eventID) {}
+
+    public boolean deleteEvent(String eventID) {
+        return false;
+    }
+
+    public String[] showUserIDsByEventID(String eventID) {
+        return null;
+    }
+
+    public String[] showEventIDsByUserID(String userID) {
+        return null;
+    }
+
+    //public Event showEventByID(String userID){};
+
+    //#endregion Crud-Operations
+
+    //#region Event-Operations
+
+    public void bookEvent(String eventID) {}
+
+    public void addUserToEvent(String userID, String eventID) {}
+
+    public void removeUserFromEvent(String userID, String eventID) {}
+
+    //#endregion Event-Operations
+
+    //#region Permission-Operations
+
+    public abstract void addPermissionToOwnUser(Permission permission);
+
     public void addAdminStatusToUser(User user){
         user.isAdmin = true;
     }
@@ -49,33 +85,7 @@ public abstract class UserModel {
         user.isAdmin = false;
     }
 
-    public String[] showUserIDsByEventID(String eventID) {
-        return null;
-    }
-
-
-    public void createEvent(String eventID) {}
-
-    public void bookEvent(String eventID) {}
-
-    public void editEvent(String eventID) {}
-
-    public boolean deleteEvent(String eventID) {
-        return false;
-    }
-
-    public void addUserToEvent(String userID, String eventID) {}
-
-    public void removeUserFromEvent(String userID, String eventID) {}
-
-    //public Event showEventByID(String userID){};
-
-    public String[] showEventIDsByUserID(String userID) {
-        return null;
-    }
-
-    public abstract void addPermissionToOwnUser(Permission permission);
-
+    //#endregion Permission-Operations
 
     //#region Getter
     public ArrayList<String> getPermissions() {
