@@ -75,7 +75,7 @@ public class User extends UserModel{
         }
 
         userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
-
+        System.out.println(this.getUserByEmail(eMailAddress).toString());
         return true;
     }
 
@@ -100,7 +100,9 @@ public class User extends UserModel{
         userToEdit.setPassword(password);
         userToEdit.setPhoneNumber(phoneNumber);
 
-        userManager.updateUser(userToEdit);
+        User editedUser = new User(userID,firstName,lastName,dateOfBirth,eMailAddress,password,phoneNumber, false);
+
+        userManager.updateUser(editedUser);
     }
 
     @Override
@@ -160,7 +162,7 @@ public class User extends UserModel{
             return;
         }
 
-        userManager.readUserByID(userID).addAdminStatusToUser();
+        this.addAdminStatusToUser(userManager.readUserByID(userID));
     }
 
     public void removeAdminStatusFromUserByUserID(String userID) {
@@ -172,7 +174,7 @@ public class User extends UserModel{
             return;
         }
 
-        userManager.readUserByID(userID).removeAdminStatusFromUser();
+        this.removeAdminStatusFromUser(userManager.readUserByID(userID));
     }
 
     //#region validatePassword
@@ -236,6 +238,12 @@ public class User extends UserModel{
         for (Permission permission : PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user)) {
             this.permissions.add(permission.getPermissionID());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "User: \nfirstName: " + firstName + "\nlastName: " + lastName + "\ndateOfBirth: " + dateOfBirth + "\neMailAddress: " + eMailAddress + "\npassword: "
+                + password + "\nphoneNumber: " + phoneNumber + "\nisAdmin: " + isAdmin + "\n";
     }
 
 }
