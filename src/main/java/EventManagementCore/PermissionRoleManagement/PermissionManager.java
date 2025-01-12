@@ -3,6 +3,7 @@ package EventManagementCore.PermissionRoleManagement;
 import EventManagementCore.DatabaseCommunication.DatabaseConnector;
 import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
+import Helper.ConfigurationDataSupplierHelper;
 import Helper.PermissionUserAssignmentHelper;
 
 import java.sql.Connection;
@@ -11,15 +12,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PermissionManager {
+
     private UserManager userManager = new UserManager();
     PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
 
-    private Permission deleUserPermission = getPermissionFromDatabaseByPermissionID("EFdTxfa05Ngu9z47jIw2");
-    private Permission createUserPermission = getPermissionFromDatabaseByPermissionID("59zbwnXJmciTIJlANNlB");
-    private Permission editUserPermission = getPermissionFromDatabaseByPermissionID("AVNnGoJ17zscv54hLMao");
-    private Permission getUserInformationPermission = getPermissionFromDatabaseByPermissionID("tsu7mY9GtQQXprG1rgVy");
-    private Permission giveAdminStatusPermission = getPermissionFromDatabaseByPermissionID("NOHKhcZd4THbUPqdZ7I8");
-    private Permission removeAdminStatusPermission = getPermissionFromDatabaseByPermissionID("r71hr0wu8Wwgmh0qTQOh");
+    private Permission deleUserPermission = getPermissionFromDatabaseByPermissionID(
+            ConfigurationDataSupplierHelper.getDeleteUserPermissionID()
+    );
+    private Permission createUserPermission = getPermissionFromDatabaseByPermissionID(
+            ConfigurationDataSupplierHelper.getCreateUserPermissionID()
+    );
+    private Permission editUserPermission = getPermissionFromDatabaseByPermissionID(
+            ConfigurationDataSupplierHelper.getEditUserPermissionID()
+    );
+    private Permission getUserInformationPermission = getPermissionFromDatabaseByPermissionID(
+            ConfigurationDataSupplierHelper.getGetUserInformationPermissionID()
+    );
+    private Permission giveAdminStatusPermission = getPermissionFromDatabaseByPermissionID(
+            ConfigurationDataSupplierHelper.getGiveUserAdminStatusPermissionID()
+    );
+    private Permission removeAdminStatusPermission = getPermissionFromDatabaseByPermissionID(
+            ConfigurationDataSupplierHelper.getRemoveUserAdminStatusPermissionID()
+    );
 
     //#region admin only permissions
     public void addPermissionDeleteUserToUsersPermissions(User user) {
