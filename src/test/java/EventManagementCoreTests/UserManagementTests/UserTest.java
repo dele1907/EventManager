@@ -47,7 +47,7 @@ public class UserTest {
         String firstName = "Max";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
-        String email = "max.max@testmail.com";
+        String email = "firstName.lastName@testmail.com";
         String password = "eventManager123";
         int phoneNumber = 123456;
 
