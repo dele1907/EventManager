@@ -100,7 +100,6 @@ public class User extends UserModel{
 
         userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
 
-        //System.out.println(this.getUserByEmail(eMailAddress).toString());
 
         return true;
     }
@@ -429,7 +428,7 @@ public class User extends UserModel{
     /**
      * <h3>Own toString()-Method</h3>
      * <p>
-     * Custom {@link #toString()} method  for a more readable output
+     * Custom {@link #toString()} toString()} method  for a more readable output
      */
 
     @Override
