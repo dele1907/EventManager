@@ -24745,3 +24745,838 @@ Caused by: org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_PRIMARYKEY] A PRIMARY 
 2025-01-13 10:00:28 [main] DEBUG: -> with bind values      : insert into has (userID, permissionID) values ('iwbLeZWwmrg5E0oC8KIs', 'AVNnGoJ17zscv54hLMao')
 2025-01-13 10:00:28 [main] DEBUG: Affected row(s)          : 1
 2025-01-13 10:00:28 [main] INFO : Permission permissionEditUser added successfully for user Finn
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] INFO : 
+                                      
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@  @@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@        @@  @  @  @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Thank you for using jOOQ 3.19.15 (Build date: 2024-11-04T08:17:43Z)
+                                      
+2025-01-13 10:41:37 [main] INFO : 
+
+jOOQ tip of the day: You don't *have to* map SQL results to POJOs if you're consuming XML or JSON in the end. Generate the XML or JSON directly in SQL, instead! https://blog.jooq.org/stop-mapping-stuff-in-your-middleware-use-sqls-xml-or-json-operators-instead/
+
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] INFO : Version                  : Database version is supported by dialect SQLITE: 3.47.1
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'EFdTxfa05Ngu9z47jIw2'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |EFdTxfa05Ngu9z47jIw2|permissionDeleteUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = '59zbwnXJmciTIJlANNlB'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |59zbwnXJmciTIJlANNlB|permissionCreateUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+--------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'AVNnGoJ17zscv54hLMao'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |AVNnGoJ17zscv54hLMao|permissionEditUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'tsu7mY9GtQQXprG1rgVy'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                         |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |tsu7mY9GtQQXprG1rgVy|permissionCanGetUserInformationByUserID|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+---------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'NOHKhcZd4THbUPqdZ7I8'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                    |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |NOHKhcZd4THbUPqdZ7I8|permissionCanGiveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+----------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
+2025-01-13 10:41:37 [main] INFO : Connection to SQLite established
+2025-01-13 10:41:37 [main] DEBUG: Executing query          : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = ?
+2025-01-13 10:41:37 [main] DEBUG: -> with bind values      : select permission.permissionID, permission.permissionName, permission.isAdminPermission from permission where permission.permissionID = 'r71hr0wu8Wwgmh0qTQOh'
+2025-01-13 10:41:37 [main] DEBUG: Fetched result           : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |permissionID        |permissionName                      |isAdminPermission|
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG:                          : |r71hr0wu8Wwgmh0qTQOh|permissionCanRemoveAdminStatusToUser|true             |
+2025-01-13 10:41:37 [main] DEBUG:                          : +--------------------+------------------------------------+-----------------+
+2025-01-13 10:41:37 [main] DEBUG: Fetched row(s)           : 1
