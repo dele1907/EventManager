@@ -20,6 +20,8 @@ public abstract class UserModel {
 
     //#region CRUD-Operations
 
+
+
     public abstract boolean createNewUser(
             String firstName,
             String lastName,
@@ -78,13 +80,12 @@ public abstract class UserModel {
     public abstract void addPermissionToOwnUser(Permission permission);
 
     public void addAdminStatusToUser(User user){
-        user.isAdmin = true;
+        user.setAdmin(true);
     }
 
     public void removeAdminStatusFromUser(User user) {
-        user.isAdmin = false;
+        user.setAdmin(false);
     }
-
 
     //#endregion Permission-Operations
 
@@ -156,5 +157,9 @@ public abstract class UserModel {
         this.userID = userID;
     }
 
-    //#endregion Setter
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+//#endregion Setter
 }

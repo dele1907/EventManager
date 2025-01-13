@@ -1,7 +1,6 @@
 package EventManagementCoreTests.UserManagementTests;
 
-import EventManagementCore.PermissionRoleManagement.Permission;
-import EventManagementCore.PermissionRoleManagement.PermissionManager;
+
 import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
 import org.junit.jupiter.api.*;
@@ -27,7 +26,7 @@ public class UserTest {
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
 
-        assertFalse(testUser.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
+        assertFalse(testUser.createNewUser("test", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
                 "eventManager123", 11223344, false));
 
     }
@@ -45,7 +44,6 @@ public class UserTest {
 
     }
 
-    //Todo @Finn @Timo email von TEST_USER_EMAIL_ADDRESS zu TEST_USER_EMAIL_ADDRESS_EDITED ändern sobald editUser funktioniert
 
     @Test
     @Order(2)
@@ -53,11 +51,11 @@ public class UserTest {
     void editUserTest() {
 
         String userIDFromUserToEdit = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).getUserID();
-        String firstName = "Max";
+        String firstName = "Markus";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
-        //String email = TEST_USER_EMAIL_ADDRESS_EDITED; erst wenn editUser funktioniert
-        String email = TEST_USER_EMAIL_ADDRESS;
+        String email = TEST_USER_EMAIL_ADDRESS_EDITED; //erst wenn editUser funktioniert
+        //String email = TEST_USER_EMAIL_ADDRESS;
         String password = "eventManager123";
         int phoneNumber = 123456;
 
@@ -72,7 +70,7 @@ public class UserTest {
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
-        String userID = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
+        String userID = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
         assertTrue(testAdminUser.deleteUser(userID));
 
     }
@@ -99,15 +97,14 @@ public class UserTest {
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
 
-        assertTrue(testAdminUser.authenticationUserLogin(TEST_USER_EMAIL_ADDRESS, "eventManager123"));
+        assertTrue(testAdminUser.authenticationUserLogin(TEST_USER_EMAIL_ADDRESS_EDITED, "eventManager123"));
 
     }
 
     //#endregion Registration and Authentication Tests
 
     //#region Permission Tests
-
-    //Todo @Finn @Timo sobald editUser funktioniert ! bei assertTrue entfernen
+    //Todo @Finn @Timo ! entfernen sobald nicht mehr mit DummyUsern gearbeitet/getestet wird
     @Test
     @Order(5)
     @DisplayName("Add&Remove AdminStatus Test")

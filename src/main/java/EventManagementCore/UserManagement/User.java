@@ -70,6 +70,17 @@ public class User extends UserModel{
 
     //#region CRUD-Operations
 
+    /**
+     * {@code createNewUser()} accept User-Parameters as Arguments to initialize a new user and load him in the DB
+     * The Method check first the permission of the user, who want to create a new User, if he is allowed to create
+     * a new User
+     * If the Permission check passed the methode will execute this:
+     * <blockquote><pre>
+     * userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin))
+     * </pre></blockquote><p>
+     *  Now the new User is initialized and loaded in the DB
+     */
+
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
         getUsersPermissionsFromDatabase();
@@ -93,7 +104,7 @@ public class User extends UserModel{
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
         getUsersPermissionsFromDatabase();
 
-        if (this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())
+        if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())
         ){
             logger.error(NO_PERMISSION_EDIT_USER);
 
@@ -111,9 +122,9 @@ public class User extends UserModel{
 
         userManager.updateUser(userToEdit);
 
+        logger.info("User after Editing: " + userToEdit);
         System.out.println("User after Editing: " + this.getUserByEmail(eMailAddress).toString()); //Steht ihr nur solange bis userEdit funktioniert
 
-        //logger.info(this.getUserByEmail(eMailAddress).toString());
     }
 
     @Override
