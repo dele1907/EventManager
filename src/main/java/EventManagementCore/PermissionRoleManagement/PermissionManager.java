@@ -16,10 +16,9 @@ import java.sql.SQLException;
 import static org.jooq.generated.tables.Permission.PERMISSION;
 
 public class PermissionManager {
-
-    private UserManager userManager = new UserManager();
     PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
 
+    //#region permission variables
     private Permission deleUserPermission = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getDeleteUserPermissionID()
     );
@@ -38,6 +37,7 @@ public class PermissionManager {
     private Permission removeAdminStatusPermission = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getRemoveUserAdminStatusPermissionID()
     );
+    //#endregion permission variables
 
     //#region admin only permissions
     public void addPermissionDeleteUserToUsersPermissions(User user) {

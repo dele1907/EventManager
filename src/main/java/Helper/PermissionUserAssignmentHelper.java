@@ -30,13 +30,13 @@ public class PermissionUserAssignmentHelper {
     }
 
     /**
-     * method to add a admin-checked permission to an user
+     * method to add an admin-checked permission to an user
      * */
     public boolean addPermissionToUsersPermissions(User user, Permission permission) {
         if (checkAdminUserAdminPermission(user, permission) || !permission.isAdminPermission()) {
             user.addPermissionToOwnUser(permission);
             /**
-             * commented out so not every test related to this method will add an etry to the database
+             * commented out so not every test related to this method will add an entry to the database
              * */
             //addPermissionForUserToDatabase(permission, user);
             return true;
