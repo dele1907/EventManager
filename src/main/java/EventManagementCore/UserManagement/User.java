@@ -93,7 +93,8 @@ public class User extends UserModel{
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
         getUsersPermissionsFromDatabase();
 
-        if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())
+        if (!(this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID()) ||
+                userID.equals(this.userID))
         ){
             logger.error(NO_PERMISSION_EDIT_USER);
 
