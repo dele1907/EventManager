@@ -6,11 +6,14 @@ public class IDGenerationHelper {
 
     /**
      * method to generate random IDs for every purpose an ID has to be provided
+     *
+     * @return an ID having 20 characters containing numbers and capital & small letters
+     *
+     * there is no check if a several ID already exists in the database
+     * because there are 1*10^35 different possible IDs having 20 characters, so it's unlikely to have
+     * the same ID twice
      * */
     public static String generateRandomIDString() {
-
-        //Todo @DennisLeister checking if UserID already exists
-
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder randomString = new StringBuilder();
         java.util.Random randomizer = new java.util.Random();

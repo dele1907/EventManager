@@ -2,7 +2,6 @@ package EventManagementCore.UserManagement;
 
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
-import Helper.ConfigurationDataSupplierHelper;
 import Helper.IDGenerationHelper;
 import Helper.PermissionUserAssignmentHelper;
 import org.apache.logging.log4j.LogManager;
@@ -122,7 +121,7 @@ public class User extends UserModel{
     public boolean deleteUser(String userID) {
         getUsersPermissionsFromDatabase();
 
-        if (!this.permissions.contains(permissionManager.getDeleUserPermission().getPermissionID())){
+        if (!this.permissions.contains(permissionManager.getDeleteUserPermission().getPermissionID())){
             logger.error(NO_PERMISSION_DELETE_USER);
 
             return false;

@@ -1,6 +1,5 @@
 package EventManagementCoreTests.PermissionRoleManagementTests;
 
-import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.PermissionRoleManagement.Permission;
 import EventManagementCore.PermissionRoleManagement.PermissionManager;
 
@@ -13,7 +12,7 @@ public class PermissionManagerTestDrive {
 
     PermissionManager permissionManager = new PermissionManager();
 
-    private Permission deleUserPermission = permissionManager.getDeleUserPermission();
+    private Permission deleUserPermission = permissionManager.getDeleteUserPermission();
     private Permission createUserPermission = permissionManager.getCreateUserPermission();
     private Permission editUserPermission = permissionManager.getEditUserPermission();
     private Permission getUserInformationPermission = permissionManager.getGetUserInformationPermission();

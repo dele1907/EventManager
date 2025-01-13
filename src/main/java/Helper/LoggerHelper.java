@@ -21,19 +21,19 @@ public class LoggerHelper {
     //#endregion new logger
 
     //#region logger methods
-    public static void getErrorMessage(Class<?> objectClass, String errorMessage) {
+    public static void logErrorMessage(Class<?> objectClass, String errorMessage) {
         getLogger(objectClass).error(errorMessage);
     }
 
-    public static void getInfoMessage(Class<?> objectClass, String infoMessage) {
+    public static void logInfoMessage(Class<?> objectClass, String infoMessage) {
         getLogger(objectClass).info(infoMessage);
     }
 
-    public static void getDebugMessage(Class<?> objectClass, String debugMessage) {
+    public static void logDebugMessage(Class<?> objectClass, String debugMessage) {
         getLogger(objectClass).debug(debugMessage);
     }
 
-    public static void getTraceMessage(Class<?> objectClass, String traceMessage) {
+    public static void logTraceMessage(Class<?> objectClass, String traceMessage) {
         getLogger(objectClass).trace(traceMessage);
     }
     //#endregion logger methods

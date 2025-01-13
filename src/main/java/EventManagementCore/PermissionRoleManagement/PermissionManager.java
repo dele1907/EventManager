@@ -1,7 +1,6 @@
 package EventManagementCore.PermissionRoleManagement;
 
 import EventManagementCore.DatabaseCommunication.DatabaseConnector;
-import EventManagementCore.UserManagement.UserManager;
 import EventManagementCore.UserManagement.User;
 import Helper.ConfigurationDataSupplierHelper;
 import Helper.LoggerHelper;
@@ -11,51 +10,49 @@ import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.jooq.generated.tables.Permission.PERMISSION;
 
 public class PermissionManager {
-
-    private UserManager userManager = new UserManager();
     PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
 
-    private Permission deleUserPermission = getPermissionFromDatabaseByPermissionID(
+    //#region permission variables
+    private final Permission DELETE_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getDeleteUserPermissionID()
     );
-    private Permission createUserPermission = getPermissionFromDatabaseByPermissionID(
+    private final Permission CREATE_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getCreateUserPermissionID()
     );
-    private Permission editUserPermission = getPermissionFromDatabaseByPermissionID(
+    private final Permission EDIT_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getEditUserPermissionID()
     );
-    private Permission getUserInformationPermission = getPermissionFromDatabaseByPermissionID(
+    private final Permission GET_USER_INFORMATION_PERMISSION = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getGetUserInformationPermissionID()
     );
-    private Permission giveAdminStatusPermission = getPermissionFromDatabaseByPermissionID(
+    private final Permission GIVE_ADMIN_STATUS_PERMISSION = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getGiveUserAdminStatusPermissionID()
     );
-    private Permission removeAdminStatusPermission = getPermissionFromDatabaseByPermissionID(
+    private final Permission REMOVE_ADMIN_STATUS_PERMISSION = getPermissionFromDatabaseByPermissionID(
             ConfigurationDataSupplierHelper.getRemoveUserAdminStatusPermissionID()
     );
+    //#endregion permission variables
 
     //#region admin only permissions
     public void addPermissionDeleteUserToUsersPermissions(User user) {
-        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, deleUserPermission);
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, DELETE_USER_PERMISSION);
     }
 
     public void addPermissionCreateUserToUserToUsersPermissions(User user) {
-        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, createUserPermission);
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, CREATE_USER_PERMISSION);
     }
 
     public void addPermissionEditUserToUserToUsersPermissions(User user) {
-        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, editUserPermission);
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, EDIT_USER_PERMISSION);
     }
 
     public void addPermissionGetUserInformationByUserIDToUsersPermissions(User user) {
-        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, getUserInformationPermission);
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, GET_USER_INFORMATION_PERMISSION);
     }
 
     public void addPermissionUserCanModifyAdminStatusOfUserToUsersPermissions(User user) {
@@ -64,11 +61,11 @@ public class PermissionManager {
     }
 
     private void addPermissionUserCanGiveAdminStatusToUserToUsersPermissions(User user) {
-        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, giveAdminStatusPermission);
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, GIVE_ADMIN_STATUS_PERMISSION);
     }
 
     private void addPermissionUserCanRemoveAdminStatusFromUserToUsersPermissions(User user) {
-        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, removeAdminStatusPermission);
+        permissionUserAssignmentHelper.addPermissionToUsersPermissions(user, REMOVE_ADMIN_STATUS_PERMISSION);
     }
     //#endregion admin only permissions
 
@@ -103,7 +100,7 @@ public class PermissionManager {
         }
 
         catch (SQLException exception) {
-            LoggerHelper.getErrorMessage(PermissionManager.class, exception.getMessage());
+            LoggerHelper.logErrorMessage(PermissionManager.class, exception.getMessage());
         }
 
         return null;
@@ -112,28 +109,28 @@ public class PermissionManager {
     
     //#region getter
     
-    public Permission getDeleUserPermission() {
-        return deleUserPermission;
+    public Permission getDeleteUserPermission() {
+        return DELETE_USER_PERMISSION;
     }
 
     public Permission getCreateUserPermission() {
-        return createUserPermission;
+        return CREATE_USER_PERMISSION;
     }
 
     public Permission getEditUserPermission() {
-        return editUserPermission;
+        return EDIT_USER_PERMISSION;
     }
 
     public Permission getGetUserInformationPermission() {
-        return getUserInformationPermission;
+        return GET_USER_INFORMATION_PERMISSION;
     }
 
     public Permission getGiveAdminStatusPermission() {
-        return giveAdminStatusPermission;
+        return GIVE_ADMIN_STATUS_PERMISSION;
     }
 
     public Permission getRemoveAdminStatusPermission() {
-        return removeAdminStatusPermission;
+        return REMOVE_ADMIN_STATUS_PERMISSION;
     }
     //#endregion getter
 }
