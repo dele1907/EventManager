@@ -8,8 +8,6 @@ import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +59,7 @@ public class PermissionUserAssignmentHelper {
                         .execute();
 
             if (result > 0) {
-                LoggerHelper.getInfoMessage(PermissionUserAssignmentHelper.class,
+                LoggerHelper.logInfoMessage(PermissionUserAssignmentHelper.class,
                         "Permission " +
                                 permission.getPermissionName() +
                                 " added successfully for user " +
@@ -71,14 +69,14 @@ public class PermissionUserAssignmentHelper {
                 return true;
             }
 
-            LoggerHelper.getErrorMessage(
+            LoggerHelper.logErrorMessage(
                     PermissionUserAssignmentHelper.class,
                     "Failed to add permission for user " + user.getFirstName()
             );
 
             return false;
         } catch (Exception e) {
-            LoggerHelper.getErrorMessage(PermissionUserAssignmentHelper.class, e.getMessage());
+            LoggerHelper.logErrorMessage(PermissionUserAssignmentHelper.class, e.getMessage());
 
             return false;
         }

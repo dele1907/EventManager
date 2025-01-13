@@ -11,8 +11,6 @@ import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.jooq.generated.tables.Permission.PERMISSION;
@@ -103,7 +101,7 @@ public class PermissionManager {
         }
 
         catch (SQLException exception) {
-            LoggerHelper.getErrorMessage(PermissionManager.class, exception.getMessage());
+            LoggerHelper.logErrorMessage(PermissionManager.class, exception.getMessage());
         }
 
         return null;
