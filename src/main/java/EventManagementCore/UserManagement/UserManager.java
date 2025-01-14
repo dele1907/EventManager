@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import EventManagementCore.DatabaseCommunication.DatabaseConnector;
 import EventManagementCore.UserManagement.User;
+import Helper.LoggerHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,8 +21,6 @@ public class UserManager {
     private final String USER_NOT_FOUND = "No user found with the given ID";
     private final String USER_DELETED = "User deleted successfully";
     private final String USER_NOT_DELETED = "Error deleting user: ";
-
-    Logger logger = LogManager.getLogger(DatabaseConnector.class);
 
     // Benutzer hinzufügen (CREATE)
     public boolean createNewUser(User user) {
@@ -41,12 +40,12 @@ public class UserManager {
             preparedStatement.setBoolean(8, user.isAdmin());
 
             preparedStatement.executeUpdate();
-            logger.info(USER_ADDED);
+            LoggerHelper.logInfoMessage(UserManager.class, USER_ADDED);
 
             return true;
 
         } catch (SQLException e) {
-            logger.error(USER_NOT_ADDED + e.getMessage());
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_ADDED + e.getMessage());
 
             return false;
         }
@@ -75,7 +74,7 @@ public class UserManager {
             }
 
         } catch (SQLException e) {
-            logger.error(USER_NOT_READ + e.getMessage());
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + e.getMessage());
         }
 
         return null;
@@ -103,7 +102,7 @@ public class UserManager {
             }
 
         } catch (SQLException e) {
-            logger.error(USER_NOT_READ + e.getMessage());
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + e.getMessage());
         }
 
         return null;
@@ -127,17 +126,17 @@ public class UserManager {
             int rowsUpdated = preparedStatement.executeUpdate();
 
             if (rowsUpdated > 0) {
-                logger.info(USER_UPDATED);
+                LoggerHelper.logInfoMessage(UserManager.class, USER_UPDATED);
 
                 return true;
             } else {
-                logger.info(USER_NOT_FOUND);
+                LoggerHelper.logInfoMessage(UserManager.class, USER_NOT_FOUND);
 
                 return false;
             }
 
         } catch (SQLException e) {
-            logger.error(USER_NOT_UPDATED + e.getMessage());
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_UPDATED + e.getMessage());
 
             return false;
         }
@@ -154,15 +153,15 @@ public class UserManager {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                logger.info(USER_DELETED);
+                LoggerHelper.logInfoMessage(UserManager.class, USER_DELETED);
             } else {
-                logger.info(USER_NOT_FOUND);
+                LoggerHelper.logInfoMessage(UserManager.class, USER_NOT_FOUND);
             }
 
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            logger.error(USER_NOT_DELETED + e.getMessage());
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_DELETED + e.getMessage());
 
             return false;
         }

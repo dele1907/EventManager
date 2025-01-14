@@ -1,5 +1,6 @@
 package EventManagementCore.DatabaseCommunication;
 
+import Helper.LoggerHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,15 +15,13 @@ public class DatabaseConnector {
     private static final String CONNECTION_ESTABLISHED = "Connection to SQLite established";
     private static final String CONNECTION_NOT_ESTABLISHED = "Error establishing connection: ";
 
-    static Logger logger = LogManager.getLogger(DatabaseConnector.class);
-
     public static Connection connect() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(databaseUrl);
-            logger.info(CONNECTION_ESTABLISHED);
+            LoggerHelper.logInfoMessage(DatabaseConnector.class, CONNECTION_ESTABLISHED);
         } catch (SQLException e) {
-            logger.error(CONNECTION_NOT_ESTABLISHED + e.getMessage());
+            LoggerHelper.logErrorMessage(DatabaseConnector.class, CONNECTION_NOT_ESTABLISHED + e.getMessage());
         }
         return connection;
     }
