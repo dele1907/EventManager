@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTest {
 
-    User testUser = new UserManager().readUserByID("GwQo2aW6AnTTv4KUe8t0"); //SoONY7IhPtVzCx1e0z18
+    User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0"); //SoONY7IhPtVzCx1e0z18
 
-    User testAdminUser = new UserManager().readUserByID("iwbLeZWwmrg5E0oC8KIs");
+    User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs");
 
     User system = new User("System", "", "", "", "goodPassword", 0, true);
 

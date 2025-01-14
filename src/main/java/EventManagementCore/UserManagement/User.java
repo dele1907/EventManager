@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 public class User extends UserModel{
 
-    private UserManager userManager = new UserManager();
     private PermissionManager permissionManager = new PermissionManager();
 
     Logger logger = LogManager.getLogger(User.class);
@@ -98,7 +97,7 @@ public class User extends UserModel{
             return false;
         }
 
-        userManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+        UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
 
 
         return true;
@@ -132,7 +131,7 @@ public class User extends UserModel{
             return;
         }
 
-        User userToEdit = userManager.readUserByID(userID);
+        User userToEdit = UserManager.readUserByID(userID);
 
         userToEdit.setFirstName(firstName);
         userToEdit.setLastName(lastName);
@@ -141,7 +140,7 @@ public class User extends UserModel{
         userToEdit.setPassword(password);
         userToEdit.setPhoneNumber(phoneNumber);
 
-        userManager.updateUser(userToEdit);
+        UserManager.updateUser(userToEdit);
 
         logger.info("User after Editing: " + userToEdit);
 
@@ -175,7 +174,7 @@ public class User extends UserModel{
             return false;
         }
 
-        return userManager.deleteUserByID(userID);
+        return UserManager.deleteUserByID(userID);
     }
 
     /**
@@ -201,7 +200,7 @@ public class User extends UserModel{
             return null;
         }
 
-        return userManager.readUserByID(userID);
+        return UserManager.readUserByID(userID);
     }
 
     /**
@@ -226,7 +225,7 @@ public class User extends UserModel{
             return null;
         }
 
-        return userManager.readUserByEMail(eMailAddress);
+        return UserManager.readUserByEMail(eMailAddress);
     }
 
     //#endregion CRUD-Operations
@@ -280,7 +279,7 @@ public class User extends UserModel{
             return;
         }
 
-        this.addAdminStatusToUser(userManager.readUserByID(userID));
+        this.addAdminStatusToUser(UserManager.readUserByID(userID));
     }
 
     /**
@@ -303,7 +302,7 @@ public class User extends UserModel{
             return;
         }
 
-        this.removeAdminStatusFromUser(userManager.readUserByID(userID));
+        this.removeAdminStatusFromUser(UserManager.readUserByID(userID));
     }
 
     /**
@@ -316,7 +315,7 @@ public class User extends UserModel{
      */
 
     public void getUsersPermissionsFromDatabase() {
-        User user = userManager.readUserByID(this.userID);
+        User user = UserManager.readUserByID(this.userID);
 
         for (Permission permission : PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user)) {
             this.permissions.add(permission.getPermissionID());

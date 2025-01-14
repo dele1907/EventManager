@@ -11,14 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UserManagerTestDrive {
 
-    private UserManager testUserManager;
     private User testUser;
     private User testUserUpdated;
 
     // Vor jedem Test eine Instanz von UserManager und zwei Test-User erstellen:
     @BeforeEach
     public void setUp() {
-        testUserManager = new UserManager();
         testUser = new User("testUserID", "Max", "Mustermann", "1980-01-10",
                 "max.mustermann@mail.com", "password123", 1234567890, false);
         testUserUpdated = new User("testUserID", "Maximilian", "Mustermann-Meyer", "1980-10-01",
@@ -28,43 +26,43 @@ public class UserManagerTestDrive {
     // Testen von Erstellen, Updaten und Löschen eines Users in der Datenbank:
     @Test
     public void testCreateUpdateDeleteUser() {
-        boolean userCreated = testUserManager.createNewUser(testUser);
+        boolean userCreated = UserManager.createNewUser(testUser);
         assertTrue(userCreated, "User creation failed but should not.");
 
-        boolean userUpdated = testUserManager.updateUser(testUserUpdated);
+        boolean userUpdated = UserManager.updateUser(testUserUpdated);
         assertTrue(userUpdated, "User update failed but should not.");
 
-        boolean userDeleted = testUserManager.deleteUserByID(testUser.getUserID());
+        boolean userDeleted = UserManager.deleteUserByID(testUser.getUserID());
         assertTrue(userDeleted, "User deletion failed but should not.");
     }
 
     // Testen, ob ein User nicht mehrmals erstellt werden kann:
     @Test
     public void testCreateUserFailed() {
-        testUserManager.createNewUser(testUser);
-        boolean userCreated = testUserManager.createNewUser(testUser);
+        UserManager.createNewUser(testUser);
+        boolean userCreated = UserManager.createNewUser(testUser);
         assertFalse(userCreated, "User creation was successful but should not.");
     }
 
     // Testen, ob ein Update nur möglich ist, wenn der entsprechende Datensatz vorliegt:
     @Test
     public void testUpdateUserFailed() {
-        boolean userUpdated = testUserManager.updateUser(testUserUpdated);
+        boolean userUpdated = UserManager.updateUser(testUserUpdated);
         assertFalse(userUpdated, "User update was successful but should not.");
     }
 
     // Testen, ob Löschen nur möglich ist, wenn der entsprechende Datensatz vorliegt:
     @Test
     public void testDeleteUserFailed() {
-        boolean userDeleted = testUserManager.deleteUserByID("invalidID");
+        boolean userDeleted = UserManager.deleteUserByID("invalidID");
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
     // Testen, ob ein User anhand der ID korrekt ausgelesen werden kann:
     @Test
     public void testReadUserByID() {
-        testUserManager.createNewUser(testUser);
-        User userFromDatabase = testUserManager.readUserByID("testUserID");
+        UserManager.createNewUser(testUser);
+        User userFromDatabase = UserManager.readUserByID("testUserID");
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
@@ -78,8 +76,8 @@ public class UserManagerTestDrive {
     // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
     @Test
     public void testReadUserByEMail() {
-        testUserManager.createNewUser(testUser);
-        User userFromDatabase = testUserManager.readUserByEMail("max.mustermann@mail.com");
+        UserManager.createNewUser(testUser);
+        User userFromDatabase = UserManager.readUserByEMail("max.mustermann@mail.com");
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
@@ -93,7 +91,7 @@ public class UserManagerTestDrive {
     // Nach jedem Test die Datenbank bereinigen:
     @AfterEach
     public void cleanUp() {
-        testUserManager.deleteUserByID("testUserID");
+        UserManager.deleteUserByID("testUserID");
     }
 
 }
