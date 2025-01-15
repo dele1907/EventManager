@@ -18,6 +18,8 @@ import static org.jooq.generated.tables.Has.HAS;
 
 
 public class PermissionUserAssignmentHelper {
+
+    //Todo Review: remove not used UserManager
     UserManager userManager = new UserManager();
 
     /**

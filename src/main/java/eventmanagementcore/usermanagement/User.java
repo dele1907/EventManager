@@ -349,6 +349,7 @@ public class User extends UserModel{
      * </p>
      */
 
+
     private boolean isValidPassword(String password) {
         char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
 

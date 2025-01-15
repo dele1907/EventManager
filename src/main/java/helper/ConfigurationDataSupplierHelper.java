@@ -11,6 +11,8 @@ public class ConfigurationDataSupplierHelper {
     private static final String REMOVE_USER_ADMIN_STATUS_PERMISSION_ID = "r71hr0wu8Wwgmh0qTQOh";
     //#endregion permissionIDs
 
+    //Todo Review: remove not used constants
+
     //#region column names permission database
     private static final String COLUMN_PERMISSION_ID = "permissionID";
     private static final String COLUMN_PERMISSION_NAME = "permissionName";
@@ -42,6 +44,8 @@ public class ConfigurationDataSupplierHelper {
         return REMOVE_USER_ADMIN_STATUS_PERMISSION_ID;
     }
     //#endregion getter permissionIDs
+
+    //Todo Review: remove not used getter
 
     //#region getter column names permission database
     public static String getColumnPermissionID() {
