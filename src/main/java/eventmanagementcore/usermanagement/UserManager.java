@@ -23,7 +23,7 @@ public class UserManager {
 
     // Benutzer hinzufügen (CREATE)
     public static boolean createNewUser(User user) {
-        //Review @Laura: Here could be wihtspace
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -63,7 +63,7 @@ public class UserManager {
 
     // Benutzer laden (READ) anhand der ID
     public static User readUserByID(String userID) {
-        //Review @Laura: Here could be wihtspace
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -95,7 +95,7 @@ public class UserManager {
 
     // Benutzer laden (READ) anhand der E-Mail-Adresse
     public static User readUserByEMail(String eMailAddress) {
-        //Review @Laura: Here could be wihtspace
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -106,7 +106,7 @@ public class UserManager {
                     .fetchOne();
 
             if (record != null) {
-                //Review @Laura: Here could be wihtspace
+
                 return new User(
                         record.get(USER.USERID),
                         record.get(USER.FIRSTNAME),
@@ -128,7 +128,7 @@ public class UserManager {
 
     // Benutzer ändern (UPDATE)
     public static boolean updateUser(User user) {
-        //Review @Laura: Here could be wihtspace
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -145,24 +145,24 @@ public class UserManager {
 
             if (rowsUpdated > 0) {
                 LoggerHelper.logInfoMessage(UserManager.class, USER_UPDATED);
-                //Review @Laura: Here could be wihtspace
+
                 return true;
             } else {
                 LoggerHelper.logInfoMessage(UserManager.class, USER_NOT_FOUND);
-                //Review @Laura: Here could be wihtspace
+
                 return false;
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_UPDATED + exception.getMessage());
-            //Review @Laura: Here could be wihtspace
+
             return false;
         }
     }
 
     // Benutzer löschen (DELETE)
     public static boolean deleteUserByID(String userID) {
-        //Review @Laura: Here could be wihtspace
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
