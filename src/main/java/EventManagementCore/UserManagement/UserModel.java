@@ -1,5 +1,6 @@
 package EventManagementCore.UserManagement;
 
+
 import EventManagementCore.PermissionRoleManagement.Permission;
 
 import java.util.ArrayList;
@@ -20,8 +21,6 @@ public abstract class UserModel {
 
     //#region CRUD-Operations
 
-
-
     public abstract boolean createNewUser(
             String firstName,
             String lastName,
@@ -32,7 +31,8 @@ public abstract class UserModel {
             boolean isAdmin
     );
 
-    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
+    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
+                         String password, int phoneNumber) {
     }
 
     public abstract boolean deleteUser(String userID);

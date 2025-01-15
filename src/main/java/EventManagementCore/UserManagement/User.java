@@ -29,6 +29,7 @@ public class User extends UserModel{
     //Administrator
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+
         this.userID = IDGenerationHelper.generateRandomIDString();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -88,7 +89,8 @@ public class User extends UserModel{
 
 
     @Override
-    public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+    public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
+                                 String password, int phoneNumber, boolean isAdmin) {
         getUsersPermissionsFromDatabase();
 
         if (!this.getPermissions().contains(permissionManager.getCreateUserPermission().getPermissionID())){
@@ -121,7 +123,8 @@ public class User extends UserModel{
 
 
     @Override
-    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress, String password, int phoneNumber) {
+    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
+                         String password, int phoneNumber) {
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())
@@ -143,8 +146,6 @@ public class User extends UserModel{
         UserManager.updateUser(userToEdit);
 
         logger.info("User after Editing: " + userToEdit);
-
-
     }
 
     /**
