@@ -3,6 +3,7 @@ package eventmanagementcore.usermanagement;
 import eventmanagementcore.permissionrolemanagement.Permission;
 import eventmanagementcore.permissionrolemanagement.PermissionManager;
 import helper.IDGenerationHelper;
+import helper.LoggerHelper;
 import helper.PermissionUserAssignmentHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -142,8 +143,8 @@ public class User extends UserModel{
         userToEdit.setPhoneNumber(phoneNumber);
 
         UserManager.updateUser(userToEdit);
-        ////TODO review @Finn: use LoggerHelper
-        logger.info("User after Editing: " + userToEdit);
+
+        LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
     }
 
     /**
@@ -168,9 +169,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getDeleteUserPermission().getPermissionID())){
-            //TODO review @Finn: use LoggerHelper
-            logger.error(NO_PERMISSION_DELETE_USER);
 
+            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_DELETE_USER);
             return false;
         }
 
@@ -195,9 +195,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
-            //TODO review @Finn: use LoggerHelper
-            logger.error(NO_PERMISSION_GET_USER_INFORMATION);
 
+            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
             return null;
         }
 
@@ -221,9 +220,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
-            //TODO review @Finn: use LoggerHelper
-            logger.error(NO_PERMISSION_GET_USER_INFORMATION);
 
+            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
             return null;
         }
 
@@ -276,8 +274,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGiveAdminStatusPermission().getPermissionID())) {
-            //TODO review @Finn: use LoggerHelper
-            logger.error(NO_PERMISSION_GIVE_ADMIN_STATUS);
+            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GIVE_ADMIN_STATUS);
 
             return;
         }
@@ -300,9 +297,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getRemoveAdminStatusPermission().getPermissionID())) {
-            //TODO review @Finn: use LoggerHelper
-            logger.error(NO_PERMISSION_REMOVE_ADMIN_STATUS);
-
+            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_REMOVE_ADMIN_STATUS);
             return;
         }
 
@@ -397,9 +392,8 @@ public class User extends UserModel{
     private boolean comparingEmailAddress(String emailAddress) {
 
         if (getUserByEmail(emailAddress) == null) {
-            //TODO review @Finn: use LoggerHelper
-            System.out.println("Email address not found");
 
+            LoggerHelper.logInfoMessage(User.class, "Email address not found");
             return false;
         }
 
@@ -417,13 +411,13 @@ public class User extends UserModel{
      */
 
     public boolean authenticationUserLogin(String email, String password) {
-        //TODO review @Finn: change early return logic
-        if (comparingEmailAddress(email)) {
 
-            return comparingPassword(password, getUserByEmail(email).getPassword());
+        if (!comparingEmailAddress(email)) {
+
+            return false;
         }
 
-        return false;
+        return comparingPassword(password, getUserByEmail(email).getPassword());
     }
     //#endregion Registration & Authentication
 
