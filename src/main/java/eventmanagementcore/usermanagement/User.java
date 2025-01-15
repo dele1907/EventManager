@@ -69,7 +69,7 @@ public class User extends UserModel{
     //#endregion constructor
 
     //#region CRUD-Operations
-
+    //TODO review @Finn: make comments as short as needed
     /**
      * <h3>Create new User</h3>
      * <p>
@@ -87,7 +87,7 @@ public class User extends UserModel{
      * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
-
+    //TODO review @Finn: rework when we have a parameter standard
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
                                  String password, int phoneNumber, boolean isAdmin) {
@@ -100,7 +100,6 @@ public class User extends UserModel{
         }
 
         UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
-
 
         return true;
     }
@@ -121,14 +120,13 @@ public class User extends UserModel{
      * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
-
+    //TODO review @Finn: rework when we have a parameter standard
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
                          String password, int phoneNumber) {
         getUsersPermissionsFromDatabase();
 
-        if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())
-        ){
+        if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())){
             logger.error(NO_PERMISSION_EDIT_USER);
 
             return;
@@ -144,7 +142,7 @@ public class User extends UserModel{
         userToEdit.setPhoneNumber(phoneNumber);
 
         UserManager.updateUser(userToEdit);
-
+        ////TODO review @Finn: use LoggerHelper
         logger.info("User after Editing: " + userToEdit);
     }
 
@@ -170,6 +168,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getDeleteUserPermission().getPermissionID())){
+            //TODO review @Finn: use LoggerHelper
             logger.error(NO_PERMISSION_DELETE_USER);
 
             return false;
@@ -196,6 +195,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+            //TODO review @Finn: use LoggerHelper
             logger.error(NO_PERMISSION_GET_USER_INFORMATION);
 
             return null;
@@ -221,6 +221,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+            //TODO review @Finn: use LoggerHelper
             logger.error(NO_PERMISSION_GET_USER_INFORMATION);
 
             return null;
@@ -275,6 +276,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGiveAdminStatusPermission().getPermissionID())) {
+            //TODO review @Finn: use LoggerHelper
             logger.error(NO_PERMISSION_GIVE_ADMIN_STATUS);
 
             return;
@@ -298,6 +300,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getRemoveAdminStatusPermission().getPermissionID())) {
+            //TODO review @Finn: use LoggerHelper
             logger.error(NO_PERMISSION_REMOVE_ADMIN_STATUS);
 
             return;
@@ -394,7 +397,7 @@ public class User extends UserModel{
     private boolean comparingEmailAddress(String emailAddress) {
 
         if (getUserByEmail(emailAddress) == null) {
-
+            //TODO review @Finn: use LoggerHelper
             System.out.println("Email address not found");
 
             return false;
@@ -414,7 +417,7 @@ public class User extends UserModel{
      */
 
     public boolean authenticationUserLogin(String email, String password) {
-
+        //TODO review @Finn: change early return logic
         if (comparingEmailAddress(email)) {
 
             return comparingPassword(password, getUserByEmail(email).getPassword());

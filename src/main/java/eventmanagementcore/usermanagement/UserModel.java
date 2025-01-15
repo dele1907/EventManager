@@ -153,6 +153,7 @@ public abstract class UserModel {
         this.firstName = firstName;
     }
 
+    //TODO review @Finn: remove setUserID
     public void setUserID(String userID) {
         this.userID = userID;
     }
