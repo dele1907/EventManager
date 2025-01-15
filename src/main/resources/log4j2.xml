@@ -17,6 +17,8 @@
     </Appenders>
 
     <Loggers>
+        <!-- disable JOOQ logging -->
+        <Logger name="org.jooq" level="off" additivity="false" />
         <!-- root logger -->
         <Root level="debug">
             <AppenderRef ref="Console"/>
