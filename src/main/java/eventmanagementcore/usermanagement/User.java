@@ -95,7 +95,7 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.getPermissions().contains(permissionManager.getCreateUserPermission().getPermissionID())){
-            logger.error(NO_PERMISSION_CREATE_USER);
+            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_CREATE_USER);
 
             return false;
         }
@@ -169,8 +169,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getDeleteUserPermission().getPermissionID())){
-
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_DELETE_USER);
+
             return false;
         }
 
@@ -195,8 +195,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
-
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
+
             return null;
         }
 
@@ -220,8 +220,8 @@ public class User extends UserModel{
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
-
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
+
             return null;
         }
 
@@ -298,6 +298,7 @@ public class User extends UserModel{
 
         if (!this.permissions.contains(permissionManager.getRemoveAdminStatusPermission().getPermissionID())) {
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_REMOVE_ADMIN_STATUS);
+
             return;
         }
 
