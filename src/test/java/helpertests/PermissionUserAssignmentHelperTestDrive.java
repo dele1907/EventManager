@@ -12,7 +12,7 @@ public class PermissionUserAssignmentHelperTestDrive {
     PermissionUserAssignmentHelper permissionUserAssignmentHelper = new PermissionUserAssignmentHelper();
 
     User nonAdminUser = new User("","","","","",0000000);
-    User adminUser = new UserManager().readUserByID("duuuY5XI4XyPQnzIChVL");
+    User adminUser = UserManager.readUserByID("duuuY5XI4XyPQnzIChVL");
 
     Permission adminPermission = new Permission("adminPermission", true);
     Permission nonAdminPermission = new Permission("canEditOwnUser", false);
