@@ -14,7 +14,9 @@ public class DatabaseConnector {
     private static final String CONNECTION_NOT_ESTABLISHED = "Error establishing connection: ";
 
     public static Connection connect() {
+        //Review @Laura: Here could be wihtspace
         Connection connection = null;
+        //Review @Laura: Here could be wihtspace
         try {
             connection = DriverManager.getConnection(databaseUrl);
             LoggerHelper.logInfoMessage(DatabaseConnector.class, CONNECTION_ESTABLISHED);
