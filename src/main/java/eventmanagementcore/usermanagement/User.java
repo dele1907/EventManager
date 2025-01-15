@@ -147,14 +147,6 @@ public class User extends UserModel{
         return UserManager.deleteUserByID(userID);
     }
 
-    /**
-     * <h3>Get User By ID</h3>
-     * {@code getUserByID()} accepts the userID of the user you want to retrieve.
-     * @see UserManager UserManager
-     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
-     */
-
-
     @Override
     public User getUserByID(String userID) {
         getUsersPermissionsFromDatabase();
@@ -167,13 +159,6 @@ public class User extends UserModel{
 
         return UserManager.readUserByID(userID);
     }
-
-    /**
-     * <h3>Get User By eMail</h3>
-     * {@code getUserByEmail} accepts the eMail-Address of the user you want to retrieve.
-     * @see UserManager UserManager
-     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
-     */
 
     @Override
     public User getUserByEmail(String eMailAddress) {
@@ -240,6 +225,14 @@ public class User extends UserModel{
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
+
+    /**
+     * <h3>Validate Password</h3>
+     * <p>
+     * {@code isValidPassword()} checks whether a given password contains any restricted characters from a predefined list.
+     * If the password contains any of the restricted characters, the method returns {@code false}. If no restricted characters are found, it returns {@code true}.
+     * </p>
+     */
 
     private boolean isValidPassword(String password) {
         char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
