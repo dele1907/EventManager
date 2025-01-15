@@ -18,10 +18,6 @@ import static org.jooq.generated.tables.Has.HAS;
 
 
 public class PermissionUserAssignmentHelper {
-
-    //Todo Review: remove not used UserManager
-    UserManager userManager = new UserManager();
-
     /**
      * method which checks if the user is an admin and the permission is an admin related permission
      * so a non admin user can not gain an admin-only permission
@@ -32,7 +28,7 @@ public class PermissionUserAssignmentHelper {
     }
 
     /**
-     * method to add an admin-checked permission to an user
+     * method to add an admin-checked permission to a user
      * */
     public boolean addPermissionToUsersPermissions(User user, Permission permission) {
         if (checkAdminUserAdminPermission(user, permission) || !permission.isAdminPermission()) {
@@ -103,7 +99,5 @@ public class PermissionUserAssignmentHelper {
             throw new RuntimeException("Datenbankfehler beim Abrufen der Berechtigungen.", e);
         }
     }
-
-
     //#endregoin database
 }

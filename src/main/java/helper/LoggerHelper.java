@@ -11,7 +11,6 @@ public class LoggerHelper {
     * (in class User)
     * 'LoggerHelper.getErrorMessage(User.class, "User has not the permission to execute this action")';
     * */
-
     //#region new logger
     private static Logger getLogger(Class<?> objectClass) {
         Logger logger = LogManager.getLogger(objectClass);

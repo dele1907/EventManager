@@ -19,22 +19,22 @@ public class PermissionManager {
 
     //#region permission variables
     private final Permission DELETE_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.getDeleteUserPermissionID()
+            ConfigurationDataSupplierHelper.DELETE_USER_PERMISSION_ID
     );
     private final Permission CREATE_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.getCreateUserPermissionID()
+            ConfigurationDataSupplierHelper.CREATE_USER_PERMISSION_ID
     );
     private final Permission EDIT_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.getEditUserPermissionID()
+            ConfigurationDataSupplierHelper.EDIT_USER_PERMISSION_ID
     );
     private final Permission GET_USER_INFORMATION_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.getGetUserInformationPermissionID()
+            ConfigurationDataSupplierHelper.GET_USER_INFORMATION_PERMISSION_ID
     );
     private final Permission GIVE_ADMIN_STATUS_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.getGiveUserAdminStatusPermissionID()
+            ConfigurationDataSupplierHelper.GIVE_USER_ADMIN_STATUS_PERMISSION_ID
     );
     private final Permission REMOVE_ADMIN_STATUS_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.getRemoveUserAdminStatusPermissionID()
+            ConfigurationDataSupplierHelper.REMOVE_USER_ADMIN_STATUS_PERMISSION_ID
     );
     //#endregion permission variables
 
@@ -70,7 +70,7 @@ public class PermissionManager {
     //#endregion admin only permissions
 
     //#region general user permissions
-    //TODO permissions for every user
+    //TODO @Dennis permissions for every user
     //#endregion general user permissions
 
     //#region event owner (& admin) only permissions
