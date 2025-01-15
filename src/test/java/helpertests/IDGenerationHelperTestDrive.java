@@ -1,6 +1,6 @@
-package HelperTests;
+package helpertests;
 
-import Helper.IDGenerationHelper;
+import helper.IDGenerationHelper;
 import org.junit.jupiter.api.Test;
 
 public class IDGenerationHelperTestDrive {

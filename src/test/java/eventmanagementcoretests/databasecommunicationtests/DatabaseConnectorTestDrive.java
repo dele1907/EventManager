@@ -1,6 +1,6 @@
-package EventManagementCoreTests.DatabaseCommunicationTests;
+package eventmanagementcoretests.databasecommunicationtests;
 
-import EventManagementCore.DatabaseCommunication.DatabaseConnector;
+import eventmanagementcore.databasecommunication.DatabaseConnector;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

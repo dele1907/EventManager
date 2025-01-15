@@ -1,8 +1,8 @@
-package EventManagementCoreTests.UserManagementTests;
+package eventmanagementcoretests.usermanagementtests;
 
 
-import EventManagementCore.UserManagement.UserManager;
-import EventManagementCore.UserManagement.User;
+import eventmanagementcore.usermanagement.UserManager;
+import eventmanagementcore.usermanagement.User;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

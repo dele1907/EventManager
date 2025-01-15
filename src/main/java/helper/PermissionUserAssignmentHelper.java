@@ -1,9 +1,9 @@
-package Helper;
+package helper;
 
-import EventManagementCore.DatabaseCommunication.DatabaseConnector;
-import EventManagementCore.UserManagement.UserManager;
-import EventManagementCore.PermissionRoleManagement.Permission;
-import EventManagementCore.UserManagement.User;
+import eventmanagementcore.databasecommunication.DatabaseConnector;
+import eventmanagementcore.usermanagement.UserManager;
+import eventmanagementcore.permissionrolemanagement.Permission;
+import eventmanagementcore.usermanagement.User;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 

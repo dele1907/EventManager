@@ -1,9 +1,9 @@
-package EventManagementCore.UserManagement;
+package eventmanagementcore.usermanagement;
 
 import java.sql.Connection;
 
-import EventManagementCore.DatabaseCommunication.DatabaseConnector;
-import Helper.LoggerHelper;
+import eventmanagementcore.databasecommunication.DatabaseConnector;
+import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.DSL;

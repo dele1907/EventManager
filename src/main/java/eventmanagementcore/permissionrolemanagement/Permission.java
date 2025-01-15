@@ -1,6 +1,6 @@
-package EventManagementCore.PermissionRoleManagement;
+package eventmanagementcore.permissionrolemanagement;
 
-import Helper.IDGenerationHelper;
+import helper.IDGenerationHelper;
 
 public class Permission {
 

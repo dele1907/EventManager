@@ -1,8 +1,4 @@
-package Helper;
-
-import EventManagementCore.UserManagement.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+package helper;
 
 public class ConfigurationDataSupplierHelper {
 

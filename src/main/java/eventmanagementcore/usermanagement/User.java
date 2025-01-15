@@ -1,9 +1,9 @@
-package EventManagementCore.UserManagement;
+package eventmanagementcore.usermanagement;
 
-import EventManagementCore.PermissionRoleManagement.Permission;
-import EventManagementCore.PermissionRoleManagement.PermissionManager;
-import Helper.IDGenerationHelper;
-import Helper.PermissionUserAssignmentHelper;
+import eventmanagementcore.permissionrolemanagement.Permission;
+import eventmanagementcore.permissionrolemanagement.PermissionManager;
+import helper.IDGenerationHelper;
+import helper.PermissionUserAssignmentHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,7 +84,7 @@ public class User extends UserModel{
      * At this point, the new user is initialized and loaded into the database.
      *
      * @see UserManager UserManager
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
 
@@ -118,7 +118,7 @@ public class User extends UserModel{
      * </pre></blockquote>
      * At this point, the user is modified and updated in the database.
      * @see UserManager UserManager
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
 
@@ -161,7 +161,7 @@ public class User extends UserModel{
      * </pre></blockquote>
      * At this point, the user is deleted from the database.
      * @see UserManager UserManager
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
 
@@ -187,7 +187,7 @@ public class User extends UserModel{
      * If the permission check passes, the method executes the following:
      * </p>
      * @see UserManager UserManager
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
 
@@ -213,7 +213,7 @@ public class User extends UserModel{
      * If the permission check passes, the method executes the following:
      * </p>
      * @see UserManager UserManager
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
     @Override
@@ -239,7 +239,7 @@ public class User extends UserModel{
      * {@code addPermissionToOwnUser()} accepts a {@link Permission} object and adds the associated permission ID
      * to the list of permissions of the current user.
      * </p>
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
     @Override
@@ -253,7 +253,7 @@ public class User extends UserModel{
      * {@code addPermissionToAnotherUser()} accepts a {@link User} object and a {@link Permission} object,
      * and adds the associated permission ID to the list of permissions of the user.
      * </p>
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
     public void addPermissionToAnotherUser(User user, Permission permission) {
@@ -268,7 +268,7 @@ public class User extends UserModel{
      * If the permission check passes, the admin status is added to the target user.
      * If the permission check fails, an error message is logged, and the method returns without making any changes.
      * </p>
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
     public void addAdminStatusToUserByUserID(String userID) {
@@ -291,7 +291,7 @@ public class User extends UserModel{
      * If the permission check passes, the admin status is removed from the target user.
      * If the permission check fails, an error message is logged, and the method returns without making any changes.
      * </p>
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
     public void removeAdminStatusFromUserByUserID(String userID) {
@@ -312,7 +312,7 @@ public class User extends UserModel{
      * {@code getUsersPermissionsFromDatabase()} retrieves the user's permissions from the database and adds each
      * permission's ID to the current user's permissions list.
      * </p>
-     * @see EventManagementCore.PermissionRoleManagement PermissionRoleManagement
+     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
      */
 
     public void getUsersPermissionsFromDatabase() {

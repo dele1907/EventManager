@@ -1,6 +1,6 @@
-package EventManagementCoreTests.PermissionRoleManagementTests;
+package eventmanagementcoretests.permissionrolemanagementtests;
 
-import EventManagementCore.PermissionRoleManagement.Permission;
+import eventmanagementcore.permissionrolemanagement.Permission;
 import org.junit.jupiter.api.Test;
 
 public class PermissionTestDrive {

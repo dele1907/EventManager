@@ -1,7 +1,7 @@
-package EventManagementCore.UserManagement;
+package eventmanagementcore.usermanagement;
 
 
-import EventManagementCore.PermissionRoleManagement.Permission;
+import eventmanagementcore.permissionrolemanagement.Permission;
 
 import java.util.ArrayList;
 
