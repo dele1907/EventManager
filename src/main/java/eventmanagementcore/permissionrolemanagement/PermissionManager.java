@@ -70,6 +70,7 @@ public class PermissionManager {
     //#endregion admin only permissions
 
     //#region general user permissions
+    //TODO permissions for every user
     //#endregion general user permissions
 
     //#region event owner (& admin) only permissions
