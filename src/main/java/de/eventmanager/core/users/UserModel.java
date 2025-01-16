@@ -1,8 +1,7 @@
 package de.eventmanager.core.users;
 
 
-import eventmanagementcore.permissionrolemanagement.Permission;
-
+import de.eventmanager.core.permissions.Permission;
 import java.util.ArrayList;
 
 public abstract class UserModel {

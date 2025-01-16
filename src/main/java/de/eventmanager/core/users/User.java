@@ -1,7 +1,7 @@
 package de.eventmanager.core.users;
 
 import de.eventmanager.core.users.Management.UserManager;
-import eventmanagementcore.permissionrolemanagement.Permission;
+import de.eventmanager.core.permissions.Permission;
 import de.eventmanager.core.permissions.Management.PermissionManager;
 import helper.IDGenerationHelper;
 import helper.LoggerHelper;
@@ -79,7 +79,7 @@ public class User extends UserModel{
      * {@code createNewUser()} accepts user parameters as arguments to initialize a new User object
      * and load it into the database with {@code UserManager.createNewUser()}.
      * @see UserManager UserManager
-     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
+     * @see de.eventmanager.core.permissions PermissionRoleManagement
      */
 
     @Override
@@ -102,7 +102,7 @@ public class User extends UserModel{
      * <h3>Edit User</h3>
      * {@code editUser()} accepts the userID of the user you want to edit and the parameters you want to modify.
      * @see UserManager UserManager
-     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
+     * @see de.eventmanager.core.permissions PermissionRoleManagement
      */
 
     @Override
@@ -134,7 +134,7 @@ public class User extends UserModel{
      * <h3>Delete User</h3>
      * {@code deleteUser()} accepts the userID of the user you want to delete.
      * @see UserManager UserManager
-     * @see eventmanagementcore.permissionrolemanagement PermissionRoleManagement
+     * @see de.eventmanager.core.permissions PermissionRoleManagement
      */
 
 
