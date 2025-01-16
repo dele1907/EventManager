@@ -1,4 +1,4 @@
-package eventmanagementcore.usermanagement;
+package de.eventmanager.core.users;
 
 
 import eventmanagementcore.permissionrolemanagement.Permission;

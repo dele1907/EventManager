@@ -1,7 +1,8 @@
-package eventmanagementcore.usermanagement;
+package de.eventmanager.core.users;
 
+import de.eventmanager.core.users.Management.UserManager;
 import eventmanagementcore.permissionrolemanagement.Permission;
-import eventmanagementcore.permissionrolemanagement.PermissionManager;
+import de.eventmanager.core.permissions.Management.PermissionManager;
 import helper.IDGenerationHelper;
 import helper.LoggerHelper;
 import helper.PermissionUserAssignmentHelper;

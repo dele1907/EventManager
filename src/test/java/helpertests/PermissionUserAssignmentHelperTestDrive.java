@@ -1,8 +1,8 @@
 package helpertests;
 
-import eventmanagementcore.usermanagement.UserManager;
+import de.eventmanager.core.users.Management.UserManager;
 import eventmanagementcore.permissionrolemanagement.Permission;
-import eventmanagementcore.usermanagement.User;
+import de.eventmanager.core.users.User;
 import helper.PermissionUserAssignmentHelper;
 import org.junit.jupiter.api.Test;
 

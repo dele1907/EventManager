@@ -1,4 +1,4 @@
-package eventmanagementcore.databasecommunication;
+package de.eventmanager.core.database.communication;
 
 import helper.LoggerHelper;
 
