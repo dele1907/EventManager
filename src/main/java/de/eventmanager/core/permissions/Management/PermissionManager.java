@@ -1,6 +1,6 @@
 package de.eventmanager.core.permissions.Management;
 
-import de.eventmanager.core.database.communication.DatabaseConnector;
+import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 import helper.LoggerHelper;

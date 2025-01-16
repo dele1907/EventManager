@@ -2,7 +2,7 @@ package de.eventmanager.core.users.Management;
 
 import java.sql.Connection;
 
-import de.eventmanager.core.database.communication.DatabaseConnector;
+import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;

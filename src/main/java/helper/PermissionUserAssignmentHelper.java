@@ -1,6 +1,6 @@
 package helper;
 
-import de.eventmanager.core.database.communication.DatabaseConnector;
+import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.permissions.Permission;
 import de.eventmanager.core.users.User;
 import org.jooq.DSLContext;
