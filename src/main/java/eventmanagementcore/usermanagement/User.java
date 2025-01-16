@@ -8,6 +8,9 @@ import helper.PermissionUserAssignmentHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+import java.util.Optional;
+
 public class User extends UserModel{
 
     private PermissionManager permissionManager = new PermissionManager();
@@ -212,8 +215,16 @@ public class User extends UserModel{
 
     public void getUsersPermissionsFromDatabase() {
         User user = UserManager.readUserByID(this.userID);
+        Optional<List<Permission>> optionalPermissionList = PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user);
 
-        for (Permission permission : PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user)) {
+        if (!optionalPermissionList.isPresent()) {
+            LoggerHelper.logErrorMessage(User.class, "No permissions found for user " + user.getFirstName());
+
+            return;
+        }
+        List<Permission> permissions = optionalPermissionList.get();
+
+        for (Permission permission : permissions) {
             this.permissions.add(permission.getPermissionID());
         }
     }

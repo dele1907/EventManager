@@ -11,25 +11,29 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static org.jooq.generated.tables.Permission.PERMISSION;
 import static org.jooq.generated.tables.Has.HAS;
 
 
 
-
+/**
+ * Helper class for managing the assignment of permissions to users.
+ */
 public class PermissionUserAssignmentHelper {
-    /**
-     * method which checks if the user is an admin and the permission is an admin related permission
-     * so a non admin user can not gain an admin-only permission
-     * */
-    private static boolean checkAdminUserAdminPermission(User user, Permission permission) {
 
+    private static boolean checkAdminUserAdminPermission(User user, Permission permission) {
         return user.isAdmin() && permission.isAdminPermission();
     }
 
     /**
-     * method to add an admin-checked permission to a user
-     * */
+     * Adds a permission to a user's permissions after checking if the user is allowed to have it.
+     *
+     * @param user the user to whom the permission will be added
+     * @param permission the permission to be added
+     * @return true if the permission was added successfully, false otherwise
+     */
     public boolean addPermissionToUsersPermissions(User user, Permission permission) {
         if (checkAdminUserAdminPermission(user, permission) || !permission.isAdminPermission()) {
             user.addPermissionToOwnUser(permission);
@@ -37,6 +41,7 @@ public class PermissionUserAssignmentHelper {
              * commented out so not every test related to this method will add an entry to the database
              * */
             //addPermissionForUserToDatabase(permission, user);
+
             return true;
         }
 
@@ -44,6 +49,13 @@ public class PermissionUserAssignmentHelper {
     }
 
     //#regoin database
+    /**
+     * Adds a permission for a user to the database.
+     *
+     * @param permission the permission to be added
+     * @param user the user to whom the permission will be added
+     * @return true if the permission was added successfully, false otherwise
+     */
     private boolean addPermissionForUserToDatabase(Permission permission, User user) {
         try (Connection connection = DatabaseConnector.connect()) {
             DSLContext create = DSL.using(connection);
@@ -74,13 +86,20 @@ public class PermissionUserAssignmentHelper {
 
             return false;
         } catch (Exception e) {
-            LoggerHelper.logErrorMessage(PermissionUserAssignmentHelper.class, e.getMessage());
+            LoggerHelper.logErrorMessage(PermissionUserAssignmentHelper.class,
+                    "Database error: " + e.getMessage());
 
             return false;
         }
     }
 
-    public static ArrayList<Permission> getPermissionsForUserFromDatabase(User user) {
+    /**
+     * Retrieves the permissions for a user from the database.
+     *
+     * @param user the user whose permissions will be retrieved
+     * @return a list of permissions for the user
+     */
+    public static Optional<List<Permission>> getPermissionsForUserFromDatabase(User user) {
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -92,11 +111,12 @@ public class PermissionUserAssignmentHelper {
                     .where(HAS.USERID.eq(user.getUserID()))
                     .fetchInto(Permission.class);
 
-            return new ArrayList<>(permissions);
-
+            return Optional.of(new ArrayList<>(permissions));
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Datenbankfehler beim Abrufen der Berechtigungen.", e);
+            LoggerHelper.logErrorMessage(PermissionUserAssignmentHelper.class,
+                    "Database error while retrieving permissions: " + e.getMessage());
+
+            return Optional.empty();
         }
     }
     //#endregoin database

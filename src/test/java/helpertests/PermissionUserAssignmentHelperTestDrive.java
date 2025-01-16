@@ -5,6 +5,10 @@ import eventmanagementcore.permissionrolemanagement.Permission;
 import eventmanagementcore.usermanagement.User;
 import helper.PermissionUserAssignmentHelper;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PermissionUserAssignmentHelperTestDrive {
@@ -35,13 +39,17 @@ public class PermissionUserAssignmentHelperTestDrive {
 
     @Test
     void testGetAddPermissionsToUserFromDatabase() {
-        System.out.println("adminUser has: " +
-                PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(adminUser).size() +
-                " permissions"
-        );
-        System.out.println("adminUser user should have all 6 admin permissions.");
+        Optional<List<Permission>> optionalPermissions = PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(adminUser);
 
-        assertTrue(PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(adminUser).size() == 6);
+        if (!optionalPermissions.isPresent()) {
+            fail("No permissions found for adminUser");
+        }
+
+        List<Permission> permissions = optionalPermissions.get();
+        System.out.println("adminUser has: " + permissions.size() + " permissions");
+        System.out.println("adminUser should have all 6 admin permissions.");
+
+        assertTrue(permissions.size() == 6);
     }
 
 }
