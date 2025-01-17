@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public abstract class EventModel {
 
-    private String eventID;
-    private String eventName;
-    private String eventDateTime;
-    private int numberOfBookedUsersOnEvent;
-    private ArrayList<User> bookedUsersOnEvent;
-    private String category;
-    private boolean privateEvent;
+    String eventID;
+    String eventName;
+    String eventDateTime;
+    int numberOfBookedUsersOnEvent = 0;
+    ArrayList<User> bookedUsersOnEvent = null;
+    String category;
+    boolean privateEvent;
 
     // #region CRUD-Operationen
     public abstract boolean createNewEvent(
