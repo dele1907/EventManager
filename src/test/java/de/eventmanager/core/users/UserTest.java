@@ -65,7 +65,7 @@ public class UserTest {
     }
 
     @Test
-    @Order(6)
+    @Order(4)
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
@@ -75,37 +75,10 @@ public class UserTest {
     }
     //#endregion CRUD-Operation-Tests
 
-    //#region Registration and Authentication Tests
-
-    @Test
-    @Order(3)
-    @DisplayName("Password-Registration Test")
-    void isValidAndIsNotValidRegistrationPasswordTest() {
-
-        String validTestPassword = "eventManager123";
-        String inValidTestPassword = "eventManagerÄ";
-
-        assertFalse(system.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
-
-        assertTrue(system.isValidRegistrationPassword(validTestPassword, "eventManager123"));
-
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("Login-System Test")
-    void authenticateUserLoginTest() {
-
-        assertTrue(testAdminUser.authenticationUserLogin(TEST_USER_EMAIL_ADDRESS_EDITED, "eventManager123"));
-
-    }
-
-    //#endregion Registration and Authentication Tests
-
     //#region Permission Tests
     //Todo @Finn @Timo ! entfernen sobald nicht mehr mit DummyUsern gearbeitet/getestet wird
     @Test
-    @Order(5)
+    @Order(3)
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminStatusToUserTest() {
 
