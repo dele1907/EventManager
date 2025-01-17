@@ -256,6 +256,8 @@ public class UserManager {
         }
 
         return comparingPassword(password, readUserByEMail(email).get().getPassword());
+
+
     }
     //#endregion Registration & Authentication
 

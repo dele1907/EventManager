@@ -126,7 +126,7 @@ public class UserManagerTestDrive {
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
 
-        assertFalse(UserManager.authenticationUserLogin("eventManager123", "eventManager123"));
+        assertTrue(UserManager.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
 
     }
 

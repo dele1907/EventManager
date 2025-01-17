@@ -27,7 +27,7 @@ public class UserController {
         String dateOfBirth = view.getUserInput();
         view.displayMessage("Enter email: ");
         String email = view.getUserInput();
-        phoneNumber = phoneNumberInput();
+        phoneNumber = isValidPhoneNumber();
         view.displayMessage("Enter password: ");
         String password = view.getUserInput();
         view.displayMessage("Enter confirm password: ");
@@ -68,7 +68,7 @@ public class UserController {
         }
     }
 
-    private int phoneNumberInput() {
+    private int isValidPhoneNumber() {
         boolean validPhoneNumber = true;
         int phoneNumber = 0;
 
