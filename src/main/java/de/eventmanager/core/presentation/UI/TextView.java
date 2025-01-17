@@ -9,7 +9,7 @@ public class TextView implements View{
 
     @Override
     public void displayMessage(String message) {
-        System.out.println(message);
+        System.out.print(message);
     }
 
     @Override
