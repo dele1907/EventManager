@@ -116,18 +116,21 @@ public class User extends UserModel{
             return;
         }
 
-        User userToEdit = UserManager.readUserByID(userID);
+        Optional<User> user = UserManager.readUserByID(userID);
 
-        userToEdit.setFirstName(firstName);
-        userToEdit.setLastName(lastName);
-        userToEdit.setDateOfBirth(dateOfBirth);
-        userToEdit.seteMailAddress(eMailAddress);
-        userToEdit.setPassword(password);
-        userToEdit.setPhoneNumber(phoneNumber);
+        if (user.isPresent()){
+            User userToEdit = user.get();
+            userToEdit.setFirstName(firstName);
+            userToEdit.setLastName(lastName);
+            userToEdit.setDateOfBirth(dateOfBirth);
+            userToEdit.seteMailAddress(eMailAddress);
+            userToEdit.setPassword(password);
+            userToEdit.setPhoneNumber(phoneNumber);
 
-        UserManager.updateUser(userToEdit);
+            UserManager.updateUser(userToEdit);
 
-        LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
+            LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
+        }
     }
 
     /**
@@ -152,26 +155,26 @@ public class User extends UserModel{
     }
 
     @Override
-    public User getUserByID(String userID) {
+    public Optional<User> getUserByID(String userID) {
         getUsersPermissionsFromDatabase();
 
         if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
 
-            return null;
+            return Optional.empty();
         }
 
         return UserManager.readUserByID(userID);
     }
 
     @Override
-    public User getUserByEmail(String eMailAddress) {
+    public Optional<User> getUserByEmail(String eMailAddress) {
         getUsersPermissionsFromDatabase();
 
         if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
 
-            return null;
+            return Optional.empty();
         }
 
         return UserManager.readUserByEMail(eMailAddress);
@@ -199,7 +202,7 @@ public class User extends UserModel{
             return;
         }
 
-        this.addAdminStatusToUser(UserManager.readUserByID(userID));
+        this.addAdminStatusToUser(UserManager.readUserByID(userID).get());
     }
 
     public void removeAdminStatusFromUserByUserID(String userID) {
@@ -211,11 +214,11 @@ public class User extends UserModel{
             return;
         }
 
-        this.removeAdminStatusFromUser(UserManager.readUserByID(userID));
+        this.removeAdminStatusFromUser(UserManager.readUserByID(userID).get());
     }
 
     public void getUsersPermissionsFromDatabase() {
-        User user = UserManager.readUserByID(this.userID);
+        User user = UserManager.readUserByID(this.userID).get();
         Optional<List<Permission>> optionalPermissionList = PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user);
 
         if (!optionalPermissionList.isPresent()) {

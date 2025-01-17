@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTest {
 
-    User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0"); //SoONY7IhPtVzCx1e0z18
+    User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0").get(); //SoONY7IhPtVzCx1e0z18
 
-    User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs");
+    User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
     User system = new User("System", "", "", "", "goodPassword", 0, true);
 
@@ -49,7 +49,7 @@ public class UserTest {
     @DisplayName("EditUser Test")
     void editUserTest() {
 
-        String userIDFromUserToEdit = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).getUserID();
+        String userIDFromUserToEdit = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).get().getUserID();
         String firstName = "Markus";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
@@ -60,7 +60,7 @@ public class UserTest {
 
         testAdminUser.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber);
 
-        assertEquals(email, testAdminUser.getUserByID(userIDFromUserToEdit).getEMailAddress());
+        assertEquals(email, testAdminUser.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
 
     }
 
@@ -69,7 +69,7 @@ public class UserTest {
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
-        String userID = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
+        String userID = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).get().getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
         assertTrue(testAdminUser.deleteUser(userID));
 
     }

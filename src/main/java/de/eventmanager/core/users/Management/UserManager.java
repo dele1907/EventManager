@@ -1,6 +1,7 @@
 package de.eventmanager.core.users.Management;
 
 import java.sql.Connection;
+import java.util.Optional;
 
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.users.User;
@@ -63,7 +64,7 @@ public class UserManager {
     }
 
     // Benutzer laden (READ) anhand der ID
-    public static User readUserByID(String userID) {
+    public static Optional<User> readUserByID(String userID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -75,7 +76,7 @@ public class UserManager {
                     .fetchOne();
 
             if (record != null) {
-                return new User(
+                User user = new User(
                         record.get(USER.USERID),
                         record.get(USER.FIRSTNAME),
                         record.get(USER.LASTNAME),
@@ -85,17 +86,19 @@ public class UserManager {
                         record.get(USER.PHONENUMBER),
                         record.get(USER.ISADMIN)
                 );
+
+                return Optional.of(user);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + exception.getMessage());
         }
 
-        return null;
+        return Optional.empty();
     }
 
     // Benutzer laden (READ) anhand der E-Mail-Adresse
-    public static User readUserByEMail(String eMailAddress) {
+    public static Optional<User> readUserByEMail(String eMailAddress) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -108,7 +111,7 @@ public class UserManager {
 
             if (record != null) {
 
-                return new User(
+                User user = new User(
                         record.get(USER.USERID),
                         record.get(USER.FIRSTNAME),
                         record.get(USER.LASTNAME),
@@ -118,13 +121,15 @@ public class UserManager {
                         record.get(USER.PHONENUMBER),
                         record.get(USER.ISADMIN)
                 );
+
+                return Optional.of(user);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + exception.getMessage());
         }
 
-        return null;
+        return Optional.empty();
     }
 
     // Benutzer ändern (UPDATE)
@@ -250,7 +255,7 @@ public class UserManager {
             return false;
         }
 
-        return comparingPassword(password, readUserByEMail(email).getPassword());
+        return comparingPassword(password, readUserByEMail(email).get().getPassword());
     }
     //#endregion Registration & Authentication
 

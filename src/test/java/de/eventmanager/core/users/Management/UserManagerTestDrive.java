@@ -4,6 +4,8 @@ import de.eventmanager.core.users.User;
 
 import org.junit.jupiter.api.*;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserManagerTestDrive {
@@ -65,7 +67,7 @@ public class UserManagerTestDrive {
     public void testReadUserByID() {
 
         UserManager.createNewUser(testUser);
-        User userFromDatabase = UserManager.readUserByID("testUserID");
+        User userFromDatabase = UserManager.readUserByID("testUserID").get();
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
@@ -74,6 +76,7 @@ public class UserManagerTestDrive {
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.isAdmin());
+
     }
 
     // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
@@ -81,7 +84,8 @@ public class UserManagerTestDrive {
     public void testReadUserByEMail() {
 
         UserManager.createNewUser(testUser);
-        User userFromDatabase = UserManager.readUserByEMail("max.mustermann@mail.com");
+        User userFromDatabase = UserManager.readUserByEMail("max.mustermann@mail.com").get();
+
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
@@ -90,6 +94,8 @@ public class UserManagerTestDrive {
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.isAdmin());
+
+
     }
 
     // Nach jedem Test die Datenbank bereinigen:

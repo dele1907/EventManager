@@ -15,6 +15,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    //#region Login & Authentication
     public void registerUser() {
         int phoneNumber = 0;
 
@@ -85,5 +86,7 @@ public class UserController {
 
         return phoneNumber;
     }
+
+    //#endregion Login & Authentication
 
 }

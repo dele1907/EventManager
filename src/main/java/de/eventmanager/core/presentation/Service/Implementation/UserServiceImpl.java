@@ -41,6 +41,6 @@ public class UserServiceImpl implements UserService {
             return Optional.empty();
         }
 
-        return Optional.of(UserManager.readUserByEMail(email));
+        return UserManager.readUserByEMail(email);
     }
 }

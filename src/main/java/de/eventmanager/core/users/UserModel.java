@@ -3,6 +3,7 @@ package de.eventmanager.core.users;
 
 import de.eventmanager.core.permissions.Permission;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public abstract class UserModel {
     String userID;
@@ -30,19 +31,16 @@ public abstract class UserModel {
             boolean isAdmin
     );
 
-    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                         String password, int phoneNumber) {
-    }
+    public abstract void editUser(String userID, String firstName,
+                                  String lastName, String dateOfBirth,
+                                  String eMailAddress, String password,
+                                  int phoneNumber);
 
     public abstract boolean deleteUser(String userID);
 
-    public User getUserByID(String userID){
-        return null;
-    }
+    public abstract Optional<User> getUserByID(String userID);
 
-    public User getUserByEmail(String eMailAddress){
-        return null;
-    }
+    public abstract Optional<User> getUserByEmail(String eMailAddress);
 
     public void createEvent(String eventID) {}
 
