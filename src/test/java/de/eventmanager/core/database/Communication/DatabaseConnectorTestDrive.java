@@ -1,6 +1,5 @@
-package de.eventmanager.core.database.communication;
+package de.eventmanager.core.database.Communication;
 
-import de.eventmanager.core.database.Communication.DatabaseConnector;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
