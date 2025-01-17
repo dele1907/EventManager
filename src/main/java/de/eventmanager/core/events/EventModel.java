@@ -1,7 +1,5 @@
 package de.eventmanager.core.events;
 
-import de.eventmanager.core.users.User;
-
 import java.util.ArrayList;
 
 public abstract class EventModel {
@@ -10,7 +8,7 @@ public abstract class EventModel {
     String eventName;
     String eventDateTime;
     int numberOfBookedUsersOnEvent = 0;
-    ArrayList<User> bookedUsersOnEvent = null;
+    ArrayList<String> bookedUsersOnEvent = null;
     String category;
     boolean privateEvent;
 
@@ -27,7 +25,7 @@ public abstract class EventModel {
             String eventID,
             String eventName,
             String eventDateTime,
-            ArrayList<User> bookedUsersOnEvent,
+            ArrayList<String> bookedUsersOnEvent,
             String category
     );
 
@@ -51,7 +49,7 @@ public abstract class EventModel {
         return numberOfBookedUsersOnEvent;
     }
 
-    public ArrayList<User> getBookedUsersOnEvent() {
+    public ArrayList<String> getBookedUsersOnEvent() {
         return bookedUsersOnEvent;
     }
 
@@ -77,7 +75,7 @@ public abstract class EventModel {
         this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
     }
 
-    public void setBookedUsersOnEvent(ArrayList<User> bookedUsersOnEvent) {
+    public void setBookedUsersOnEvent(ArrayList<String> bookedUsersOnEvent) {
         this.bookedUsersOnEvent = bookedUsersOnEvent;
     }
 

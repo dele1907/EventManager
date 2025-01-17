@@ -11,7 +11,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-// import static org.jooq.generated.tables...
+import static org.jooq.generated.tables.Events.EVENTS;
 
 public class EventManager {
 
@@ -32,7 +32,45 @@ public class EventManager {
 
             int rowsAffected = 0;
 
-            // TODO: Event in Datenbank anlegen
+            if(event.isPrivateEvent()) {
+                PrivateEvent privateEvent = (PrivateEvent) event;
+
+                rowsAffected = create.insertInto(EVENTS,
+                                EVENTS.EVENTID,
+                                EVENTS.EVENTNAME,
+                                EVENTS.EVENTDATETIME,
+                                EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
+                                EVENTS.CATEGORY,
+                                EVENTS.PRIVATEEVENT)
+                        .values(
+                                privateEvent.getEventID(),
+                                privateEvent.getEventName(),
+                                privateEvent.getEventDateTime(),
+                                privateEvent.getNumberOfBookedUsersOnEvent(),
+                                privateEvent.getCategory(),
+                                privateEvent.isPrivateEvent())
+                        .execute();
+            } else {
+                PublicEvent publicEvent = (PublicEvent) event;
+
+                rowsAffected = create.insertInto(EVENTS,
+                                EVENTS.EVENTID,
+                                EVENTS.EVENTNAME,
+                                EVENTS.EVENTDATETIME,
+                                EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
+                                EVENTS.CATEGORY,
+                                EVENTS.PRIVATEEVENT,
+                                EVENTS.MAXIMUMCAPACITY)
+                        .values(
+                                publicEvent.getEventID(),
+                                publicEvent.getEventName(),
+                                publicEvent.getEventDateTime(),
+                                publicEvent.getNumberOfBookedUsersOnEvent(),
+                                publicEvent.getCategory(),
+                                publicEvent.isPrivateEvent(),
+                                publicEvent.getMaximumCapacity())
+                        .execute();
+            }
 
             if (rowsAffected > 0) {
                 LoggerHelper.logInfoMessage(EventManager.class, EVENT_ADDED);
@@ -48,19 +86,44 @@ public class EventManager {
     }
 
     // Event laden (READ) anhand der ID
-    public static EventModel readEventByID(String userID) {
+    public static EventModel readEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Record record = null;
+            Record record = create.select()
+                    .from(EVENTS)
+                    .where(EVENTS.EVENTID.eq(eventID))
+                    .fetchOne();
 
             if (record != null) {
+                boolean privateEvent = record.get(EVENTS.PRIVATEEVENT);
 
-                // TODO: Event aus Datenbank lesen
+                if (privateEvent) {
 
-                return null;
+                    return new PrivateEvent(
+                            record.get(EVENTS.EVENTID),
+                            record.get(EVENTS.EVENTNAME),
+                            record.get(EVENTS.EVENTDATETIME),
+                            record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                            // TODO: Rückgabe der Userliste aus Relation "booked"
+                            record.get(EVENTS.CATEGORY),
+                            record.get(EVENTS.PRIVATEEVENT)
+                    );
+                } else {
+
+                    return new PublicEvent(
+                            record.get(EVENTS.EVENTID),
+                            record.get(EVENTS.EVENTNAME),
+                            record.get(EVENTS.EVENTDATETIME),
+                            record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                            // TODO: Rückgabe der Userliste aus Relation "booked"
+                            record.get(EVENTS.CATEGORY),
+                            record.get(EVENTS.PRIVATEEVENT),
+                            record.get(EVENTS.MAXIMUMCAPACITY)
+                    );
+                }
             }
 
         } catch (Exception exception) {
@@ -79,7 +142,28 @@ public class EventManager {
 
             int rowsUpdated = 0;
 
-            // TODO: Event in Datenbank ändern
+            if(event.isPrivateEvent()) {
+                PrivateEvent privateEvent = (PrivateEvent) event;
+
+                rowsUpdated = create.update(EVENTS)
+                        .set(EVENTS.EVENTNAME, privateEvent.getEventName())
+                        .set(EVENTS.EVENTDATETIME, privateEvent.getEventDateTime())
+                        .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
+                        .set(EVENTS.CATEGORY, privateEvent.getCategory())
+                        .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
+                        .execute();
+            } else {
+                PublicEvent publicEvent = (PublicEvent) event;
+
+                rowsUpdated = create.update(EVENTS)
+                        .set(EVENTS.EVENTNAME, publicEvent.getEventName())
+                        .set(EVENTS.EVENTDATETIME, publicEvent.getEventDateTime())
+                        .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
+                        .set(EVENTS.CATEGORY, publicEvent.getCategory())
+                        .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
+                        .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
+                        .execute();
+            }
 
             if (rowsUpdated > 0) {
                 LoggerHelper.logInfoMessage(EventManager.class, EVENT_UPDATED);
@@ -105,9 +189,9 @@ public class EventManager {
 
             DSLContext create = DSL.using(connection);
 
-            int rowsAffected = 0;
-
-            // TODO: Event aus Datenbank löschen
+            int rowsAffected = create.deleteFrom(EVENTS)
+                    .where(EVENTS.EVENTID.eq(eventID))
+                    .execute();
 
             if (rowsAffected > 0) {
                 LoggerHelper.logInfoMessage(EventManager.class, EVENT_DELETED);

@@ -1,7 +1,6 @@
 package de.eventmanager.core.events;
 
 import de.eventmanager.core.events.Management.EventManager;
-import de.eventmanager.core.users.User;
 import helper.IDGenerationHelper;
 
 import java.util.ArrayList;
@@ -15,6 +14,16 @@ public class PrivateEvent extends EventModel{
         this.eventDateTime = eventDateTime;
         this.category = category;
         this.privateEvent = true;
+    }
+
+    // Konstruktor für private Events aus DB
+    public PrivateEvent(String eventID, String eventName, String eventDateTime, int numberOfBookedUsersOnEvent, String category, boolean privateEvent) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.eventDateTime = eventDateTime;
+        this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
+        this.category = category;
+        this.privateEvent = privateEvent;
     }
 
     // #region CRUD-Operationen
@@ -31,7 +40,7 @@ public class PrivateEvent extends EventModel{
     }
 
     @Override
-    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<User> bookedUsersOnEvent, String category) {
+    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
 
         PrivateEvent eventToEdit = (PrivateEvent) EventManager.readEventByID(eventID);
 

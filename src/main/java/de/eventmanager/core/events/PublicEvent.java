@@ -1,7 +1,6 @@
 package de.eventmanager.core.events;
 
 import de.eventmanager.core.events.Management.EventManager;
-import de.eventmanager.core.users.User;
 import helper.IDGenerationHelper;
 
 import java.util.ArrayList;
@@ -29,6 +28,17 @@ public class PublicEvent extends EventModel{
         this.maximumCapacity = maximumCapacity;
     }
 
+    // Konstruktor für öffentliche Events aus DB
+    public PublicEvent(String eventID, String eventName, String eventDateTime, int numberOfBookedUsersOnEvent, String category, boolean privateEvent, int maximumCapacity) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.eventDateTime = eventDateTime;
+        this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
+        this.category = category;
+        this.privateEvent = privateEvent;
+        this.maximumCapacity = maximumCapacity;
+    }
+
     // #region CRUD-Operationen
     @Override
     public boolean createNewEvent(String eventName, String eventDateTime, String category) {
@@ -49,7 +59,7 @@ public class PublicEvent extends EventModel{
     }
 
     @Override
-    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<User> bookedUsersOnEvent, String category) {
+    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
 
         PublicEvent eventToEdit = (PublicEvent) EventManager.readEventByID(eventID);
 
@@ -63,7 +73,7 @@ public class PublicEvent extends EventModel{
     }
 
     // überladene Methode für Events mit maximaler Kapazität
-    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<User> bookedUsersOnEvent, String category, int maximumCapacity) {
+    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category, int maximumCapacity) {
 
         PublicEvent eventToEdit = (PublicEvent) EventManager.readEventByID(eventID);
 
