@@ -1,0 +1,36 @@
+[
+  {
+    "users": [
+      {
+        "userID": "0815",
+        "firstName": "John",
+        "lastName": "Doe",
+        "dateOfBirth": "1990-01-01",
+        "eMailAddress": "1@2.de",
+        "password": "123456",
+        "phoneNumber": 1234567890,
+        "isAdmin": true
+      },
+      {
+        "userID": "CxhIUEY12kFNb839KGMj",
+        "firstName": "Gissbert",
+        "lastName": "Meyer",
+        "dateOfBirth": "01.01.2000",
+        "eMailAddress": "gissbert@muster.com",
+        "password": "123456",
+        "phoneNumber": 1234567,
+        "isAdmin": false
+      },
+      {
+        "userID": "IgB2nouHEXHH1UK6LNfX",
+        "firstName": "Peter",
+        "lastName": "Mueller",
+        "dateOfBirth": "01.01.2000",
+        "eMailAddress": "peter.mueller@muster.com",
+        "password": "123456",
+        "phoneNumber": 1234567,
+        "isAdmin": false
+      }
+    ]
+  }
+]

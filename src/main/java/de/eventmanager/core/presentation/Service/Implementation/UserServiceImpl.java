@@ -3,7 +3,11 @@ package de.eventmanager.core.presentation.Service.Implementation;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
+import helper.DatabaseSimulation.JsonDatabaseHelper;
+import helper.IDGenerationHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -22,8 +26,13 @@ public class UserServiceImpl implements UserService {
         if (!UserManager.isValidRegistrationPassword(password, passwordConfirmation)) {
             return false;
         }
+         /**
+          * commented out because the test will run on the simulated json database
+          * */
+        //return UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber));
+        String userID = IDGenerationHelper.generateRandomIDString();
 
-        return UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber));
+        return JsonDatabaseHelper.addUser(userID, firstName, lastName, dateOfBirth, email, phoneNumber, password, false);
     }
 
     @Override
