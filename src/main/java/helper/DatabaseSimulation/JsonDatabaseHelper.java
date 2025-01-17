@@ -25,7 +25,7 @@ public class JsonDatabaseHelper {
             List<JsonObject> database = gson.fromJson(fileReader, databaseType);
             if (database != null && !database.isEmpty()) {
                 JsonObject root = database.get(0);
-                JsonArray users = root.getAsJsonArray("Users");
+                JsonArray users = root.getAsJsonArray("users");
 
                 return Optional.of(users);
             }
@@ -61,7 +61,7 @@ public class JsonDatabaseHelper {
     public static boolean writeUsers(JsonArray users) {
         try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
             JsonObject root = new JsonObject();
-            root.add("Users", users);
+            root.add("users", users);
             gson.toJson(List.of(root), fileWriter);
 
             return true;
