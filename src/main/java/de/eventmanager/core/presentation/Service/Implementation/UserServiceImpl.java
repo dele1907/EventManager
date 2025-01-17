@@ -14,9 +14,10 @@ public class UserServiceImpl implements UserService {
             String lastName,
             String dateOfBirth,
             String email,
+            int phoneNumber,
             String password,
-            String passwordConfirmation,
-            int phoneNumber) {
+            String passwordConfirmation
+            ) {
 
         if (!UserManager.isValidRegistrationPassword(password, passwordConfirmation)) {
             return false;
