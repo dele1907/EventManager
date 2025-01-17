@@ -16,51 +16,74 @@ public class UserController {
     }
 
     public void registerUser() {
-        view.displayMessage("===== Registration =====\n\nEnter first name: ");
+        int phoneNumber = 0;
+
+        view.displayMessage("\n===== Registration =====\nEnter first name: ");
         String firstName = view.getUserInput();
-        view.displayMessage("\nEnter last name: ");
+        view.displayMessage("Enter last name: ");
         String lastName = view.getUserInput();
-        view.displayMessage("Enter date of birth:");
+        view.displayMessage("Enter date of birth: ");
         String dateOfBirth = view.getUserInput();
-        view.displayMessage("\nEnter email: ");
+        view.displayMessage("Enter email: ");
         String email = view.getUserInput();
-        view.displayMessage("\nEnter phone number: ");
-        int phoneNumber = Integer.parseInt(view.getUserInput());
-        view.displayMessage("\nEnter password: ");
+        phoneNumber = phoneNumberInput();
+        view.displayMessage("Enter password: ");
         String password = view.getUserInput();
-        view.displayMessage("\nEnter confirm password: ");
+        view.displayMessage("Enter confirm password: ");
         String confirmPassword = view.getUserInput();
 
         boolean successfullyRegistered = userService.registerUser(firstName, lastName, dateOfBirth, email, phoneNumber, password, confirmPassword);
-        if (successfullyRegistered) {
-            view.displayMessage("\nUser registered successfully");
-        }else {
-            view.displayMessage("\nUser registration failed");
-        }
 
+        if (successfullyRegistered) {
+            view.displayMessage("\nUser registered successfully\n");
+        }else {
+            view.displayMessage("\nUser registration failed\n");
+        }
 
     }
 
     public Optional<User> loginUser() {
-        view.displayMessage("===== Login ======\n\nEnter email: ");
+        view.displayMessage("\n===== Login ======\nEnter email: ");
         String email = view.getUserInput();
-        view.displayMessage("\nEnter password: ");
+        view.displayMessage("Enter password: ");
         String password = view.getUserInput();
 
         if (email.isEmpty() || password.isEmpty()) {
             view.displayMessage("\nYou must enter email or password");
+
             return Optional.empty();
         }
 
         Optional<User> userToLogin = userService.loginUser(email, password);
 
         if (userToLogin.isPresent()) {
-            view.displayMessage("\nLogin successful");
+            view.displayMessage("\nLogin successful\n");
+
             return userToLogin;
         }else {
-            view.displayMessage("\nLogin failed");
+            view.displayMessage("\nWrong email or password! Please try again.\n");
+
             return Optional.empty();
         }
+    }
+
+    private int phoneNumberInput() {
+        boolean validPhoneNumber = true;
+        int phoneNumber = 0;
+
+        while (validPhoneNumber) {
+
+            try {
+                view.displayMessage("Enter phone number: ");
+                phoneNumber = Integer.parseInt(view.getUserInput());
+                validPhoneNumber = false;
+
+            }catch (NumberFormatException e) {
+                view.displayMessage("Invalid input! Please enter a valid phone number\n");
+            }
+        }
+
+        return phoneNumber;
     }
 
 }

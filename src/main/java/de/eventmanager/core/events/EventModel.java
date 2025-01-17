@@ -18,8 +18,7 @@ public abstract class EventModel {
     public abstract boolean createNewEvent(
             String eventName,
             String eventDateTime,
-            String category,
-            boolean privateEvent
+            String category
     );
 
     public abstract EventModel getEventByID(String eventID);
@@ -29,8 +28,7 @@ public abstract class EventModel {
             String eventName,
             String eventDateTime,
             ArrayList<User> bookedUsersOnEvent,
-            String category,
-            boolean privateEvent
+            String category
     );
 
     public abstract boolean deleteEvent(String eventID);
