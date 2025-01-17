@@ -19,6 +19,9 @@ public class DatabaseConnector {
 
         try {
             connection = DriverManager.getConnection(databaseUrl);
+            /**
+             * TODO discuss: remove Logging for connection established, so it will not appear when using the TextInterface?
+             * */
             LoggerHelper.logInfoMessage(DatabaseConnector.class, CONNECTION_ESTABLISHED);
         } catch (SQLException e) {
             LoggerHelper.logErrorMessage(DatabaseConnector.class, CONNECTION_NOT_ESTABLISHED + e.getMessage());
