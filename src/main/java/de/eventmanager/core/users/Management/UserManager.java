@@ -187,4 +187,71 @@ public class UserManager {
         }
     }
 
+    //#region Registration & Authentication
+
+    public static boolean isValidRegistrationPassword(String password, String checkPassword) {
+        return isValidPassword(password) && comparingPassword(password, checkPassword);
+    }
+
+    /**
+     * <h3>Validate Password</h3>
+     * <p>
+     * {@code isValidPassword()} checks whether a given password contains any restricted characters from a predefined list.
+     * If the password contains any of the restricted characters, the method returns {@code false}. If no restricted characters are found, it returns {@code true}.
+     * </p>
+     */
+
+    private static boolean isValidPassword(String password) {
+        char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
+
+        for (var restricted : restrictedCharacters) {
+            if (password.indexOf(restricted) != -1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean comparingPassword(String password, String checkPassword) {
+
+        if (password.isEmpty() || checkPassword.isEmpty()) {
+
+            System.out.println("Wrong password!");
+
+            return false;
+        }
+
+        return checkPassword.equals(password);
+    }
+
+    private static boolean comparingEmailAddress(String emailAddress) {
+
+        if (readUserByEMail(emailAddress) == null) {
+
+            LoggerHelper.logInfoMessage(UserManager.class, "Email address not found");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * <h3>User Login Authentication</h3>
+     The method {@code authenticationUserLogin()} accepts an email address and password, authenticates the user
+     by checking if the email exists, and verifies whether the provided password matches the one stored
+     in the DB. If both conditions are met, the user is successfully logged in.
+     */
+
+    public static boolean authenticationUserLogin(String email, String password) {
+
+        if (!comparingEmailAddress(email)) {
+
+            return false;
+        }
+
+        return comparingPassword(password, readUserByEMail(email).getPassword());
+    }
+    //#endregion Registration & Authentication
+
 }

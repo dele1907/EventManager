@@ -2,9 +2,7 @@ package de.eventmanager.core.users.Management;
 
 import de.eventmanager.core.users.User;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -100,5 +98,32 @@ public class UserManagerTestDrive {
 
         UserManager.deleteUserByID("testUserID");
     }
+
+    //#region Registration and Authentication Tests
+
+    @Test
+    @Order(3)
+    @DisplayName("Password-Registration Test")
+    void isValidAndIsNotValidRegistrationPasswordTest() {
+
+        String validTestPassword = "eventManager123";
+        String inValidTestPassword = "eventManagerÄ";
+
+        assertFalse(UserManager.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
+
+        assertTrue(UserManager.isValidRegistrationPassword(validTestPassword, "eventManager123"));
+
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Login-System Test")
+    void authenticateUserLoginTest() {
+
+        assertFalse(UserManager.authenticationUserLogin("eventManager123", "eventManager123"));
+
+    }
+
+    //#endregion Registration and Authentication Tests
 
 }
