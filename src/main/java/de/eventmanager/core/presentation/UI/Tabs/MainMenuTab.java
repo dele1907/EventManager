@@ -29,7 +29,7 @@ public class MainMenuTab implements Tab {
             switch (choice) {
                 case "1":
                     if (loggedInUser.isAdmin()) {
-                        AdminRightsTab adminRightsTab = new AdminRightsTab(loggedInUser);
+                        AdminRightsTab adminRightsTab = new AdminRightsTab(textView, loggedInUser);
                         adminRightsTab.start();
                     } else {
                         textView.displayMessage("\nInvalid choice");
