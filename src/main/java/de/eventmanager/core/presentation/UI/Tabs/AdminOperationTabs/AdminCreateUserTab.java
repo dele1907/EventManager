@@ -15,7 +15,7 @@ public class AdminCreateUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayMessage("===== Create User Tab ======");
+        textView.displayMessage("\n===== Create User Tab ======\n");
         userController.registerUser();
     }
 }

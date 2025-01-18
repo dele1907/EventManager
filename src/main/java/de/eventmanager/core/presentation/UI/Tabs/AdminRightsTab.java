@@ -1,11 +1,11 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminCreateUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminDeleteUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUserTab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
+import de.eventmanager.core.presentation.Controller.UserController;
 
 public class AdminRightsTab implements Tab {
     private View textView;
@@ -36,7 +36,7 @@ public class AdminRightsTab implements Tab {
                     editUserTab.start();
                     break;
                 case "2":
-                    AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab();
+                    AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView);
                     deleteUserTab.start();
                     break;
                 case "3":
