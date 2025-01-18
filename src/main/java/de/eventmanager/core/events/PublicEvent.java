@@ -43,13 +43,13 @@ public class PublicEvent extends EventModel{
     @Override
     public boolean createNewEvent(String eventName, String eventDateTime, String category) {
 
-        return EventManager.createEvent(new PublicEvent(eventName, eventDateTime, category));
+        return EventManager.createNewEvent(new PublicEvent(eventName, eventDateTime, category));
     }
 
     // überladene Methode für Events mit maximaler Kapazität
     public boolean createNewEvent(String eventName, String eventDateTime, String category, int maximumCapacity) {
 
-        return EventManager.createEvent(new PublicEvent(eventName, eventDateTime, category, maximumCapacity));
+        return EventManager.createNewEvent(new PublicEvent(eventName, eventDateTime, category, maximumCapacity));
     }
 
     @Override

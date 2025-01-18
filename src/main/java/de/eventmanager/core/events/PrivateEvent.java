@@ -30,7 +30,7 @@ public class PrivateEvent extends EventModel{
     @Override
     public boolean createNewEvent(String eventName, String eventDateTime, String category) {
 
-        return EventManager.createEvent(new PrivateEvent(eventName, eventDateTime, category));
+        return EventManager.createNewEvent(new PrivateEvent(eventName, eventDateTime, category));
     }
 
     @Override

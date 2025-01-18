@@ -24,7 +24,7 @@ public class EventManager {
     private static final String EVENT_DELETED = "Event deleted successfully";
     private static final String EVENT_NOT_DELETED = "Error deleting event: ";
 
-    public static boolean createEvent(EventModel event) {
+    public static boolean createNewEvent(EventModel event) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
