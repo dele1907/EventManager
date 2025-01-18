@@ -2,6 +2,6 @@ package de.eventmanager.core.events;
 
 public class PrivateEventTestDrive {
 
-    // TODO: Tests für PrivateEvent implemtieren
+    // TODO: Tests für PrivateEvent implementieren
 
 }
