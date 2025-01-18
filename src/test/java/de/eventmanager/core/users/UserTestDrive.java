@@ -2,13 +2,12 @@ package de.eventmanager.core.users;
 
 
 import de.eventmanager.core.users.Management.UserManager;
-import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserTest {
+public class UserTestDrive {
 
     User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0").get(); //SoONY7IhPtVzCx1e0z18
 
