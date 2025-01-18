@@ -17,7 +17,7 @@ public class UserManagerTestDrive {
     private boolean skipSetUp = false;
     private boolean skipCleanUp = false;
 
-    // Vor jedem Test eine Instanz von UserManager und zwei Test-User erstellen:
+    // Vor jedem Test zwei Test-User erstellen:
     @BeforeEach
     public void setUp() {
 
