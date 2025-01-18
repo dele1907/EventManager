@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class UserManagerTestDrive {
 
     private User testUser;
@@ -47,6 +48,8 @@ public class UserManagerTestDrive {
     @Order(0)
     public void testCreateUpdateDeleteUser() {
 
+        skipCleanUp = true;
+
         boolean userCreated = UserManager.createNewUser(testUser);
         assertTrue(userCreated, "User creation failed but should not.");
 
@@ -64,6 +67,7 @@ public class UserManagerTestDrive {
 
         UserManager.createNewUser(testUser);
         boolean userCreated = UserManager.createNewUser(testUser);
+
         assertFalse(userCreated, "User creation was successful but should not.");
     }
 
@@ -75,6 +79,7 @@ public class UserManagerTestDrive {
         skipCleanUp = true;
 
         boolean userUpdated = UserManager.updateUser(testUserUpdated);
+
         assertFalse(userUpdated, "User update was successful but should not.");
     }
 
@@ -87,6 +92,7 @@ public class UserManagerTestDrive {
         skipCleanUp = true;
 
         boolean userDeleted = UserManager.deleteUserByID("invalidID");
+
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
@@ -97,6 +103,7 @@ public class UserManagerTestDrive {
 
         UserManager.createNewUser(testUser);
         User userFromDatabase = UserManager.readUserByID("testUserID").get();
+
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
         assertEquals("Mustermann", userFromDatabase.getLastName());
