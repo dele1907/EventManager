@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
@@ -7,11 +8,13 @@ public class MainMenuTab implements Tab {
     private View textView;
     private User loggedInUser;
     private LoginTab loginTab;
+    private UserController userController;
 
-    public MainMenuTab(View textView, User loggedInUser, LoginTab loginTab) {
+    public MainMenuTab(View textView, User loggedInUser, LoginTab loginTab, UserController userController) {
         this.textView = textView;
         this.loggedInUser = loggedInUser;
         this.loginTab = loginTab;
+        this.userController = userController;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class MainMenuTab implements Tab {
             switch (choice) {
                 case "1":
                     if (loggedInUser.isAdmin()) {
-                        AdminRightsTab adminRightsTab = new AdminRightsTab(textView, loggedInUser);
+                        AdminRightsTab adminRightsTab = new AdminRightsTab(textView, loggedInUser, userController);
                         adminRightsTab.start();
                     } else {
                         textView.displayMessage("\nInvalid choice");

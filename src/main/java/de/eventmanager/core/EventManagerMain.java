@@ -28,7 +28,7 @@ public class EventManagerMain {
                 loggedInUser = loginTab.getLoggedInUser();
 
                 if (loggedInUser.isPresent()) {
-                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginTab);
+                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginTab, userController);
                     mainMenuTab.start();
                 }
             } catch (Exception e) {

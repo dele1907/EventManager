@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminCreateUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminDeleteUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUserTab;
@@ -9,10 +10,12 @@ import de.eventmanager.core.users.User;
 public class AdminRightsTab implements Tab {
     private View textView;
     private User loggedInUser;
+    private UserController userController;
 
-    public AdminRightsTab(View textView, User loggedInUser) {
+    public AdminRightsTab(View textView, User loggedInUser, UserController userController) {
         this.textView = textView;
         this.loggedInUser = loggedInUser;
+        this.userController = userController;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class AdminRightsTab implements Tab {
                     deleteUserTab.start();
                     break;
                 case "3":
-                    AdminCreateUserTab createUserTab = new AdminCreateUserTab();
+                    AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController);
                     createUserTab.start();
                     break;
                 case "4":
