@@ -1,12 +1,8 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
-import de.eventmanager.core.users.Management.UserManager;
-import de.eventmanager.core.users.User;
 import helper.DatabaseSimulation.JsonDatabaseHelper;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,17 +13,21 @@ public class UserServiceImplTestDrive {
     void registerUser() {
         UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-       assertTrue(userServiceImpl.registerUser(
-               "Dis",
-               "Appear",
-               "01.01.2000",
-               "disappear@muster.com",
+        boolean isRegistered = userServiceImpl.registerUser(
+                "Dis",
+                "Appear",
+                "01.01.2000",
+                "disappear@muster.com",
                 12345678,
-               "123456",
-               "123456"
-       ));
+                "123456",
+                "123456"
+        );
+        System.out.println("User registered: " + isRegistered);
+        assertTrue(isRegistered);
 
-       assertTrue(JsonDatabaseHelper.removeUserByEmail("disappear@muster.com"));
+        boolean isRemoved = JsonDatabaseHelper.removeUserByEmailFromJson("disappear@muster.com");
+        System.out.println("User removed: " + isRemoved);
+        assertTrue(isRemoved);
     }
 
     @Test

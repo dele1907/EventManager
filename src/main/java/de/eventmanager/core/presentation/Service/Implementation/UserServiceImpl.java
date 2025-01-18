@@ -6,8 +6,6 @@ import de.eventmanager.core.users.User;
 import helper.DatabaseSimulation.JsonDatabaseHelper;
 import helper.IDGenerationHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -32,7 +30,7 @@ public class UserServiceImpl implements UserService {
         //return UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber));
         String userID = IDGenerationHelper.generateRandomIDString();
 
-        return JsonDatabaseHelper.addUser(userID, firstName, lastName, dateOfBirth, email, phoneNumber, password, false);
+        return JsonDatabaseHelper.addUserToJson(userID, firstName, lastName, dateOfBirth, email, phoneNumber, password, false);
     }
 
     @Override
