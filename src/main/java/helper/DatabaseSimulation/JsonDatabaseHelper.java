@@ -13,6 +13,7 @@ import java.util.Optional;
 import com.google.common.reflect.TypeToken;
 import de.eventmanager.core.permissions.Permission;
 import de.eventmanager.core.users.User;
+import helper.LoggerHelper;
 
 public class JsonDatabaseHelper {
     private static final String DATABASE_PATH = "src/main/resources/databasesimulation.json";
@@ -26,10 +27,20 @@ public class JsonDatabaseHelper {
                 JsonObject root = database.get(0);
                 JsonArray users = root.getAsJsonArray("users");
 
+                LoggerHelper.logInfoMessage(
+                        JsonDatabaseHelper.class,
+                        "Success reading users from json."
+                );
+
                 return Optional.of(users);
             }
         } catch (Exception e) {
             e.printStackTrace();
+
+            LoggerHelper.logErrorMessage(
+                    JsonDatabaseHelper.class,
+                    "Error reading users from json."
+            );
         }
 
         return Optional.empty();
@@ -44,10 +55,20 @@ public class JsonDatabaseHelper {
                 JsonObject root = database.get(0);
                 JsonArray permissions = root.getAsJsonArray("permissions");
 
+                LoggerHelper.logInfoMessage(
+                        JsonDatabaseHelper.class,
+                        "Success reading permissions from json."
+                );
+
                 return Optional.of(permissions);
             }
         } catch (Exception e) {
             e.printStackTrace();
+
+            LoggerHelper.logErrorMessage(
+                    JsonDatabaseHelper.class,
+                    "Error reading permissions from json."
+            );
         }
 
         return Optional.empty();
@@ -62,10 +83,21 @@ public class JsonDatabaseHelper {
                 JsonObject root = database.get(0);
                 JsonArray permissions = root.getAsJsonArray("has");
 
+                LoggerHelper.logInfoMessage(
+                        JsonDatabaseHelper.class,
+                        "Success reading has relation from json."
+                );
+
                 return Optional.of(permissions);
             }
         } catch (Exception e) {
             e.printStackTrace();
+
+            LoggerHelper.logErrorMessage(
+                    JsonDatabaseHelper.class,
+                    "Error reading has relation from json."
+            );
+
         }
 
         return Optional.empty();
@@ -87,8 +119,17 @@ public class JsonDatabaseHelper {
             newUser.addProperty("isAdmin", isAdmin);
             userList.add(newUser);
 
+            LoggerHelper.logInfoMessage(
+                    JsonDatabaseHelper.class,
+                    "Success adding user to json."
+            );
+
             return writeToJson(userList, readPermissionsFromJson().get());
         }
+        LoggerHelper.logErrorMessage(
+                JsonDatabaseHelper.class,
+                "Error adding user to json."
+        );
 
         return false;
     }
@@ -104,8 +145,17 @@ public class JsonDatabaseHelper {
             newPermission.addProperty("isAdminPermission", isAdminPermission);
             permissionList.add(newPermission);
 
+            LoggerHelper.logInfoMessage(
+                    JsonDatabaseHelper.class,
+                    "Success adding permission to json."
+            );
+
             return writePermissionsToJson(permissionList);
         }
+        LoggerHelper.logErrorMessage(
+                JsonDatabaseHelper.class,
+                "Error adding permission to json."
+        );
 
         return false;
     }
@@ -124,10 +174,19 @@ public class JsonDatabaseHelper {
             try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
                 gson.toJson(database, fileWriter);
 
+                LoggerHelper.logInfoMessage(
+                        JsonDatabaseHelper.class,
+                        "Success users data to json."
+                );
+
                 return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            LoggerHelper.logErrorMessage(
+                    JsonDatabaseHelper.class,
+                    "Error writing users to json."
+            );
 
             return false;
         }
@@ -143,10 +202,19 @@ public class JsonDatabaseHelper {
             try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
                 gson.toJson(database, fileWriter);
 
+                LoggerHelper.logInfoMessage(
+                        JsonDatabaseHelper.class,
+                        "Success writing permissions to json."
+                );
+
                 return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            LoggerHelper.logErrorMessage(
+                    JsonDatabaseHelper.class,
+                    "Error writing permissions to json."
+            );
 
             return false;
         }
@@ -160,9 +228,18 @@ public class JsonDatabaseHelper {
             boolean removed = userList.asList().removeIf(user -> email.equals(user.getAsJsonObject().get("eMailAddress").getAsString()));
 
             if (removed) {
+                LoggerHelper.logInfoMessage(
+                        JsonDatabaseHelper.class,
+                        "Success removing user with eMail: " + email + " from users in json."
+                );
+
                 return writeToJson(userList, readPermissionsFromJson().get());
             }
         }
+        LoggerHelper.logErrorMessage(
+                JsonDatabaseHelper.class,
+                "Error removing user from json."
+        );
 
         return false;
     }
@@ -185,11 +262,19 @@ public class JsonDatabaseHelper {
                             userJson.get("phoneNumber").getAsInt(),
                             userJson.get("isAdmin").getAsBoolean()
                     );
+                    LoggerHelper.logInfoMessage(
+                            JsonDatabaseHelper.class,
+                            "Success getting user with eMail: " + email + " from users in json."
+                    );
 
                     return Optional.of(user);
                 }
             }
         }
+        LoggerHelper.logErrorMessage(
+                JsonDatabaseHelper.class,
+                "Error getting user with eMail: " + email + " from users in json."
+        );
 
         return Optional.empty();
     }
@@ -221,9 +306,17 @@ public class JsonDatabaseHelper {
                     }
                 }
             }
+            LoggerHelper.logInfoMessage(
+                    JsonDatabaseHelper.class,
+                    "Success getting permissions for user " + user + " from json."
+            );
 
             return Optional.of(userPermissions);
         }
+        LoggerHelper.logErrorMessage(
+                JsonDatabaseHelper.class,
+                "Error getting permissions for user " + user + " from json."
+        );
 
         return Optional.empty();
     }

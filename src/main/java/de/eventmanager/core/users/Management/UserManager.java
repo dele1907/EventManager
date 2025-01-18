@@ -232,7 +232,7 @@ public class UserManager {
 
     private static boolean comparingEmailAddress(String emailAddress) {
 
-        if (readUserByEMail(emailAddress) == null) {
+        if (readUserByEMail(emailAddress).isEmpty()) {
 
             LoggerHelper.logInfoMessage(UserManager.class, "Email address not found");
             return false;
