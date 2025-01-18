@@ -1,7 +1,6 @@
 package de.eventmanager.core.presentation.Controller;
 
 import de.eventmanager.core.presentation.Service.UserService;
-import de.eventmanager.core.presentation.UI.Tabs.AdminRightsTab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 

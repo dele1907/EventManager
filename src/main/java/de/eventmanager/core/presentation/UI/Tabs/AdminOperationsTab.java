@@ -7,12 +7,12 @@ import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 import de.eventmanager.core.presentation.Controller.UserController;
 
-public class AdminRightsTab implements Tab {
+public class AdminOperationsTab implements Tab {
     private View textView;
     private User loggedInUser;
     private UserController userController;
 
-    public AdminRightsTab(View textView, User loggedInUser, UserController userController) {
+    public AdminOperationsTab(View textView, User loggedInUser, UserController userController) {
         this.textView = textView;
         this.loggedInUser = loggedInUser;
         this.userController = userController;
@@ -22,7 +22,7 @@ public class AdminRightsTab implements Tab {
     public void start() {
         boolean adminIsActive = true;
         while (adminIsActive) {
-            textView.displayMessage("\n====== Admin Rights ======");
+            textView.displayMessage("\n====== Admin Operations ======");
             textView.displayMessage("\n1. Edit user");
             textView.displayMessage("\n2. Delete user");
             textView.displayMessage("\n3. Create new user");
