@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
             return Optional.empty();
         }
 
-        return UserManager.readUserByEMail(email);
+        //return UserManager.readUserByEMail(email);
+        return JsonDatabaseHelper.getUserByEmailFromJson(email);
     }
 }
