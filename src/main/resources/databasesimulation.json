@@ -2,24 +2,44 @@
   {
     "users": [
       {
-        "userID": "0815",
-        "firstName": "John",
-        "lastName": "Doe",
-        "dateOfBirth": "1990-01-01",
-        "eMailAddress": "1@2.de",
-        "password": "123456",
-        "phoneNumber": 1234567890,
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "firstName": "Laura",
+        "lastName": "Dolibois",
+        "dateOfBirth": "27-02-1993",
+        "eMailAddress": "lado00005@htwsaar.de",
+        "password": "Password0815",
+        "phoneNumber": 4711,
         "isAdmin": true
       },
       {
-        "userID": "CxhIUEY12kFNb839KGMj",
-        "firstName": "Gissbert",
-        "lastName": "Meyer",
-        "dateOfBirth": "01.01.2000",
-        "eMailAddress": "gissbert@muster.com",
-        "password": "123456",
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "firstName": "Timo",
+        "lastName": "Schmitz",
+        "dateOfBirth": "16-12-1999",
+        "eMailAddress": "tisc00006@htwsaar.de",
+        "password": "pAsSwOrD123",
         "phoneNumber": 1234567,
-        "isAdmin": false
+        "isAdmin": true
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "firstName": "Finn",
+        "lastName": "Oettinger",
+        "dateOfBirth": "13-04-2003",
+        "eMailAddress": "fiot00001@htwsaar.de",
+        "password": "eventManager123",
+        "phoneNumber": 11223344,
+        "isAdmin": true
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "firstName": "Dennis",
+        "lastName": "Leister",
+        "dateOfBirth": "10-10-1997",
+        "eMailAddress": "dele00003@htwsaar.de",
+        "password": "Password123",
+        "phoneNumber": 5276,
+        "isAdmin": true
       },
       {
         "userID": "IgB2nouHEXHH1UK6LNfX",
@@ -30,6 +50,136 @@
         "password": "123456",
         "phoneNumber": 1234567,
         "isAdmin": false
+      }
+    ],
+    "permissions": [
+      {
+        "permissionID": "59zbwnXJmciTIJlANNlB",
+        "permissionName": "permissionCreateUser",
+        "isAdminPermission": "true"
+      },
+      {
+        "permissionID": "EFdTxfa05Ngu9z47jIw2",
+        "permissionName": "permissionDeleteUser",
+        "isAdminPermission": "true"
+      },
+      {
+        "permissionID": "AVNnGoJ17zscv54hLMao",
+        "permissionName": "permissionEditUser",
+        "isAdminPermission": "true"
+      },
+      {
+        "permissionID": "NOHKhcZd4THbUPqdZ7I8",
+        "permissionName": "permissionCanGiveAdminStatusToUser",
+        "isAdminPermission": "true"
+      },
+      {
+        "permissionID": "r71hr0wu8Wwgmh0qTQOh",
+        "permissionName": "permissionCanRemoveAdminStatusToUser",
+        "isAdminPermission": "true"
+      },
+      {
+        "permissionID": "tsu7mY9GtQQXprG1rgVy",
+        "permissionName": "permissionCanGetUserInformationByUserID",
+        "isAdminPermission": "true"
+      }
+    ],
+    "has": [
+      {
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "permissionID": "r71hr0wu8Wwgmh0qTQOh"
+      },
+      {
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "permissionID": "NOHKhcZd4THbUPqdZ7I8"
+      },
+      {
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "permissionID": "tsu7mY9GtQQXprG1rgVy"
+      },
+      {
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "permissionID": "AVNnGoJ17zscv54hLMao"
+      },
+      {
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "permissionID": "59zbwnXJmciTIJlANNlB"
+      },
+      {
+        "userID": "hsyVwo7cKLX8aPXYAtjg",
+        "permissionID": "EFdTxfa05Ngu9z47jIw2"
+      },
+      {
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "permissionID": "r71hr0wu8Wwgmh0qTQOh"
+      },
+      {
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "permissionID": "NOHKhcZd4THbUPqdZ7I8"
+      },
+      {
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "permissionID": "tsu7mY9GtQQXprG1rgVy"
+      },
+      {
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "permissionID": "AVNnGoJ17zscv54hLMao"
+      },
+      {
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "permissionID": "59zbwnXJmciTIJlANNlB"
+      },
+      {
+        "userID": "luOaUVRGevfo9GhTCYLs",
+        "permissionID": "EFdTxfa05Ngu9z47jIw2"
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "permissionID": "r71hr0wu8Wwgmh0qTQOh"
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "permissionID": "NOHKhcZd4THbUPqdZ7I8"
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "permissionID": "tsu7mY9GtQQXprG1rgVy"
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "permissionID": "AVNnGoJ17zscv54hLMao"
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "permissionID": "59zbwnXJmciTIJlANNlB"
+      },
+      {
+        "userID": "iwbLeZWwmrg5E0oC8KIs",
+        "permissionID": "EFdTxfa05Ngu9z47jIw2"
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "permissionID": "r71hr0wu8Wwgmh0qTQOh"
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "permissionID": "NOHKhcZd4THbUPqdZ7I8"
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "permissionID": "tsu7mY9GtQQXprG1rgVy"
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "permissionID": "AVNnGoJ17zscv54hLMao"
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "permissionID": "59zbwnXJmciTIJlANNlB"
+      },
+      {
+        "userID": "duuuY5XI4XyPQnzIChVL",
+        "permissionID": "EFdTxfa05Ngu9z47jIw2"
       }
     ]
   }
