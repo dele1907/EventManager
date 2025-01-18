@@ -85,8 +85,8 @@ public class EventManager {
         return false;
     }
 
-    // Event laden (READ) anhand der ID
-    public static EventModel readEventByID(String eventID) {
+    // privates Event laden (READ) anhand der ID
+    public static PrivateEvent readPrivateEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -98,32 +98,49 @@ public class EventManager {
                     .fetchOne();
 
             if (record != null) {
-                boolean privateEvent = record.get(EVENTS.PRIVATEEVENT);
 
-                if (privateEvent) {
-
-                    return new PrivateEvent(
-                            record.get(EVENTS.EVENTID),
-                            record.get(EVENTS.EVENTNAME),
-                            record.get(EVENTS.EVENTDATETIME),
-                            record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                            // TODO: Rückgabe der Userliste aus Relation "booked"
-                            record.get(EVENTS.CATEGORY),
-                            record.get(EVENTS.PRIVATEEVENT)
+                return new PrivateEvent(
+                        record.get(EVENTS.EVENTID),
+                        record.get(EVENTS.EVENTNAME),
+                        record.get(EVENTS.EVENTDATETIME),
+                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        record.get(EVENTS.CATEGORY),
+                        record.get(EVENTS.PRIVATEEVENT)
                     );
-                } else {
+            }
 
-                    return new PublicEvent(
-                            record.get(EVENTS.EVENTID),
-                            record.get(EVENTS.EVENTNAME),
-                            record.get(EVENTS.EVENTDATETIME),
-                            record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                            // TODO: Rückgabe der Userliste aus Relation "booked"
-                            record.get(EVENTS.CATEGORY),
-                            record.get(EVENTS.PRIVATEEVENT),
-                            record.get(EVENTS.MAXIMUMCAPACITY)
-                    );
-                }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return null;
+    }
+
+    // öffentliches Event laden (READ) anhand der ID
+    public static PublicEvent readPublicEventByID(String eventID) {
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Record record = create.select()
+                    .from(EVENTS)
+                    .where(EVENTS.EVENTID.eq(eventID))
+                    .fetchOne();
+
+            if (record != null) {
+
+                return new PublicEvent(
+                        record.get(EVENTS.EVENTID),
+                        record.get(EVENTS.EVENTNAME),
+                        record.get(EVENTS.EVENTDATETIME),
+                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        record.get(EVENTS.CATEGORY),
+                        record.get(EVENTS.PRIVATEEVENT),
+                        record.get(EVENTS.MAXIMUMCAPACITY)
+                );
             }
 
         } catch (Exception exception) {

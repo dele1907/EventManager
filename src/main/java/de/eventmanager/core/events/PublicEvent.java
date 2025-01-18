@@ -55,13 +55,13 @@ public class PublicEvent extends EventModel{
     @Override
     public EventModel getEventByID(String eventID) {
 
-        return EventManager.readEventByID(eventID);
+        return EventManager.readPublicEventByID(eventID);
     }
 
     @Override
     public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
 
-        PublicEvent eventToEdit = (PublicEvent) EventManager.readEventByID(eventID);
+        PublicEvent eventToEdit = (PublicEvent) EventManager.readPublicEventByID(eventID);
 
         eventToEdit.setEventName(eventName);
         eventToEdit.setEventDateTime(eventDateTime);
@@ -75,7 +75,7 @@ public class PublicEvent extends EventModel{
     // überladene Methode für Events mit maximaler Kapazität
     public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category, int maximumCapacity) {
 
-        PublicEvent eventToEdit = (PublicEvent) EventManager.readEventByID(eventID);
+        PublicEvent eventToEdit = (PublicEvent) EventManager.readPublicEventByID(eventID);
 
         eventToEdit.setEventName(eventName);
         eventToEdit.setEventDateTime(eventDateTime);

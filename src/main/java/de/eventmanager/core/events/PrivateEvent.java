@@ -36,13 +36,13 @@ public class PrivateEvent extends EventModel{
     @Override
     public EventModel getEventByID(String eventID) {
 
-        return EventManager.readEventByID(eventID);
+        return EventManager.readPrivateEventByID(eventID);
     }
 
     @Override
     public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
 
-        PrivateEvent eventToEdit = (PrivateEvent) EventManager.readEventByID(eventID);
+        PrivateEvent eventToEdit = (PrivateEvent) EventManager.readPrivateEventByID(eventID);
 
         eventToEdit.setEventName(eventName);
         eventToEdit.setEventDateTime(eventDateTime);
