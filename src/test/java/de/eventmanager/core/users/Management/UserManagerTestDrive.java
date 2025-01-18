@@ -12,10 +12,17 @@ public class UserManagerTestDrive {
 
     private User testUser;
     private User testUserUpdated;
+    private boolean skipSetUp = false;
+    private boolean skipCleanUp = false;
 
     // Vor jedem Test eine Instanz von UserManager und zwei Test-User erstellen:
     @BeforeEach
     public void setUp() {
+
+        if(skipSetUp) {
+
+            return;
+        }
 
         testUser = new User("testUserID", "Max", "Mustermann", "1980-01-10",
                 "max.mustermann@mail.com", "password123", 1234567890, false);
@@ -23,8 +30,21 @@ public class UserManagerTestDrive {
                 "max.m@mail.com", "password987", 1357902468, false);
     }
 
+    // Nach jedem Test die Datenbank bereinigen:
+    @AfterEach
+    public void cleanUp() {
+
+        if(skipCleanUp) {
+
+            return;
+        }
+
+        UserManager.deleteUserByID("testUserID");
+    }
+
     // Testen von Erstellen, Updaten und Löschen eines Users in der Datenbank:
     @Test
+    @Order(0)
     public void testCreateUpdateDeleteUser() {
 
         boolean userCreated = UserManager.createNewUser(testUser);
@@ -39,6 +59,7 @@ public class UserManagerTestDrive {
 
     // Testen, ob ein User nicht mehrmals erstellt werden kann:
     @Test
+    @Order(1)
     public void testCreateUserFailed() {
 
         UserManager.createNewUser(testUser);
@@ -48,7 +69,10 @@ public class UserManagerTestDrive {
 
     // Testen, ob ein Update nur möglich ist, wenn der entsprechende Datensatz vorliegt:
     @Test
+    @Order(2)
     public void testUpdateUserFailed() {
+
+        skipCleanUp = true;
 
         boolean userUpdated = UserManager.updateUser(testUserUpdated);
         assertFalse(userUpdated, "User update was successful but should not.");
@@ -56,7 +80,11 @@ public class UserManagerTestDrive {
 
     // Testen, ob Löschen nur möglich ist, wenn der entsprechende Datensatz vorliegt:
     @Test
+    @Order(3)
     public void testDeleteUserFailed() {
+
+        skipSetUp = true;
+        skipCleanUp = true;
 
         boolean userDeleted = UserManager.deleteUserByID("invalidID");
         assertFalse(userDeleted, "User deletion was successful but should not.");
@@ -64,6 +92,7 @@ public class UserManagerTestDrive {
 
     // Testen, ob ein User anhand der ID korrekt ausgelesen werden kann:
     @Test
+    @Order(4)
     public void testReadUserByID() {
 
         UserManager.createNewUser(testUser);
@@ -76,11 +105,11 @@ public class UserManagerTestDrive {
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.isAdmin());
-
     }
 
     // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
     @Test
+    @Order(5)
     public void testReadUserByEMail() {
 
         UserManager.createNewUser(testUser);
@@ -94,23 +123,16 @@ public class UserManagerTestDrive {
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.isAdmin());
-
-
-    }
-
-    // Nach jedem Test die Datenbank bereinigen:
-    @AfterEach
-    public void cleanUp() {
-
-        UserManager.deleteUserByID("testUserID");
     }
 
     //#region Registration and Authentication Tests
-
     @Test
-    @Order(3)
+    @Order(6)
     @DisplayName("Password-Registration Test")
     void isValidAndIsNotValidRegistrationPasswordTest() {
+
+        skipSetUp = true;
+        skipCleanUp = true;
 
         String validTestPassword = "eventManager123";
         String inValidTestPassword = "eventManagerÄ";
@@ -118,18 +140,18 @@ public class UserManagerTestDrive {
         assertFalse(UserManager.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
 
         assertTrue(UserManager.isValidRegistrationPassword(validTestPassword, "eventManager123"));
-
     }
 
     @Test
-    @Order(4)
+    @Order(7)
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
 
+        skipSetUp = true;
+        skipCleanUp = true;
+
         assertTrue(UserManager.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
-
     }
-
     //#endregion Registration and Authentication Tests
 
 }
