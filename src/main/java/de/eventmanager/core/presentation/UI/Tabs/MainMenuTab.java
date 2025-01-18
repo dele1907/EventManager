@@ -19,6 +19,14 @@ public class MainMenuTab implements Tab {
 
     @Override
     public void start() {
+        if (loggedInUser.isAdmin()) {
+            showAdminMainMenu();
+        } else {
+            showNonAdminMainMenu();
+        }
+    }
+
+    private void showAdminMainMenu() {
         boolean userIsLoggedIn = true;
         while (userIsLoggedIn) {
             textView.displayMessage("\n===== Main Menu =====");
@@ -31,17 +39,37 @@ public class MainMenuTab implements Tab {
 
             switch (choice) {
                 case "1":
-                    if (loggedInUser.isAdmin()) {
-                        AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
-                        adminOperationsTab.start();
-                    } else {
-                        textView.displayMessage("\nInvalid choice");
-                    }
+                    AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
+                    adminOperationsTab.start();
                     break;
                 case "2":
                     textView.displayMessage("\nSettings page (not implemented yet)\n");
                     break;
                 case "3":
+                    textView.displayMessage("\nLogging out...");
+                    userIsLoggedIn = false;
+                    loginTab.resetLoggedInUser();
+                    break;
+                default:
+                    textView.displayMessage("\nInvalid choice");
+                    break;
+            }
+        }
+    }
+
+    private void showNonAdminMainMenu() {
+        boolean userIsLoggedIn = true;
+        while (userIsLoggedIn) {
+            textView.displayMessage("\n===== Main Menu =====");
+            textView.displayMessage("\n1. Settings\n2. Logout");
+            textView.displayMessage("\nChoose an option: ");
+            String choice = textView.getUserInput();
+
+            switch (choice) {
+                case "1":
+                    textView.displayMessage("\nSettings page (not implemented yet)\n");
+                    break;
+                case "2":
                     textView.displayMessage("\nLogging out...");
                     userIsLoggedIn = false;
                     loginTab.resetLoggedInUser();
