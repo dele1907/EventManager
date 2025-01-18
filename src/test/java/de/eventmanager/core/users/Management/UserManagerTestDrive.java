@@ -9,6 +9,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserManagerTestDrive {
 
     private User testUser;
