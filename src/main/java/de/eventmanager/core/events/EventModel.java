@@ -82,10 +82,6 @@ public abstract class EventModel {
     public void setCategory(String category) {
         this.category = category;
     }
-
-    public void setPrivateEvent(boolean privateEvent) {
-        this.privateEvent = privateEvent;
-    }
     // #endregion Setter
 
 }
