@@ -358,8 +358,6 @@ public class JsonDatabaseHelper {
             for (Permission permission : permissions.get()) {
 
                 if (permission.getPermissionID().equals(permissionID)) {
-                    System.out.println(permission.getPermissionID());
-
                     return true;
                 }
             }

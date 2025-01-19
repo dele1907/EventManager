@@ -92,6 +92,36 @@
         "permissionID": "tsu7mY9GtQQXprG1rgVy",
         "permissionName": "permissionCanGetUserInformationByUserID",
         "isAdminPermission": "true"
+      },
+      {
+        "permissionID": "VGlYKTHutj5OveCTDSIa",
+        "permissionName": "permissionCanCreateEvent",
+        "isAdminPermission": "false"
+      },
+      {
+        "permissionID": "0Q0emQWDDenFwZu7qvC2",
+        "permissionName": "permissionCanBookEvent",
+        "isAdminPermission": "false"
+      },
+      {
+        "permissionID": "uZqEp9LHFijQt1BQM7PQ",
+        "permissionName": "permissionCanEditEvent",
+        "isAdminPermission": "false"
+      },
+      {
+        "permissionID": "C2kz6T40rhHNTaAQOX8F",
+        "permissionName": "permissionCanRemoveUserFromEvent",
+        "isAdminPermission": "false"
+      },
+      {
+        "permissionID": "71uq2UvaK7ua1uHfJTRA",
+        "permissionName": "permissionCanShowBookedUsersForEvent",
+        "isAdminPermission": "false"
+      },
+      {
+        "permissionID": "pF7g7cFdoxQr8E0K3kOY",
+        "permissionName": "permissionCanGetEventInformation",
+        "isAdminPermission": "false"
       }
     ],
     "has": [

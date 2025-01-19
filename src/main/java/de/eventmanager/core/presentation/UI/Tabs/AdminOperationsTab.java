@@ -53,7 +53,7 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleCreateUser() {
-        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.CREATE_USER_PERMISSION_ID)) {
+        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.PERMISSION_CREATE_USER_ID)) {
             textView.displayErrorMessage("\nYou do not have permission to create a user");
 
             return;
@@ -64,7 +64,7 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleDeleteUser() {
-        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.DELETE_USER_PERMISSION_ID)) {
+        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.PERMISSION_DELETE_USER_ID)) {
             textView.displayErrorMessage("\nYou do not have permission to delete a user");
 
             return;
@@ -75,7 +75,7 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleEditUser() {
-        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.EDIT_USER_PERMISSION_ID)) {
+        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.PERMISSION_EDIT_USER_ID)) {
             textView.displayErrorMessage("\nYou do not have permission to edit a user");
 
             return;

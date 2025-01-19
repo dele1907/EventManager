@@ -19,22 +19,22 @@ public class PermissionManager {
 
     //#region permission variables
     private final Permission DELETE_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.DELETE_USER_PERMISSION_ID
+            ConfigurationDataSupplierHelper.PERMISSION_DELETE_USER_ID
     );
     private final Permission CREATE_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.CREATE_USER_PERMISSION_ID
+            ConfigurationDataSupplierHelper.PERMISSION_CREATE_USER_ID
     );
     private final Permission EDIT_USER_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.EDIT_USER_PERMISSION_ID
+            ConfigurationDataSupplierHelper.PERMISSION_EDIT_USER_ID
     );
     private final Permission GET_USER_INFORMATION_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.GET_USER_INFORMATION_PERMISSION_ID
+            ConfigurationDataSupplierHelper.PERMISSION_GET_USER_INFORMATION_ID
     );
     private final Permission GIVE_ADMIN_STATUS_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.GIVE_USER_ADMIN_STATUS_PERMISSION_ID
+            ConfigurationDataSupplierHelper.PERMISSION_GIVE_USER_ADMIN_STATUS_ID
     );
     private final Permission REMOVE_ADMIN_STATUS_PERMISSION = getPermissionFromDatabaseByPermissionID(
-            ConfigurationDataSupplierHelper.REMOVE_USER_ADMIN_STATUS_PERMISSION_ID
+            ConfigurationDataSupplierHelper.PERMISSION_REMOVE_USER_ADMIN_STATUS_ID
     );
     //#endregion permission variables
 
