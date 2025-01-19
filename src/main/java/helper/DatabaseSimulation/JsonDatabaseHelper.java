@@ -394,11 +394,13 @@ public class JsonDatabaseHelper {
             try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
                 gson.toJson(database, fileWriter);
                 LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "Event added successfully");
+
                 return true;
             }
         } catch (Exception e) {
             LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error adding event: " + e.getMessage());
         }
+
         return false;
     }
 
@@ -418,11 +420,13 @@ public class JsonDatabaseHelper {
             try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
                 gson.toJson(database, fileWriter);
                 LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "User created event added successfully");
+
                 return true;
             }
         } catch (Exception e) {
             LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error adding user created event: " + e.getMessage());
         }
+
         return false;
     }
     //# endregion Events
