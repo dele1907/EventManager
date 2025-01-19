@@ -24,7 +24,7 @@ public class AdminEditUserTab implements Tab {
         Optional<User> userOptional = showFindUser();
 
         if (userOptional.isEmpty()) {
-            textView.displayMessage("\nUser not found.\n");
+            textView.displayErrorMessage("\nUser not found.\n");
 
             return;
         }
@@ -107,7 +107,7 @@ public class AdminEditUserTab implements Tab {
             user.setPhoneNumber(newPhoneNumber);
 
         } catch (NumberFormatException e) {
-            textView.displayMessage("\nInvalid phone number format. Please enter a valid number.");
+            textView.displayErrorMessage("\nInvalid phone number format. Please enter a valid number.");
             showEditPhoneNumber(user);
         }
     }

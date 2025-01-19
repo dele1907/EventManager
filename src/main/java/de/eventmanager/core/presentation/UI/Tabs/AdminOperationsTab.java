@@ -47,7 +47,7 @@ public class AdminOperationsTab implements Tab {
                     adminIsActive = false;
                     break;
                 default:
-                    textView.displayMessage("\nInvalid choice");
+                    textView.displayErrorMessage("\nInvalid choice");
                     break;
             }
         }

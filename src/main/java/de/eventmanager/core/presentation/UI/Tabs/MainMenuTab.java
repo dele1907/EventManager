@@ -54,7 +54,7 @@ public class MainMenuTab implements Tab {
     private boolean handleMenuChoice(MenuType menuType, String choice) {
         switch (choice) {
             case "1":
-                textView.displayMessage("\nSettings page (not implemented yet)\n");
+                textView.displayErrorMessage("\nSettings page (not implemented yet)\n");
                 break;
             case "2":
                 doLogout();
@@ -66,7 +66,7 @@ public class MainMenuTab implements Tab {
                 doShowAdminOperations(menuType);
                 break;
             default:
-                textView.displayMessage("\nInvalid choice!\n");
+                textView.displayErrorMessage("\nInvalid choice!\n");
                 break;
         }
 
@@ -103,7 +103,7 @@ public class MainMenuTab implements Tab {
             AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
             adminOperationsTab.start();
         } else {
-            textView.displayMessage("\nInvalid choice!\n");
+            textView.displayErrorMessage("\nInvalid choice!\n");
         }
     }
 }

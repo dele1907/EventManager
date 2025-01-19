@@ -20,7 +20,7 @@ public class AdminDeleteUserTab implements Tab {
         User user = JsonDatabaseHelper.getUserByEmailFromJson(email).orElse(null);
 
         if (user == null) {
-            textView.displayMessage("User not found.\n");
+            textView.displayErrorMessage("User not found.\n");
 
             return;
         }
@@ -34,7 +34,7 @@ public class AdminDeleteUserTab implements Tab {
             if (success) {
                 textView.displayMessage("\nUser deleted successfully.\n");
             } else {
-                textView.displayMessage("\nFailed to delete user. User may not exist.\n");
+                textView.displayErrorMessage("\nFailed to delete user. User may not exist.\n");
             }
         } else {
             textView.displayMessage("\nUser deletion canceled.\n");

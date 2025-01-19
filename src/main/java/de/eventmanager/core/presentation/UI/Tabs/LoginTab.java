@@ -41,7 +41,7 @@ public class LoginTab implements Tab {
                     System.exit(0);
                     break;
                 default:
-                    textView.displayMessage("\nInvalid choice");
+                    textView.displayErrorMessage("\nInvalid choice");
                     break;
             }
         }

@@ -40,7 +40,7 @@ public class UserController {
         if (successfullyRegistered) {
             view.displayMessage("\nUser registered successfully\n");
         }else {
-            view.displayMessage("\nUser registration failed\n");
+            view.displayErrorMessage("\nUser registration failed\n");
         }
 
     }
@@ -52,7 +52,7 @@ public class UserController {
         String password = view.getUserInput();
 
         if (email.isEmpty() || password.isEmpty()) {
-            view.displayMessage("\nYou must enter email or password");
+            view.displayErrorMessage("\nYou must enter email or password");
 
             return Optional.empty();
         }
@@ -64,7 +64,7 @@ public class UserController {
 
             return userToLogin;
         }else {
-            view.displayMessage("\nWrong email or password! Please try again.\n");
+            view.displayErrorMessage("\nWrong email or password! Please try again.\n");
 
             return Optional.empty();
         }
@@ -87,7 +87,7 @@ public class UserController {
                 validPhoneNumber = false;
 
             }catch (NumberFormatException e) {
-                view.displayMessage("Invalid input! Please enter a valid phone number\n");
+                view.displayErrorMessage("Invalid input! Please enter a valid phone number\n");
             }
         }
 
