@@ -21,14 +21,17 @@ public class AdminEditUserTab implements Tab {
     public void start() {
         textView.displayMessage("\n===== Edit User Tab =====");
 
-        User user = showFindUser().get();
+        Optional<User> userOptional = showFindUser();
 
-        displayUserDetails(user);
-        showEditFirstname(user);
-        showEditLastname(user);
-        showEditEmailAddress(user);
-        showEditPhoneNumber(user);
+        if (userOptional.isEmpty()) {
+            textView.displayMessage("\nUser not found.\n");
 
+            return;
+        }
+
+        User user = userOptional.get();
+
+        showEditUserDialog(user);
         userController.editUser(user);
         textView.displayMessage("\nUser details updated successfully!");
     }
@@ -44,56 +47,68 @@ public class AdminEditUserTab implements Tab {
     private Optional<User> showFindUser() {
         textView.displayMessage("\nEnter the email of the user to edit: ");
         String email = textView.getUserInput();
+
         Optional<User> userOptional = JsonDatabaseHelper.getUserByEmailFromJson(email);
 
-        if (!userOptional.isPresent()) {
-            textView.displayMessage("\nUser not found!");
+        return userOptional.isPresent() ? userOptional : Optional.empty();
+    }
 
-            return Optional.empty();
-        }
-
-        return userOptional;
+    private void showEditUserDialog(User user) {
+        displayUserDetails(user);
+        showEditFirstname(user);
+        showEditLastname(user);
+        showEditEmailAddress(user);
+        showEditPhoneNumber(user);
     }
 
     private void showEditFirstname(User user) {
         textView.displayMessage("\nEnter new first name (leave blank to keep current): ");
         String newFirstName = textView.getUserInput();
 
-        if (!newFirstName.isEmpty()) {
-            user.setFirstName(newFirstName);
+        if (newFirstName.isEmpty()) {
+            return;
         }
+
+        user.setFirstName(newFirstName);
     }
 
     private void showEditLastname(User user) {
         textView.displayMessage("\nEnter new last name (leave blank to keep current): ");
         String newLastName = textView.getUserInput();
 
-        if (!newLastName.isEmpty()) {
-            user.setLastName(newLastName);
+        if (newLastName.isEmpty()) {
+            return;
         }
+
+        user.setLastName(newLastName);
     }
 
     private void showEditEmailAddress(User user) {
         textView.displayMessage("\nEnter new email address (leave blank to keep current): ");
         String newEmail = textView.getUserInput();
 
-        if (!newEmail.isEmpty()) {
-            user.seteMailAddress(newEmail);
+        if (newEmail.isEmpty()) {
+            return;
         }
+
+        user.seteMailAddress(newEmail);
     }
 
     private void showEditPhoneNumber(User user) {
         textView.displayMessage("\nEnter new phone number (leave blank to keep current): ");
         String newPhoneNumberInput = textView.getUserInput();
 
-        if (!newPhoneNumberInput.isEmpty()) {
-            try {
-                int newPhoneNumber = Integer.parseInt(newPhoneNumberInput);
-                user.setPhoneNumber(newPhoneNumber);
+        if (newPhoneNumberInput.isEmpty()) {
+            return;
+        }
 
-            } catch (NumberFormatException e) {
-                textView.displayMessage("\nInvalid phone number format. Please enter a valid number.");
-            }
+        try {
+            int newPhoneNumber = Integer.parseInt(newPhoneNumberInput);
+            user.setPhoneNumber(newPhoneNumber);
+
+        } catch (NumberFormatException e) {
+            textView.displayMessage("\nInvalid phone number format. Please enter a valid number.");
+            showEditPhoneNumber(user);
         }
     }
 }
