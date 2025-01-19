@@ -2,7 +2,9 @@ package de.eventmanager.core.presentation.Controller;
 
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.View;
+import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
+import helper.DatabaseSimulation.JsonDatabaseHelper;
 
 import java.util.Optional;
 
@@ -66,6 +68,11 @@ public class UserController {
 
             return Optional.empty();
         }
+    }
+
+    public void editUser(User user) {
+        //UserManager.updateUser(user);
+        JsonDatabaseHelper.findAndUpdateUser(user);
     }
 
     private int isValidPhoneNumber() {

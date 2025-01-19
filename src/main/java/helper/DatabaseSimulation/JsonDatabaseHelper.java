@@ -320,4 +320,34 @@ public class JsonDatabaseHelper {
 
         return Optional.empty();
     }
+
+    public static boolean findAndUpdateUser(User user) {
+        Optional<JsonArray> usersOpt = readUsersFromJson();
+
+        if (usersOpt.isPresent()) {
+            JsonArray users = usersOpt.get();
+
+            for (JsonElement element : users) {
+                JsonObject userJson = element.getAsJsonObject();
+
+                if (user.getUserID().equals(userJson.get("userID").getAsString())) {
+                    userJson.addProperty("firstName", user.getFirstName());
+                    userJson.addProperty("lastName", user.getLastName());
+                    userJson.addProperty("dateOfBirth", user.getDateOfBirth());
+                    userJson.addProperty("eMailAddress", user.getEMailAddress());
+                    userJson.addProperty("password", user.getPassword());
+                    userJson.addProperty("phoneNumber", user.getPhoneNumber());
+                    userJson.addProperty("isAdmin", user.isAdmin());
+
+                    return writeUsersToJson(users);
+                }
+            }
+            LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "No user found with the given ID");
+
+        } else {
+            LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error reading users from json.");
+        }
+
+        return false;
+    }
 }

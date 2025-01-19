@@ -32,7 +32,7 @@ public class AdminOperationsTab implements Tab {
 
             switch (choice) {
                 case "1":
-                    AdminEditUserTab editUserTab = new AdminEditUserTab();
+                    AdminEditUserTab editUserTab = new AdminEditUserTab(textView, userController);
                     editUserTab.start();
                     break;
                 case "2":
