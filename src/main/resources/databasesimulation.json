@@ -50,6 +50,16 @@
         "password": "123456",
         "phoneNumber": 1234567,
         "isAdmin": false
+      },
+      {
+        "userID": "w483bDAC8pZXxC9rpuAT",
+        "firstName": "Karl",
+        "lastName": "Napp",
+        "dateOfBirth": "01-01-1000",
+        "eMailAddress": "karl@napp.de",
+        "password": "123",
+        "phoneNumber": 123,
+        "isAdmin": false
       }
     ],
     "permissions": [

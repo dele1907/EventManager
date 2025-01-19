@@ -57,27 +57,16 @@ public class MainMenuTab implements Tab {
                 textView.displayMessage("\nSettings page (not implemented yet)\n");
                 break;
             case "2":
-                textView.displayMessage("\nLogging out...");
-                loginTab.resetLoggedInUser();
+                doLogout();
+
                 return false;
             case "3":
-                textView.displayMessage("\nLogging out...");
-                loginTab.resetLoggedInUser();
-
-                addDelay(2);
-
-                textView.displayMessage("\nExiting Program...");
-                System.exit(0);
+                doLogoutAndExitProgram();
             case "4":
-                if (menuType == MenuType.ADMIN) {
-                    AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
-                    adminOperationsTab.start();
-                } else {
-                    textView.displayMessage("\nInvalid choice");
-                }
+                doShowAdminOperations(menuType);
                 break;
             default:
-                textView.displayMessage("\nInvalid choice");
+                textView.displayMessage("\nInvalid choice!\n");
                 break;
         }
 
@@ -91,6 +80,30 @@ public class MainMenuTab implements Tab {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    private void doLogout() {
+        textView.displayMessage("\nLogging out...\n");
+        loginTab.resetLoggedInUser();
+    }
+
+    private void doLogoutAndExitProgram() {
+        textView.displayMessage("\nLogging out...\n");
+        loginTab.resetLoggedInUser();
+
+        addDelay(2);
+
+        textView.displayMessage("\nExiting Program...\n");
+        System.exit(0);
+    }
+
+    private void doShowAdminOperations(MenuType menuType) {
+        if (menuType == MenuType.ADMIN) {
+            AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
+            adminOperationsTab.start();
+        } else {
+            textView.displayMessage("\nInvalid choice!\n");
         }
     }
 }
