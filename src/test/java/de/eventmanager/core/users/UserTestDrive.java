@@ -88,6 +88,7 @@ public class UserTestDrive {
         testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
         assertFalse(testUser.isAdmin());
     }
+    //#endregion Permission Tests
 
     @Test
     @Order(5)
@@ -97,8 +98,6 @@ public class UserTestDrive {
 
         assertTrue(user.createEvent(true, "My Birthday", "2025-10-10", "Birthday").isPresent());
     }
-
-    //#endregion Permission Tests
 
 }
 
