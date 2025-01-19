@@ -1,6 +1,7 @@
 package de.eventmanager.core.users;
 
 
+import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.permissions.Permission;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -42,7 +43,7 @@ public abstract class UserModel {
 
     public abstract Optional<User> getUserByEmail(String eMailAddress);
 
-    public void createEvent(String eventID) {}
+    public abstract Optional<EventModel> createEvent(boolean isPrivateEvent , String eventName, String eventDateTime, String category);
 
     public void editEvent(String eventID) {}
 

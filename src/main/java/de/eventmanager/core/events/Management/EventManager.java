@@ -13,6 +13,7 @@ import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import static org.jooq.generated.tables.Events.EVENTS;
+import static org.jooq.generated.tables.Created.CREATED;
 
 public class EventManager {
 
@@ -225,6 +226,23 @@ public class EventManager {
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_DELETED + exception.getMessage());
+
+            return false;
+        }
+    }
+
+    public static boolean addUserCreatedEvent(String eventID, String userID) {
+        try (Connection connection = DatabaseConnector.connect()) {
+            DSLContext create = DSL.using(connection);
+
+            int rowsAffected = create.insertInto(CREATED, CREATED.EVENTID, CREATED.USERID)
+                    .values(eventID, userID)
+                    .execute();
+
+            return rowsAffected > 0;
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, "Error adding user created event: " +
+                    exception.getMessage());
 
             return false;
         }

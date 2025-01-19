@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.google.common.reflect.TypeToken;
+import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.permissions.Permission;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
@@ -365,4 +367,63 @@ public class JsonDatabaseHelper {
 
         return false;
     }
+
+    //#region Events
+    public static boolean createNewEvent(EventModel event) {
+        try (FileReader fileReader = new FileReader(DATABASE_PATH)) {
+            Type databaseType = new TypeToken<List<JsonObject>>() {}.getType();
+            List<JsonObject> database = gson.fromJson(fileReader, databaseType);
+            JsonObject root = database.get(0);
+            JsonArray events = root.getAsJsonArray("events");
+
+            JsonObject newEvent = new JsonObject();
+            newEvent.addProperty("eventID", event.getEventID());
+            newEvent.addProperty("eventName", event.getEventName());
+            newEvent.addProperty("eventDateTime", event.getEventDateTime().toString());
+            newEvent.addProperty("numberOfBookedUsersOnEvent", event.getNumberOfBookedUsersOnEvent());
+            newEvent.addProperty("category", event.getCategory());
+            newEvent.addProperty("privateEvent", event.isPrivateEvent());
+
+            if (event instanceof PublicEvent) {
+                PublicEvent publicEvent = (PublicEvent) event;
+                newEvent.addProperty("maximumCapacity", publicEvent.getMaximumCapacity());
+            }
+
+            events.add(newEvent);
+
+            try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
+                gson.toJson(database, fileWriter);
+                LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "Event added successfully");
+                return true;
+            }
+        } catch (Exception e) {
+            LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error adding event: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean addUserCreatedEvent(String eventID, String userID) {
+        try (FileReader fileReader = new FileReader(DATABASE_PATH)) {
+            Type databaseType = new TypeToken<List<JsonObject>>() {}.getType();
+            List<JsonObject> database = gson.fromJson(fileReader, databaseType);
+            JsonObject root = database.get(0);
+            JsonArray createdEvents = root.getAsJsonArray("created");
+
+            JsonObject newCreatedEvent = new JsonObject();
+            newCreatedEvent.addProperty("eventID", eventID);
+            newCreatedEvent.addProperty("userID", userID);
+
+            createdEvents.add(newCreatedEvent);
+
+            try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
+                gson.toJson(database, fileWriter);
+                LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "User created event added successfully");
+                return true;
+            }
+        } catch (Exception e) {
+            LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error adding user created event: " + e.getMessage());
+        }
+        return false;
+    }
+    //# endregion Events
 }

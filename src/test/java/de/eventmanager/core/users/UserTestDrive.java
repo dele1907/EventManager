@@ -2,6 +2,7 @@ package de.eventmanager.core.users;
 
 
 import de.eventmanager.core.users.Management.UserManager;
+import helper.DatabaseSimulation.JsonDatabaseHelper;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,6 +87,15 @@ public class UserTestDrive {
 
         testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
         assertFalse(testUser.isAdmin());
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("Add User created Event Test")
+    void addUserCreatedEventTest() {
+        User user = JsonDatabaseHelper.getUserByEmailFromJson("dele00003@htwsaar.de").get();
+
+        assertTrue(user.createEvent(true, "My Birthday", "2025-10-10", "Birthday").isPresent());
     }
 
     //#endregion Permission Tests

@@ -1,8 +1,13 @@
 package de.eventmanager.core.users;
 
+import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.events.Management.EventManager;
+import de.eventmanager.core.events.PrivateEvent;
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.permissions.Permission;
 import de.eventmanager.core.permissions.Management.PermissionManager;
+import helper.DatabaseSimulation.JsonDatabaseHelper;
 import helper.IDGenerationHelper;
 import helper.LoggerHelper;
 import helper.PermissionUserAssignmentHelper;
@@ -181,6 +186,26 @@ public class User extends UserModel{
     }
 
     //#endregion CRUD-Operations
+
+    //#region Event related Operations
+
+    @Override
+    public Optional<EventModel> createEvent(boolean isPrivateEvent , String eventName, String eventDateTime, String category) {
+        EventModel event;
+        if (isPrivateEvent) {
+            event = new PrivateEvent(eventName, eventDateTime, category);
+        } else {
+            event = new PublicEvent(eventName, eventDateTime, category);
+        }
+        /*EventManager.createNewEvent(event);
+        EventManager.addUserCreatedEvent(event.getEventID(), this.userID);*/
+        JsonDatabaseHelper.createNewEvent(event);
+        JsonDatabaseHelper.addUserCreatedEvent(event.getEventID(), this.userID);
+
+        return Optional.of(event);
+    }
+
+    //#endregion Event related Operations
 
     //#region Permission-Operations
 
