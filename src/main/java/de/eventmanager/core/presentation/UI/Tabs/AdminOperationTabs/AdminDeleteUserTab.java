@@ -32,7 +32,7 @@ public class AdminDeleteUserTab implements Tab {
             boolean success = JsonDatabaseHelper.removeUserByEmailFromJson(email);
 
             if (success) {
-                textView.displayMessage("\nUser deleted successfully.\n");
+                textView.displaySuccessMessage("\nUser deleted successfully.\n");
             } else {
                 textView.displayErrorMessage("\nFailed to delete user. User may not exist.\n");
             }

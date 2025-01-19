@@ -38,7 +38,7 @@ public class UserController {
         boolean successfullyRegistered = userService.registerUser(firstName, lastName, dateOfBirth, email, phoneNumber, password, confirmPassword);
 
         if (successfullyRegistered) {
-            view.displayMessage("\nUser registered successfully\n");
+            view.displaySuccessMessage("\nUser registered successfully\n");
         }else {
             view.displayErrorMessage("\nUser registration failed\n");
         }

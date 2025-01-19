@@ -33,7 +33,7 @@ public class AdminEditUserTab implements Tab {
 
         showEditUserDialog(user);
         userController.editUser(user);
-        textView.displayMessage("\nUser details updated successfully!");
+        textView.displaySuccessMessage("\nUser details updated successfully!");
     }
 
     private void displayUserDetails(User user) {
