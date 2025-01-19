@@ -1,9 +1,12 @@
 package de.eventmanager.core.users;
 
 
+import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.users.Management.UserManager;
 import helper.DatabaseSimulation.JsonDatabaseHelper;
 import org.junit.jupiter.api.*;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -96,7 +99,17 @@ public class UserTestDrive {
     void addUserCreatedEventTest() {
         User user = JsonDatabaseHelper.getUserByEmailFromJson("dele00003@htwsaar.de").get();
 
-        assertTrue(user.createEvent(true, "My Birthday", "2025-10-10", "Birthday").isPresent());
+        Optional<EventModel> privateEvent = user.createPrivateEvent("My Birthday", "2025-10-10", "Birthday");
+        Optional<EventModel> publicEvent = user.createPublicEvent("Rammstein Paris", "2025-10-10", "Concert", 0);
+
+        assertTrue(privateEvent.isPresent());
+        assertTrue(publicEvent.isPresent());
+
+        assertTrue(JsonDatabaseHelper.removeEventFromEvents(privateEvent.get()));
+        assertTrue(JsonDatabaseHelper.removeEventFromEvents(publicEvent.get()));
+
+        assertTrue(JsonDatabaseHelper.removeUserCreatedEvent(privateEvent.get(), user));
+        assertTrue(JsonDatabaseHelper.removeUserCreatedEvent(publicEvent.get(), user));
     }
 
 }

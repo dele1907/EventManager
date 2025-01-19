@@ -429,5 +429,60 @@ public class JsonDatabaseHelper {
 
         return false;
     }
+
+    public static boolean removeEventFromEvents(EventModel event) {
+        try (FileReader fileReader = new FileReader(DATABASE_PATH)) {
+            Type databaseType = new TypeToken<List<JsonObject>>() {}.getType();
+            List<JsonObject> database = gson.fromJson(fileReader, databaseType);
+            JsonObject root = database.get(0);
+            JsonArray events = root.getAsJsonArray("events");
+
+            boolean removed = events.asList().removeIf(e -> e.getAsJsonObject().get("eventID").getAsString().equals(event.getEventID()));
+
+            if (removed) {
+                try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
+                    gson.toJson(database, fileWriter);
+                    LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "Event removed successfully");
+
+                    return true;
+                }
+            } else {
+                LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "Event not found");
+            }
+        } catch (Exception e) {
+            LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error removing event: " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public static boolean removeUserCreatedEvent(EventModel even, User user) {
+        try (FileReader fileReader = new FileReader(DATABASE_PATH)) {
+            Type databaseType = new TypeToken<List<JsonObject>>() {}.getType();
+            List<JsonObject> database = gson.fromJson(fileReader, databaseType);
+            JsonObject root = database.get(0);
+            JsonArray createdEvents = root.getAsJsonArray("created");
+
+            boolean removed = createdEvents.asList().removeIf(e ->
+                    e.getAsJsonObject().get("eventID").getAsString().equals(even.getEventID()) &&
+                            e.getAsJsonObject().get("userID").getAsString().equals(user.getUserID())
+            );
+
+            if (removed) {
+                try (FileWriter fileWriter = new FileWriter(DATABASE_PATH)) {
+                    gson.toJson(database, fileWriter);
+                    LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "User created event removed successfully");
+
+                    return true;
+                }
+            } else {
+                LoggerHelper.logInfoMessage(JsonDatabaseHelper.class, "User created event not found");
+            }
+        } catch (Exception e) {
+            LoggerHelper.logErrorMessage(JsonDatabaseHelper.class, "Error removing user created event: " + e.getMessage());
+        }
+
+        return false;
+    }
     //# endregion Events
 }

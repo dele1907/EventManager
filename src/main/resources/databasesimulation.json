@@ -222,22 +222,8 @@
         "permissionID": "EFdTxfa05Ngu9z47jIw2"
       }
     ],
-    "events": [
-      {
-        "eventID": "E1ds1wA82Nh9444OBowo",
-        "eventName": "My Birthday",
-        "eventDateTime": "2025-10-10",
-        "numberOfBookedUsersOnEvent": 0,
-        "category": "Birthday",
-        "privateEvent": true
-      }
-    ],
+    "events": [],
     "booked": [],
-    "created": [
-      {
-        "eventID": "E1ds1wA82Nh9444OBowo",
-        "userID": "duuuY5XI4XyPQnzIChVL"
-      }
-    ]
+    "created": []
   }
 ]
