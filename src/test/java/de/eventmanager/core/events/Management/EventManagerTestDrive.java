@@ -4,6 +4,8 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import org.junit.jupiter.api.*;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,7 +24,7 @@ public class EventManagerTestDrive {
     @BeforeEach
     public void setUp() {
 
-        if(skipSetUp) {
+        if (skipSetUp) {
 
             return;
         }
@@ -38,7 +40,7 @@ public class EventManagerTestDrive {
     @AfterEach
     public void cleanUp() {
 
-        if(skipCleanUp) {
+        if (skipCleanUp) {
 
             return;
         }
@@ -123,8 +125,8 @@ public class EventManagerTestDrive {
         EventManager.createNewEvent(testPrivateEvent);
         EventManager.createNewEvent(testPublicEvent);
 
-        PrivateEvent privateEventFromDatabase = (PrivateEvent) EventManager.readPrivateEventByID("testPrivateEventID");
-        PublicEvent publicEventFromDatabase = (PublicEvent) EventManager.readPublicEventByID("testPublicEventID");
+        PrivateEvent privateEventFromDatabase = EventManager.readPrivateEventByID("testPrivateEventID").get();
+        PublicEvent publicEventFromDatabase = EventManager.readPublicEventByID("testPublicEventID").get();
 
         assertEquals("testPrivateEventID", privateEventFromDatabase.getEventID());
         assertEquals("Geburtstag von Oma", privateEventFromDatabase.getEventName());

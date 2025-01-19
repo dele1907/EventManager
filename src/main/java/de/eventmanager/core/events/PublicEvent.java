@@ -2,10 +2,12 @@ package de.eventmanager.core.events;
 
 import de.eventmanager.core.events.Management.EventManager;
 import helper.IDGenerationHelper;
+import helper.LoggerHelper;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class PublicEvent extends EventModel{
+public class PublicEvent extends EventModel {
 
     private int maximumCapacity = -1;
 
@@ -53,7 +55,7 @@ public class PublicEvent extends EventModel{
     }
 
     @Override
-    public EventModel getEventByID(String eventID) {
+    public Optional<? extends EventModel> getEventByID(String eventID) {
 
         return EventManager.readPublicEventByID(eventID);
     }
@@ -61,30 +63,42 @@ public class PublicEvent extends EventModel{
     @Override
     public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
 
-        PublicEvent eventToEdit = (PublicEvent) EventManager.readPublicEventByID(eventID);
+        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
-        eventToEdit.setEventName(eventName);
-        eventToEdit.setEventDateTime(eventDateTime);
-        eventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
-        eventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
-        eventToEdit.setCategory(category);
+        if (publicEvent.isPresent()) {
+            PublicEvent publicEventToEdit = publicEvent.get();
 
-        EventManager.updateEvent(eventToEdit);
+            publicEventToEdit.setEventName(eventName);
+            publicEventToEdit.setEventDateTime(eventDateTime);
+            publicEventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
+            publicEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
+            publicEventToEdit.setCategory(category);
+
+            EventManager.updateEvent(publicEventToEdit);
+
+            LoggerHelper.logInfoMessage(PublicEvent.class, "Event after editing: " + publicEventToEdit);
+        }
     }
 
     // überladene Methode für Events mit maximaler Kapazität
     public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category, int maximumCapacity) {
 
-        PublicEvent eventToEdit = (PublicEvent) EventManager.readPublicEventByID(eventID);
+        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
-        eventToEdit.setEventName(eventName);
-        eventToEdit.setEventDateTime(eventDateTime);
-        eventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
-        eventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
-        eventToEdit.setCategory(category);
-        eventToEdit.setMaximumCapacity(maximumCapacity);
+        if (publicEvent.isPresent()) {
+            PublicEvent publicEventToEdit = publicEvent.get();
 
-        EventManager.updateEvent(eventToEdit);
+            publicEventToEdit.setEventName(eventName);
+            publicEventToEdit.setEventDateTime(eventDateTime);
+            publicEventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
+            publicEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
+            publicEventToEdit.setCategory(category);
+            publicEventToEdit.setMaximumCapacity(maximumCapacity);
+
+            EventManager.updateEvent(publicEventToEdit);
+
+            LoggerHelper.logInfoMessage(PublicEvent.class, "Event after editing: " + publicEventToEdit);
+        }
     }
 
     @Override
@@ -106,4 +120,11 @@ public class PublicEvent extends EventModel{
     }
     // #endregion Setter
 
+    // #region toString
+    @Override
+    public String toString() {
+        return "\nevent name: " + eventName + "\nevent date: " + eventDateTime + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
+                "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity;
+    }
+    // #endregion toString
 }

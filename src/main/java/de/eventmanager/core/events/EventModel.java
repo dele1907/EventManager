@@ -1,6 +1,7 @@
 package de.eventmanager.core.events;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public abstract class EventModel {
 
@@ -19,7 +20,7 @@ public abstract class EventModel {
             String category
     );
 
-    public abstract EventModel getEventByID(String eventID);
+    public abstract Optional<? extends EventModel> getEventByID(String eventID);
 
     public abstract void editEvent(
             String eventID,

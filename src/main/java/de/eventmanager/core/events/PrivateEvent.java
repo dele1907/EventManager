@@ -2,8 +2,10 @@ package de.eventmanager.core.events;
 
 import de.eventmanager.core.events.Management.EventManager;
 import helper.IDGenerationHelper;
+import helper.LoggerHelper;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class PrivateEvent extends EventModel{
 
@@ -34,7 +36,7 @@ public class PrivateEvent extends EventModel{
     }
 
     @Override
-    public EventModel getEventByID(String eventID) {
+    public Optional<? extends EventModel> getEventByID(String eventID) {
 
         return EventManager.readPrivateEventByID(eventID);
     }
@@ -42,15 +44,21 @@ public class PrivateEvent extends EventModel{
     @Override
     public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
 
-        PrivateEvent eventToEdit = (PrivateEvent) EventManager.readPrivateEventByID(eventID);
+        Optional<PrivateEvent> privateEvent = EventManager.readPrivateEventByID(eventID);
 
-        eventToEdit.setEventName(eventName);
-        eventToEdit.setEventDateTime(eventDateTime);
-        eventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
-        eventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
-        eventToEdit.setCategory(category);
+        if (privateEvent.isPresent()) {
+            PrivateEvent privateEventToEdit = privateEvent.get();
 
-        EventManager.updateEvent(eventToEdit);
+            privateEventToEdit.setEventName(eventName);
+            privateEventToEdit.setEventDateTime(eventDateTime);
+            privateEventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
+            privateEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
+            privateEventToEdit.setCategory(category);
+
+            EventManager.updateEvent(privateEventToEdit);
+
+            LoggerHelper.logInfoMessage(PublicEvent.class, "Event after editing: " + privateEventToEdit);
+        }
     }
 
     @Override
@@ -60,4 +68,11 @@ public class PrivateEvent extends EventModel{
     }
     // #endregion CRUD-Operationen
 
+    // #region toString
+    @Override
+    public String toString() {
+        return "\nevent name: " + eventName + "\nevent date: " + eventDateTime + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
+                "\ncategory: " + category + "\nprivate event: " + privateEvent;
+    }
+    // #endregion toString
 }

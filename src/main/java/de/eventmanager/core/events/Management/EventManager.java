@@ -1,6 +1,7 @@
 package de.eventmanager.core.events.Management;
 
 import java.sql.Connection;
+import java.util.Optional;
 
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.events.EventModel;
@@ -32,7 +33,7 @@ public class EventManager {
 
             int rowsAffected = 0;
 
-            if(event.isPrivateEvent()) {
+            if (event.isPrivateEvent()) {
                 PrivateEvent privateEvent = (PrivateEvent) event;
 
                 rowsAffected = create.insertInto(EVENTS,
@@ -86,7 +87,7 @@ public class EventManager {
     }
 
     // privates Event laden (READ) anhand der ID
-    public static PrivateEvent readPrivateEventByID(String eventID) {
+    public static Optional<PrivateEvent> readPrivateEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -99,7 +100,7 @@ public class EventManager {
 
             if (record != null) {
 
-                return new PrivateEvent(
+                PrivateEvent privateEvent = new PrivateEvent(
                         record.get(EVENTS.EVENTID),
                         record.get(EVENTS.EVENTNAME),
                         record.get(EVENTS.EVENTDATETIME),
@@ -108,17 +109,19 @@ public class EventManager {
                         record.get(EVENTS.CATEGORY),
                         record.get(EVENTS.PRIVATEEVENT)
                     );
+
+                return Optional.of(privateEvent);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
         }
 
-        return null;
+        return Optional.empty();
     }
 
     // öffentliches Event laden (READ) anhand der ID
-    public static PublicEvent readPublicEventByID(String eventID) {
+    public static Optional<PublicEvent> readPublicEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -131,7 +134,7 @@ public class EventManager {
 
             if (record != null) {
 
-                return new PublicEvent(
+                PublicEvent publicEvent = new PublicEvent(
                         record.get(EVENTS.EVENTID),
                         record.get(EVENTS.EVENTNAME),
                         record.get(EVENTS.EVENTDATETIME),
@@ -141,13 +144,15 @@ public class EventManager {
                         record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.MAXIMUMCAPACITY)
                 );
+
+                return Optional.of(publicEvent);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
         }
 
-        return null;
+        return Optional.empty();
     }
 
     // Event ändern (UPDATE)
@@ -159,7 +164,7 @@ public class EventManager {
 
             int rowsUpdated = 0;
 
-            if(event.isPrivateEvent()) {
+            if (event.isPrivateEvent()) {
                 PrivateEvent privateEvent = (PrivateEvent) event;
 
                 rowsUpdated = create.update(EVENTS)
