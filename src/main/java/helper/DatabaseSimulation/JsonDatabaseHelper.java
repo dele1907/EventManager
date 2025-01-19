@@ -350,4 +350,21 @@ public class JsonDatabaseHelper {
 
         return false;
     }
+
+    public static boolean getUserHasSpecificPermission(User user, String permissionID) {
+        Optional<List<Permission>> permissions = getPermissionsForUserFromJson(user);
+
+        if (permissions.isPresent()) {
+            for (Permission permission : permissions.get()) {
+
+                if (permission.getPermissionID().equals(permissionID)) {
+                    System.out.println(permission.getPermissionID());
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
