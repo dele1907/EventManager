@@ -3,6 +3,7 @@ package de.eventmanager.core.users;
 
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.Management.EventManager;
+import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
 import org.junit.jupiter.api.*;
 
@@ -80,39 +81,18 @@ public class UserTestDrive {
 
     //#region Permission Tests
     //Todo @Finn @Timo ! entfernen sobald nicht mehr mit DummyUsern gearbeitet/getestet wird
-    /*@Test
+    @Test
     @Order(3)
     @DisplayName("Add&Remove AdminStatus Test")
-    @Disabled
     void addAndRemoveAdminStatusToUserTest() {
 
         testAdminUser.addAdminStatusToUserByUserID(testUser.getUserID());
-        assertTrue(!testUser.isAdmin());
+        assertTrue(!testUser.getRole().equals(Role.ADMIN));
 
         testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
-        assertFalse(testUser.isAdmin());
-    }*/
+        assertFalse(testUser.getRole().equals(Role.ADMIN));
+    }
     //#endregion Permission Tests
-
-    /*@Test
-    @Order(5)
-    @DisplayName("Add User created Event Test")
-    @Disabled
-    void addUserCreatedEventTest() {
-        User user = JsonDatabaseHelper.getUserByEmailFromJson("dele00003@htwsaar.de").get();
-
-        Optional<EventModel> privateEvent = user.createPrivateEvent("My Birthday", "2025-10-10", "2025-10-10", "Birthday");
-        Optional<EventModel> publicEvent = user.createPublicEvent("Rammstein Paris", "2025-10-10", "2025-10-10", "Concert", 0);
-
-        assertTrue(privateEvent.isPresent());
-        assertTrue(publicEvent.isPresent());
-
-        assertTrue(Json..removeEventFromEvents(privateEvent.get()));
-        assertTrue(JsonDatabaseHelper.removeEventFromEvents(publicEvent.get()));
-
-        assertTrue(JsonDatabaseHelper.removeUserCreatedEvent(privateEvent.get(), user));
-        assertTrue(JsonDatabaseHelper.removeUserCreatedEvent(publicEvent.get(), user));
-    }*/
 
 }
 
