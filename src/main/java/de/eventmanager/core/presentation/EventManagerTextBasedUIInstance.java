@@ -8,31 +8,41 @@ import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
+import helper.LoggerHelper;
 
 import java.util.Optional;
 
-public class EventManagerTextBasedUIInstance {
+public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static View textView = new TextView();
     private static UserService userServiceImpl = new UserServiceImpl();
     private static UserController userController = new UserController(textView, userServiceImpl);
     private static Optional<User> loggedInUser;
     private static LoginTab loginTab = new LoginTab(textView, userController);
 
-public void startEventManagerInstance() {
-    boolean programIsRunning = true;
+    public void startEventManagerInstance() {
+        initDatabase();
 
-    while (programIsRunning) {
-        try {
-            loginTab.start();
-            loggedInUser = loginTab.getLoggedInUser();
+        boolean programIsRunning = true;
 
-            if (loggedInUser.isPresent()) {
-                MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginTab, userController);
-                mainMenuTab.start();
+        while (programIsRunning) {
+            try {
+                loginTab.start();
+                loggedInUser = loginTab.getLoggedInUser();
+
+                if (loggedInUser.isPresent()) {
+                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginTab, userController);
+                    mainMenuTab.start();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
-}
+
+    public void initDatabase() {
+        /**
+         * TODO init database
+         * */
+        LoggerHelper.logInfoMessage(EventManagerTextBasedUIInstance.class, "Database initialized");
+    }
 }
