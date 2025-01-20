@@ -190,10 +190,10 @@ public class User extends UserModel{
     //#region Event related Operations
 
     @Override
-    public Optional<EventModel> createPrivateEvent(String eventName, String eventDateTime, String category) {
+    public Optional<EventModel> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category) {
         EventModel event;
 
-            event = new PrivateEvent(eventName, eventDateTime, category);
+            event = new PrivateEvent(eventName, eventStart, eventEnd, category);
         /*EventManager.createNewEvent(event);
         EventManager.addUserCreatedEvent(event.getEventID(), this.userID);*/
         JsonDatabaseHelper.createNewEvent(event);
@@ -203,14 +203,14 @@ public class User extends UserModel{
     }
 
     @Override
-    public Optional<EventModel> createPublicEvent(String eventName, String eventDateTime, String category, int maxParticipants) {
+    public Optional<EventModel> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, int maxParticipants) {
         EventModel event;
 
         if (maxParticipants == 0) {
             maxParticipants = -1;
         }
 
-        event = new PublicEvent(eventName, eventDateTime, category, maxParticipants);
+        event = new PublicEvent(eventName, eventStart, eventEnd, category, maxParticipants);
         /*EventManager.createNewEvent(event);
         EventManager.addUserCreatedEvent(event.getEventID(), this.userID);*/
         JsonDatabaseHelper.createNewEvent(event);

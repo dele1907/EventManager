@@ -12,29 +12,32 @@ public class PublicEvent extends EventModel {
     private int maximumCapacity = -1;
 
     // Konstruktor für öffentliche Events ohne Teilnehmerbeschränkung
-    public PublicEvent(String eventName, String eventDateTime, String category) {
+    public PublicEvent(String eventName, String eventStart, String eventEnd, String category) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
-        this.eventDateTime = eventDateTime;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
         this.category = category;
         this.privateEvent = false;
     }
 
     // Konstruktor für öffentliche Events mit Teilnehmerbeschränkung
-    public PublicEvent(String eventName, String eventDateTime, String category, int maximumCapacity) {
+    public PublicEvent(String eventName,  String eventStart, String eventEnd, String category, int maximumCapacity) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
-        this.eventDateTime = eventDateTime;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
         this.category = category;
         this.privateEvent = false;
         this.maximumCapacity = maximumCapacity;
     }
 
     // Konstruktor für öffentliche Events aus DB
-    public PublicEvent(String eventID, String eventName, String eventDateTime, int numberOfBookedUsersOnEvent, String category, boolean privateEvent, int maximumCapacity) {
+    public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, String category, boolean privateEvent, int maximumCapacity) {
         this.eventID = eventID;
         this.eventName = eventName;
-        this.eventDateTime = eventDateTime;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
         this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
         this.category = category;
         this.privateEvent = privateEvent;
@@ -43,15 +46,15 @@ public class PublicEvent extends EventModel {
 
     // #region CRUD-Operationen
     @Override
-    public boolean createNewEvent(String eventName, String eventDateTime, String category) {
+    public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category) {
 
-        return EventManager.createNewEvent(new PublicEvent(eventName, eventDateTime, category));
+        return EventManager.createNewEvent(new PublicEvent(eventName, eventStart, eventEnd, category));
     }
 
     // überladene Methode für Events mit maximaler Kapazität
-    public boolean createNewEvent(String eventName, String eventDateTime, String category, int maximumCapacity) {
+    public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category, int maximumCapacity) {
 
-        return EventManager.createNewEvent(new PublicEvent(eventName, eventDateTime, category, maximumCapacity));
+        return EventManager.createNewEvent(new PublicEvent(eventName, eventStart, eventEnd, category, maximumCapacity));
     }
 
     @Override
@@ -61,7 +64,7 @@ public class PublicEvent extends EventModel {
     }
 
     @Override
-    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category) {
+    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, ArrayList<String> bookedUsersOnEvent, String category) {
 
         Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
@@ -69,7 +72,8 @@ public class PublicEvent extends EventModel {
             PublicEvent publicEventToEdit = publicEvent.get();
 
             publicEventToEdit.setEventName(eventName);
-            publicEventToEdit.setEventDateTime(eventDateTime);
+            publicEventToEdit.setEventStart(eventStart);
+            publicEventToEdit.setEventEnd(eventEnd);
             publicEventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
             publicEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
             publicEventToEdit.setCategory(category);
@@ -81,7 +85,7 @@ public class PublicEvent extends EventModel {
     }
 
     // überladene Methode für Events mit maximaler Kapazität
-    public void editEvent(String eventID, String eventName, String eventDateTime, ArrayList<String> bookedUsersOnEvent, String category, int maximumCapacity) {
+    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, ArrayList<String> bookedUsersOnEvent, String category, int maximumCapacity) {
 
         Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
@@ -89,7 +93,8 @@ public class PublicEvent extends EventModel {
             PublicEvent publicEventToEdit = publicEvent.get();
 
             publicEventToEdit.setEventName(eventName);
-            publicEventToEdit.setEventDateTime(eventDateTime);
+            publicEventToEdit.setEventStart(eventStart);
+            publicEventToEdit.setEventEnd(eventEnd);
             publicEventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
             publicEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
             publicEventToEdit.setCategory(category);
@@ -123,7 +128,7 @@ public class PublicEvent extends EventModel {
     // #region toString
     @Override
     public String toString() {
-        return "\nevent name: " + eventName + "\nevent date: " + eventDateTime + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
+        return "\nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
                 "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity;
     }
     // #endregion toString

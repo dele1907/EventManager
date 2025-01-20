@@ -99,8 +99,8 @@ public class UserTestDrive {
     void addUserCreatedEventTest() {
         User user = JsonDatabaseHelper.getUserByEmailFromJson("dele00003@htwsaar.de").get();
 
-        Optional<EventModel> privateEvent = user.createPrivateEvent("My Birthday", "2025-10-10", "Birthday");
-        Optional<EventModel> publicEvent = user.createPublicEvent("Rammstein Paris", "2025-10-10", "Concert", 0);
+        Optional<EventModel> privateEvent = user.createPrivateEvent("My Birthday", "2025-10-10", "2025-10-10", "Birthday");
+        Optional<EventModel> publicEvent = user.createPublicEvent("Rammstein Paris", "2025-10-10", "2025-10-10", "Concert", 0);
 
         assertTrue(privateEvent.isPresent());
         assertTrue(publicEvent.isPresent());

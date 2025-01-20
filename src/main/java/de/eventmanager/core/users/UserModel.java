@@ -43,8 +43,8 @@ public abstract class UserModel {
 
     public abstract Optional<User> getUserByEmail(String eMailAddress);
 
-    public abstract Optional<EventModel> createPrivateEvent(String eventName, String eventDateTime, String category);
-    public abstract Optional<EventModel> createPublicEvent(String eventName, String eventDateTime, String category, int maxParticipants);
+    public abstract Optional<EventModel> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category);
+    public abstract Optional<EventModel> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, int maxParticipants);
 
 
     public void editEvent(String eventID) {}

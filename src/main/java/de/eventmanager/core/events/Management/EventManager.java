@@ -40,14 +40,16 @@ public class EventManager {
                 rowsAffected = create.insertInto(EVENTS,
                                 EVENTS.EVENTID,
                                 EVENTS.EVENTNAME,
-                                EVENTS.EVENTDATETIME,
+                                EVENTS.EVENTSTART,
+                                EVENTS.EVENTEND,
                                 EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
                                 EVENTS.CATEGORY,
                                 EVENTS.PRIVATEEVENT)
                         .values(
                                 privateEvent.getEventID(),
                                 privateEvent.getEventName(),
-                                privateEvent.getEventDateTime(),
+                                privateEvent.getEventStart(),
+                                privateEvent.getEventEnd(),
                                 privateEvent.getNumberOfBookedUsersOnEvent(),
                                 privateEvent.getCategory(),
                                 privateEvent.isPrivateEvent())
@@ -58,7 +60,8 @@ public class EventManager {
                 rowsAffected = create.insertInto(EVENTS,
                                 EVENTS.EVENTID,
                                 EVENTS.EVENTNAME,
-                                EVENTS.EVENTDATETIME,
+                                EVENTS.EVENTSTART,
+                                EVENTS.EVENTEND,
                                 EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
                                 EVENTS.CATEGORY,
                                 EVENTS.PRIVATEEVENT,
@@ -66,7 +69,8 @@ public class EventManager {
                         .values(
                                 publicEvent.getEventID(),
                                 publicEvent.getEventName(),
-                                publicEvent.getEventDateTime(),
+                                publicEvent.getEventStart(),
+                                publicEvent.getEventEnd(),
                                 publicEvent.getNumberOfBookedUsersOnEvent(),
                                 publicEvent.getCategory(),
                                 publicEvent.isPrivateEvent(),
@@ -104,7 +108,8 @@ public class EventManager {
                 PrivateEvent privateEvent = new PrivateEvent(
                         record.get(EVENTS.EVENTID),
                         record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTDATETIME),
+                        record.get(EVENTS.EVENTSTART),
+                        record.get(EVENTS.EVENTEND),
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
                         // TODO: Rückgabe der Userliste aus Relation "booked"
                         record.get(EVENTS.CATEGORY),
@@ -138,7 +143,8 @@ public class EventManager {
                 PublicEvent publicEvent = new PublicEvent(
                         record.get(EVENTS.EVENTID),
                         record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTDATETIME),
+                        record.get(EVENTS.EVENTSTART),
+                        record.get(EVENTS.EVENTEND),
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
                         // TODO: Rückgabe der Userliste aus Relation "booked"
                         record.get(EVENTS.CATEGORY),
@@ -170,7 +176,8 @@ public class EventManager {
 
                 rowsUpdated = create.update(EVENTS)
                         .set(EVENTS.EVENTNAME, privateEvent.getEventName())
-                        .set(EVENTS.EVENTDATETIME, privateEvent.getEventDateTime())
+                        .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
+                        .set(EVENTS.EVENTEND, privateEvent.getEventEnd())
                         .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
                         .set(EVENTS.CATEGORY, privateEvent.getCategory())
                         .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
@@ -180,7 +187,8 @@ public class EventManager {
 
                 rowsUpdated = create.update(EVENTS)
                         .set(EVENTS.EVENTNAME, publicEvent.getEventName())
-                        .set(EVENTS.EVENTDATETIME, publicEvent.getEventDateTime())
+                        .set(EVENTS.EVENTSTART, publicEvent.getEventStart())
+                        .set(EVENTS.EVENTEND, publicEvent.getEventEnd())
                         .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
                         .set(EVENTS.CATEGORY, publicEvent.getCategory())
                         .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())

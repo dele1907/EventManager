@@ -29,11 +29,11 @@ public class EventManagerTestDrive {
             return;
         }
 
-        testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11", 0, "private Feier", true);
-        testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", 0, "Firmenfeier", true);
+        testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11", "2025-11-11", 0, "private Feier", true);
+        testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0, "Firmenfeier", true);
 
-        testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", 0, "Markt", false, 2000);
-        testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", 0, "Dorffest", false, 5000);
+        testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06", 0, "Markt", false, 2000);
+        testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", "2025-06-12", 0, "Dorffest", false, 5000);
     }
 
     // Nach jedem Test die Datenbank bereinigen:
@@ -130,14 +130,16 @@ public class EventManagerTestDrive {
 
         assertEquals("testPrivateEventID", privateEventFromDatabase.getEventID());
         assertEquals("Geburtstag von Oma", privateEventFromDatabase.getEventName());
-        assertEquals("2025-11-11", privateEventFromDatabase.getEventDateTime());
+        assertEquals("2025-11-11", privateEventFromDatabase.getEventStart());
+        assertEquals("2025-11-11", privateEventFromDatabase.getEventEnd());
         assertEquals(0, privateEventFromDatabase.getNumberOfBookedUsersOnEvent());
         assertEquals("private Feier", privateEventFromDatabase.getCategory());
         assertEquals(true, privateEventFromDatabase.isPrivateEvent());
 
         assertEquals("testPublicEventID", publicEventFromDatabase.getEventID());
         assertEquals("Ostermarkt", publicEventFromDatabase.getEventName());
-        assertEquals("2025-04-04", publicEventFromDatabase.getEventDateTime());
+        assertEquals("2025-04-04", publicEventFromDatabase.getEventStart());
+        assertEquals("2025-04-06", publicEventFromDatabase.getEventEnd());
         assertEquals(0, publicEventFromDatabase.getNumberOfBookedUsersOnEvent());
         assertEquals("Markt", publicEventFromDatabase.getCategory());
         assertEquals(false, publicEventFromDatabase.isPrivateEvent());

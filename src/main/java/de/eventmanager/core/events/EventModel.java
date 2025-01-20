@@ -7,7 +7,8 @@ public abstract class EventModel {
 
     String eventID;
     String eventName;
-    String eventDateTime;
+    String eventStart;
+    String eventEnd;
     int numberOfBookedUsersOnEvent = 0;
     ArrayList<String> bookedUsersOnEvent = null;
     String category;
@@ -16,7 +17,8 @@ public abstract class EventModel {
     // #region CRUD-Operationen
     public abstract boolean createNewEvent(
             String eventName,
-            String eventDateTime,
+            String eventStart,
+            String eventEnd,
             String category
     );
 
@@ -25,7 +27,8 @@ public abstract class EventModel {
     public abstract void editEvent(
             String eventID,
             String eventName,
-            String eventDateTime,
+            String eventStart,
+            String eventEnd,
             ArrayList<String> bookedUsersOnEvent,
             String category
     );
@@ -42,8 +45,11 @@ public abstract class EventModel {
         return eventName;
     }
 
-    public String getEventDateTime() {
-        return eventDateTime;
+    public String getEventStart() {
+        return eventStart;
+    }
+    public String getEventEnd() {
+        return eventEnd;
     }
 
     public int getNumberOfBookedUsersOnEvent() {
@@ -68,8 +74,12 @@ public abstract class EventModel {
         this.eventName = eventName;
     }
 
-    public void setEventDateTime(String eventDateTime) {
-        this.eventDateTime = eventDateTime;
+    public void setEventStart(String eventStart) {
+        this.eventStart = eventStart;
+    }
+
+    public void setEventEnd(String eventEnd) {
+        this.eventEnd = eventEnd;
     }
 
     public void setNumberOfBookedUsersOnEvent(int numberOfBookedUsersOnEvent) {

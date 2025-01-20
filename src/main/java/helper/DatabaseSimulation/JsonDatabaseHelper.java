@@ -379,7 +379,8 @@ public class JsonDatabaseHelper {
             JsonObject newEvent = new JsonObject();
             newEvent.addProperty("eventID", event.getEventID());
             newEvent.addProperty("eventName", event.getEventName());
-            newEvent.addProperty("eventDateTime", event.getEventDateTime().toString());
+            newEvent.addProperty("eventStart", event.getEventStart().toString());
+            newEvent.addProperty("eventEnd", event.getEventEnd().toString());
             newEvent.addProperty("numberOfBookedUsersOnEvent", event.getNumberOfBookedUsersOnEvent());
             newEvent.addProperty("category", event.getCategory());
             newEvent.addProperty("privateEvent", event.isPrivateEvent());
