@@ -95,6 +95,10 @@ public abstract class EventModel {
         return postalCode;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     //#endregion Getter
 
     //#region Setter
@@ -139,7 +143,6 @@ public abstract class EventModel {
     }
 
     //#endregion Setter
-
 
 
 

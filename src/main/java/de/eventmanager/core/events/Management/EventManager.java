@@ -44,7 +44,11 @@ public class EventManager {
                                 EVENTS.EVENTEND,
                                 EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
                                 EVENTS.CATEGORY,
-                                EVENTS.PRIVATEEVENT)
+                                EVENTS.PRIVATEEVENT,
+                                EVENTS.POSTALCODE,
+                                EVENTS.ADDRESS,
+                                EVENTS.EVENTLOCATION,
+                                EVENTS.DESCRIPTION)
                         .values(
                                 privateEvent.getEventID(),
                                 privateEvent.getEventName(),
@@ -52,7 +56,11 @@ public class EventManager {
                                 privateEvent.getEventEnd(),
                                 privateEvent.getNumberOfBookedUsersOnEvent(),
                                 privateEvent.getCategory(),
-                                privateEvent.isPrivateEvent())
+                                privateEvent.isPrivateEvent(),
+                                privateEvent.getPostalCode(),
+                                privateEvent.getAddress(),
+                                privateEvent.getEventLocation(),
+                                privateEvent.getDescription())
                         .execute();
             } else {
                 PublicEvent publicEvent = (PublicEvent) event;
@@ -65,7 +73,11 @@ public class EventManager {
                                 EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
                                 EVENTS.CATEGORY,
                                 EVENTS.PRIVATEEVENT,
-                                EVENTS.MAXIMUMCAPACITY)
+                                EVENTS.MAXIMUMCAPACITY,
+                                EVENTS.POSTALCODE,
+                                EVENTS.ADDRESS,
+                                EVENTS.EVENTLOCATION,
+                                EVENTS.DESCRIPTION)
                         .values(
                                 publicEvent.getEventID(),
                                 publicEvent.getEventName(),
@@ -74,7 +86,11 @@ public class EventManager {
                                 publicEvent.getNumberOfBookedUsersOnEvent(),
                                 publicEvent.getCategory(),
                                 publicEvent.isPrivateEvent(),
-                                publicEvent.getMaximumCapacity())
+                                publicEvent.getMaximumCapacity(),
+                                publicEvent.getPostalCode(),
+                                publicEvent.getAddress(),
+                                publicEvent.getEventLocation(),
+                                publicEvent.getDescription())
                         .execute();
             }
 
@@ -191,6 +207,10 @@ public class EventManager {
                         .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
                         .set(EVENTS.CATEGORY, privateEvent.getCategory())
                         .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
+                        .set(EVENTS.POSTALCODE, privateEvent.getPostalCode())
+                        .set(EVENTS.ADDRESS, privateEvent.getAddress())
+                        .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
+                        .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
                         .execute();
             } else {
                 PublicEvent publicEvent = (PublicEvent) event;
@@ -203,6 +223,10 @@ public class EventManager {
                         .set(EVENTS.CATEGORY, publicEvent.getCategory())
                         .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
                         .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
+                        .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
+                        .set(EVENTS.ADDRESS, publicEvent.getAddress())
+                        .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
+                        .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
                         .execute();
             }
 

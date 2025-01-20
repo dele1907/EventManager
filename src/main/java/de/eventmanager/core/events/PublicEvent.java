@@ -104,7 +104,8 @@ public class PublicEvent extends EventModel {
     }
 
     // überladene Methode für Events mit maximaler Kapazität
-    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, ArrayList<String> bookedUsersOnEvent, String category, int maximumCapacity) {
+    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, ArrayList<String> bookedUsersOnEvent, String category,
+                          int maximumCapacity, String postalCode, String address, String eventLocation, String description) {
 
         Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
@@ -118,6 +119,10 @@ public class PublicEvent extends EventModel {
             publicEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
             publicEventToEdit.setCategory(category);
             publicEventToEdit.setMaximumCapacity(maximumCapacity);
+            publicEventToEdit.setPostalCode(postalCode);
+            publicEventToEdit.setAddress(address);
+            publicEventToEdit.setEventLocation(eventLocation);
+            publicEventToEdit.setDescription(description);
 
             EventManager.updateEvent(publicEventToEdit);
 
@@ -148,7 +153,8 @@ public class PublicEvent extends EventModel {
     @Override
     public String toString() {
         return "\nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
-                "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity;
+                "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity + "\nPostal-Code: " + postalCode +
+                "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
     }
     // #endregion toString
 }
