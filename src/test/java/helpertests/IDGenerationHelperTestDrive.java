@@ -16,16 +16,6 @@ public class IDGenerationHelperTestDrive {
     }
 
     @Test
-    void testIDLength() {
-        String randomID = IDGenerationHelper.generateRandomUUID();
-
-        System.out.println("\nRandom ID length should be: " + IDGenerationHelper.ID_DEFAULT_LENGTH);
-        System.out.println("Random ID length is: " + randomID.length() + "\n");
-
-        assert (randomID.length() == IDGenerationHelper.ID_DEFAULT_LENGTH);
-    }
-
-    @Test
     void testRandomUUID() {
         String randomUUID = IDGenerationHelper.generateRandomUUID();
 

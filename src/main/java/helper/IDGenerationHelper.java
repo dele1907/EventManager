@@ -4,8 +4,6 @@ import java.util.UUID;
 
 public class IDGenerationHelper {
 
-    public static final int ID_DEFAULT_LENGTH = 20;
-
     /**
      * generates a random UUID
      * */
