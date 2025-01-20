@@ -42,13 +42,11 @@ public class PermissionUserAssignmentHelperTestDrive {
     @Test
     void testGetAddPermissionsToUserFromDatabase() {
        // Optional<List<Permission>> optionalPermissions = PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(adminUser);
-        Optional<List<Permission>> optionalJsonPermissions = JsonDatabaseHelper.getPermissionsForUserFromJson(adminUser);
+        List<Permission> optionalJsonPermissions = JsonDatabaseHelper.getPermissionsForUserFromJson(adminUser);
 
-        if (!optionalJsonPermissions.isPresent()) {
-            fail("No permissions found for adminUser");
-        }
+        assertFalse(optionalJsonPermissions.isEmpty(), "No permissions found for adminUser");
 
-        List<Permission> permissions = optionalJsonPermissions.get();
+        List<Permission> permissions = optionalJsonPermissions;
         System.out.println("adminUser has: " + permissions.size() + " permissions");
         System.out.println("adminUser should have all 6 admin permissions.");
         System.out.println("adminUser has the following permissions: ");

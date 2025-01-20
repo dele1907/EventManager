@@ -281,7 +281,7 @@ public class JsonDatabaseHelper {
         return Optional.empty();
     }
 
-    public static Optional<List<Permission>> getPermissionsForUserFromJson(User user) {
+    public static List<Permission> getPermissionsForUserFromJson(User user) {
         Optional<JsonArray> userHasPermissions = readUserHasPermissionFromJson();
         Optional<JsonArray> permissions = readPermissionsFromJson();
 
@@ -313,14 +313,14 @@ public class JsonDatabaseHelper {
                     "Success getting permissions for user " + user + " from json."
             );
 
-            return Optional.of(userPermissions);
+            return userPermissions;
         }
         LoggerHelper.logErrorMessage(
                 JsonDatabaseHelper.class,
                 "Error getting permissions for user " + user + " from json."
         );
 
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     public static boolean findAndUpdateUser(User user) {
@@ -354,10 +354,10 @@ public class JsonDatabaseHelper {
     }
 
     public static boolean getUserHasSpecificPermission(User user, String permissionID) {
-        Optional<List<Permission>> permissions = getPermissionsForUserFromJson(user);
+        List<Permission> permissions = getPermissionsForUserFromJson(user);
 
-        if (permissions.isPresent()) {
-            for (Permission permission : permissions.get()) {
+        if (!permissions.isEmpty()) {
+            for (Permission permission : permissions) {
 
                 if (permission.getPermissionID().equals(permissionID)) {
                     return true;
