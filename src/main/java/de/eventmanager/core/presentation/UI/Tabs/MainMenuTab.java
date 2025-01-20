@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventCreationTab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
@@ -43,10 +44,10 @@ public class MainMenuTab implements Tab {
 
     private void displayMainMenu(MenuType menuType) {
         textView.displayMessage("\n===== Main Menu =====");
-        textView.displayMessage("\n1. Settings\n2. Logout\n3. Logout and Exit Program");
+        textView.displayMessage("\n1. Settings\n2. Create Event\n3. Logout\n4. Logout and Exit Program");
 
         if (menuType == MenuType.ADMIN) {
-            textView.displayMessage("\n4. AdminOperations");
+            textView.displayMessage("\n5. AdminOperations");
         }
         textView.displayMessage("\nChoose an option: ");
     }
@@ -57,12 +58,14 @@ public class MainMenuTab implements Tab {
                 textView.displayErrorMessage("\nSettings page (not implemented yet)\n");
                 break;
             case "2":
-                doLogout();
-
-                return false;
+                doShowEventCreationTab();
+                break;
             case "3":
-                doLogoutAndExitProgram();
+                doLogout();
+                return false;
             case "4":
+                doLogoutAndExitProgram();
+            case "5":
                 doShowAdminOperations(menuType);
                 break;
             default:
@@ -105,5 +108,10 @@ public class MainMenuTab implements Tab {
         } else {
             textView.displayErrorMessage("\nInvalid choice!\n");
         }
+    }
+
+    private void doShowEventCreationTab() {
+        EventCreationTab eventCreationTab = new EventCreationTab(textView, loggedInUser, userController);
+        eventCreationTab.start();
     }
 }

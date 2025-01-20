@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
           * commented out because the test will run on the simulated json database
           * */
         //return UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber));
-        String userID = IDGenerationHelper.generateRandomIDString();
+        String userID = IDGenerationHelper.generateRandomUUID();
 
         return JsonDatabaseHelper.addUserToJson(userID, firstName, lastName, dateOfBirth, email, phoneNumber, password, false);
     }

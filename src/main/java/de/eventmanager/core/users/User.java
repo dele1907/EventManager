@@ -40,7 +40,7 @@ public class User extends UserModel{
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
 
-        this.userID = IDGenerationHelper.generateRandomIDString();
+        this.userID = IDGenerationHelper.generateRandomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -54,7 +54,7 @@ public class User extends UserModel{
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber) {
 
-        this.userID = IDGenerationHelper.generateRandomIDString();
+        this.userID = IDGenerationHelper.generateRandomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

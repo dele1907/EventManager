@@ -11,7 +11,7 @@ public class PrivateEvent extends EventModel{
 
     // Konstruktor für private Events
     public PrivateEvent(String eventName, String eventDateTime, String category) {
-        this.eventID = IDGenerationHelper.generateRandomIDString();
+        this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
         this.category = category;

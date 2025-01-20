@@ -13,7 +13,7 @@ public class PublicEvent extends EventModel {
 
     // Konstruktor für öffentliche Events ohne Teilnehmerbeschränkung
     public PublicEvent(String eventName, String eventDateTime, String category) {
-        this.eventID = IDGenerationHelper.generateRandomIDString();
+        this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
         this.category = category;
@@ -22,7 +22,7 @@ public class PublicEvent extends EventModel {
 
     // Konstruktor für öffentliche Events mit Teilnehmerbeschränkung
     public PublicEvent(String eventName, String eventDateTime, String category, int maximumCapacity) {
-        this.eventID = IDGenerationHelper.generateRandomIDString();
+        this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
         this.category = category;

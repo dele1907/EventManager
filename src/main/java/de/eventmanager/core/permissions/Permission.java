@@ -10,7 +10,7 @@ public class Permission {
 
     public Permission(String permissionName, boolean isAdminPermission) {
         this.permissionName = permissionName;
-        this.permissionID = IDGenerationHelper.generateRandomIDString();
+        this.permissionID = IDGenerationHelper.generateRandomUUID();
         this.isAdminPermission = isAdminPermission;
     }
 
