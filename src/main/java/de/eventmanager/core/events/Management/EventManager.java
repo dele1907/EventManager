@@ -239,6 +239,9 @@ public class EventManager {
         }
     }
 
+    /**
+     * Relate a user to an event as the creator
+     * */
     public static boolean addUserCreatedEvent(String eventID, String userID) {
         try (Connection connection = DatabaseConnector.connect()) {
             DSLContext create = DSL.using(connection);
