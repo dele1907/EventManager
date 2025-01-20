@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTestDrive {
 
-    User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0").get(); //SoONY7IhPtVzCx1e0z18
+    User testUser = UserManager.readUserByID("f8cac5f6-107a-4487-96f8-add26c5b8579").get(); //SoONY7IhPtVzCx1e0z18
 
-    User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
+    User testAdminUser = UserManager.readUserByID("10b4841b-c5e0-4e13-a861-6f65f6c4086b").get();
 
     User system = new User("System", "", "", "", "goodPassword", 0, true);
 
