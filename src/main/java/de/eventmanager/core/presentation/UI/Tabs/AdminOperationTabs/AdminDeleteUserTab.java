@@ -25,11 +25,12 @@ public class AdminDeleteUserTab implements Tab {
             return;
         }
 
-        textView.displayMessage("\nAre you sure you want to delete " + user + "?\nType 'yes': ");
+        textView.displayWarningMessage("\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757");
+        textView.displayWarningMessage("\nAre you sure you want to delete: " + user + "\n\nType 'yes'> ");
         String confirmation = textView.getUserInput();
 
         if ("yes".equals(confirmation.toLowerCase())) {
-            boolean success = UserManager.deleteUserByID(user.getUserID());
+            boolean success = UserManager.deleteUserByEmail(email);
 
             if (success) {
                 textView.displaySuccessMessage("\nUser deleted successfully.\n");
@@ -37,7 +38,7 @@ public class AdminDeleteUserTab implements Tab {
                 textView.displayErrorMessage("\nFailed to delete user. User may not exist.\n");
             }
         } else {
-            textView.displayMessage("\nUser deletion canceled.\n");
+            textView.displayErrorMessage("\nUser deletion canceled.\n");
         }
     }
 }

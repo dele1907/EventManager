@@ -10,6 +10,7 @@ public class TextView implements View{
     private final String FONT_COLOR_RED = "\u001B[31m";
     private final String FONT_COLOR_RESET = "\u001B[0m";
     private final String FONT_COLOR_GREEN = "\u001B[32m";
+    private final String FONT_COLOR_NEON_RED = "\u001B[91m";
 
     private final String FONT_BOLD = "\u001B[1m";
 
@@ -26,6 +27,11 @@ public class TextView implements View{
     @Override
     public void displaySuccessMessage(String message) {
         System.out.print(FONT_COLOR_GREEN + FONT_BOLD + message + FONT_COLOR_RESET);
+    }
+
+    @Override
+    public void displayWarningMessage(String message) {
+        System.out.print(FONT_COLOR_NEON_RED + message + FONT_COLOR_RESET);
     }
 
     @Override
