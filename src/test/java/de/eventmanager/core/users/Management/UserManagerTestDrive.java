@@ -1,5 +1,6 @@
 package de.eventmanager.core.users.Management;
 
+import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 
 import org.junit.jupiter.api.*;
@@ -112,7 +113,7 @@ public class UserManagerTestDrive {
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
-        assertEquals(false, userFromDatabase.isAdmin());
+        assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
 
     // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
@@ -130,7 +131,7 @@ public class UserManagerTestDrive {
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
         assertEquals(1234567890, userFromDatabase.getPhoneNumber());
-        assertEquals(false, userFromDatabase.isAdmin());
+        assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
 
     //#region Registration and Authentication Tests

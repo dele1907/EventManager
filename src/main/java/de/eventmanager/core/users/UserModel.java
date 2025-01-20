@@ -2,8 +2,8 @@ package de.eventmanager.core.users;
 
 
 import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.permissions.Permission;
-import java.util.ArrayList;
+import de.eventmanager.core.roles.Role;
+
 import java.util.Optional;
 
 public abstract class UserModel {
@@ -14,11 +14,7 @@ public abstract class UserModel {
     String eMailAddress;
     String password;
     int phoneNumber;
-    boolean isAdmin = false;
-    ArrayList<String> permissions;
-    UserModel() {
-        permissions = new ArrayList<>();
-    }
+    Role role;
 
     //#region CRUD-Operations
 
@@ -76,26 +72,18 @@ public abstract class UserModel {
     //#endregion Event-Operations
 
     //#region Permission-Operations
-
-    public abstract void addPermissionToOwnUser(Permission permission);
-
     public void addAdminStatusToUser(User user){
-        user.setAdmin(true);
+        user.setRoleAdmin(true);
     }
 
     public void removeAdminStatusFromUser(User user) {
-        user.setAdmin(false);
+        user.setRoleAdmin(false);
     }
-
     //#endregion Permission-Operations
 
     //#region Getter
-    public ArrayList<String> getPermissions() {
-        return permissions;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
+    public Role getRole() {
+        return role;
     }
 
     public int getPhoneNumber() {
@@ -153,8 +141,8 @@ public abstract class UserModel {
         this.firstName = firstName;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setRoleAdmin(boolean hasAdminRole) {
+        this. role = hasAdminRole ? Role.ADMIN : Role.USER;
     }
 
 //#endregion Setter

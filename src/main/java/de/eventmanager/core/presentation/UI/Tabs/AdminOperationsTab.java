@@ -6,8 +6,6 @@ import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUse
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 import de.eventmanager.core.presentation.Controller.UserController;
-import helper.ConfigurationDataSupplierHelper;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
 
 public class AdminOperationsTab implements Tab {
     private View textView;
@@ -53,40 +51,18 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleCreateUser() {
-        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.PERMISSION_CREATE_USER_ID)) {
-            textView.displayErrorMessage("\nYou do not have permission to create a user");
-
-            return;
-        }
-
         AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController);
         createUserTab.start();
     }
 
     private void handleDeleteUser() {
-        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.PERMISSION_DELETE_USER_ID)) {
-            textView.displayErrorMessage("\nYou do not have permission to delete a user");
-
-            return;
-        }
-
         AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView);
         deleteUserTab.start();
     }
 
     private void handleEditUser() {
-        if (!getUserHasSpecificPermission(ConfigurationDataSupplierHelper.PERMISSION_EDIT_USER_ID)) {
-            textView.displayErrorMessage("\nYou do not have permission to edit a user");
-
-            return;
-        }
-
         AdminEditUserTab editUserTab = new AdminEditUserTab(textView, userController);
         editUserTab.start();
-    }
-
-    private boolean getUserHasSpecificPermission(String permissionId) {
-        return JsonDatabaseHelper.getUserHasSpecificPermission(loggedInUser, permissionId);
     }
 
 

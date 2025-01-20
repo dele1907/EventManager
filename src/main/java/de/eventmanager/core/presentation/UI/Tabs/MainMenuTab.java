@@ -3,6 +3,7 @@ package de.eventmanager.core.presentation.UI.Tabs;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventCreationTab;
 import de.eventmanager.core.presentation.UI.View;
+import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 
 public class MainMenuTab implements Tab {
@@ -25,7 +26,7 @@ public class MainMenuTab implements Tab {
 
     @Override
     public void start() {
-        if (loggedInUser.isAdmin()) {
+        if (loggedInUser.getRole().equals(Role.ADMIN)) {
             showMainMenu(MenuType.ADMIN);
         } else {
             showMainMenu(MenuType.NON_ADMIN);

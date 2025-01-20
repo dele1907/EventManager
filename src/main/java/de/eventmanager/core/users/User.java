@@ -4,22 +4,16 @@ import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
-import de.eventmanager.core.permissions.Permission;
-import de.eventmanager.core.permissions.Management.PermissionManager;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
 import helper.IDGenerationHelper;
 import helper.LoggerHelper;
-import helper.PermissionUserAssignmentHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
 public class User extends UserModel{
-
-    private PermissionManager permissionManager = new PermissionManager();
 
     Logger logger = LogManager.getLogger(User.class);
 
@@ -47,9 +41,12 @@ public class User extends UserModel{
         this.eMailAddress = eMailAddress;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.isAdmin = isAdmin;
+        this.role = isAdmin ? Role.ADMIN : Role.USER;
     }
 
+    /**
+     * TODO: maybe can remove so we use constructor provided above.
+     * */
     //Standard-User
     public User(String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, int phoneNumber) {
@@ -61,6 +58,7 @@ public class User extends UserModel{
         this.eMailAddress = eMailAddress;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.role = Role.USER;
     }
 
     //User-Object for load DB
@@ -74,7 +72,7 @@ public class User extends UserModel{
         this.eMailAddress = eMailAddress;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.isAdmin = isAdmin;
+        this.role = isAdmin ? Role.ADMIN : Role.USER;
     }
     //#endregion constructor
 
@@ -84,15 +82,12 @@ public class User extends UserModel{
      * {@code createNewUser()} accepts user parameters as arguments to initialize a new User object
      * and load it into the database with {@code UserManager.createNewUser()}.
      * @see UserManager UserManager
-     * @see de.eventmanager.core.permissions PermissionRoleManagement
      */
 
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
                                  String password, int phoneNumber, boolean isAdmin) {
-        getUsersPermissionsFromDatabase();
-
-        if (!this.getPermissions().contains(permissionManager.getCreateUserPermission().getPermissionID())){
+        if (!this.role.equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_CREATE_USER);
 
             return false;
@@ -107,15 +102,12 @@ public class User extends UserModel{
      * <h3>Edit User</h3>
      * {@code editUser()} accepts the userID of the user you want to edit and the parameters you want to modify.
      * @see UserManager UserManager
-     * @see de.eventmanager.core.permissions PermissionRoleManagement
      */
 
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                         String password, int phoneNumber) {
-        getUsersPermissionsFromDatabase();
-
-        if (!this.permissions.contains(permissionManager.getEditUserPermission().getPermissionID())){
+             String password, int phoneNumber) {
+        if (!this.role.equals(Role.ADMIN)){
             logger.error(NO_PERMISSION_EDIT_USER);
 
             return;
@@ -142,15 +134,12 @@ public class User extends UserModel{
      * <h3>Delete User</h3>
      * {@code deleteUser()} accepts the userID of the user you want to delete.
      * @see UserManager UserManager
-     * @see de.eventmanager.core.permissions PermissionRoleManagement
      */
 
 
     @Override
     public boolean deleteUser(String userID) {
-        getUsersPermissionsFromDatabase();
-
-        if (!this.permissions.contains(permissionManager.getDeleteUserPermission().getPermissionID())){
+        if (!this.role.equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_DELETE_USER);
 
             return false;
@@ -161,9 +150,7 @@ public class User extends UserModel{
 
     @Override
     public Optional<User> getUserByID(String userID) {
-        getUsersPermissionsFromDatabase();
-
-        if (!permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+        if (!this.role.equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
 
             return Optional.empty();
@@ -174,9 +161,7 @@ public class User extends UserModel{
 
     @Override
     public Optional<User> getUserByEmail(String eMailAddress) {
-        getUsersPermissionsFromDatabase();
-
-        if (!this.permissions.contains(permissionManager.getGetUserInformationPermission().getPermissionID())){
+        if (!this.role.equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
 
             return Optional.empty();
@@ -194,10 +179,8 @@ public class User extends UserModel{
         EventModel event;
 
             event = new PrivateEvent(eventName, eventStart, eventEnd, category);
-        /*EventManager.createNewEvent(event);
-        EventManager.addUserCreatedEvent(event.getEventID(), this.userID);*/
-        JsonDatabaseHelper.createNewEvent(event);
-        JsonDatabaseHelper.addUserCreatedEvent(event.getEventID(), this.userID);
+        EventManager.createNewEvent(event);
+        EventManager.addUserCreatedEvent(event.getEventID(), this.userID);
 
         return Optional.of(event);
     }
@@ -211,10 +194,8 @@ public class User extends UserModel{
         }
 
         event = new PublicEvent(eventName, eventStart, eventEnd, category, maxParticipants);
-        /*EventManager.createNewEvent(event);
-        EventManager.addUserCreatedEvent(event.getEventID(), this.userID);*/
-        JsonDatabaseHelper.createNewEvent(event);
-        JsonDatabaseHelper.addUserCreatedEvent(event.getEventID(), this.userID);
+        EventManager.createNewEvent(event);
+        EventManager.addUserCreatedEvent(event.getEventID(), this.userID);
 
         return Optional.of(event);
     }
@@ -223,19 +204,16 @@ public class User extends UserModel{
 
     //#region Permission-Operations
 
-    @Override
-    public void addPermissionToOwnUser(Permission permission) {
-        this.permissions.add(permission.getPermissionID());
+    public void addAdminStatusToUser(User user){
+        user.setRoleAdmin(true);
     }
 
-    public void addPermissionToAnotherUser(User user, Permission permission) {
-        user.addPermissionToOwnUser(permission);
+    public void removeAdminStatusFromUser(User user) {
+        user.setRoleAdmin(false);
     }
 
     public void addAdminStatusToUserByUserID(String userID) {
-        getUsersPermissionsFromDatabase();
-
-        if (!this.permissions.contains(permissionManager.getGiveAdminStatusPermission().getPermissionID())) {
+        if (!this.role.equals(Role.ADMIN)) {
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GIVE_ADMIN_STATUS);
 
             return;
@@ -245,9 +223,8 @@ public class User extends UserModel{
     }
 
     public void removeAdminStatusFromUserByUserID(String userID) {
-        getUsersPermissionsFromDatabase();
 
-        if (!this.permissions.contains(permissionManager.getRemoveAdminStatusPermission().getPermissionID())) {
+        if (!this.role.equals(Role.ADMIN)) {
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_REMOVE_ADMIN_STATUS);
 
             return;
@@ -255,23 +232,6 @@ public class User extends UserModel{
 
         this.removeAdminStatusFromUser(UserManager.readUserByID(userID).get());
     }
-
-    public void getUsersPermissionsFromDatabase() {
-        User user = UserManager.readUserByID(this.userID).get();
-        Optional<List<Permission>> optionalPermissionList = PermissionUserAssignmentHelper.getPermissionsForUserFromDatabase(user);
-
-        if (!optionalPermissionList.isPresent()) {
-            LoggerHelper.logErrorMessage(User.class, "No permissions found for user " + user.getFirstName());
-
-            return;
-        }
-        List<Permission> permissions = optionalPermissionList.get();
-
-        for (Permission permission : permissions) {
-            this.permissions.add(permission.getPermissionID());
-        }
-    }
-
     //#endregion Permission-Operations
 
     //#region toString()
@@ -286,7 +246,7 @@ public class User extends UserModel{
     public String toString() {
         return "User: \nfirstName: " + firstName + "\nlastName: " + lastName + "\ndateOfBirth: " + dateOfBirth +
                 "\neMailAddress: " + eMailAddress + "\npassword: " + password + "\nphoneNumber: " + phoneNumber +
-                "\nisAdmin: " + isAdmin + "\n";
+                "\nisAdmin: " + (this.role.equals(Role.ADMIN) ? true : false) + "\n";
     }
 
     //#endregion toString()

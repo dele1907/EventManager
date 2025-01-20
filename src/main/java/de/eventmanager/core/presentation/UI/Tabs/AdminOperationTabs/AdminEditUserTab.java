@@ -3,8 +3,8 @@ package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
+import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
 
 import java.util.Optional;
 
@@ -47,8 +47,7 @@ public class AdminEditUserTab implements Tab {
     private Optional<User> showFindUser() {
         textView.displayMessage("\nEnter the email of the user to edit: ");
         String email = textView.getUserInput();
-
-        Optional<User> userOptional = JsonDatabaseHelper.getUserByEmailFromJson(email);
+        Optional<User> userOptional = UserManager.readUserByEMail(email);
 
         return userOptional.isPresent() ? userOptional : Optional.empty();
     }

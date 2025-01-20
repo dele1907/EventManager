@@ -4,7 +4,6 @@ import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
 
 import java.util.Optional;
 
@@ -71,8 +70,7 @@ public class UserController {
     }
 
     public void editUser(User user) {
-        //UserManager.updateUser(user);
-        JsonDatabaseHelper.findAndUpdateUser(user);
+        UserManager.updateUser(user);
     }
 
     private int isValidPhoneNumber() {

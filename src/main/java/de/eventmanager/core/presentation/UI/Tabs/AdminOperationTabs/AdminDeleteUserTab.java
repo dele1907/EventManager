@@ -2,7 +2,7 @@ package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
+import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
 
 public class AdminDeleteUserTab implements Tab {
@@ -17,7 +17,7 @@ public class AdminDeleteUserTab implements Tab {
         textView.displayMessage("\n===== Delete User Tab ======\n");
         textView.displayMessage("\nEnter the email of the user to delete: ");
         String email = textView.getUserInput();
-        User user = JsonDatabaseHelper.getUserByEmailFromJson(email).orElse(null);
+        User user = UserManager.readUserByEMail(email).get();
 
         if (user == null) {
             textView.displayErrorMessage("User not found.\n");
@@ -29,7 +29,7 @@ public class AdminDeleteUserTab implements Tab {
         String confirmation = textView.getUserInput();
 
         if ("yes".equals(confirmation.toLowerCase())) {
-            boolean success = JsonDatabaseHelper.removeUserByEmailFromJson(email);
+            boolean success = UserManager.deleteUserByID(user.getUserID());
 
             if (success) {
                 textView.displaySuccessMessage("\nUser deleted successfully.\n");

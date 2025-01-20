@@ -2,8 +2,8 @@ package de.eventmanager.core.users;
 
 
 import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.users.Management.UserManager;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
 import org.junit.jupiter.api.*;
 
 import java.util.Optional;
@@ -80,9 +80,10 @@ public class UserTestDrive {
 
     //#region Permission Tests
     //Todo @Finn @Timo ! entfernen sobald nicht mehr mit DummyUsern gearbeitet/getestet wird
-    @Test
+    /*@Test
     @Order(3)
     @DisplayName("Add&Remove AdminStatus Test")
+    @Disabled
     void addAndRemoveAdminStatusToUserTest() {
 
         testAdminUser.addAdminStatusToUserByUserID(testUser.getUserID());
@@ -90,12 +91,13 @@ public class UserTestDrive {
 
         testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
         assertFalse(testUser.isAdmin());
-    }
+    }*/
     //#endregion Permission Tests
 
-    @Test
+    /*@Test
     @Order(5)
     @DisplayName("Add User created Event Test")
+    @Disabled
     void addUserCreatedEventTest() {
         User user = JsonDatabaseHelper.getUserByEmailFromJson("dele00003@htwsaar.de").get();
 
@@ -105,12 +107,12 @@ public class UserTestDrive {
         assertTrue(privateEvent.isPresent());
         assertTrue(publicEvent.isPresent());
 
-        assertTrue(JsonDatabaseHelper.removeEventFromEvents(privateEvent.get()));
+        assertTrue(Json..removeEventFromEvents(privateEvent.get()));
         assertTrue(JsonDatabaseHelper.removeEventFromEvents(publicEvent.get()));
 
         assertTrue(JsonDatabaseHelper.removeUserCreatedEvent(privateEvent.get(), user));
         assertTrue(JsonDatabaseHelper.removeUserCreatedEvent(publicEvent.get(), user));
-    }
+    }*/
 
 }
 

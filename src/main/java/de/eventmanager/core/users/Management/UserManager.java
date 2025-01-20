@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.util.Optional;
 
 import de.eventmanager.core.database.Communication.DatabaseConnector;
+import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
-import helper.DatabaseSimulation.JsonDatabaseHelper;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -48,7 +48,7 @@ public class UserManager {
                             user.getEMailAddress(),
                             user.getPassword(),
                             user.getPhoneNumber(),
-                            user.isAdmin())
+                            user.getRole().equals(Role.ADMIN) ? true : false)
                     .execute();
 
             if (rowsAffected > 0) {
@@ -220,7 +220,6 @@ public class UserManager {
     }
 
     private static boolean comparingPassword(String password, String checkPassword) {
-
         if (password.isEmpty() || checkPassword.isEmpty()) {
 
             System.out.println("Wrong password!");
@@ -232,17 +231,9 @@ public class UserManager {
     }
 
     private static boolean comparingEmailAddress(String emailAddress) {
-
-        /**
-         * commented out because the test will run on the simulated json database
-         * */
-        /*if (readUserByEMail(emailAddress).isEmpty()) {
+        if (readUserByEMail(emailAddress).isEmpty()) {
 
             LoggerHelper.logInfoMessage(UserManager.class, "Email address not found");
-            return false;
-        }*/
-
-        if (JsonDatabaseHelper.getUserByEmailFromJson(emailAddress).isEmpty()) {
             return false;
         }
 
@@ -263,12 +254,7 @@ public class UserManager {
             return false;
         }
 
-        /**
-         * commented out because the test will run on the simulated json database
-         * */
-        //return comparingPassword(password, readUserByEMail(email).get().getPassword());
-
-        return comparingPassword(password, JsonDatabaseHelper.getUserByEmailFromJson(email).get().getPassword());
+        return comparingPassword(password, readUserByEMail(email).get().getPassword());
     }
     //#endregion Registration & Authentication
 
