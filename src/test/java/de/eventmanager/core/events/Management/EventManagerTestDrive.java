@@ -29,12 +29,20 @@ public class EventManagerTestDrive {
             return;
         }
 
-        testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11", "2025-11-11", 0, "private Feier", true);
-        testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0, "Firmenfeier", true);
+        testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11",
+                "2025-11-11", 0, "private Feier", true, "66119", "Gutenbergstraße 2",
+                "Omas Haus", "Geburtstagsfeier für meine super tolle TestOma ;)");
+        testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0, "Firmenfeier", true, "66119", "Gutenbergstraße 2",
+                "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier für die tolle Firma!");
 
-        testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06", 0, "Markt", false, 2000);
-        testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", "2025-06-12", 0, "Dorffest", false, 5000);
+        testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06",
+                "66119", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 0,
+                "Markt", false, 2000);
+        testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", "2025-06-12",
+                "66119", "St. Johanner Markt", "Marktplatz", "Kirmes für tolle Menschen", 0,
+                "Dorffest", false, 5000);
     }
+
 
     // Nach jedem Test die Datenbank bereinigen:
     @AfterEach

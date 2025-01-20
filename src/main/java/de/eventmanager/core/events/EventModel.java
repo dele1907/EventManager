@@ -13,13 +13,22 @@ public abstract class EventModel {
     ArrayList<String> bookedUsersOnEvent = null;
     String category;
     boolean privateEvent;
+    String description;
+    String city;
+    String postalCode;
+    String address;
+    String eventLocation;
 
-    // #region CRUD-Operationen
+    //#region CRUD-Operationen
     public abstract boolean createNewEvent(
             String eventName,
             String eventStart,
             String eventEnd,
-            String category
+            String category,
+            String postalCode,
+            String address,
+            String eventLocation,
+            String description
     );
 
     public abstract Optional<? extends EventModel> getEventByID(String eventID);
@@ -30,13 +39,18 @@ public abstract class EventModel {
             String eventStart,
             String eventEnd,
             ArrayList<String> bookedUsersOnEvent,
-            String category
+            String category,
+            String postalCode,
+            String address,
+            String eventLocation,
+            String description
     );
 
     public abstract boolean deleteEvent(String eventID);
-    // #endregion CRUD-Operationen
 
-    // #region Getter
+    //#endregion CRUD-Operationen
+
+    //#region Getter
     public String getEventID() {
         return eventID;
     }
@@ -48,6 +62,7 @@ public abstract class EventModel {
     public String getEventStart() {
         return eventStart;
     }
+
     public String getEventEnd() {
         return eventEnd;
     }
@@ -67,9 +82,22 @@ public abstract class EventModel {
     public boolean isPrivateEvent() {
         return privateEvent;
     }
-    // #endregion Getter
 
-    // #region Setter
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEventLocation() {
+        return eventLocation;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    //#endregion Getter
+
+    //#region Setter
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
@@ -93,6 +121,26 @@ public abstract class EventModel {
     public void setCategory(String category) {
         this.category = category;
     }
-    // #endregion Setter
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    //#endregion Setter
+
+
+
 
 }

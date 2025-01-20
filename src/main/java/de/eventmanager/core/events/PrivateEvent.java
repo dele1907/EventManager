@@ -10,17 +10,24 @@ import java.util.Optional;
 public class PrivateEvent extends EventModel{
 
     // Konstruktor für private Events
-    public PrivateEvent(String eventName, String eventStart, String eventEnd, String category) {
+    public PrivateEvent(String eventName, String eventStart, String eventEnd, String category,
+                        String postalCode, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.category = category;
         this.privateEvent = true;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.address = address;
+        this.eventLocation = eventLocation;
+        this.description = description;
     }
 
     // Konstruktor für private Events aus DB
-    public PrivateEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, String category, boolean privateEvent) {
+    public PrivateEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, String category, boolean privateEvent,
+                        String postalCode, String address, String eventLocation, String description) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -28,13 +35,18 @@ public class PrivateEvent extends EventModel{
         this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
         this.category = category;
         this.privateEvent = privateEvent;
+        this.postalCode = postalCode;
+        this.address = address;
+        this.eventLocation = eventLocation;
+        this.description = description;
     }
 
     // #region CRUD-Operationen
     @Override
-    public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category) {
+    public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
+                                  String postalCode, String address, String eventLocation, String description) {
 
-        return EventManager.createNewEvent(new PrivateEvent(eventName, eventStart, eventEnd, category));
+        return EventManager.createNewEvent(new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description));
     }
 
     @Override
@@ -44,7 +56,8 @@ public class PrivateEvent extends EventModel{
     }
 
     @Override
-    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, ArrayList<String> bookedUsersOnEvent, String category) {
+    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, ArrayList<String> bookedUsersOnEvent,
+                          String category, String postalCode, String address, String eventLocation, String description) {
 
         Optional<PrivateEvent> privateEvent = EventManager.readPrivateEventByID(eventID);
 
@@ -57,6 +70,10 @@ public class PrivateEvent extends EventModel{
             privateEventToEdit.setNumberOfBookedUsersOnEvent(bookedUsersOnEvent.size());
             privateEventToEdit.setBookedUsersOnEvent(bookedUsersOnEvent);
             privateEventToEdit.setCategory(category);
+            privateEventToEdit.setPostalCode(postalCode);
+            privateEventToEdit.setAddress(address);
+            privateEventToEdit.setEventLocation(eventLocation);
+            privateEventToEdit.setDescription(description);
 
             EventManager.updateEvent(privateEventToEdit);
 

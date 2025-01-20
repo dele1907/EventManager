@@ -113,7 +113,11 @@ public class EventManager {
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
                         // TODO: Rückgabe der Userliste aus Relation "booked"
                         record.get(EVENTS.CATEGORY),
-                        record.get(EVENTS.PRIVATEEVENT)
+                        record.get(EVENTS.PRIVATEEVENT),
+                        record.get(EVENTS.POSTALCODE),
+                        record.get(EVENTS.ADDRESS),
+                        record.get(EVENTS.EVENTLOCATION),
+                        record.get(EVENTS.DESCRIPTION)
                     );
 
                 return Optional.of(privateEvent);
@@ -125,6 +129,8 @@ public class EventManager {
 
         return Optional.empty();
     }
+
+
 
     // öffentliches Event laden (READ) anhand der ID
     public static Optional<PublicEvent> readPublicEventByID(String eventID) {
@@ -145,9 +151,13 @@ public class EventManager {
                         record.get(EVENTS.EVENTNAME),
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
+                        record.get(EVENTS.POSTALCODE),
+                        record.get(EVENTS.ADDRESS),
+                        record.get(EVENTS.EVENTLOCATION),
+                        record.get(EVENTS.DESCRIPTION),
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
                         record.get(EVENTS.CATEGORY),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
                         record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.MAXIMUMCAPACITY)
                 );
