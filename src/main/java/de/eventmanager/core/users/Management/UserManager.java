@@ -193,6 +193,30 @@ public class UserManager {
         }
     }
 
+    public static boolean deleteUserByEmail(String email) {
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            int rowsAffected = create.deleteFrom(USER)
+                    .where(USER.EMAIL.eq(email))
+                    .execute();
+
+            if (rowsAffected > 0) {
+                LoggerHelper.logInfoMessage(UserManager.class, USER_DELETED);
+            } else {
+                LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_FOUND);
+            }
+
+            return rowsAffected > 0;
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_DELETED + exception.getMessage());
+
+            return false;
+        }
+    }
     //#region Registration & Authentication
 
     public static boolean isValidRegistrationPassword(String password, String checkPassword) {
