@@ -54,7 +54,7 @@ public class EventOperationsTab implements Tab {
     }
 
     private void handleShowEvents() {
-        ShowEvents showEventsTab = new ShowEvents(textView, userController, loggedInUser);
-        showEventsTab.start();
+        ShowEventsTab showEventsTab = new ShowEventsTab(textView, userController, loggedInUser);
+        showEventsTab.displaySearchOptions();
     }
 }
