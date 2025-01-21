@@ -191,7 +191,7 @@ public class EventManager {
 
         return Optional.empty();
     }
-
+//#region readbyName
     //Search a Public Event by Name
     public static Optional<PublicEvent> readPublicEventByName(String eventName) {
 
@@ -231,7 +231,7 @@ public class EventManager {
 
         return Optional.empty();
     }
-
+//#endregion readbyName
     // Event ändern (UPDATE)
     public static boolean updateEvent(EventModel event) {
 
