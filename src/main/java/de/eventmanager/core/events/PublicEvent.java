@@ -10,7 +10,9 @@ import java.util.Optional;
 public class PublicEvent extends EventModel {
 
     private int maximumCapacity = -1;
-    //Todo Review: @Laura Region for constructor
+
+    //#region constructors
+
     // Konstruktor für öffentliche Events ohne Teilnehmerbeschränkung
     public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
@@ -59,6 +61,8 @@ public class PublicEvent extends EventModel {
         this.privateEvent = privateEvent;
         this.maximumCapacity = maximumCapacity;
     }
+
+    //#endregion constructors
 
     /*
     // #region CRUD-Operationen

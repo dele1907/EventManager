@@ -51,7 +51,8 @@ public abstract class EventModel {
     //#endregion CRUD-Operationen
     */
 
-    //#region Getter
+    //#region getter
+
     public String getEventID() {
         return eventID;
     }
@@ -100,9 +101,10 @@ public abstract class EventModel {
         return description;
     }
 
-    //#endregion Getter
+    //#endregion getter
 
-    //#region Setter
+    //#region setter
+
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
@@ -143,6 +145,6 @@ public abstract class EventModel {
         this.postalCode = postalCode;
     }
 
-    //#endregion Setter
+    //#endregion setter
 
 }

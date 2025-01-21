@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class PrivateEvent extends EventModel{
-    //Todo Review: @Laura Region for constructor
-    // Konstruktor für private Events
+
+    //#region constructors
+
     public PrivateEvent(String eventName, String eventStart, String eventEnd, String category,
                         String postalCode, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
@@ -39,6 +40,8 @@ public class PrivateEvent extends EventModel{
         this.eventLocation = eventLocation;
         this.description = description;
     }
+
+    //#endregion constructors
 
     /*
     // #region CRUD-Operationen

@@ -17,7 +17,8 @@ import static org.jooq.generated.tables.Created.CREATED;
 
 public class EventManager {
 
-    //Todo Review: @Laura add region for constants, CRUD-Operations
+    //#region constants
+
     private static final String EVENT_ADDED = "Event added successfully";
     private static final String EVENT_NOT_ADDED = "Error adding event: ";
     private static final String EVENT_NOT_READ = "Error reading event: ";
@@ -26,6 +27,10 @@ public class EventManager {
     private static final String EVENT_NOT_FOUND = "No event found with the given ID";
     private static final String EVENT_DELETED = "Event deleted successfully";
     private static final String EVENT_NOT_DELETED = "Error deleting event: ";
+
+    //#endregion constants
+
+    //#region CRUD operations
 
     public static boolean createNewEvent(EventModel event) {
 
@@ -271,6 +276,8 @@ public class EventManager {
             return false;
         }
     }
+
+    //#endregion CRUD operations
 
     /**
      * Relate a user to an event as the creator
