@@ -19,6 +19,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static Optional<User> loggedInUser;
     private static LoginTab loginTab = new LoginTab(textView, userController);
 
+
     public void startEventManagerInstance() {
         initDatabase();
 

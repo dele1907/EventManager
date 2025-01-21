@@ -10,8 +10,6 @@ import java.util.Optional;
 public class UserController {
     private View view;
     private UserService userService;
-    private final char[] restrictedCaractersForPhonenumber = {' ', };
-
 
     public UserController(View view, UserService userService) {
         this.view = view;
@@ -74,7 +72,7 @@ public class UserController {
     private String checkPhoneNumber() {
         boolean inValidPhoneNumber = true;
         String phoneNumber = "";
-        String INVALID_PHONE_NUMBER_INPUT_MESSAGE = "Invalid input! Please enter a valid phone number\n";
+        final String INVALID_PHONE_NUMBER_INPUT_MESSAGE = "Invalid input! Please enter a valid phone number\n";
         while (inValidPhoneNumber) {
 
             try {
