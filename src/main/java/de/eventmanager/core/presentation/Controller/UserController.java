@@ -18,7 +18,7 @@ public class UserController {
 
     //#region Login & Authentication
     public void registerUser() {
-        int phoneNumber = 0;
+        int phoneNumber = 0 ;
 
         view.displayMessage("\n===== Registration =====\nEnter first name: ");
         String firstName = view.getUserInput();
@@ -69,10 +69,6 @@ public class UserController {
         }
     }
 
-    public void editUser(User user) {
-        UserManager.updateUser(user);
-    }
-
     private int isValidPhoneNumber() {
         boolean validPhoneNumber = true;
         int phoneNumber = 0;
@@ -93,5 +89,13 @@ public class UserController {
     }
 
     //#endregion Login & Authentication
+
+    //#region CRUD-Operations
+
+    public void editUser(User user) {
+        UserManager.updateUser(user);
+    }
+
+    //#endregion CRUD-Regions
 
 }

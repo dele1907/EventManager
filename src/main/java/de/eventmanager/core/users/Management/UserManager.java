@@ -217,6 +217,7 @@ public class UserManager {
             return false;
         }
     }
+
     //#region Registration & Authentication
 
     public static boolean isValidRegistrationPassword(String password, String checkPassword) {
