@@ -31,7 +31,7 @@ public class UserController {
         phoneNumber = isValidPhoneNumber();
         view.displayMessage("Enter password: ");
         String password = view.getUserInput();
-        view.displayMessage("Enter confirm password: ");
+        view.displayMessage("Confirm password: ");
         String confirmPassword = view.getUserInput();
 
         boolean successfullyRegistered = userService.registerUser(firstName, lastName, dateOfBirth, email, phoneNumber, password, confirmPassword);
@@ -69,6 +69,7 @@ public class UserController {
         }
     }
 
+    // TODO: @Finn --> sobald die Telefonnummer Typ String ist, Methode anpassen
     private int isValidPhoneNumber() {
         boolean validPhoneNumber = true;
         int phoneNumber = 0;
@@ -96,6 +97,6 @@ public class UserController {
         UserManager.updateUser(user);
     }
 
-    //#endregion CRUD-Regions
+    //#endregion CRUD-Operations
 
 }
