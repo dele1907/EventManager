@@ -2,6 +2,9 @@ package de.eventmanager.core.events.Management;
 
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.Management.UserManager;
+import de.eventmanager.core.users.User;
+import jdk.jfr.Event;
 import org.junit.jupiter.api.*;
 
 import java.util.Optional;
@@ -13,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EventManagerTestDrive {
 
+    private User testUser;
     private PrivateEvent testPrivateEvent;
     private PrivateEvent testPrivateEventUpdated;
     private PublicEvent testPublicEvent;
@@ -161,4 +165,14 @@ public class EventManagerTestDrive {
         assertEquals("Marktplatz", publicEventFromDatabase.getEventLocation());
         assertEquals("Ostermarkt für tolle Menschen", publicEventFromDatabase.getDescription());
     }
+
+    @Test
+    @Order(5)
+    public void testAddUserCreatedEvent() {
+
+        boolean testCreation = EventManager.addUserCreatedEvent("testEventID", "testCreatorID");
+
+        assertTrue(testCreation, "Adding user to created event failed but should not.");
+    }
+
 }
