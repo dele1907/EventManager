@@ -76,7 +76,7 @@ public class User extends UserModel{
     }
     //#endregion constructor
 
-    //#region CRUD-Operations
+    //#region User related CRUD-Operations
     /**
      * <h3>Create new User</h3>
      * {@code createNewUser()} accepts user parameters as arguments to initialize a new User object
@@ -170,9 +170,9 @@ public class User extends UserModel{
         return UserManager.readUserByEMail(eMailAddress);
     }
 
-    //#endregion CRUD-Operations
+    //#endregion User related CRUD-Operations
 
-    //#region Event related Operations
+    //#region Event related CRUD-Operations
 
     @Override
     public Optional<EventModel> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category,
@@ -202,7 +202,19 @@ public class User extends UserModel{
         return Optional.of(event);
     }
 
-    //#endregion Event related Operations
+    @Override
+    public Optional<EventModel> editEvent(String eventID){
+        //Todo @Dennis implement editEvent()-Method
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteEvent(String eventID) {
+        //Todo @Dennis implement editEvent()-Method
+        return false;
+    }
+
+    //#endregion Event related CRUD-Operations
 
     //#region Permission-Operations
 

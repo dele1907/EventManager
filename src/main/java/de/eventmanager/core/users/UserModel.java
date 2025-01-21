@@ -44,12 +44,9 @@ public abstract class UserModel {
     public abstract Optional<EventModel> createPublicEvent(String eventName, String eventStart, String eventEnd, String category,String postalCode,
                                                            String address, String eventLocation, String description, int maxParticipants);
 
+    public abstract Optional<EventModel> editEvent(String eventID);
 
-    public void editEvent(String eventID) {}
-
-    public boolean deleteEvent(String eventID) {
-        return false;
-    }
+    public abstract boolean deleteEvent(String eventID);
 
     public String[] showUserIDsByEventID(String eventID) {
         return null;
