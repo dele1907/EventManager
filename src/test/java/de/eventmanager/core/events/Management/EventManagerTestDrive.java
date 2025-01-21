@@ -2,12 +2,8 @@ package de.eventmanager.core.events.Management;
 
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
-import jdk.jfr.Event;
 import org.junit.jupiter.api.*;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,7 +42,6 @@ public class EventManagerTestDrive {
                 "66119", "St. Johanner Markt", "Marktplatz", "Kirmes für tolle Menschen", 0,
                 "Dorffest", false, 5000);
     }
-
 
     // Nach jedem Test die Datenbank bereinigen:
     @AfterEach
@@ -173,6 +168,8 @@ public class EventManagerTestDrive {
         boolean testCreation = EventManager.addUserCreatedEvent("testEventID", "testCreatorID");
 
         assertTrue(testCreation, "Adding user to created event failed but should not.");
+
+        // TODO: adding automatic deletion of database entry after test
     }
 
 }
