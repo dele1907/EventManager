@@ -5,7 +5,7 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
-public class ShowEventsTab{
+public class ShowEventsTab implements Tab{
     private View textView;
     private UserController userController;
     private User loggedInUser;
@@ -16,13 +16,14 @@ public class ShowEventsTab{
         this.loggedInUser = loggedInUser;
     }
 
-    public void displaySearchOptions() {
+    public void start() {
 
         System.out.println("===== ShowEventsTab =====");
         textView.displayMessage("\n1. Search by Name \n2. Search by Location \n3. Search by City");
 
         textView.displayMessage("\nChoose an option: ");
         String choice = textView.getUserInput();
+        handelSearchOption(choice);
 
     }
 
