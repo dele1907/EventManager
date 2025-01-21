@@ -3,7 +3,7 @@ package de.eventmanager.core.presentation;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
-import de.eventmanager.core.presentation.UI.Tabs.LoginTab;
+import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
 import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
 import de.eventmanager.core.presentation.UI.View;
@@ -17,7 +17,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static UserService userServiceImpl = new UserServiceImpl();
     private static UserController userController = new UserController(textView, userServiceImpl);
     private static Optional<User> loggedInUser;
-    private static LoginTab loginTab = new LoginTab(textView, userController);
+    private static LoginRegistrationPage loginRegistrationPage = new LoginRegistrationPage(textView, userController);
 
 
     public void startEventManagerInstance() {
@@ -27,11 +27,11 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
 
         while (programIsRunning) {
             try {
-                loginTab.start();
-                loggedInUser = loginTab.getLoggedInUser();
+                loginRegistrationPage.start();
+                loggedInUser = loginRegistrationPage.getLoggedInUser();
 
                 if (loggedInUser.isPresent()) {
-                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginTab, userController);
+                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginRegistrationPage, userController);
                     mainMenuTab.start();
                 }
             } catch (Exception e) {

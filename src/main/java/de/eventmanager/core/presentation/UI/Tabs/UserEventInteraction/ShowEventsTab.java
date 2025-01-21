@@ -1,7 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
 import de.eventmanager.core.presentation.Controller.UserController;
-import de.eventmanager.core.presentation.UI.Tabs.LoginTab;
+import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
 import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
@@ -85,7 +85,10 @@ public class ShowEventsTab implements Tab{
     }
 
     private void handelGoBackToMainMenu() {
-        MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser, new LoginTab(textView, userController), userController);
+        MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser,
+                new LoginRegistrationPage(textView, userController), userController
+        );
+
         mainMenuTab.start();
         addDelay(2);
     }
