@@ -88,7 +88,24 @@ public class ShowEventsTab implements Tab{
     }
 
     public void getEventInformationbyLocation(String eventLocation) {
+        EventManager readbyLocation = new EventManager();
+        Optional<PublicEvent> optionalEvent= readbyLocation.readPublicEventByLocation(eventLocation);
 
+        if (optionalEvent.isPresent()) {
+            PublicEvent event = optionalEvent.get();
+
+            textView.displayMessage("\n Event Name: " + event.getEventName());
+            textView.displayMessage("\n Event Start: " + event.getEventStart());
+            textView.displayMessage("\n Event End: " + event.getEventEnd());
+            textView.displayMessage("\n Event Location: " + event.getEventLocation());
+            textView.displayMessage("\n Event Address: " + event.getAddress());
+            textView.displayMessage("\n Event Postalcode: " + event.getPostalCode());
+            textView.displayMessage("\n Event Description: " + event.getDescription());
+            textView.displayMessage("\n Event Category: " + event.getCategory());
+            textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
+            textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
+
+        }
     }
 
     public void getEventInformationbyCity(String eventCity) {
