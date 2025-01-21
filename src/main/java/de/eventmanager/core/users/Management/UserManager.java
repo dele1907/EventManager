@@ -7,6 +7,7 @@ import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
+import helper.PasswordHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -272,14 +273,16 @@ public class UserManager {
      in the DB. If both conditions are met, the user is successfully logged in.
      */
 
-    public static boolean authenticationUserLogin(String email, String password) {
+    public static boolean authenticationUserLogin(String email, String plainPassword) {
+        Optional<User> userOptional = readUserByEMail(email);
 
-        if (!comparingEmailAddress(email)) {
+        if (userOptional.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManager.class, "Email address not found");
 
             return false;
         }
 
-        return comparingPassword(password, readUserByEMail(email).get().getPassword());
+        return PasswordHelper.verifyPassword(plainPassword, userOptional.get().getPassword());
     }
     //#endregion Registration & Authentication
 

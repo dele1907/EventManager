@@ -8,6 +8,7 @@ import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
 import helper.IDGenerationHelper;
 import helper.LoggerHelper;
+import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +40,7 @@ public class User extends UserModel{
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.eMailAddress = eMailAddress;
-        this.password = password;
+        this.password = PasswordHelper.hashPassword(password);
         this.phoneNumber = phoneNumber;
         this.role = isAdmin ? Role.ADMIN : Role.USER;
     }
@@ -56,7 +57,7 @@ public class User extends UserModel{
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.eMailAddress = eMailAddress;
-        this.password = password;
+        this.password = PasswordHelper.hashPassword(password);
         this.phoneNumber = phoneNumber;
         this.role = Role.USER;
     }
