@@ -41,6 +41,7 @@ public class PrivateEvent extends EventModel{
         this.description = description;
     }
 
+    /*
     // #region CRUD-Operationen
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
@@ -87,12 +88,14 @@ public class PrivateEvent extends EventModel{
         return EventManager.deleteEventByID(eventID);
     }
     // #endregion CRUD-Operationen
+    */
 
     // #region toString
     @Override
     public String toString() {
-        return "\nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
-                "\ncategory: " + category + "\nprivate event: " + privateEvent;
+        return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
+                "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nPostal-Code: " + postalCode +
+                "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
     }
     // #endregion toString
 }

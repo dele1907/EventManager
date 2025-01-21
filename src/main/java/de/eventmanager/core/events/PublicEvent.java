@@ -60,6 +60,7 @@ public class PublicEvent extends EventModel {
         this.maximumCapacity = maximumCapacity;
     }
 
+    /*
     // #region CRUD-Operationen
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
@@ -136,6 +137,7 @@ public class PublicEvent extends EventModel {
         return EventManager.deleteEventByID(eventID);
     }
     // #endregion CRUD-Operationen
+    */
 
     // #region Getter
     public int getMaximumCapacity() {
@@ -152,7 +154,7 @@ public class PublicEvent extends EventModel {
     // #region toString
     @Override
     public String toString() {
-        return "\nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
+        return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
                 "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity + "\nPostal-Code: " + postalCode +
                 "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
     }

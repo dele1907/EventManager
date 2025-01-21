@@ -19,6 +19,7 @@ public abstract class EventModel {
     String address;
     String eventLocation;
 
+    /*
     //#region CRUD-Operationen
     public abstract boolean createNewEvent(
             String eventName,
@@ -49,6 +50,7 @@ public abstract class EventModel {
     public abstract boolean deleteEvent(String eventID);
 
     //#endregion CRUD-Operationen
+    */
 
     //#region Getter
     public String getEventID() {
