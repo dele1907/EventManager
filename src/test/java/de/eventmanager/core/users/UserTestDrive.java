@@ -18,7 +18,7 @@ public class UserTestDrive {
 
     User testAdminUser = UserManager.readUserByID("10b4841b-c5e0-4e13-a861-6f65f6c4086b").get();
 
-    User system = new User("System", "", "", "", "goodPassword", 0, true);
+    User system = new User("System", "", "", "", "goodPassword", "0", true);
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
@@ -31,7 +31,7 @@ public class UserTestDrive {
     void userWithoutPermissionCreateNewUserTest() {
 
         assertFalse(testUser.createNewUser("test", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
-                "eventManager123", 11223344, false));
+                "eventManager123", "11223344", false));
 
     }
 
@@ -43,7 +43,7 @@ public class UserTestDrive {
         assertNotNull(testAdminUser);
 
         assertTrue(testAdminUser.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
-                "eventManager123", 11223344, false));
+                "eventManager123", "11223344", false));
 
 
     }
@@ -60,7 +60,7 @@ public class UserTestDrive {
         String email = TEST_USER_EMAIL_ADDRESS_EDITED; //erst wenn editUser funktioniert
         //String email = TEST_USER_EMAIL_ADDRESS;
         String password = "eventManager123";
-        int phoneNumber = 123456;
+        String phoneNumber = "123456";
 
         testAdminUser.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber);
 

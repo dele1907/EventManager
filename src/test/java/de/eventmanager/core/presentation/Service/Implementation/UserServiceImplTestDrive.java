@@ -20,7 +20,7 @@ public class UserServiceImplTestDrive {
                 "Appear",
                 "01.01.2000",
                 "disappear@muster.com",
-                12345678,
+                "12345678",
                 "123456",
                 "123456"
         );

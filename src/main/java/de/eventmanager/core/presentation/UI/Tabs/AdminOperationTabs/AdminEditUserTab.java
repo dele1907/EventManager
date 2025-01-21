@@ -95,14 +95,13 @@ public class AdminEditUserTab implements Tab {
 
     private void showEditPhoneNumber(User user) {
         textView.displayMessage("\nEnter new phone number (leave blank to keep current): ");
-        String newPhoneNumberInput = textView.getUserInput();
+        String newPhoneNumber = textView.getUserInput();
 
-        if (newPhoneNumberInput.isEmpty()) {
+        if (newPhoneNumber.isEmpty()) {
             return;
         }
 
         try {
-            int newPhoneNumber = Integer.parseInt(newPhoneNumberInput);
             user.setPhoneNumber(newPhoneNumber);
 
         } catch (NumberFormatException e) {

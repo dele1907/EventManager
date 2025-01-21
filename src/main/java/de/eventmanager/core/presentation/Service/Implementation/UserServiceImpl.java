@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
             String lastName,
             String dateOfBirth,
             String email,
-            int phoneNumber,
+            String phoneNumber,
             String password,
             String passwordConfirmation
             ) {

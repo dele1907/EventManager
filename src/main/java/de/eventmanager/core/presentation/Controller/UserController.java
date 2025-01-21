@@ -10,6 +10,8 @@ import java.util.Optional;
 public class UserController {
     private View view;
     private UserService userService;
+    private final char[] restrictedCaractersForPhonenumber = {' ', };
+
 
     public UserController(View view, UserService userService) {
         this.view = view;
@@ -18,7 +20,7 @@ public class UserController {
 
     //#region Login & Authentication
     public void registerUser() {
-        int phoneNumber = 0 ;
+        String phoneNumber;
 
         view.displayMessage("\n===== Registration =====\nEnter first name: ");
         String firstName = view.getUserInput();
@@ -28,7 +30,7 @@ public class UserController {
         String dateOfBirth = view.getUserInput();
         view.displayMessage("Enter email: ");
         String email = view.getUserInput();
-        phoneNumber = isValidPhoneNumber();
+        phoneNumber = checkPhoneNumber();
         view.displayMessage("Enter password: ");
         String password = view.getUserInput();
         view.displayMessage("Confirm password: ");
@@ -69,20 +71,28 @@ public class UserController {
         }
     }
 
-    // TODO: @Finn --> sobald die Telefonnummer Typ String ist, Methode anpassen
-    private int isValidPhoneNumber() {
-        boolean validPhoneNumber = true;
-        int phoneNumber = 0;
-
-        while (validPhoneNumber) {
+    private String checkPhoneNumber() {
+        boolean inValidPhoneNumber = true;
+        String phoneNumber = "";
+        String INVALID_PHONE_NUMBER_INPUT_MESSAGE = "Invalid input! Please enter a valid phone number\n";
+        while (inValidPhoneNumber) {
 
             try {
                 view.displayMessage("Enter phone number: ");
-                phoneNumber = Integer.parseInt(view.getUserInput());
-                validPhoneNumber = false;
+                phoneNumber = view.getUserInput();
+                if (!phoneNumber.isEmpty()) {
 
-            }catch (NumberFormatException e) {
-                view.displayErrorMessage("Invalid input! Please enter a valid phone number\n");
+                    if (!phoneNumber.matches(".*[-äöüÄÖÜß?!.,<>a-zA-Z].*")) {
+
+                        inValidPhoneNumber = false;
+                    }else {
+
+                        System.out.println(INVALID_PHONE_NUMBER_INPUT_MESSAGE);
+                    }
+                }
+
+            }catch (Exception e) {
+                view.displayErrorMessage(INVALID_PHONE_NUMBER_INPUT_MESSAGE);
             }
         }
 

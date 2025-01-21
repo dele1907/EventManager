@@ -28,9 +28,9 @@ public class UserManagerTestDrive {
         }
 
         testUser = new User("testUserID", "Max", "Mustermann", "1980-01-10",
-                "max.mustermann@mail.com", "password123", 1234567890, false);
+                "max.mustermann@mail.com", "password123", "1234567890", false);
         testUserUpdated = new User("testUserID", "Maximilian", "Mustermann-Meyer", "1980-10-01",
-                "max.m@mail.com", "password987", 1357902468, false);
+                "max.m@mail.com", "password987", "1357902468", false);
     }
 
     // Nach jedem Test die Datenbank bereinigen:

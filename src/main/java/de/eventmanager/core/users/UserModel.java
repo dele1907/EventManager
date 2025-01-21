@@ -13,7 +13,7 @@ public abstract class UserModel {
     String dateOfBirth;
     String eMailAddress;
     String password;
-    int phoneNumber;
+    String phoneNumber;
     Role role;
 
     //#region CRUD-Operations
@@ -24,14 +24,14 @@ public abstract class UserModel {
             String dateOfBirth,
             String eMailAddress,
             String password,
-            int phoneNumber,
+            String phoneNumber,
             boolean isAdmin
     );
 
     public abstract void editUser(String userID, String firstName,
                                   String lastName, String dateOfBirth,
                                   String eMailAddress, String password,
-                                  int phoneNumber);
+                                  String phoneNumber);
 
     public abstract boolean deleteUser(String userID);
 
@@ -87,7 +87,7 @@ public abstract class UserModel {
         return role;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -118,7 +118,7 @@ public abstract class UserModel {
 
     //#region Setter
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

@@ -32,7 +32,7 @@ public class User extends UserModel{
 
     //Administrator
     public User(String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+                String eMailAddress, String password, String phoneNumber, boolean isAdmin) {
 
         this.userID = IDGenerationHelper.generateRandomUUID();
         this.firstName = firstName;
@@ -49,7 +49,7 @@ public class User extends UserModel{
      * */
     //Standard-User
     public User(String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, int phoneNumber) {
+                String eMailAddress, String password, String phoneNumber) {
 
         this.userID = IDGenerationHelper.generateRandomUUID();
         this.firstName = firstName;
@@ -63,7 +63,7 @@ public class User extends UserModel{
 
     //User-Object for load DB
     public User(String userID, String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, int phoneNumber, boolean isAdmin) {
+                String eMailAddress, String password, String phoneNumber, boolean isAdmin) {
 
         this.userID = userID;
         this.firstName = firstName;
@@ -86,7 +86,7 @@ public class User extends UserModel{
 
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                                 String password, int phoneNumber, boolean isAdmin) {
+                                 String password, String phoneNumber, boolean isAdmin) {
         if (!this.role.equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_CREATE_USER);
 
@@ -106,7 +106,7 @@ public class User extends UserModel{
 
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
-             String password, int phoneNumber) {
+             String password, String phoneNumber) {
         if (!this.role.equals(Role.ADMIN)){
             logger.error(NO_PERMISSION_EDIT_USER);
 
