@@ -56,7 +56,9 @@ public abstract class UserModel {
         return null;
     }
 
-    //public Event showEventByID(String userID){};
+    public Optional<EventModel> showEventByID(String userID){
+        return null;
+    };
 
     //#endregion Crud-Operations
 

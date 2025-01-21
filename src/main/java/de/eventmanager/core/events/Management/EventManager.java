@@ -17,6 +17,7 @@ import static org.jooq.generated.tables.Created.CREATED;
 
 public class EventManager {
 
+    //Todo Review: @Laura add region for constants, CRUD-Operations
     private static final String EVENT_ADDED = "Event added successfully";
     private static final String EVENT_NOT_ADDED = "Error adding event: ";
     private static final String EVENT_NOT_READ = "Error reading event: ";

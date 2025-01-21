@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class PrivateEvent extends EventModel{
-
+    //Todo Review: @Laura Region for constructor
     // Konstruktor für private Events
     public PrivateEvent(String eventName, String eventStart, String eventEnd, String category,
                         String postalCode, String address, String eventLocation, String description) {
@@ -18,7 +18,6 @@ public class PrivateEvent extends EventModel{
         this.eventEnd = eventEnd;
         this.category = category;
         this.privateEvent = true;
-        this.city = city;
         this.postalCode = postalCode;
         this.address = address;
         this.eventLocation = eventLocation;
@@ -90,12 +89,12 @@ public class PrivateEvent extends EventModel{
     // #endregion CRUD-Operationen
     */
 
-    // #region toString
+    //#region toString
     @Override
     public String toString() {
         return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
                 "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nPostal-Code: " + postalCode +
                 "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
     }
-    // #endregion toString
+    //#endregion toString
 }

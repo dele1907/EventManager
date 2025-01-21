@@ -14,7 +14,6 @@ public abstract class EventModel {
     String category;
     boolean privateEvent;
     String description;
-    String city;
     String postalCode;
     String address;
     String eventLocation;

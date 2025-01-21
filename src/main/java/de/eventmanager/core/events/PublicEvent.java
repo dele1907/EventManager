@@ -10,7 +10,7 @@ import java.util.Optional;
 public class PublicEvent extends EventModel {
 
     private int maximumCapacity = -1;
-
+    //Todo Review: @Laura Region for constructor
     // Konstruktor für öffentliche Events ohne Teilnehmerbeschränkung
     public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
@@ -139,24 +139,24 @@ public class PublicEvent extends EventModel {
     // #endregion CRUD-Operationen
     */
 
-    // #region Getter
+    //#region Getter
     public int getMaximumCapacity() {
         return maximumCapacity;
     }
     // #endregion Getter
 
-    // #region Setter
+    //#region Setter
     public void setMaximumCapacity(int maximumCapacity) {
         this.maximumCapacity = maximumCapacity;
     }
     // #endregion Setter
 
-    // #region toString
+    //#region toString
     @Override
     public String toString() {
         return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
                 "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity + "\nPostal-Code: " + postalCode +
                 "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
     }
-    // #endregion toString
+    //#endregion toString
 }
