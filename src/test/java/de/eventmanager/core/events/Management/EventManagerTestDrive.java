@@ -33,7 +33,7 @@ public class EventManagerTestDrive {
                 "2025-11-11", 0, "private Feier", true, "66119", "Gutenbergstraße 2",
                 "Omas Haus", "Geburtstagsfeier für meine super tolle TestOma ;)");
         testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0, "Firmenfeier", true, "66119", "Gutenbergstraße 2",
-                "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier für die tolle Firma!");
+                "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier von der tollen Firma!");
 
         testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06",
                 "66119", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 0,
@@ -143,6 +143,10 @@ public class EventManagerTestDrive {
         assertEquals(0, privateEventFromDatabase.getNumberOfBookedUsersOnEvent());
         assertEquals("private Feier", privateEventFromDatabase.getCategory());
         assertEquals(true, privateEventFromDatabase.isPrivateEvent());
+        assertEquals("66119", privateEventFromDatabase.getPostalCode());
+        assertEquals("Gutenbergstraße 2", privateEventFromDatabase.getAddress());
+        assertEquals("Omas Haus", privateEventFromDatabase.getEventLocation());
+        assertEquals("Geburtstagsfeier für meine super tolle TestOma ;)", privateEventFromDatabase.getDescription());
 
         assertEquals("testPublicEventID", publicEventFromDatabase.getEventID());
         assertEquals("Ostermarkt", publicEventFromDatabase.getEventName());
@@ -152,5 +156,9 @@ public class EventManagerTestDrive {
         assertEquals("Markt", publicEventFromDatabase.getCategory());
         assertEquals(false, publicEventFromDatabase.isPrivateEvent());
         assertEquals(2000, publicEventFromDatabase.getMaximumCapacity());
+        assertEquals("66119", publicEventFromDatabase.getPostalCode());
+        assertEquals("St. Johanner Markt", publicEventFromDatabase.getAddress());
+        assertEquals("Marktplatz", publicEventFromDatabase.getEventLocation());
+        assertEquals("Ostermarkt für tolle Menschen", publicEventFromDatabase.getDescription());
     }
 }
