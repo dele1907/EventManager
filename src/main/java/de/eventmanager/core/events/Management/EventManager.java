@@ -146,8 +146,6 @@ public class EventManager {
         return Optional.empty();
     }
 
-
-
     // öffentliches Event laden (READ) anhand der ID
     public static Optional<PublicEvent> readPublicEventByID(String eventID) {
 
