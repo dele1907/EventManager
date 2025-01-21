@@ -21,12 +21,13 @@ public class EventOperationsTab implements Tab {
         boolean eventOperationIsActive = true;
 
         while (eventOperationIsActive) {
-            textView.displayMessage("===== EventOperationsTab =====");
+            textView.displayMessage("\n===== EventOperationsTab =====");
 
             textView.displayMessage(
                     "\n1. Create Event" +
                     "\n2. Show Events" +
-                    "\n3. Back to main menu"
+                    "\n3. Back to main menu" +
+                    "\nChoose a Option: "
             );
             
             String choice = textView.getUserInput();

@@ -110,7 +110,10 @@ public class ShowEventsTab implements Tab{
                 new LoginRegistrationPage(textView, userController), userController
         );
 
-        mainMenuTab.start();
         addDelay(2);
+
+        textView.displayMessage("\nGoing Back to Main Menu");
+
+        mainMenuTab.start();
     }
 }
