@@ -1,7 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
-import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventCreationTab;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.roles.Role;
@@ -10,7 +9,7 @@ import de.eventmanager.core.users.User;
 public class MainMenuTab implements Tab {
     private View textView;
     private User loggedInUser;
-    private LoginTab loginTab;
+    private LoginRegistrationPage loginRegistrationPage;
     private UserController userController;
 
     private enum MenuType {
@@ -18,10 +17,10 @@ public class MainMenuTab implements Tab {
         NON_ADMIN
     }
 
-    public MainMenuTab(View textView, User loggedInUser, LoginTab loginTab, UserController userController) {
+    public MainMenuTab(View textView, User loggedInUser, LoginRegistrationPage loginRegistrationPage, UserController userController) {
         this.textView = textView;
         this.loggedInUser = loggedInUser;
-        this.loginTab = loginTab;
+        this.loginRegistrationPage = loginRegistrationPage;
         this.userController = userController;
     }
 
@@ -90,12 +89,12 @@ public class MainMenuTab implements Tab {
 
     private void doLogout() {
         textView.displayMessage("\nLogging out...\n");
-        loginTab.resetLoggedInUser();
+        loginRegistrationPage.resetLoggedInUser();
     }
 
     private void doLogoutAndExitProgram() {
         textView.displayMessage("\nLogging out...\n");
-        loginTab.resetLoggedInUser();
+        loginRegistrationPage.resetLoggedInUser();
 
         addDelay(2);
 
