@@ -13,8 +13,4 @@ public class PasswordHelper {
     public static boolean verifyPassword(String plainPassword, String hashedPassword) {
         return passwordEncoder.matches(plainPassword, hashedPassword);
     }
-
-    public static void main(String[] args) {
-        System.out.println(hashPassword("Password0815"));
-    }
 }
