@@ -2,6 +2,8 @@ package de.eventmanager.core.users;
 
 
 import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.events.Management.EventManager;
+import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.roles.Role;
 
 import java.util.Optional;
@@ -39,12 +41,15 @@ public abstract class UserModel {
 
     public abstract Optional<User> getUserByEmail(String eMailAddress);
 
-    public abstract Optional<EventModel> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
-                                                            String address, String eventLocation, String description);
+    public abstract Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+                                                              String address, String eventLocation, String description);
     public abstract Optional<EventModel> createPublicEvent(String eventName, String eventStart, String eventEnd, String category,String postalCode,
                                                            String address, String eventLocation, String description, int maxParticipants);
 
-    public abstract Optional<EventModel> editEvent(String eventID);
+    public abstract boolean editEvent(String eventID, String eventName,
+                                      String eventStart, String eventEnd, String category,
+                                      String postalCode, String address, String eventLocation,
+                                      String description);
 
     public abstract boolean deleteEvent(String eventID);
 

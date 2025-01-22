@@ -120,6 +120,64 @@ public class EventManager {
         return false;
     }
 
+    public static Optional<PrivateEvent> getPrivateEventFromRecord(Record record) {
+        return Optional.of(new PrivateEvent(
+                record.get(EVENTS.EVENTID),
+                record.get(EVENTS.EVENTNAME),
+                record.get(EVENTS.EVENTSTART),
+                record.get(EVENTS.EVENTEND),
+                record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                // TODO: Rückgabe der Userliste aus Relation "booked"
+                record.get(EVENTS.CATEGORY),
+                record.get(EVENTS.PRIVATEEVENT),
+                record.get(EVENTS.POSTALCODE),
+                record.get(EVENTS.ADDRESS),
+                record.get(EVENTS.EVENTLOCATION),
+                record.get(EVENTS.DESCRIPTION)
+        ));
+    }
+
+    public static Optional<PublicEvent> getPublicEventFromRecord(Record record) {
+        return Optional.of(new PublicEvent(
+                record.get(EVENTS.EVENTID),
+                record.get(EVENTS.EVENTNAME),
+                record.get(EVENTS.EVENTSTART),
+                record.get(EVENTS.EVENTEND),
+                record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                // TODO: Rückgabe der Userliste aus Relation "booked"
+                record.get(EVENTS.CATEGORY),
+                record.get(EVENTS.PRIVATEEVENT),
+                record.get(EVENTS.POSTALCODE),
+                record.get(EVENTS.ADDRESS),
+                record.get(EVENTS.EVENTLOCATION),
+                record.get(EVENTS.DESCRIPTION),
+                record.get(EVENTS.MAXIMUMCAPACITY)
+        ));
+    }
+
+    public static Optional<? extends EventModel> readEventByID(String eventID) {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Record record = create.select()
+                    .from(EVENTS)
+                    .where(EVENTS.EVENTID.eq(eventID))
+                    .fetchOne();
+
+            if (record != null) {
+                return record.get(EVENTS.PRIVATEEVENT) ?
+                        getPrivateEventFromRecord(record) :
+                        getPublicEventFromRecord(record);
+            }
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return Optional.empty();
+    }
+
     /**
      * READ a private event by ID
      * */
@@ -135,23 +193,7 @@ public class EventManager {
                     .fetchOne();
 
             if (record != null) {
-
-                PrivateEvent privateEvent = new PrivateEvent(
-                        record.get(EVENTS.EVENTID),
-                        record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTSTART),
-                        record.get(EVENTS.EVENTEND),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
-                        record.get(EVENTS.CATEGORY),
-                        record.get(EVENTS.PRIVATEEVENT),
-                        record.get(EVENTS.POSTALCODE),
-                        record.get(EVENTS.ADDRESS),
-                        record.get(EVENTS.EVENTLOCATION),
-                        record.get(EVENTS.DESCRIPTION)
-                    );
-
-                return Optional.of(privateEvent);
+                return getPrivateEventFromRecord(record);
             }
 
         } catch (Exception exception) {
@@ -176,24 +218,7 @@ public class EventManager {
                     .fetchOne();
 
             if (record != null) {
-
-                PublicEvent publicEvent = new PublicEvent(
-                        record.get(EVENTS.EVENTID),
-                        record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTSTART),
-                        record.get(EVENTS.EVENTEND),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
-                        record.get(EVENTS.CATEGORY),
-                        record.get(EVENTS.PRIVATEEVENT),
-                        record.get(EVENTS.POSTALCODE),
-                        record.get(EVENTS.ADDRESS),
-                        record.get(EVENTS.EVENTLOCATION),
-                        record.get(EVENTS.DESCRIPTION),
-                        record.get(EVENTS.MAXIMUMCAPACITY)
-                );
-
-                return Optional.of(publicEvent);
+                return getPublicEventFromRecord(record);
             }
 
         } catch (Exception exception) {

@@ -176,12 +176,13 @@ public class User extends UserModel{
     //#region Event related CRUD-Operations
 
     @Override
-    public Optional<EventModel> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category,
+    public Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category,
                                                    String postalCode, String address, String eventLocation, String description) {
-        EventModel event;
 
-            event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
+        PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
+
         EventManager.createNewEvent(event);
+
         EventManager.addUserCreatedEvent(event.getEventID(), this.userID);
 
         return Optional.of(event);
@@ -204,15 +205,38 @@ public class User extends UserModel{
     }
 
     @Override
-    public Optional<EventModel> editEvent(String eventID){
-        //Todo @Dennis implement editEvent()-Method
-        return Optional.empty();
+    public boolean editEvent(String eventID, String eventName,
+         String eventStart, String eventEnd, String category,
+         String postalCode, String address, String eventLocation, String description
+    ) {
+        Optional<PrivateEvent> privateEvent = EventManager.readPrivateEventByID(eventID);
+
+        if (privateEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(User.class, "Event not found");
+
+            return false;
+        }
+
+        PrivateEvent privateEventToEdit = privateEvent.get();
+        privateEventToEdit.setEventName(eventName);
+        privateEventToEdit.setEventStart(eventStart);
+        privateEventToEdit.setEventEnd(eventEnd);
+        privateEventToEdit.setCategory(category);
+        privateEventToEdit.setPostalCode(postalCode);
+        privateEventToEdit.setAddress(address);
+        privateEventToEdit.setEventLocation(eventLocation);
+        privateEventToEdit.setDescription(description);
+
+        EventManager.updateEvent(privateEventToEdit);
+
+        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + privateEventToEdit);
+
+        return true;
     }
 
     @Override
     public boolean deleteEvent(String eventID) {
-        //Todo @Dennis implement editEvent()-Method
-        return false;
+       return EventManager.deleteEventByID(eventID);
     }
 
     //#endregion Event related CRUD-Operations
