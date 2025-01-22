@@ -105,6 +105,7 @@ public class ShowEventsTab implements Tab{
                 textView.displayMessage("\n Event Category: " + event.getCategory());
                 textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
                 textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
+                textView.displayMessage("\n");
             }
 
 

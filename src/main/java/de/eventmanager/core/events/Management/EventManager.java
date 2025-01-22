@@ -12,6 +12,7 @@ import de.eventmanager.core.events.PublicEvent;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Result;
 import org.jooq.impl.DSL;
 
 import static org.jooq.generated.tables.Events.EVENTS;
@@ -237,47 +238,44 @@ public class EventManager {
 
 //#region readbyLocation
    //Search a Public Event by Lovation
-   public static List<PublicEvent> readPublicEventByLocation(String eventLocation) {
-       List<PublicEvent> foundEventsByLocation = new ArrayList<>();
+public static List<PublicEvent> readPublicEventByLocation(String eventLocation) {
+    List<PublicEvent> publicEvents = new ArrayList<>();
 
-       try (Connection connection = DatabaseConnector.connect()) {
+    try (Connection connection = DatabaseConnector.connect()) {
+        DSLContext create = DSL.using(connection);
 
-           DSLContext create = DSL.using(connection);
 
-           Record record = create.select()
-                   .from(EVENTS)
-                   .where(EVENTS.EVENTLOCATION.eq(eventLocation))
-                   .fetchOne();
+        Result<Record> records = create.select()
+                .from(EVENTS)
+                .where(EVENTS.EVENTLOCATION.eq(eventLocation))
+                .fetch();
 
-           if (record != null) {
 
-               foundEventsByLocation.add(
-                       new PublicEvent(
-                               record.get(EVENTS.EVENTID),
-                               record.get(EVENTS.EVENTNAME),
-                               record.get(EVENTS.EVENTSTART),
-                               record.get(EVENTS.EVENTEND),
-                               record.get(EVENTS.POSTALCODE),
-                               record.get(EVENTS.ADDRESS),
-                               record.get(EVENTS.EVENTLOCATION),
-                               record.get(EVENTS.DESCRIPTION),
-                               record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                               record.get(EVENTS.CATEGORY),
-                               // TODO: Rückgabe der Userliste aus Relation "booked"
-                               record.get(EVENTS.PRIVATEEVENT),
-                               record.get(EVENTS.MAXIMUMCAPACITY)
-               )
-               );
+        for (Record record : records) {
+            PublicEvent publicEvent = new PublicEvent(
+                    record.get(EVENTS.EVENTID),
+                    record.get(EVENTS.EVENTNAME),
+                    record.get(EVENTS.EVENTSTART),
+                    record.get(EVENTS.EVENTEND),
+                    record.get(EVENTS.POSTALCODE),
+                    record.get(EVENTS.ADDRESS),
+                    record.get(EVENTS.EVENTLOCATION),
+                    record.get(EVENTS.DESCRIPTION),
+                    record.get(EVENTS.NUMBEROFBOOKEDUSERSONEVENT),
+                    record.get(EVENTS.CATEGORY),
+                    // TODO: Return user list from "booked" relation
+                    record.get(EVENTS.PRIVATEEVENT),
+                    record.get(EVENTS.MAXIMUMCAPACITY)
+            );
+            publicEvents.add(publicEvent);
+        }
 
-               return foundEventsByLocation;
-           }
+    } catch (Exception exception) {
+        LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
+    }
 
-       } catch (Exception exception) {
-           LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
-       }
-
-       return foundEventsByLocation;
-   }
+    return publicEvents;
+}
 //#endregion readbyLocation
 
     // Event ändern (UPDATE)
