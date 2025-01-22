@@ -7,6 +7,7 @@ import de.eventmanager.core.users.User;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+    UserManager userManager = new UserManager();
 
     @Override
     public boolean registerUser(
@@ -32,6 +33,21 @@ public class UserServiceImpl implements UserService {
             return Optional.empty();
         }
 
+        return UserManager.readUserByEMail(email);
+    }
+
+    @Override
+    public boolean deleteUser(User user) {
+        return UserManager.deleteUserByEmail(user.getEMailAddress());
+    }
+
+    @Override
+    public boolean editUser(String userID) {
+        return UserManager.updateUser(UserManager.readUserByID(userID).get());
+    }
+
+    @Override
+    public Optional<User> readUserByEmail(String email) {
         return UserManager.readUserByEMail(email);
     }
 }

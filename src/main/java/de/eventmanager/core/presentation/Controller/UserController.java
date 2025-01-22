@@ -45,10 +45,18 @@ public class UserController {
 
     //#region CRUD-Operations
 
-    public void editUser(User user) {
-        UserManager.updateUser(user);
+    public boolean editUser(String userID) {
+        return userService.editUser(userID);
+    }
+
+    public boolean deleteUser(User user) {
+       return userService.deleteUser(user);
     }
 
     //#endregion CRUD-Operations
+
+    public Optional<User> getUserByEmail(String email) {
+        return userService.readUserByEmail(email);
+    }
 
 }
