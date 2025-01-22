@@ -1,6 +1,8 @@
 package de.eventmanager.core.presentation;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.Service.EventService;
+import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
@@ -14,8 +16,9 @@ import java.util.Optional;
 
 public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static View textView = new TextView();
-    private static UserService userServiceImpl = new UserServiceImpl();
-    private static UserController userController = new UserController(textView, userServiceImpl);
+    private static UserService userService = new UserServiceImpl();
+    private static EventService eventService = new EventServiceImpl();
+    private static UserController userController = new UserController(userService, eventService);
     private static Optional<User> loggedInUser;
     private static LoginRegistrationPage loginRegistrationPage = new LoginRegistrationPage(textView, userController);
 
