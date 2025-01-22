@@ -196,19 +196,19 @@ public class EventManager {
     }
 //#region readbyName
     //Search a Public Event by Name
-    public static Optional<PublicEvent> readPublicEventByName(String eventName) {
+    public static List<PublicEvent> readPublicEventsByName(String eventName) {
+        List <PublicEvent> publicEvents = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Record record = create.select()
+            Result<Record> records= create.select()
                     .from(EVENTS)
                     .where(EVENTS.EVENTNAME.eq(eventName))
-                    .fetchOne();
+                    .fetch();
 
-            if (record != null) {
-
+            for (Record record : records) {
                 PublicEvent publicEvent = new PublicEvent(
                         record.get(EVENTS.EVENTID),
                         record.get(EVENTS.EVENTNAME),
@@ -218,27 +218,27 @@ public class EventManager {
                         record.get(EVENTS.ADDRESS),
                         record.get(EVENTS.EVENTLOCATION),
                         record.get(EVENTS.DESCRIPTION),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        record.get(EVENTS.NUMBEROFBOOKEDUSERSONEVENT),
                         record.get(EVENTS.CATEGORY),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        // TODO: Return user list from "booked" relation
                         record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.MAXIMUMCAPACITY)
                 );
 
-                return Optional.of(publicEvent);
+                publicEvents.add(publicEvent);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
         }
 
-        return Optional.empty();
+        return publicEvents;
     }
 //#endregion readbyName
 
 //#region readbyLocation
    //Search a Public Event by Lovation
-public static List<PublicEvent> readPublicEventByLocation(String eventLocation) {
+public static List<PublicEvent> readPublicEventsByLocation(String eventLocation) {
     List<PublicEvent> publicEvents = new ArrayList<>();
 
     try (Connection connection = DatabaseConnector.connect()) {

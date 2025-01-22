@@ -70,7 +70,7 @@ public class ShowEventsTab implements Tab{
 
     public void getEventInformationbyName(String eventName) {
         EventManager readbyName = new EventManager();
-        Optional<PublicEvent> optionalEvent= readbyName.readPublicEventByName(eventName);
+        Optional<PublicEvent> optionalEvent= readbyName.readPublicEventsByName(eventName);
 
         if (optionalEvent.isPresent()) {
             PublicEvent event = optionalEvent.get();
@@ -91,7 +91,7 @@ public class ShowEventsTab implements Tab{
 
     public void getEventInformationbyLocation(String eventLocation) {
         EventManager readbyLocation = new EventManager();
-        List<PublicEvent> optionalEvent= readbyLocation.readPublicEventByLocation(eventLocation);
+        List<PublicEvent> optionalEvent= readbyLocation.readPublicEventsByLocation(eventLocation);
 
         if (!optionalEvent.isEmpty()) {
             for (PublicEvent event : optionalEvent) {
