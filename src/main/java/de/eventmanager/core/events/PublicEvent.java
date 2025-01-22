@@ -38,27 +38,26 @@ public class PublicEvent extends EventModel {
         this.privateEvent = false;
         this.postalCode = postalCode;
         this.address = address;
-        this.description = description;
         this.eventLocation = eventLocation;
+        this.description = description;
         this.maximumCapacity = maximumCapacity;
 
     }
 
     // Konstruktor für öffentliche Events aus DB
-    public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, String postalCode,
-                       String address, String eventLocation, String description, int numberOfBookedUsersOnEvent,
-                       String category, boolean privateEvent, int maximumCapacity) {
+    public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent,
+                       String category, boolean privateEvent, String postalCode, String address, String eventLocation, String description, int maximumCapacity) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
         this.category = category;
+        this.privateEvent = privateEvent;
         this.postalCode = postalCode;
         this.address = address;
-        this.description = description;
         this.eventLocation = eventLocation;
-        this.privateEvent = privateEvent;
+        this.description = description;
         this.maximumCapacity = maximumCapacity;
     }
 

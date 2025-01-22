@@ -2,5 +2,6 @@ package de.eventmanager.core.roles;
 
 public enum Role {
     ADMIN,
-    USER
+    USER,
+    CREATE_ONLY_USER
 }

@@ -2,7 +2,6 @@ package de.eventmanager.core.events.Management;
 
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EventManagerTestDrive {
 
-    private User testUser;
     private PrivateEvent testPrivateEvent;
     private PrivateEvent testPrivateEventUpdated;
     private PublicEvent testPublicEvent;
@@ -20,7 +18,9 @@ public class EventManagerTestDrive {
     private boolean skipSetUp = false;
     private boolean skipCleanUp = false;
 
-    // Vor jedem Test je zwei private und öffentliche Test-Events erstellen:
+    /**
+     * Create two private and two public events before each test
+     * */
     @BeforeEach
     public void setUp() {
 
@@ -29,21 +29,20 @@ public class EventManagerTestDrive {
             return;
         }
 
-        testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11",
-                "2025-11-11", 0, "private Feier", true, "66119", "Gutenbergstraße 2",
-                "Omas Haus", "Geburtstagsfeier für meine super tolle TestOma ;)");
-        testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0, "Firmenfeier", true, "66119", "Gutenbergstraße 2",
-                "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier von der tollen Firma!");
+        testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11", "2025-11-11", 0,
+                "private Feier", true, "66119", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier für meine super tolle TestOma ;)");
+        testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0,
+                "Firmenfeier", true, "66119", "Gutenbergstraße 2", "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier von der tollen Firma!");
 
-        testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06",
-                "66119", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 0,
-                "Markt", false, 2000);
-        testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", "2025-06-12",
-                "66119", "St. Johanner Markt", "Marktplatz", "Kirmes für tolle Menschen", 0,
-                "Dorffest", false, 5000);
+        testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06", 0,
+                "Markt", false, "66119", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+        testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", "2025-06-12", 0, "Dorffest",
+                false, "66119", "St. Johanner Markt", "Marktplatz", "Kirmes für tolle Menschen", 2000);
     }
 
-    // Nach jedem Test die Datenbank bereinigen:
+    /**
+     * Clean up the database after testing
+     * */
     @AfterEach
     public void cleanUp() {
 
@@ -56,7 +55,9 @@ public class EventManagerTestDrive {
         EventManager.deleteEventByID("testPublicEventID");
     }
 
-    // Testen von Erstellen, Updaten und Löschen eines Events in der Datenbank:
+    /**
+     * Test creating, updating and deleting events
+     * */
     @Test
     @Order(0)
     public void testCreateUpdateDeleteEvent() {
@@ -82,7 +83,9 @@ public class EventManagerTestDrive {
         assertTrue(publicEventDeleted, "Event deletion failed but should not.");
     }
 
-    // Testen, ob ein Event nicht mehrmals erstellt werden kann:
+    /**
+     * Test that created events are unique
+     * */
     @Test
     @Order(1)
     public void testCreateEventFailed() {
@@ -97,7 +100,9 @@ public class EventManagerTestDrive {
         assertFalse(publicEventCreated, "Event creation was successful but should not.");
     }
 
-    // Testen, ob ein Update nur möglich ist, wenn der entsprechende Datensatz vorliegt:
+    /**
+     * Test that updating is only possible if there is an entry in the database
+     * */
     @Test
     @Order(2)
     public void testUpdateEventFailed() {
@@ -111,7 +116,9 @@ public class EventManagerTestDrive {
         assertFalse(publicEventUpdated, "Event update was successful but should not.");
     }
 
-    // Testen, ob Löschen nur möglich ist, wenn der entsprechende Datensatz vorliegt:
+    /**
+     * Test that deleting is only possible if there is an entry in the database
+     * */
     @Test
     @Order(3)
     public void testDeleteEventFailed() {
@@ -124,7 +131,9 @@ public class EventManagerTestDrive {
         assertFalse(eventDeleted, "Event deletion was successful but should not.");
     }
 
-    // Testen, ob ein Event anhand der ID korrekt ausgelesen werden kann:
+    /**
+     * Test reading an event from the database
+     * */
     @Test
     @Order(4)
     public void testReadEventByID() {
@@ -154,22 +163,30 @@ public class EventManagerTestDrive {
         assertEquals(0, publicEventFromDatabase.getNumberOfBookedUsersOnEvent());
         assertEquals("Markt", publicEventFromDatabase.getCategory());
         assertEquals(false, publicEventFromDatabase.isPrivateEvent());
-        assertEquals(2000, publicEventFromDatabase.getMaximumCapacity());
         assertEquals("66119", publicEventFromDatabase.getPostalCode());
         assertEquals("St. Johanner Markt", publicEventFromDatabase.getAddress());
         assertEquals("Marktplatz", publicEventFromDatabase.getEventLocation());
         assertEquals("Ostermarkt für tolle Menschen", publicEventFromDatabase.getDescription());
+        assertEquals(2000, publicEventFromDatabase.getMaximumCapacity());
     }
 
+    /**
+     * Test relation between event and creator (user)
+     * */
     @Test
     @Order(5)
-    public void testAddUserCreatedEvent() {
+    public void testAddAndDeleteUserCreatedEvent() {
 
-        boolean testCreation = EventManager.addUserCreatedEvent("testEventID", "testCreatorID");
+        skipSetUp = true;
+        skipCleanUp = true;
 
-        assertTrue(testCreation, "Adding user to created event failed but should not.");
+        boolean testAddCreation = EventManager.addUserCreatedEvent("testEventID", "testCreatorID");
 
-        // TODO: adding automatic deletion of database entry after test
+        assertTrue(testAddCreation, "Adding user to created event failed but should not.");
+
+        boolean testDeleteCreation = EventManager.deleteUserCreatedEvent("testEventID", "testCreatorID");
+
+        assertTrue(testDeleteCreation, "Adding user to created event failed but should not.");
     }
 
 }
