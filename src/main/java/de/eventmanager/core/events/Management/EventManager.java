@@ -36,6 +36,9 @@ public class EventManager {
 
     //#region CRUD operations
 
+    /**
+     * CREATE a new event
+     * */
     public static boolean createNewEvent(EventModel event) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -117,7 +120,9 @@ public class EventManager {
         return false;
     }
 
-    // privates Event laden (READ) anhand der ID
+    /**
+     * READ a private event by ID
+     * */
     public static Optional<PrivateEvent> readPrivateEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -156,7 +161,9 @@ public class EventManager {
         return Optional.empty();
     }
 
-    // öffentliches Event laden (READ) anhand der ID
+    /**
+     * READ a public event by ID
+     * */
     public static Optional<PublicEvent> readPublicEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -175,14 +182,14 @@ public class EventManager {
                         record.get(EVENTS.EVENTNAME),
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
+                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        record.get(EVENTS.CATEGORY),
+                        record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.POSTALCODE),
                         record.get(EVENTS.ADDRESS),
                         record.get(EVENTS.EVENTLOCATION),
                         record.get(EVENTS.DESCRIPTION),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        record.get(EVENTS.CATEGORY),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
-                        record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.MAXIMUMCAPACITY)
                 );
 
@@ -195,8 +202,12 @@ public class EventManager {
 
         return Optional.empty();
     }
-//#region readbyName
-    //Search a Public Event by Name
+
+    //# region eventSearch
+
+    /**
+     * READ a public event by name
+     * */
     public static List<PublicEvent> readPublicEventsByName(String eventName) {
         List <PublicEvent> publicEvents = new ArrayList<>();
 
@@ -215,14 +226,14 @@ public class EventManager {
                         record.get(EVENTS.EVENTNAME),
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
+                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        record.get(EVENTS.CATEGORY),
+                        record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.POSTALCODE),
                         record.get(EVENTS.ADDRESS),
                         record.get(EVENTS.EVENTLOCATION),
                         record.get(EVENTS.DESCRIPTION),
-                        record.get(EVENTS.NUMBEROFBOOKEDUSERSONEVENT),
-                        record.get(EVENTS.CATEGORY),
-                        // TODO: Return user list from "booked" relation
-                        record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.MAXIMUMCAPACITY)
                 );
 
@@ -235,53 +246,53 @@ public class EventManager {
 
         return publicEvents;
     }
-//#endregion readbyName
 
-//#region readbyLocation
-   //Search a Public Event by Lovation
-public static List<PublicEvent> readPublicEventsByLocation(String eventLocation) {
-    List<PublicEvent> publicEvents = new ArrayList<>();
+    /**
+    * READ a public event by location
+    * */
+    public static List<PublicEvent> readPublicEventsByLocation(String eventLocation) {
+        List<PublicEvent> publicEvents = new ArrayList<>();
 
-    try (Connection connection = DatabaseConnector.connect()) {
-        DSLContext create = DSL.using(connection);
-
-
-        Result<Record> records = create.select()
-                .from(EVENTS)
-                .where(EVENTS.EVENTLOCATION.eq(eventLocation))
-                .fetch();
+        try (Connection connection = DatabaseConnector.connect()) {
+            DSLContext create = DSL.using(connection);
 
 
-        for (Record record : records) {
-            PublicEvent publicEvent = new PublicEvent(
-                    record.get(EVENTS.EVENTID),
-                    record.get(EVENTS.EVENTNAME),
-                    record.get(EVENTS.EVENTSTART),
-                    record.get(EVENTS.EVENTEND),
-                    record.get(EVENTS.POSTALCODE),
-                    record.get(EVENTS.ADDRESS),
-                    record.get(EVENTS.EVENTLOCATION),
-                    record.get(EVENTS.DESCRIPTION),
-                    record.get(EVENTS.NUMBEROFBOOKEDUSERSONEVENT),
-                    record.get(EVENTS.CATEGORY),
-                    // TODO: Return user list from "booked" relation
-                    record.get(EVENTS.PRIVATEEVENT),
-                    record.get(EVENTS.MAXIMUMCAPACITY)
-            );
-            publicEvents.add(publicEvent);
+            Result<Record> records = create.select()
+                    .from(EVENTS)
+                    .where(EVENTS.EVENTLOCATION.eq(eventLocation))
+                    .fetch();
+
+
+            for (Record record : records) {
+                PublicEvent publicEvent = new PublicEvent(
+                        record.get(EVENTS.EVENTID),
+                        record.get(EVENTS.EVENTNAME),
+                        record.get(EVENTS.EVENTSTART),
+                        record.get(EVENTS.EVENTEND),
+                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        record.get(EVENTS.CATEGORY),
+                        record.get(EVENTS.PRIVATEEVENT),
+                        record.get(EVENTS.POSTALCODE),
+                        record.get(EVENTS.ADDRESS),
+                        record.get(EVENTS.EVENTLOCATION),
+                        record.get(EVENTS.DESCRIPTION),
+                        record.get(EVENTS.MAXIMUMCAPACITY)
+                );
+                publicEvents.add(publicEvent);
+            }
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
         }
 
-    } catch (Exception exception) {
-        LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
+        return publicEvents;
     }
 
-    return publicEvents;
-}
-//#endregion readbyLocation
-
-//#region readbyCity
-    //Read Event by City
-    public static List<PublicEvent>readPublicEventByCity(String eventcity) {
+    /**
+     * READ a public event by city
+     * */
+    public static List<PublicEvent>readPublicEventByCity(String eventCity) {
         List<PublicEvent> publicEvents = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -291,7 +302,7 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
             Result<Record> records = create.select()
                     .from(EVENTS)
                     .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
-                    .where(CITIES.CITYNAME.eq(eventcity))
+                    .where(CITIES.CITYNAME.eq(eventCity))
                     .fetch();
 
             for (Record record : records) {
@@ -300,14 +311,14 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
                         record.get(EVENTS.EVENTNAME),
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
+                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        record.get(EVENTS.CATEGORY),
+                        record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.POSTALCODE),
                         record.get(EVENTS.ADDRESS),
                         record.get(EVENTS.EVENTLOCATION),
                         record.get(EVENTS.DESCRIPTION),
-                        record.get(EVENTS.NUMBEROFBOOKEDUSERSONEVENT),
-                        record.get(EVENTS.CATEGORY),
-                        // TODO: Return user list from "booked" relation
-                        record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.MAXIMUMCAPACITY)
                 );
                 publicEvents.add(publicEvent);
@@ -319,9 +330,12 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
 
         return publicEvents;
     }
-//#endregion readbyCity
 
-    // Event ändern (UPDATE)
+    //# endregion eventSearch
+
+    /**
+     * UPDATE an event
+     * */
     public static boolean updateEvent(EventModel event) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -355,11 +369,11 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
                         .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
                         .set(EVENTS.CATEGORY, publicEvent.getCategory())
                         .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
-                        .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
                         .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
                         .set(EVENTS.ADDRESS, publicEvent.getAddress())
                         .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
                         .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
+                        .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
                         .execute();
             }
 
@@ -380,7 +394,9 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
         }
     }
 
-    // Event löschen (DELETE)
+    /**
+     * DELETE an event
+     * */
     public static boolean deleteEventByID(String eventID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -408,6 +424,8 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
 
     //#endregion CRUD operations
 
+    //#region createdByUser
+
     /**
      * Relate a user to an event as the creator
      * */
@@ -420,6 +438,7 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
                     .execute();
 
             return rowsAffected > 0;
+
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, "Error adding user created event: " +
                     exception.getMessage());
@@ -427,5 +446,29 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
             return false;
         }
     }
+
+    /**
+     * Unlink a user from an event as the creator
+     * */
+        public static boolean deleteUserCreatedEvent(String eventID, String userID) {
+            try (Connection connection = DatabaseConnector.connect()) {
+                DSLContext create = DSL.using(connection);
+
+                int rowsAffected = create.deleteFrom(CREATED)
+                        .where(CREATED.EVENTID.eq(eventID))
+                        .and(CREATED.USERID.eq(userID))
+                        .execute();
+
+                return rowsAffected > 0;
+
+            } catch (Exception exception) {
+                LoggerHelper.logErrorMessage(EventManager.class, "Error deleting user created event: " +
+                        exception.getMessage());
+
+                return false;
+            }
+    }
+
+    //#endregion createdByUser
 
 }
