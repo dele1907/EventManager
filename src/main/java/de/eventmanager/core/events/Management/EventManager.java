@@ -1,6 +1,8 @@
 package de.eventmanager.core.events.Management;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import de.eventmanager.core.database.Communication.DatabaseConnector;
@@ -235,7 +237,8 @@ public class EventManager {
 
 //#region readbyLocation
    //Search a Public Event by Lovation
-   public static Optional<PublicEvent> readPublicEventByLocation(String eventLocation) {
+   public static List<PublicEvent> readPublicEventByLocation(String eventLocation) {
+       List<PublicEvent> foundEventsByLocation = new ArrayList<>();
 
        try (Connection connection = DatabaseConnector.connect()) {
 
@@ -248,30 +251,32 @@ public class EventManager {
 
            if (record != null) {
 
-               PublicEvent publicEvent = new PublicEvent(
-                       record.get(EVENTS.EVENTID),
-                       record.get(EVENTS.EVENTNAME),
-                       record.get(EVENTS.EVENTSTART),
-                       record.get(EVENTS.EVENTEND),
-                       record.get(EVENTS.POSTALCODE),
-                       record.get(EVENTS.ADDRESS),
-                       record.get(EVENTS.EVENTLOCATION),
-                       record.get(EVENTS.DESCRIPTION),
-                       record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                       record.get(EVENTS.CATEGORY),
-                       // TODO: Rückgabe der Userliste aus Relation "booked"
-                       record.get(EVENTS.PRIVATEEVENT),
-                       record.get(EVENTS.MAXIMUMCAPACITY)
+               foundEventsByLocation.add(
+                       new PublicEvent(
+                               record.get(EVENTS.EVENTID),
+                               record.get(EVENTS.EVENTNAME),
+                               record.get(EVENTS.EVENTSTART),
+                               record.get(EVENTS.EVENTEND),
+                               record.get(EVENTS.POSTALCODE),
+                               record.get(EVENTS.ADDRESS),
+                               record.get(EVENTS.EVENTLOCATION),
+                               record.get(EVENTS.DESCRIPTION),
+                               record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                               record.get(EVENTS.CATEGORY),
+                               // TODO: Rückgabe der Userliste aus Relation "booked"
+                               record.get(EVENTS.PRIVATEEVENT),
+                               record.get(EVENTS.MAXIMUMCAPACITY)
+               )
                );
 
-               return Optional.of(publicEvent);
+               return foundEventsByLocation;
            }
 
        } catch (Exception exception) {
            LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
        }
 
-       return Optional.empty();
+       return foundEventsByLocation;
    }
 //#endregion readbyLocation
 

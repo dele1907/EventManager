@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
+import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Controller.UserController;
@@ -9,6 +10,7 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ShowEventsTab implements Tab{
@@ -89,21 +91,23 @@ public class ShowEventsTab implements Tab{
 
     public void getEventInformationbyLocation(String eventLocation) {
         EventManager readbyLocation = new EventManager();
-        Optional<PublicEvent> optionalEvent= readbyLocation.readPublicEventByLocation(eventLocation);
+        List<PublicEvent> optionalEvent= readbyLocation.readPublicEventByLocation(eventLocation);
 
-        if (optionalEvent.isPresent()) {
-            PublicEvent event = optionalEvent.get();
+        if (!optionalEvent.isEmpty()) {
+            for (PublicEvent event : optionalEvent) {
+                textView.displayMessage("\n Event Name: " + event.getEventName());
+                textView.displayMessage("\n Event Start: " + event.getEventStart());
+                textView.displayMessage("\n Event End: " + event.getEventEnd());
+                textView.displayMessage("\n Event Location: " + event.getEventLocation());
+                textView.displayMessage("\n Event Address: " + event.getAddress());
+                textView.displayMessage("\n Event Postalcode: " + event.getPostalCode());
+                textView.displayMessage("\n Event Description: " + event.getDescription());
+                textView.displayMessage("\n Event Category: " + event.getCategory());
+                textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
+                textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
+            }
 
-            textView.displayMessage("\n Event Name: " + event.getEventName());
-            textView.displayMessage("\n Event Start: " + event.getEventStart());
-            textView.displayMessage("\n Event End: " + event.getEventEnd());
-            textView.displayMessage("\n Event Location: " + event.getEventLocation());
-            textView.displayMessage("\n Event Address: " + event.getAddress());
-            textView.displayMessage("\n Event Postalcode: " + event.getPostalCode());
-            textView.displayMessage("\n Event Description: " + event.getDescription());
-            textView.displayMessage("\n Event Category: " + event.getCategory());
-            textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
-            textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
+
 
         }
     }
