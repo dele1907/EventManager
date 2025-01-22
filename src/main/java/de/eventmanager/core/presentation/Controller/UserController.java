@@ -1,20 +1,19 @@
 package de.eventmanager.core.presentation.Controller;
 
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
+import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.UserService;
-import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.User;
 
 import java.util.Optional;
 
 public class UserController {
-    private View view;
     private UserService userService;
+    private EventService eventService;
 
-    public UserController(View view, UserService userService) {
-        this.view = view;
+    public UserController(UserService userService, EventService eventService) {
         this.userService = userService;
+        this.eventService = eventService;
     }
 
     //#region Login & Authentication
@@ -58,5 +57,19 @@ public class UserController {
     public Optional<User> getUserByEmail(String email) {
         return userService.readUserByEmail(email);
     }
+
+    //#region eventOperations
+    public void getPublicEventsByName(String name) {
+        eventService.getPublicEventsByName(name);
+    }
+
+    public void getPublicEventsByLocation(String location) {
+        eventService.getPublicEventsByLocation(location);
+    }
+
+    public void getPublicEventsByCity(String city) {
+        eventService.getPublicEventsByCity(city);
+    }
+    //#endregion eventOperations
 
 }
