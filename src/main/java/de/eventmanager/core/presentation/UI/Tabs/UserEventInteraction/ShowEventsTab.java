@@ -70,10 +70,10 @@ public class ShowEventsTab implements Tab{
 
     public void getEventInformationbyName(String eventName) {
         EventManager readbyName = new EventManager();
-        Optional<PublicEvent> optionalEvent= readbyName.readPublicEventsByName(eventName);
+        List<PublicEvent> optionalEvent= readbyName.readPublicEventsByName(eventName);
 
-        if (optionalEvent.isPresent()) {
-            PublicEvent event = optionalEvent.get();
+        if (!optionalEvent.isEmpty()) {
+            for(PublicEvent event : optionalEvent) {
 
             textView.displayMessage("\n Event Name: " + event.getEventName());
             textView.displayMessage("\n Event Start: " + event.getEventStart());
@@ -86,6 +86,7 @@ public class ShowEventsTab implements Tab{
             textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
             textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
 
+            }
         }
     }
 
@@ -107,9 +108,6 @@ public class ShowEventsTab implements Tab{
                 textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
                 textView.displayMessage("\n");
             }
-
-
-
         }
     }
 
