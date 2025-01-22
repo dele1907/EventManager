@@ -279,6 +279,7 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
 }
 //#endregion readbyLocation
 
+//#region readbyCity
     //Read Event by City
     public static List<PublicEvent>readPublicEventByCity(String eventcity) {
         List<PublicEvent> publicEvents = new ArrayList<>();
@@ -318,6 +319,7 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
 
         return publicEvents;
     }
+//#endregion readbyCity
 
     // Event ändern (UPDATE)
     public static boolean updateEvent(EventModel event) {
