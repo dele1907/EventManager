@@ -45,6 +45,7 @@ public class AdminCreateUserTab implements Tab {
     }
 
     private void validateCreateUser(UserRegistrationData userRegistrationData) {
+
         if (!userController.createNewUser(userRegistrationData)) {
             textView.displayErrorMessage("\nFailed to create user.\n");
 

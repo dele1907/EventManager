@@ -23,6 +23,7 @@ public class AdminOperationsTab implements Tab {
         boolean adminIsActive = true;
         
         while (adminIsActive) {
+            //Review @Dennis: Create on call for choices
             textView.displayMessage("\n====== Admin Operations ======");
             textView.displayMessage("\n1. Edit user");
             textView.displayMessage("\n2. Delete user");

@@ -103,6 +103,7 @@ public class MainMenuTab implements Tab {
     }
 
     private void doShowAdminOperations(MenuType menuType) {
+
         if (menuType == MenuType.ADMIN) {
             AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
             adminOperationsTab.start();

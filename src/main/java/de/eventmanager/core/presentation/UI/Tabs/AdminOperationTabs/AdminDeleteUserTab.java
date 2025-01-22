@@ -39,6 +39,7 @@ public class AdminDeleteUserTab implements Tab {
             } else {
                 textView.displayErrorMessage("\nFailed to delete user. User may not exist.\n");
             }
+
         } else {
             textView.displayErrorMessage("\nUser deletion canceled.\n");
         }
