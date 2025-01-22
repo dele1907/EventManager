@@ -3,6 +3,7 @@ package de.eventmanager.core.users;
 
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.Management.EventManager;
+import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
 import org.junit.jupiter.api.*;
@@ -14,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTestDrive {
 
-    User testUser = UserManager.readUserByID("f8cac5f6-107a-4487-96f8-add26c5b8579").get(); //SoONY7IhPtVzCx1e0z18
+    User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0").get(); //SoONY7IhPtVzCx1e0z18
 
-    User testAdminUser = UserManager.readUserByID("10b4841b-c5e0-4e13-a861-6f65f6c4086b").get();
+    User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
     User system = new User("System", "", "", "", "goodPassword", "0", true);
 
@@ -93,6 +94,16 @@ public class UserTestDrive {
         assertFalse(testUser.getRole().equals(Role.ADMIN));
     }
     //#endregion Permission Tests
+
+    @Test
+    void testEditEvent() {
+        PrivateEvent event = testAdminUser.createPrivateEvent("TestEvent", "01/01/2021", "01/01/2021", "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
+
+        assertTrue(testAdminUser.editEvent(event.getEventID(), "TestEvent", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
+
+        assertTrue(testAdminUser.deleteEvent(event.getEventID()));
+        assertFalse(testAdminUser.deleteEvent(event.getEventID()));
+    }
 
 }
 
