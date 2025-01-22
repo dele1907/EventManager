@@ -21,6 +21,7 @@ public class AdminOperationsTab implements Tab {
     @Override
     public void start() {
         boolean adminIsActive = true;
+        
         while (adminIsActive) {
             textView.displayMessage("\n====== Admin Operations ======");
             textView.displayMessage("\n1. Edit user");

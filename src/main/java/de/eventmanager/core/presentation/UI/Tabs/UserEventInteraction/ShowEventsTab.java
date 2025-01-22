@@ -1,134 +1,126 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Controller.UserController;
-import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
-import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ShowEventsTab implements Tab{
     private View textView;
     private UserController userController;
-    private User loggedInUser;
 
     public ShowEventsTab(View textView, UserController userController, User loggedInUser) {
         this.textView = textView;
         this.userController = userController;
-        this.loggedInUser = loggedInUser;
     }
 
     public void start() {
+        boolean eventSearchingIsActive = true;
 
-        System.out.println("===== ShowEventsTab =====");
-        textView.displayMessage("\n1. Search by Name \n2. Search by Location \n3. Search by City \n4. Go Back to Main Menu");
+        while (eventSearchingIsActive) {
+            System.out.println("\n===== ShowEventsTab =====");
+            textView.displayMessage(
+                    "\n1. Search by Name " +
+                    "\n2. Search by Location " +
+                    "\n3. Search by City " +
+                    "\n4. Go Back to Main Menu"
+            );
 
-        textView.displayMessage("\nChoose an option: ");
-        String choice = textView.getUserInput();
-        handelSearchOption(choice);
+            textView.displayMessage("\nChoose an option: ");
+            String choice = textView.getUserInput();
 
-    }
-
-    public boolean handelSearchOption(String choice) {
-
-        switch (choice) {
-            case "1":
-                textView.displayMessage("\nWhats the Name of the Event you looking for?");
-                textView.displayMessage("\nType in: ");
-                String eventName = textView.getUserInput();
-                getEventInformationbyName(eventName);
-                break;
-            case "2":
-                textView.displayMessage("\nWhats the Location of the Event you looking for?");
-                textView.displayMessage("\nType in: ");
-                String eventLocation = textView.getUserInput();
-                getEventInformationbyLocation(eventLocation);
-                break;
-            case "3":
-                textView.displayMessage("\nWhats the City of the Event you looking for?");
-                textView.displayMessage("\nType in: ");
-                String eventCity = textView.getUserInput();
-                getEventInformationbyCity(eventCity);
-                break;
-            case "4":
-                textView.displayMessage("\nGo Back to Main Menu");
-                handelGoBackToMainMenu();
-                break;
-            default:
-                textView.displayErrorMessage("\nPlease enter a valid option!");
-                break;
-        }
-
-        return true;
-    }
-
-    public void getEventInformationbyName(String eventName) {
-        EventManager readbyName = new EventManager();
-        List<PublicEvent> optionalEvent= readbyName.readPublicEventsByName(eventName);
-
-        if (!optionalEvent.isEmpty()) {
-            for(PublicEvent event : optionalEvent) {
-
-            textView.displayMessage("\n Event Name: " + event.getEventName());
-            textView.displayMessage("\n Event Start: " + event.getEventStart());
-            textView.displayMessage("\n Event End: " + event.getEventEnd());
-            textView.displayMessage("\n Event Location: " + event.getEventLocation());
-            textView.displayMessage("\n Event Address: " + event.getAddress());
-            textView.displayMessage("\n Event Postalcode: " + event.getPostalCode());
-            textView.displayMessage("\n Event Description: " + event.getDescription());
-            textView.displayMessage("\n Event Category: " + event.getCategory());
-            textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
-            textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
-            textView.displayMessage("\n");
+            switch (choice) {
+                case "1":
+                    getEventInformationByName();
+                    break;
+                case "2":
+                    getEventInformationByLocation();
+                    break;
+                case "3":
+                    getEventInformationByCity();
+                    break;
+                case "4":
+                    eventSearchingIsActive = false;
+                    break;
+                default:
+                    textView.displayErrorMessage("\nPlease enter a valid option!");
+                    break;
             }
         }
     }
 
-    public void getEventInformationbyLocation(String eventLocation) {
-        EventManager readbyLocation = new EventManager();
-        List<PublicEvent> optionalEvent= readbyLocation.readPublicEventsByLocation(eventLocation);
+    public void displaySearchResult(PublicEvent event) {
+        textView.displayMessage("\n Event Name: " + event.getEventName());
+        textView.displayMessage("\n Event Start: " + event.getEventStart());
+        textView.displayMessage("\n Event End: " + event.getEventEnd());
+        textView.displayMessage("\n Event Location: " + event.getEventLocation());
+        textView.displayMessage("\n Event Address: " + event.getAddress());
+        textView.displayMessage("\n Event Postcode: " + event.getPostalCode());
+        textView.displayMessage("\n Event Description: " + event.getDescription());
+        textView.displayMessage("\n Event Category: " + event.getCategory());
+        textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
+        textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
+        textView.displayMessage("\n");
+    }
 
-        if (!optionalEvent.isEmpty()) {
-            for (PublicEvent event : optionalEvent) {
-                textView.displayMessage("\n Event Name: " + event.getEventName());
-                textView.displayMessage("\n Event Start: " + event.getEventStart());
-                textView.displayMessage("\n Event End: " + event.getEventEnd());
-                textView.displayMessage("\n Event Location: " + event.getEventLocation());
-                textView.displayMessage("\n Event Address: " + event.getAddress());
-                textView.displayMessage("\n Event Postalcode: " + event.getPostalCode());
-                textView.displayMessage("\n Event Description: " + event.getDescription());
-                textView.displayMessage("\n Event Category: " + event.getCategory());
-                textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
-                textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
-                textView.displayMessage("\n");
-            }
+
+    public void getEventInformationByName() {
+        textView.displayMessage("\nWhats the Name of the Event you looking for?");
+        textView.displayMessage("\nType in: ");
+        String eventName = textView.getUserInput();
+
+        List<PublicEvent> listFoundEvents = userController.getPublicEventsByName(eventName);
+
+        if (listFoundEvents.isEmpty()) {
+            textView.displayErrorMessage("\nNo Event found with the name: " + eventName);
+
+            return;
+        }
+
+        for(var event : listFoundEvents) {
+            addDelay(1);
+            displaySearchResult(event);
         }
     }
 
-    public void getEventInformationbyCity(String eventCity) {
-        EventManager readbyCity = new EventManager();
-        List<PublicEvent> optionalEvents = readbyCity.readPublicEventByCity(eventCity);
+    public void getEventInformationByLocation() {
+        textView.displayMessage("\nWhats the Location of the Event you looking for?");
+        textView.displayMessage("\nType in: ");
+        String eventLocation = textView.getUserInput();
 
-        if (!optionalEvents.isEmpty()) {
-            for (PublicEvent event : optionalEvents) {
-                textView.displayMessage("\n Event Name: " + event.getEventName());
-                textView.displayMessage("\n Event Start: " + event.getEventStart());
-                textView.displayMessage("\n Event End: " + event.getEventEnd());
-                textView.displayMessage("\n Event Location: " + event.getEventLocation());
-                textView.displayMessage("\n Event Address: " + event.getAddress());
-                textView.displayMessage("\n Event Postalcode: " + event.getPostalCode());
-                textView.displayMessage("\n Event Description: " + event.getDescription());
-                textView.displayMessage("\n Event Category: " + event.getCategory());
-                textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
-                textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent());
-                textView.displayMessage("\n");
-            }
+        List<PublicEvent> listFoundEvents = userController.getPublicEventsByLocation(eventLocation);
+
+        if (listFoundEvents.isEmpty()) {
+            textView.displayErrorMessage("\nNo Event found with the location: " + eventLocation);
+
+            return;
+        }
+
+        for (PublicEvent event : listFoundEvents) {
+            addDelay(1);
+            displaySearchResult(event);
+        }
+    }
+
+    public void getEventInformationByCity() {
+        textView.displayMessage("\nWhats the City of the Event you looking for?");
+        textView.displayMessage("\nType in: ");
+        String eventCity = textView.getUserInput();
+
+        List<PublicEvent> listFoundEvents = userController.getPublicEventsByCity(eventCity);
+
+        if (listFoundEvents.isEmpty()) {
+            textView.displayErrorMessage("\nNo Event found with the city: " + eventCity);
+
+            return;
+        }
+
+        for (PublicEvent event : listFoundEvents) {
+            addDelay(1);
+            displaySearchResult(event);
         }
     }
 
@@ -140,17 +132,5 @@ public class ShowEventsTab implements Tab{
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
-
-    private void handelGoBackToMainMenu() {
-        MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser,
-                new LoginRegistrationPage(textView, userController), userController
-        );
-
-        addDelay(2);
-
-        textView.displayMessage("\nGoing Back to Main Menu");
-
-        mainMenuTab.start();
     }
 }

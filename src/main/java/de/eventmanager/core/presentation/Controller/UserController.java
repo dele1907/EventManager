@@ -1,10 +1,12 @@
 package de.eventmanager.core.presentation.Controller;
 
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.users.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserController {
@@ -59,16 +61,16 @@ public class UserController {
     }
 
     //#region eventOperations
-    public void getPublicEventsByName(String name) {
-        eventService.getPublicEventsByName(name);
+    public List<PublicEvent> getPublicEventsByName(String name) {
+        return eventService.getPublicEventsByName(name);
     }
 
-    public void getPublicEventsByLocation(String location) {
-        eventService.getPublicEventsByLocation(location);
+    public List<PublicEvent> getPublicEventsByLocation(String location) {
+        return eventService.getPublicEventsByLocation(location);
     }
 
-    public void getPublicEventsByCity(String city) {
-        eventService.getPublicEventsByCity(city);
+    public List<PublicEvent> getPublicEventsByCity(String city) {
+        return eventService.getPublicEventsByCity(city);
     }
     //#endregion eventOperations
 
