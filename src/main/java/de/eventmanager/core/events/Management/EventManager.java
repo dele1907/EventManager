@@ -15,6 +15,7 @@ import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
 
+import static org.jooq.generated.Tables.CITIES;
 import static org.jooq.generated.tables.Events.EVENTS;
 import static org.jooq.generated.tables.Created.CREATED;
 
@@ -277,6 +278,46 @@ public static List<PublicEvent> readPublicEventsByLocation(String eventLocation)
     return publicEvents;
 }
 //#endregion readbyLocation
+
+    //Read Event by City
+    public static List<PublicEvent>readPublicEventByCity(String eventcity) {
+        List<PublicEvent> publicEvents = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record> records = create.select()
+                    .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
+                    .where(CITIES.CITYNAME.eq(eventcity))
+                    .fetch();
+
+            for (Record record : records) {
+                PublicEvent publicEvent = new PublicEvent(
+                        record.get(EVENTS.EVENTID),
+                        record.get(EVENTS.EVENTNAME),
+                        record.get(EVENTS.EVENTSTART),
+                        record.get(EVENTS.EVENTEND),
+                        record.get(EVENTS.POSTALCODE),
+                        record.get(EVENTS.ADDRESS),
+                        record.get(EVENTS.EVENTLOCATION),
+                        record.get(EVENTS.DESCRIPTION),
+                        record.get(EVENTS.NUMBEROFBOOKEDUSERSONEVENT),
+                        record.get(EVENTS.CATEGORY),
+                        // TODO: Return user list from "booked" relation
+                        record.get(EVENTS.PRIVATEEVENT),
+                        record.get(EVENTS.MAXIMUMCAPACITY)
+                );
+                publicEvents.add(publicEvent);
+        }
+
+    }catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return publicEvents;
+    }
 
     // Event ändern (UPDATE)
     public static boolean updateEvent(EventModel event) {
