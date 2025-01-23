@@ -5,6 +5,7 @@ import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
+import de.eventmanager.core.presentation.UI.AdminUserStartupRegistrationPage;
 import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
 import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
@@ -21,15 +22,22 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static UserController userController = new UserController(userService, eventService);
     private static Optional<User> loggedInUser;
     private static LoginRegistrationPage loginRegistrationPage = new LoginRegistrationPage(textView, userController);
+    private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage = new AdminUserStartupRegistrationPage(textView, userController);
 
 
     public void startEventManagerInstance() {
         initDatabase();
 
         boolean programIsRunning = true;
+        //TODO @Dennis search database if an admin user is present
+        boolean adminInDatabase = false;
 
         while (programIsRunning) {
             try {
+                if (adminInDatabase) {
+                    adminUserStartupRegistrationPage.start();
+                }
+
                 loginRegistrationPage.start();
                 loggedInUser = loginRegistrationPage.getLoggedInUser();
 

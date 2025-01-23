@@ -38,6 +38,26 @@ public class UserController {
         return true;
     }
 
+    public boolean createNewAdminUser(UserRegistrationData userRegistrationData, boolean isAdmin) {
+
+        boolean successfullyRegistered = userService.registerAdminUser(
+                userRegistrationData.getFirstName(),
+                userRegistrationData.getLastName(),
+                userRegistrationData.getDateOfBirth(),
+                userRegistrationData.getEmail(),
+                userRegistrationData.getPhoneNumber(),
+                userRegistrationData.getPassword(),
+                userRegistrationData.getConfirmPassword(),
+                isAdmin
+        );
+
+        if (!successfullyRegistered) {
+            return false;
+        }
+
+        return true;
+    }
+
     public Optional<User> loginUser(String eMail, String password) {
         return userService.loginUser(eMail, password);
     }

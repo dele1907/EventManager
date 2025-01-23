@@ -7,24 +7,26 @@ import de.eventmanager.core.users.User;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
-    UserManager userManager = new UserManager();
 
     @Override
-    public boolean registerUser(
-            String firstName,
-            String lastName,
-            String dateOfBirth,
-            String email,
-            String phoneNumber,
-            String password,
-            String passwordConfirmation
-            ) {
+    public boolean registerUser(String firstName, String lastName, String dateOfBirth,
+            String email, String phoneNumber, String password, String passwordConfirmation) {
 
         if (!UserManager.isValidRegistrationPassword(password, passwordConfirmation)) {
             return false;
         }
 
         return UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber));
+    }
+
+    @Override
+    public boolean registerAdminUser(String firstName, String lastName, String dateOfBirth, String email, String phoneNumber, String password, String passwordConfirmation, boolean isAdmin) {
+
+        if (!UserManager.isValidRegistrationPassword(password, passwordConfirmation)) {
+            return false;
+        }
+
+        return UserManager.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber, isAdmin));
     }
 
     @Override
