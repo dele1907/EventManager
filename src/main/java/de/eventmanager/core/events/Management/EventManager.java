@@ -9,6 +9,7 @@ import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.Management.UserManager;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -18,6 +19,8 @@ import org.jooq.impl.DSL;
 import static org.jooq.generated.Tables.CITIES;
 import static org.jooq.generated.tables.Events.EVENTS;
 import static org.jooq.generated.tables.Created.CREATED;
+import static org.jooq.generated.tables.Booked.BOOKED;
+import static org.jooq.generated.tables.User.USER;
 
 public class EventManager {
 
@@ -127,7 +130,7 @@ public class EventManager {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                // TODO: Rückgabe der Userliste aus Relation "booked"
+                (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
@@ -144,7 +147,7 @@ public class EventManager {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                // TODO: Rückgabe der Userliste aus Relation "booked"
+                (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
@@ -233,14 +236,14 @@ public class EventManager {
     /**
      * READ a public event by name
      * */
-    public static List<PublicEvent> readPublicEventsByName(String eventName) {
-        List <PublicEvent> publicEvents = new ArrayList<>();
+    public static ArrayList<PublicEvent> readPublicEventsByName(String eventName) {
+        ArrayList <PublicEvent> publicEvents = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record> records= create.select()
+            Result<Record> records = create.select()
                     .from(EVENTS)
                     .where(EVENTS.EVENTNAME.eq(eventName))
                     .fetch();
@@ -252,7 +255,7 @@ public class EventManager {
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                         record.get(EVENTS.CATEGORY),
                         record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.POSTALCODE),
@@ -275,18 +278,17 @@ public class EventManager {
     /**
     * READ a public event by location
     * */
-    public static List<PublicEvent> readPublicEventsByLocation(String eventLocation) {
-        List<PublicEvent> publicEvents = new ArrayList<>();
+    public static ArrayList<PublicEvent> readPublicEventsByLocation(String eventLocation) {
+        ArrayList<PublicEvent> publicEvents = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
-            DSLContext create = DSL.using(connection);
 
+            DSLContext create = DSL.using(connection);
 
             Result<Record> records = create.select()
                     .from(EVENTS)
                     .where(EVENTS.EVENTLOCATION.eq(eventLocation))
                     .fetch();
-
 
             for (Record record : records) {
                 PublicEvent publicEvent = new PublicEvent(
@@ -295,7 +297,7 @@ public class EventManager {
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                         record.get(EVENTS.CATEGORY),
                         record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.POSTALCODE),
@@ -317,8 +319,8 @@ public class EventManager {
     /**
      * READ a public event by city
      * */
-    public static List<PublicEvent>readPublicEventByCity(String eventCity) {
-        List<PublicEvent> publicEvents = new ArrayList<>();
+    public static ArrayList<PublicEvent>readPublicEventByCity(String eventCity) {
+        ArrayList<PublicEvent> publicEvents = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -337,7 +339,7 @@ public class EventManager {
                         record.get(EVENTS.EVENTSTART),
                         record.get(EVENTS.EVENTEND),
                         record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        // TODO: Rückgabe der Userliste aus Relation "booked"
+                        (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                         record.get(EVENTS.CATEGORY),
                         record.get(EVENTS.PRIVATEEVENT),
                         record.get(EVENTS.POSTALCODE),
@@ -456,6 +458,7 @@ public class EventManager {
      * */
     public static boolean addUserCreatedEvent(String eventID, String userID) {
         try (Connection connection = DatabaseConnector.connect()) {
+
             DSLContext create = DSL.using(connection);
 
             int rowsAffected = create.insertInto(CREATED, CREATED.EVENTID, CREATED.USERID)
@@ -477,6 +480,7 @@ public class EventManager {
      * */
         public static boolean deleteUserCreatedEvent(String eventID, String userID) {
             try (Connection connection = DatabaseConnector.connect()) {
+
                 DSLContext create = DSL.using(connection);
 
                 int rowsAffected = create.deleteFrom(CREATED)
@@ -495,5 +499,83 @@ public class EventManager {
     }
 
     //#endregion createdByUser
+
+    //#region booking
+
+    /**
+     * Relate an event to a user as booked
+     * */
+    public static boolean addBooking(String eventID, String userID) {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            int rowsAffected = create.insertInto(BOOKED, BOOKED.EVENTID, BOOKED.USERID)
+                    .values(eventID, userID)
+                    .execute();
+
+            return rowsAffected > 0;
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, "Error booking event: " +
+                    exception.getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Unlink an event from a user as booked
+     * */
+    public static boolean deleteBooking(String eventID, String userID) {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            int rowsAffected = create.deleteFrom(BOOKED)
+                    .where(BOOKED.EVENTID.eq(eventID))
+                    .and(BOOKED.USERID.eq(userID))
+                    .execute();
+
+            return rowsAffected > 0;
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventManager.class, "Error deleting booking: " +
+                    exception.getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Return a list of user email addresses
+     * */
+    public static List<String> getBookedUsersOnEvent(String eventID) {
+        ArrayList<String> bookedUsers = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record> records = create.select()
+                    .from(USER)
+                    .join(BOOKED).on(USER.USERID.eq(BOOKED.USERID))
+                    .where(BOOKED.EVENTID.eq(eventID))
+                    .fetch();
+
+            for (Record record : records) {
+                String eMailAddress = record.get(USER.EMAIL);
+
+                bookedUsers.add(eMailAddress);
+            }
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(UserManager.class, "Error reading list of booked users: " + exception.getMessage());
+        }
+
+        return bookedUsers;
+    }
+
+    //#endregion booking
 
 }
