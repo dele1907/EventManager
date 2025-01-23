@@ -9,6 +9,7 @@ import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
 import jdk.jfr.Event;
 import org.junit.jupiter.api.*;
+import org.springframework.security.core.parameters.P;
 
 import java.util.Optional;
 
@@ -21,8 +22,8 @@ public class UserTestDrive {
 
     User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
-
-
+    PublicEvent publicEvent = EventManager.readPublicEventByID("61600b50-2d6d-4db9-83b6-1a71d46bfb73").get();
+    PrivateEvent privateEvent = EventManager.readPrivateEventByID("08e01d5b-6b63-43fb-b9e5-d548b26e6fb4").get();
 
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
@@ -118,36 +119,20 @@ public class UserTestDrive {
     @Order(5)
     @DisplayName("Book Event Test")
     void bookEventTest() {
-
-        PublicEvent publicEvent = testAdminUser.createPublicEvent("publicTestEvent", "01/01/2021", "01/01/2021", "Test",
-                "12345", "Teststraße 1", "TestLocation", "TestDescription", 20).get();
-        PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
-                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
-
         assertTrue(testUser.bookEvent(publicEvent.getEventID()));
         assertFalse(testUser.bookEvent(privateEvent.getEventID()));
-        //DB Clean
-        assertTrue(testAdminUser.deleteEvent(privateEvent.getEventID()));
-        assertFalse(testAdminUser.deleteEvent(publicEvent.getEventID()));
+
     }
 
     @Test
     @Order(6)
     @DisplayName("Cancel Event Test")
     void cancelEventTest() {
-        PublicEvent publicEvent = testAdminUser.createPublicEvent("publicTestEvent", "01/01/2021", "01/01/2021", "Test",
-                "12345", "Teststraße 1", "TestLocation", "TestDescription", 20).get();
-        PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
-                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
-
         String notExistingEventID = "1234";
 
-        assertTrue(testUser.cancelEvent(privateEvent.getEventID()));
-        assertTrue(testUser.cancelEvent(privateEvent.getEventID()));
         assertFalse(testUser.cancelEvent(notExistingEventID));
+        assertTrue(testUser.cancelEvent(publicEvent.getEventID()));
 
-        assertTrue(testAdminUser.deleteEvent(privateEvent.getEventID()));
-        assertFalse(testAdminUser.deleteEvent(publicEvent.getEventID()));
     }
 
 

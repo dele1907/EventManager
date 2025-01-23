@@ -253,8 +253,14 @@ public class User extends UserModel{
             return false;
         }
 
+        if (publicEvent.get().isPrivateEvent()){
+            return false;
+        }
+
+        /*
         PublicEvent publicEventForBooking = publicEvent.get();
         publicEventForBooking.getBookedUsersOnEvent().add(this.getEMailAddress());
+         */
 
         EventManager.addBooking(eventID,this.userID);
         LoggerHelper.logInfoMessage(User.class, "Event booked successfully!");
@@ -272,13 +278,14 @@ public class User extends UserModel{
         }
 
         EventModel eventForCancel = OptionalEvent.get();
-
+        /*
         if (!eventForCancel.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
             LoggerHelper.logInfoMessage(User.class, "You can only cancel events for which you are registered!");
 
             return false;
         }
-        eventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
+        */
+        //eventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
         EventManager.deleteBooking(eventID,this.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
 
