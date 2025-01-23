@@ -33,3 +33,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Ignore all log files ###
+app.log
+
+### Ignore all SQLite database files ###
+*.sqlite
