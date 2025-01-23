@@ -2,7 +2,6 @@ package de.eventmanager.core.users;
 
 
 import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
@@ -18,30 +17,6 @@ public abstract class UserModel {
     String password;
     String phoneNumber;
     Role role;
-
-    //#region User related CRUD-Operations
-
-    public abstract boolean createNewUser(
-            String firstName,
-            String lastName,
-            String dateOfBirth,
-            String eMailAddress,
-            String password,
-            String phoneNumber,
-            boolean isAdmin
-    );
-
-    public abstract void editUser(String userID, String firstName,
-                                  String lastName, String dateOfBirth,
-                                  String eMailAddress, String password,
-                                  String phoneNumber);
-
-    public abstract boolean deleteUser(String userID);
-
-    public abstract Optional<User> getUserByID(String userID);
-
-    public abstract Optional<User> getUserByEmail(String eMailAddress);
-
 
 
     public String[] showUserIDsByEventID(String eventID) {
@@ -59,22 +34,6 @@ public abstract class UserModel {
     //#endregion User related Crud-Operations
 
     //#region Event-Operations
-
-    public abstract Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
-                                                              String address, String eventLocation, String description);
-    public abstract Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
-                                                            String address, String eventLocation, String description, int maxParticipants);
-
-    public abstract boolean editEvent(String eventID, String eventName,
-                                      String eventStart, String eventEnd, String category,
-                                      String postalCode, String address, String eventLocation,
-                                      String description);
-
-    public abstract boolean deleteEvent(String eventID);
-
-    public abstract boolean bookEvent(String eventID);
-
-    public abstract boolean cancelEvent(String eventID);
 
     public void addUserToEvent(String userID, String eventID) {}
 

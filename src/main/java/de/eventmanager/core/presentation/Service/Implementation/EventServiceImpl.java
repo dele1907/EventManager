@@ -1,7 +1,7 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
 import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.events.Management.EventManager;
+import de.eventmanager.core.database.Communication.EventDataBaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Service.EventService;
@@ -9,21 +9,21 @@ import de.eventmanager.core.presentation.Service.EventService;
 import java.util.List;
 
 public class EventServiceImpl implements EventService {
-    EventManager eventManager = new EventManager();
+    EventDataBaseConnector eventDataBaseConnector = new EventDataBaseConnector();
 
     @Override
     public List<PublicEvent> getPublicEventsByName(String name) {
-        return eventManager.readPublicEventsByName(name);
+        return eventDataBaseConnector.readPublicEventsByName(name);
     }
 
     @Override
     public List<PublicEvent> getPublicEventsByLocation(String location) {
-        return eventManager.readPublicEventsByLocation(location);
+        return eventDataBaseConnector.readPublicEventsByLocation(location);
     }
 
     @Override
     public List<PublicEvent> getPublicEventsByCity(String city) {
-        return eventManager.readPublicEventByCity(city);
+        return eventDataBaseConnector.readPublicEventByCity(city);
     }
 
     @Override
@@ -37,6 +37,6 @@ public class EventServiceImpl implements EventService {
                    new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation,
                            description);
 
-        return eventManager.createNewEvent(eventToCreate);
+        return eventDataBaseConnector.createNewEvent(eventToCreate);
     }
 }

@@ -1,309 +1,49 @@
 package de.eventmanager.core.users.Management;
 
-import java.sql.Connection;
+import de.eventmanager.core.events.PrivateEvent;
+import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.User;
+
 import java.util.Optional;
 
-import de.eventmanager.core.database.Communication.DatabaseConnector;
-import de.eventmanager.core.roles.Role;
-import de.eventmanager.core.users.User;
-import helper.LoggerHelper;
-import helper.PasswordHelper;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
-import org.jooq.impl.DSL;
+public interface UserManager {
+    //#region User related CRUD-Operations
 
-import static org.jooq.generated.tables.User.USER;
+    boolean createNewUser(
+            String firstName,
+            String lastName,
+            String dateOfBirth,
+            String eMailAddress,
+            String password,
+            String phoneNumber,
+            boolean isAdmin,
+            User loggedUser
+    );
 
-public class UserManager {
+    void editUser(String userID, String firstName,
+                                  String lastName, String dateOfBirth,
+                                  String eMailAddress, String password,
+                                  String phoneNumber,User loggedUser);
 
-    private static final String USER_ADDED = "User added successfully";
-    private static final String USER_NOT_ADDED = "Error adding user: ";
-    private static final String USER_NOT_READ = "Error reading user: ";
-    private static final String USER_UPDATED = "User updated successfully";
-    private static final String USER_NOT_UPDATED = "Error updating user: ";
-    private static final String USER_NOT_FOUND = "No user found with the given ID";
-    private static final String USER_DELETED = "User deleted successfully";
-    private static final String USER_NOT_DELETED = "Error deleting user: ";
+    boolean deleteUser(String userID, User loggedUser);
 
-    // Benutzer hinzufügen (CREATE)
-    public static boolean createNewUser(User user) {
+    Optional<User> getUserByID(String userID, User loggedUser);
 
-        try (Connection connection = DatabaseConnector.connect()) {
+    Optional<User> getUserByEmail(String eMailAddress, User loggedUser);
 
-            DSLContext create = DSL.using(connection);
+    Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+                                                              String address, String eventLocation, String description, User loggedUser);
+    Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+                                                            String address, String eventLocation, String description, int maxParticipants, User loggedUser);
 
-            int rowsAffected = create.insertInto(USER,
-                            USER.USERID,
-                            USER.FIRSTNAME,
-                            USER.LASTNAME,
-                            USER.BIRTHDATE,
-                            USER.EMAIL,
-                            USER.PASSWORD,
-                            USER.PHONENUMBER,
-                            USER.ISADMIN)
-                    .values(
-                            user.getUserID(),
-                            user.getFirstName(),
-                            user.getLastName(),
-                            user.getDateOfBirth(),
-                            user.getEMailAddress(),
-                            user.getPassword(),
-                            user.getPhoneNumber(),
-                            user.getRole().equals(Role.ADMIN) ? true : false)
-                    .execute();
+    boolean editEvent(String eventID, String eventName,
+                                      String eventStart, String eventEnd, String category,
+                                      String postalCode, String address, String eventLocation,
+                                      String description, User loggedUser);
 
-            if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(UserManager.class, USER_ADDED);
+    boolean deleteEvent(String eventID, User loggedUser);
 
-                return true;
-            }
+    boolean bookEvent(String eventID, User loggedUser);
 
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_ADDED + exception.getMessage());
-        }
-
-        return false;
-    }
-
-    // Benutzer laden (READ) anhand der ID
-    public static Optional<User> readUserByID(String userID) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            Record record = create.select()
-                    .from(USER)
-                    .where(USER.USERID.eq(userID))
-                    .fetchOne();
-
-            if (record != null) {
-                User user = new User(
-                        record.get(USER.USERID),
-                        record.get(USER.FIRSTNAME),
-                        record.get(USER.LASTNAME),
-                        record.get(USER.BIRTHDATE),
-                        record.get(USER.EMAIL),
-                        record.get(USER.PASSWORD),
-                        record.get(USER.PHONENUMBER),
-                        record.get(USER.ISADMIN)
-                );
-
-                return Optional.of(user);
-            }
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + exception.getMessage());
-        }
-
-        return Optional.empty();
-    }
-
-    // Benutzer laden (READ) anhand der E-Mail-Adresse
-    public static Optional<User> readUserByEMail(String eMailAddress) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            Record record = create.select()
-                    .from(USER)
-                    .where(USER.EMAIL.eq(eMailAddress))
-                    .fetchOne();
-
-            if (record != null) {
-
-                User user = new User(
-                        record.get(USER.USERID),
-                        record.get(USER.FIRSTNAME),
-                        record.get(USER.LASTNAME),
-                        record.get(USER.BIRTHDATE),
-                        record.get(USER.EMAIL),
-                        record.get(USER.PASSWORD),
-                        record.get(USER.PHONENUMBER),
-                        record.get(USER.ISADMIN)
-                );
-
-                return Optional.of(user);
-            }
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + exception.getMessage());
-        }
-
-        return Optional.empty();
-    }
-
-    // Benutzer ändern (UPDATE)
-    public static boolean updateUser(User user) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            int rowsUpdated = create.update(USER)
-                    .set(USER.FIRSTNAME, user.getFirstName())
-                    .set(USER.LASTNAME, user.getLastName())
-                    .set(USER.BIRTHDATE, user.getDateOfBirth())
-                    .set(USER.EMAIL, user.getEMailAddress())
-                    .set(USER.PASSWORD, user.getPassword())
-                    .set(USER.PHONENUMBER, user.getPhoneNumber())
-                    .where(USER.USERID.eq(user.getUserID()))
-                    .execute();
-
-            if (rowsUpdated > 0) {
-                LoggerHelper.logInfoMessage(UserManager.class, USER_UPDATED);
-
-                return true;
-            } else {
-                LoggerHelper.logInfoMessage(UserManager.class, USER_NOT_FOUND);
-
-                return false;
-            }
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_UPDATED + exception.getMessage());
-
-            return false;
-        }
-    }
-
-    // Benutzer löschen (DELETE)
-    public static boolean deleteUserByID(String userID) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            int rowsAffected = create.deleteFrom(USER)
-                    .where(USER.USERID.eq(userID))
-                    .execute();
-
-            if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(UserManager.class, USER_DELETED);
-            } else {
-                LoggerHelper.logInfoMessage(UserManager.class, USER_NOT_FOUND);
-            }
-
-            return rowsAffected > 0;
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_DELETED + exception.getMessage());
-
-            return false;
-        }
-    }
-
-    public static boolean deleteUserByEmail(String email) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            int rowsAffected = create.deleteFrom(USER)
-                    .where(USER.EMAIL.eq(email))
-                    .execute();
-
-            if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(UserManager.class, USER_DELETED);
-            } else {
-                LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_FOUND);
-            }
-
-            return rowsAffected > 0;
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_DELETED + exception.getMessage());
-
-            return false;
-        }
-    }
-
-    public static boolean getAdminUserIsPresentInDatabase() {
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            Result<Record> record = create.select()
-                    .from(USER)
-                    .where(USER.ISADMIN.eq(true))
-                    .fetch();
-
-            return record.size() > 0;
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + exception.getMessage());
-        }
-
-        return false;
-    }
-
-    //#region Registration & Authentication
-
-    public static boolean isValidRegistrationPassword(String password, String checkPassword) {
-        return isValidPassword(password) && comparingPassword(password, checkPassword);
-    }
-
-    /**
-     * <h3>Validate Password</h3>
-     * <p>
-     * {@code isValidPassword()} checks whether a given password contains any restricted characters from a predefined list.
-     * If the password contains any of the restricted characters, the method returns {@code false}. If no restricted characters are found, it returns {@code true}.
-     * </p>
-     */
-
-    private static boolean isValidPassword(String password) {
-        char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
-
-        for (var restricted : restrictedCharacters) {
-            if (password.indexOf(restricted) != -1) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean comparingPassword(String password, String checkPassword) {
-        if (password.isEmpty() || checkPassword.isEmpty()) {
-
-            System.out.println("Wrong password!");
-
-            return false;
-        }
-
-        return checkPassword.equals(password);
-    }
-
-    private static boolean comparingEmailAddress(String emailAddress) {
-        if (readUserByEMail(emailAddress).isEmpty()) {
-
-            LoggerHelper.logInfoMessage(UserManager.class, "Email address not found");
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * <h3>User Login Authentication</h3>
-     The method {@code authenticationUserLogin()} accepts an email address and password, authenticates the user
-     by checking if the email exists, and verifies whether the provided password matches the one stored
-     in the DB. If both conditions are met, the user is successfully logged in.
-     */
-
-    public static boolean authenticationUserLogin(String email, String plainPassword) {
-        Optional<User> userOptional = readUserByEMail(email);
-
-        if (userOptional.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManager.class, "Email address not found");
-
-            return false;
-        }
-
-        return PasswordHelper.verifyPassword(plainPassword, userOptional.get().getPassword());
-    }
-    //#endregion Registration & Authentication
-
+    boolean cancelEvent(String eventID, User loggedUser);
 }

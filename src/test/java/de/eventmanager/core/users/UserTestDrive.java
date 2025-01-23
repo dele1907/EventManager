@@ -1,15 +1,13 @@
 package de.eventmanager.core.users;
 
 
-import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.events.Management.EventManager;
+import de.eventmanager.core.database.Communication.EventDataBaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
-import de.eventmanager.core.users.Management.UserManager;
-import jdk.jfr.Event;
+import de.eventmanager.core.database.Communication.UserDatabaseConnector;
+import de.eventmanager.core.users.Management.UserManagerImpl;
 import org.junit.jupiter.api.*;
-import org.springframework.security.core.parameters.P;
 
 import java.util.Optional;
 
@@ -18,13 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTestDrive {
 
-    User testUser = UserManager.readUserByID("5d3a1886-5837-45f6-8620-1ad04d8babeb").get();
+    UserManagerImpl userManagerImpl = new UserManagerImpl();
 
-    User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
+    User testUser = UserDatabaseConnector.readUserByID("GwQo2aW6AnTTv4KUe8t0").get();
 
-    PublicEvent publicEvent = EventManager.readPublicEventByID("b1a3e5ae-e23f-4c23-b857-f5867b5b4a89").get();
-    PrivateEvent privateEvent = EventManager.readPrivateEventByID("742e38fb-bbb4-49cc-b128-77df7100c766").get();
+    User testAdminUser = UserDatabaseConnector.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
+
+    PublicEvent publicEvent = EventDataBaseConnector.readPublicEventByID("123").get();
+    PrivateEvent privateEvent = EventDataBaseConnector.readPrivateEventByID("124").get();
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
@@ -38,8 +38,8 @@ public class UserTestDrive {
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
 
-        assertFalse(testUser.createNewUser("test", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
-                "eventManager123", "11223344", false));
+        assertFalse(userManagerImpl.createNewUser("test", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
+                "eventManager123", "11223344", false, testUser));
 
     }
 
@@ -50,8 +50,8 @@ public class UserTestDrive {
 
         assertNotNull(testAdminUser);
 
-        assertTrue(testAdminUser.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
-                "eventManager123", "11223344", false));
+        assertTrue(userManagerImpl.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
+                "eventManager123", "11223344", false, testAdminUser));
 
 
     }
@@ -61,7 +61,7 @@ public class UserTestDrive {
     @DisplayName("EditUser Test")
     void editUserTest() {
 
-        String userIDFromUserToEdit = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).get().getUserID();
+        String userIDFromUserToEdit = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS, testAdminUser).get().getUserID();
         String firstName = "Max";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
@@ -69,9 +69,9 @@ public class UserTestDrive {
         String password = "password";
         String phoneNumber = "123456";
 
-        testAdminUser.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber);
+        userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber, testAdminUser);
 
-        assertEquals(email, testAdminUser.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
+        assertEquals(email, userManagerImpl.getUserByID(userIDFromUserToEdit, testAdminUser).get().getEMailAddress());
 
     }
 
@@ -80,8 +80,8 @@ public class UserTestDrive {
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
-        String userID = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).get().getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
-        assertTrue(testAdminUser.deleteUser(userID));
+        String userID = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED, testAdminUser).get().getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
+        assertTrue(userManagerImpl.deleteUser(userID, testAdminUser));
 
     }
     //#endregion CRUD-Operation-Tests
@@ -92,10 +92,10 @@ public class UserTestDrive {
     @DisplayName("Add&Remove AdminStatus Test")
     void addAndRemoveAdminStatusToUserTest() {
 
-        testAdminUser.addAdminStatusToUserByUserID(testUser.getUserID());
+        userManagerImpl.addAdminStatusToUserByUserID(testUser.getUserID(), testAdminUser);
         assertTrue(!testUser.getRole().equals(Role.ADMIN));
 
-        testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
+        userManagerImpl.removeAdminStatusFromUserByUserID(testUser.getUserID(), testAdminUser);
         assertFalse(testUser.getRole().equals(Role.ADMIN));
     }
 
@@ -106,22 +106,23 @@ public class UserTestDrive {
     @DisplayName("Create,Edit & Delete Event Test")
     void createEditDeleteEventTest() {
 
-        PrivateEvent privateEventToEdit = testAdminUser.createPrivateEvent("privateTestEventToEdit", "01/01/2021", "01/01/2021",
-                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
+        PrivateEvent privateEventToEdit = userManagerImpl.createPrivateEvent("privateTestEventToEdit", "01/01/2021", "01/01/2021",
+                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription",testAdminUser).get();
 
-        assertTrue(testAdminUser.editEvent(privateEventToEdit.getEventID(), "TestEventEdited", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
+        assertTrue(userManagerImpl.editEvent(privateEventToEdit.getEventID(), "TestEventEdited", "01/01/2021", "01/01/2021",
+                "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1", testAdminUser));
 
-        assertTrue(testAdminUser.deleteEvent(privateEventToEdit.getEventID()));
-        assertFalse(testAdminUser.deleteEvent(privateEventToEdit.getEventID())); //Check if the event is really deleted
+        assertTrue(userManagerImpl.deleteEvent(privateEventToEdit.getEventID(), testAdminUser));
+        assertFalse(userManagerImpl.deleteEvent(privateEventToEdit.getEventID(), testAdminUser)); //Check if the event is really deleted
     }
 
     @Test
     @Order(5)
     @DisplayName("Book Event Test")
     void bookEventTest() {
-        assertTrue(testUser.bookEvent(publicEvent.getEventID()));
-        assertTrue(testAdminUser.bookEvent(publicEvent.getEventID()));
-        assertFalse(testUser.bookEvent(privateEvent.getEventID()));
+        assertTrue(userManagerImpl.bookEvent(publicEvent.getEventID(), testUser));
+        assertTrue(userManagerImpl.bookEvent(publicEvent.getEventID(), testAdminUser));
+        assertFalse(userManagerImpl.bookEvent(privateEvent.getEventID(), testUser));
     }
 
     @Test
@@ -130,9 +131,9 @@ public class UserTestDrive {
     void cancelEventTest() {
         String notExistingEventID = "1234";
 
-        assertFalse(testUser.cancelEvent(notExistingEventID));
-        assertTrue(testAdminUser.cancelEvent(publicEvent.getEventID()));
-        assertTrue(testUser.cancelEvent(publicEvent.getEventID()));
+        assertFalse(userManagerImpl.cancelEvent(notExistingEventID, testUser));
+        assertTrue(userManagerImpl.cancelEvent(publicEvent.getEventID(), testAdminUser));
+        assertTrue(userManagerImpl.cancelEvent(publicEvent.getEventID(), testUser));
 
     }
 
@@ -141,7 +142,7 @@ public class UserTestDrive {
     @DisplayName("Show All Event-Participants")
     void printAllEventParticipants(){
         assertTrue(true);
-        System.out.println(testAdminUser.showAllEventParticipants(publicEvent.getEventID()));
+       // System.out.println(userManagerImpl.showAllEventParticipants(publicEvent.getEventID(), testAdminUser));
     }
 
 

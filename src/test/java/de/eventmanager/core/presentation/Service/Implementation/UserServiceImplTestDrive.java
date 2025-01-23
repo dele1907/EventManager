@@ -1,6 +1,6 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
-import de.eventmanager.core.users.Management.UserManager;
+import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class UserServiceImplTestDrive {
         System.out.println("User registered: " + isRegistered);
         assertTrue(isRegistered);
 
-        boolean isRemoved = UserManager.deleteUserByID("disappear@muster.com");
+        boolean isRemoved = UserDatabaseConnector.deleteUserByID("disappear@muster.com");
         System.out.println("User removed: " + isRemoved);
         assertTrue(isRemoved);
     }

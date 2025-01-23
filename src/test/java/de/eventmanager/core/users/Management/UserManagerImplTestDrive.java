@@ -1,17 +1,16 @@
 package de.eventmanager.core.users.Management;
 
+import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 
 import org.junit.jupiter.api.*;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserManagerTestDrive {
+public class UserManagerImplTestDrive {
 
     private User testUser;
     private User testUserUpdated;
@@ -42,7 +41,7 @@ public class UserManagerTestDrive {
             return;
         }
 
-        UserManager.deleteUserByID("testUserID");
+        UserDatabaseConnector.deleteUserByID("testUserID");
     }
 
     // Testen von Erstellen, Updaten und Löschen eines Users in der Datenbank:
@@ -52,13 +51,13 @@ public class UserManagerTestDrive {
 
         skipCleanUp = true;
 
-        boolean userCreated = UserManager.createNewUser(testUser);
+        boolean userCreated = UserDatabaseConnector.createNewUser(testUser);
         assertTrue(userCreated, "User creation failed but should not.");
 
-        boolean userUpdated = UserManager.updateUser(testUserUpdated);
+        boolean userUpdated = UserDatabaseConnector.updateUser(testUserUpdated);
         assertTrue(userUpdated, "User update failed but should not.");
 
-        boolean userDeleted = UserManager.deleteUserByID(testUser.getUserID());
+        boolean userDeleted = UserDatabaseConnector.deleteUserByID(testUser.getUserID());
         assertTrue(userDeleted, "User deletion failed but should not.");
     }
 
@@ -67,8 +66,8 @@ public class UserManagerTestDrive {
     @Order(1)
     public void testCreateUserFailed() {
 
-        UserManager.createNewUser(testUser);
-        boolean userCreated = UserManager.createNewUser(testUser);
+        UserDatabaseConnector.createNewUser(testUser);
+        boolean userCreated = UserDatabaseConnector.createNewUser(testUser);
 
         assertFalse(userCreated, "User creation was successful but should not.");
     }
@@ -80,7 +79,7 @@ public class UserManagerTestDrive {
 
         skipCleanUp = true;
 
-        boolean userUpdated = UserManager.updateUser(testUserUpdated);
+        boolean userUpdated = UserDatabaseConnector.updateUser(testUserUpdated);
 
         assertFalse(userUpdated, "User update was successful but should not.");
     }
@@ -93,7 +92,7 @@ public class UserManagerTestDrive {
         skipSetUp = true;
         skipCleanUp = true;
 
-        boolean userDeleted = UserManager.deleteUserByID("invalidID");
+        boolean userDeleted = UserDatabaseConnector.deleteUserByID("invalidID");
 
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
@@ -103,8 +102,8 @@ public class UserManagerTestDrive {
     @Order(4)
     public void testReadUserByID() {
 
-        UserManager.createNewUser(testUser);
-        User userFromDatabase = UserManager.readUserByID("testUserID").get();
+        UserDatabaseConnector.createNewUser(testUser);
+        User userFromDatabase = UserDatabaseConnector.readUserByID("testUserID").get();
 
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
@@ -121,8 +120,8 @@ public class UserManagerTestDrive {
     @Order(5)
     public void testReadUserByEMail() {
 
-        UserManager.createNewUser(testUser);
-        User userFromDatabase = UserManager.readUserByEMail("max.mustermann@mail.com").get();
+        UserDatabaseConnector.createNewUser(testUser);
+        User userFromDatabase = UserDatabaseConnector.readUserByEMail("max.mustermann@mail.com").get();
 
         assertEquals("testUserID", userFromDatabase.getUserID());
         assertEquals("Max", userFromDatabase.getFirstName());
@@ -146,9 +145,9 @@ public class UserManagerTestDrive {
         String validTestPassword = "eventManager123";
         String inValidTestPassword = "eventManagerÄ";
 
-        assertFalse(UserManager.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
+        assertFalse(UserDatabaseConnector.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
 
-        assertTrue(UserManager.isValidRegistrationPassword(validTestPassword, "eventManager123"));
+        assertTrue(UserDatabaseConnector.isValidRegistrationPassword(validTestPassword, "eventManager123"));
     }
 
     @Test
@@ -159,7 +158,7 @@ public class UserManagerTestDrive {
         skipSetUp = true;
         skipCleanUp = true;
 
-        assertTrue(UserManager.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
+        assertTrue(UserDatabaseConnector.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
     }
     //#endregion Registration and Authentication Tests
 
