@@ -2,7 +2,11 @@ package de.eventmanager.core.events.Management;
 
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.Management.UserManager;
+import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -187,6 +191,60 @@ public class EventManagerTestDrive {
         boolean testDeleteCreation = EventManager.deleteUserCreatedEvent("testEventID", "testCreatorID");
 
         assertTrue(testDeleteCreation, "Adding user to created event failed but should not.");
+    }
+
+    /**
+     * Test relation on booking
+     * */
+    @Test
+    @Order(5)
+    public void testAddAndDeleteBooking() {
+
+        skipSetUp = true;
+        skipCleanUp = true;
+
+        boolean testAddBooking = EventManager.addBooking("testEventID", "testCreatorID");
+
+        assertTrue(testAddBooking, "Adding user to booked event failed but should not.");
+
+        boolean testDeleteBooking = EventManager.deleteBooking("testEventID", "testCreatorID");
+
+        assertTrue(testDeleteBooking, "Adding user to booked event failed but should not.");
+
+    }
+
+    /**
+     * Test relation on booking
+     * */
+    @Test
+    @Order(6)
+    public void getBookedUsersOnEvent() {
+
+        skipSetUp = true;
+        skipCleanUp = true;
+
+        User testUser1 = new User("testBookingUserID1", "Peter", "Bookman", "2000-02-02","peter.bookman@testmail.com","Password123", "0815", false);
+        User testUser2 = new User("testBookingUserID2", "Herbert", "Bookson", "1980-08-08", "herbert.bookson@testmail.com","Password456", "4711", true);
+
+        UserManager.createNewUser(testUser1);
+        UserManager.createNewUser(testUser2);
+
+        EventManager.addBooking("testEventID", "testBookingUserID1");
+        EventManager.addBooking("testEventID", "testBookingUserID2");
+
+        ArrayList<String> bookedTestUsers = EventManager.getBookedUsersOnEvent("testEventID");
+        ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
+        expectedBookedTestUsers.add("peter.bookman@testmail.com");
+        expectedBookedTestUsers.add("herbert.bookson@testmail.com");
+
+        assertEquals(expectedBookedTestUsers, bookedTestUsers);
+
+        UserManager.deleteUserByID("testBookingUserID1");
+        UserManager.deleteUserByID("testBookingUserID2");
+
+        EventManager.deleteBooking("testEventID", "testBookingUserID1");
+        EventManager.deleteBooking("testEventID", "testBookingUserID2");
+
     }
 
 }
