@@ -8,6 +8,7 @@ import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
+import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -324,4 +325,76 @@ public class UserManagerImpl implements UserManager {
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
     //#endregion Permission-Operations
+
+    //#region Registration & Authentication
+    /*
+    public boolean isValidRegistrationPassword(String password, String checkPassword) {
+        return isValidPassword(password) && comparingPassword(password, checkPassword);
+    }
+
+    /**
+     * <h3>Validate Password</h3>
+     * <p>
+     * {@code isValidPassword()} checks whether a given password contains any restricted characters from a predefined list.
+     * If the password contains any of the restricted characters, the method returns {@code false}. If no restricted characters are found, it returns {@code true}.
+     * </p>
+     */
+    /*
+    private boolean isValidPassword(String password) {
+        char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
+
+        for (var restricted : restrictedCharacters) {
+            if (password.indexOf(restricted) != -1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean comparingPassword(String password, String checkPassword) {
+        if (password.isEmpty() || checkPassword.isEmpty()) {
+
+            System.out.println("Wrong password!");
+
+            return false;
+        }
+
+        return checkPassword.equals(password);
+    }
+
+    private boolean comparingEmailAddress(String emailAddress, User loggedUser) {
+
+        if (getUserByEmail(emailAddress, loggedUser).isEmpty()) {
+
+            LoggerHelper.logInfoMessage(UserDatabaseConnector.class, "Email address not found");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * <h3>User Login Authentication</h3>
+     The method {@code authenticationUserLogin()} accepts an email address and password, authenticates the user
+     by checking if the email exists, and verifies whether the provided password matches the one stored
+     in the DB. If both conditions are met, the user is successfully logged in.
+     */
+    /*
+    public boolean authenticationUserLogin(String email, String password, User user) {
+
+        if (comparingEmailAddress(email, user)) {
+
+            if (PasswordHelper.verifyPassword(password, user.getPassword())) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+    */
+    //#endregion Registration & Authentication
+
+
 }
