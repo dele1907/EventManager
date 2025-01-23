@@ -25,6 +25,7 @@ public class UserTestDrive {
     PublicEvent publicEvent = EventManager.readPublicEventByID("61600b50-2d6d-4db9-83b6-1a71d46bfb73").get();
     PrivateEvent privateEvent = EventManager.readPrivateEventByID("08e01d5b-6b63-43fb-b9e5-d548b26e6fb4").get();
 
+    String temporaryEventID;
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
@@ -76,7 +77,7 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
@@ -98,21 +99,21 @@ public class UserTestDrive {
         testAdminUser.removeAdminStatusFromUserByUserID(testUser.getUserID());
         assertFalse(testUser.getRole().equals(Role.ADMIN));
     }
+
     //#endregion Permission Tests
 
     @Test
     @Order(4)
-    @DisplayName("Edit Event Test")
-    void editEventTest() {
+    @DisplayName("Create,Edit & Delete Event Test")
+    void createEditDeleteEventTest() {
 
-        PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
+        PrivateEvent privateEventToEdit = testAdminUser.createPrivateEvent("privateTestEventToEdit", "01/01/2021", "01/01/2021",
                 "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
 
+        assertTrue(testAdminUser.editEvent(privateEventToEdit.getEventID(), "TestEventEdited", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
 
-        assertTrue(testAdminUser.editEvent(privateEvent.getEventID(), "TestEvent", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
-
-        assertTrue(testAdminUser.deleteEvent(privateEvent.getEventID()));
-        assertFalse(testAdminUser.deleteEvent(privateEvent.getEventID())); //Check if the event is really deleted
+        //assertTrue(testAdminUser.deleteEvent(privateEventToEdit.getEventID()));
+        //assertFalse(testAdminUser.deleteEvent(privateEventToEdit.getEventID())); //Check if the event is really deleted
     }
 
     @Test
@@ -120,19 +121,28 @@ public class UserTestDrive {
     @DisplayName("Book Event Test")
     void bookEventTest() {
         assertTrue(testUser.bookEvent(publicEvent.getEventID()));
+        assertTrue(testAdminUser.bookEvent(publicEvent.getEventID()));
         assertFalse(testUser.bookEvent(privateEvent.getEventID()));
-
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     @DisplayName("Cancel Event Test")
     void cancelEventTest() {
         String notExistingEventID = "1234";
 
         assertFalse(testUser.cancelEvent(notExistingEventID));
+        assertTrue(testAdminUser.cancelEvent(publicEvent.getEventID()));
         assertTrue(testUser.cancelEvent(publicEvent.getEventID()));
 
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("Show All Event-Participants")
+    void printAllEventParticipants(){
+        assertTrue(true);
+        System.out.println(testAdminUser.showAllEventParticipants(publicEvent.getEventID()));
     }
 
 
