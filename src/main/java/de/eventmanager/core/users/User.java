@@ -211,27 +211,27 @@ public class User extends UserModel{
          String postalCode, String address, String eventLocation, String description
     ) {
 
-        Optional<PrivateEvent> privateEvent = EventManager.readPrivateEventByID(eventID);
+        Optional<? extends EventModel> optionalEvent = EventManager.readEventByID(eventID);
 
-        if (privateEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(User.class, "Event not found");
+        if (!isEventExisting(optionalEvent)) {
 
             return false;
         }
 
-        PrivateEvent privateEventToEdit = privateEvent.get();
-        privateEventToEdit.setEventName(eventName);
-        privateEventToEdit.setEventStart(eventStart);
-        privateEventToEdit.setEventEnd(eventEnd);
-        privateEventToEdit.setCategory(category);
-        privateEventToEdit.setPostalCode(postalCode);
-        privateEventToEdit.setAddress(address);
-        privateEventToEdit.setEventLocation(eventLocation);
-        privateEventToEdit.setDescription(description);
+        EventModel eventToEdit = optionalEvent.get();
 
-        EventManager.updateEvent(privateEventToEdit);
+        eventToEdit.setEventName(eventName);
+        eventToEdit.setEventStart(eventStart);
+        eventToEdit.setEventEnd(eventEnd);
+        eventToEdit.setCategory(category);
+        eventToEdit.setPostalCode(postalCode);
+        eventToEdit.setAddress(address);
+        eventToEdit.setEventLocation(eventLocation);
+        eventToEdit.setDescription(description);
 
-        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + privateEventToEdit);
+        EventManager.updateEvent(eventToEdit);
+
+        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 
         return true;
     }
@@ -257,10 +257,13 @@ public class User extends UserModel{
             return false;
         }
 
-        /*
-        PublicEvent publicEventForBooking = publicEvent.get();
-        publicEventForBooking.getBookedUsersOnEvent().add(this.getEMailAddress());
-         */
+        boolean hasUserBookedTheEvent = publicEvent.get().getBookedUsersOnEvent().contains(this.eMailAddress);
+
+        if (hasUserBookedTheEvent){
+            LoggerHelper.logErrorMessage(User.class, "Event already booked!");
+
+            return false;
+        }
 
         EventManager.addBooking(eventID,this.userID);
         LoggerHelper.logInfoMessage(User.class, "Event booked successfully!");
@@ -270,22 +273,22 @@ public class User extends UserModel{
 
     @Override
     public boolean cancelEvent(String eventID) {
-        Optional<? extends EventModel> OptionalEvent = EventManager.readEventByID(eventID);
+        Optional<? extends EventModel> optionalEvent = EventManager.readEventByID(eventID);
 
-        if (!isEventExisting(OptionalEvent)) {
+        if (!isEventExisting(optionalEvent)) {
+
+            return false;
+        }
+
+        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(this.eMailAddress);
+
+        if (!hasUserBookedTheEvent) {
+            LoggerHelper.logErrorMessage(User.class, "You can only cancel events for which you are registered!");
 
             return false;
         }
 
-        EventModel eventForCancel = OptionalEvent.get();
-        /*
-        if (!eventForCancel.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
-            LoggerHelper.logInfoMessage(User.class, "You can only cancel events for which you are registered!");
 
-            return false;
-        }
-        */
-        //eventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
         EventManager.deleteBooking(eventID,this.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
 
@@ -301,10 +304,10 @@ public class User extends UserModel{
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Lastname, firstname\t eMailaddress\t phoneNumber\n\n");
+        sb.append("Lastname\t firstname\t\t eMailaddress\t\t\t phoneNumber\n\n");
         for (int i = 0; i < participants.size(); i++) {
             User user = getUserByEmail(participants.get(i)).get();
-            sb.append(user.getLastName() + ", " + user.getFirstName() + "\t" + user.getEMailAddress() + "\t" + user.getPhoneNumber() + "\n");
+            sb.append(user.getLastName() + "\t" + user.getFirstName() + "\t\t\t" + user.getEMailAddress() + "\t" + user.getPhoneNumber() + "\n");
         }
 
         return sb.toString();
