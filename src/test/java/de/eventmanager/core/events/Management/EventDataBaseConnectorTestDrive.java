@@ -180,7 +180,7 @@ public class EventDataBaseConnectorTestDrive {
      * */
     @Test
     @Order(5)
-    public void testAddAndDeleteUserCreatedEvent() {
+    public void testAddAndRemoveUserCreatedEvent() {
 
         skipSetUp = true;
         skipCleanUp = true;
@@ -189,7 +189,7 @@ public class EventDataBaseConnectorTestDrive {
 
         assertTrue(testAddCreation, "Adding user to created event failed but should not.");
 
-        boolean testDeleteCreation = EventDataBaseConnector.deleteUserCreatedEvent("testEventID", "testCreatorID");
+        boolean testDeleteCreation = EventDataBaseConnector.removeUserCreatedEvent("testEventID", "testCreatorID");
 
         assertTrue(testDeleteCreation, "Adding user to created event failed but should not.");
     }

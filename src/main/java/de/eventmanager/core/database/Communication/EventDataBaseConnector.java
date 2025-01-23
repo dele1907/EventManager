@@ -478,7 +478,7 @@ public class EventDataBaseConnector {
     /**
      * Unlink a user from an event as the creator
      * */
-        public static boolean deleteUserCreatedEvent(String eventID, String userID) {
+        public static boolean removeUserCreatedEvent(String eventID, String userID) {
 
             try (Connection connection = DatabaseConnector.connect()) {
 
