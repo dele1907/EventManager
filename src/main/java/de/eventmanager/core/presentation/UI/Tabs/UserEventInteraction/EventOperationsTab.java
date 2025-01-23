@@ -21,7 +21,7 @@ public class EventOperationsTab implements Tab {
         boolean eventOperationIsActive = true;
 
         while (eventOperationIsActive) {
-            textView.displayMessage("\n===== EventOperationsTab =====");
+            textView.displayTabOrPageHeading("\n===== EventOperationsTab =====");
 
             textView.displayMessage(
                     "\n1. Create Event" +

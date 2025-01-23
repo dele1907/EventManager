@@ -23,7 +23,8 @@ public class LoginRegistrationPage implements Tab {
         boolean programIsRunning = true;
 
         while (programIsRunning) {
-            textView.displayMessage("\n===== EventManager =====\n1. Register\n2. Login\n3. Exit");
+            textView.displayTabOrPageHeading("\n===== EventManager =====");
+            textView.displayMessage("\n1. Register\n2. Login\n3. Exit Program");
             textView.displayMessage("\nChoose an option: ");
             String choice = textView.getUserInput();
 

@@ -33,7 +33,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
 
         while (programIsRunning) {
             try {
-                if (!adminInDatabase) {
+                if (adminInDatabase) {
                     adminUserStartupRegistrationPage.start();
                 }
 

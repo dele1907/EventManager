@@ -18,11 +18,11 @@ public class EventCreationTab implements Tab {
 
     @Override
     public void start() {
-        System.out.println("===== Event Creation ======");
+       textView.displayTabOrPageHeading("\n===== Event Creation ======");
         System.out.println("1. Create new public event");
         System.out.println("2. Create new private event");
         System.out.println("3. Back to Event Operations");
-        System.out.println("Please enter your choice: ");
+        System.out.println("\nPlease enter your choice: ");
 
         String choice = textView.getUserInput();
 

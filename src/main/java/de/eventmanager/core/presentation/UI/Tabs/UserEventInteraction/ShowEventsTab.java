@@ -21,7 +21,7 @@ public class ShowEventsTab implements Tab{
         boolean eventSearchingIsActive = true;
 
         while (eventSearchingIsActive) {
-            System.out.println("\n===== ShowEventsTab =====");
+            textView.displayTabOrPageHeading("\n===== ShowEventsTab =====");
             textView.displayMessage(
                     "\n1. Search by Name " +
                     "\n2. Search by Location " +

@@ -17,7 +17,7 @@ public class AdminCreateUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayMessage("\n===== Create User Tab ======\n");
+        textView.displayTabOrPageHeading("\n===== Create User Tab ======\n");
         showCreateUserDialog();
     }
 

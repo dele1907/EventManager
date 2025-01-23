@@ -16,16 +16,18 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
     @Override
     public void start() {
-        textView.displayMessage("\n===== Admin User Startup Registration Page ======\n");
-        textView.displayMessage("\nThere is no admin user present for your system." +
+        textView.displayTabOrPageHeading("\n===== Admin User Startup Registration Page ======");
+        textView.displayMessage(
+                "There is no admin user present for your system." +
                 "\nWould you like to create one?" +
-                "\nType 'yes' to create an admin user or 'no' to exit: ");
+                "\n\nType 'yes' to create an admin user or 'no' to exit: "
+        );
         String choice = textView.getUserInput();
 
         if ("yes".equals(choice.toLowerCase())) {
             showCreateAdminUserDialog();
         } else {
-            textView.displayMessage("\nChanging to login and registration page...");
+            textView.displayErrorMessage("\nChanging to login and registration page...");
 
             return;
         }
@@ -40,7 +42,7 @@ public class AdminUserStartupRegistrationPage implements Tab {
             userInputs[i] = getUserInput(prompts[i]);
 
             if (userInputs[i].isEmpty()) {
-                textView.displayMessage("\n Aborting user creation\n Changing to login and registration page...");
+                textView.displayErrorMessage("\n Aborting user creation\n Changing to login and registration page...");
 
                 return;
             }

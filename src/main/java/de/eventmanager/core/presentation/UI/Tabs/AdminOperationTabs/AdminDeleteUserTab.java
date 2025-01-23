@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
@@ -16,18 +17,18 @@ public class AdminDeleteUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayMessage("\n===== Delete User Tab ======\n");
+        textView.displayTabOrPageHeading("\n===== Delete User Tab ======s");
         textView.displayMessage("\nEnter the email of the user to delete: ");
         String email = textView.getUserInput();
         User user = userController.getUserByEmail(email).get();
 
         if (user == null) {
-            textView.displayErrorMessage("User not found.\n");
+            textView.displayErrorMessage(DefaultMessagesHelper.USER_NOT_FOUND);
 
             return;
         }
 
-        textView.displayWarningMessage("\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757");
+        textView.displayWarningMessage(DefaultMessagesHelper.WARNING_MESSAGE);
         textView.displayWarningMessage("\nAre you sure you want to delete: " + user + "\n\nType 'yes'> ");
         String confirmation = textView.getUserInput();
 
