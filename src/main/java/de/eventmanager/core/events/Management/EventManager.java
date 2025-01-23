@@ -385,6 +385,7 @@ public class EventManager {
                         .set(EVENTS.ADDRESS, privateEvent.getAddress())
                         .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
                         .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
+                        .where(EVENTS.EVENTID.eq(event.getEventID()))
                         .execute();
             } else {
                 PublicEvent publicEvent = (PublicEvent) event;
@@ -401,6 +402,7 @@ public class EventManager {
                         .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
                         .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
                         .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
+                        .where(EVENTS.EVENTID.eq(event.getEventID()))
                         .execute();
             }
 
@@ -457,6 +459,7 @@ public class EventManager {
      * Relate a user to an event as the creator
      * */
     public static boolean addUserCreatedEvent(String eventID, String userID) {
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -479,6 +482,7 @@ public class EventManager {
      * Unlink a user from an event as the creator
      * */
         public static boolean deleteUserCreatedEvent(String eventID, String userID) {
+
             try (Connection connection = DatabaseConnector.connect()) {
 
                 DSLContext create = DSL.using(connection);
@@ -506,16 +510,30 @@ public class EventManager {
      * Relate an event to a user as booked
      * */
     public static boolean addBooking(String eventID, String userID) {
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            int rowsAffected = create.insertInto(BOOKED, BOOKED.EVENTID, BOOKED.USERID)
-                    .values(eventID, userID)
-                    .execute();
+            return create.transactionResult(configuration -> {
 
-            return rowsAffected > 0;
+                DSLContext ctx = DSL.using(configuration);
 
+                int rowsAffected = ctx.insertInto(BOOKED, BOOKED.EVENTID, BOOKED.USERID)
+                        .values(eventID, userID)
+                        .execute();
+
+                if (rowsAffected > 0) {
+                    int updatedRows = ctx.update(EVENTS)
+                            .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, EVENTS.NUMBEROFBOOKEDUSERSONEVENT.plus(1))
+                            .where(EVENTS.EVENTID.eq(eventID))
+                            .execute();
+
+                    return updatedRows > 0;
+                }
+
+                return false;
+            });
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, "Error booking event: " +
                     exception.getMessage());
@@ -528,16 +546,30 @@ public class EventManager {
      * Unlink an event from a user as booked
      * */
     public static boolean deleteBooking(String eventID, String userID) {
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            int rowsAffected = create.deleteFrom(BOOKED)
-                    .where(BOOKED.EVENTID.eq(eventID))
-                    .and(BOOKED.USERID.eq(userID))
-                    .execute();
+            return create.transactionResult(configuration -> {
+                DSLContext ctx = DSL.using(configuration);
 
-            return rowsAffected > 0;
+                int rowsAffected = ctx.deleteFrom(BOOKED)
+                        .where(BOOKED.EVENTID.eq(eventID))
+                        .and(BOOKED.USERID.eq(userID))
+                        .execute();
+
+                if (rowsAffected > 0) {
+                    int updatedRows = ctx.update(EVENTS)
+                            .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, EVENTS.NUMBEROFBOOKEDUSERSONEVENT.minus(1))
+                            .where(EVENTS.EVENTID.eq(eventID))
+                            .execute();
+
+                    return updatedRows > 0;
+                }
+
+                return false;
+            });
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventManager.class, "Error deleting booking: " +
