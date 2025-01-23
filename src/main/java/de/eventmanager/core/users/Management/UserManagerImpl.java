@@ -178,6 +178,11 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
+
+        if (!loggedUser.getRole().equals(Role.ADMIN)) {
+             return false;
+        }
+
         EventModel eventToEdit = optionalEvent.get();
 
         eventToEdit.setEventName(eventName);
