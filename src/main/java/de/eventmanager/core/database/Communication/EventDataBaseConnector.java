@@ -3,12 +3,14 @@ package de.eventmanager.core.database.Communication;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
+import org.jooq.Log;
 import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
@@ -497,7 +499,35 @@ public class EventDataBaseConnector {
 
                 return false;
             }
-    }
+        }
+
+        public static boolean checkUserOrganizerStatusForEvent(String eventID, String userID) {
+
+            try (Connection connection = DatabaseConnector.connect()){
+
+                DSLContext create = DSL.using(connection);
+
+                Record record = create.select()
+                        .from(CREATED)
+                        .where(CREATED.USERID.eq(userID))
+                        .and(CREATED.EVENTID.eq(eventID))
+                        .fetchOne();
+
+                if (record != null) {
+                    LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "EventID or UserID not found!");
+
+                    return false;
+                }
+
+            }catch (Exception exception) {
+                LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "EventID or UserID not found!");
+
+                return false;
+            }
+
+            return true;
+        }
+
 
     //#endregion createdByUser
 
