@@ -30,11 +30,11 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
 
         boolean programIsRunning = true;
         //TODO @Dennis search database if an admin user is present
-        boolean adminInDatabase = false;
+        boolean adminInDatabase = userService.getAdminUserIsPresentInDatabase();
 
         while (programIsRunning) {
             try {
-                if (adminInDatabase) {
+                if (!adminInDatabase) {
                     adminUserStartupRegistrationPage.start();
                 }
 

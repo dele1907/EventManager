@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> readUserByEmail(String email) {
         return UserManager.readUserByEMail(email);
     }
+
+    @Override
+    public boolean getAdminUserIsPresentInDatabase() {
+        return UserManager.getAdminUserIsPresentInDatabase();
+    }
 }

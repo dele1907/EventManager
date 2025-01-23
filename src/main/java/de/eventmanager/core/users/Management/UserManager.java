@@ -10,6 +10,7 @@ import helper.LoggerHelper;
 import helper.PasswordHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Result;
 import org.jooq.impl.DSL;
 
 import static org.jooq.generated.tables.User.USER;
@@ -217,6 +218,25 @@ public class UserManager {
 
             return false;
         }
+    }
+
+    public static boolean getAdminUserIsPresentInDatabase() {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record> record = create.select()
+                    .from(USER)
+                    .where(USER.ISADMIN.eq(true))
+                    .fetch();
+
+            return record.size() > 0;
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(UserManager.class, USER_NOT_READ + exception.getMessage());
+        }
+
+        return false;
     }
 
     //#region Registration & Authentication

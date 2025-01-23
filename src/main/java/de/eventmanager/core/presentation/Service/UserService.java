@@ -11,4 +11,5 @@ public interface UserService {
     boolean deleteUser(User user);
     boolean editUser(String userID);
     Optional<User> readUserByEmail(String email);
+    boolean getAdminUserIsPresentInDatabase();
 }
