@@ -4,7 +4,8 @@ import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.users.User;
+
+import java.util.Optional;
 
 public class AdminDeleteUserTab implements Tab {
     private View textView;
@@ -20,20 +21,21 @@ public class AdminDeleteUserTab implements Tab {
         textView.displayTabOrPageHeading("\n===== Delete User Tab ======");
         textView.displayMessage("Enter the email of the user to delete: ");
         String email = textView.getUserInput();
-        User user = userController.getUserByEmail(email).get();
 
-        if (user == null) {
+        var userOptional = userController.getUserByEmail(email);
+
+        if (userOptional.isEmpty()) {
             textView.displayErrorMessage(DefaultMessagesHelper.USER_NOT_FOUND);
 
             return;
         }
 
         textView.displayWarningMessage(DefaultMessagesHelper.WARNING_MESSAGE);
-        textView.displayWarningMessage("\nAre you sure you want to delete: " + user + "\n\nType 'yes'> ");
+        textView.displayWarningMessage("\nAre you sure you want to delete: " + userOptional + "\n\nType 'yes'> ");
         String confirmation = textView.getUserInput();
 
         if ("yes".equals(confirmation.toLowerCase())) {
-            boolean success = userController.deleteUser(userController.getUserByEmail(email).get());
+            boolean success = userController.deleteUser(userOptional.get());
 
             if (success) {
                 textView.displaySuccessMessage("\nUser deleted successfully.\n");
