@@ -29,7 +29,6 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         initDatabase();
 
         boolean programIsRunning = true;
-        //TODO @Dennis search database if an admin user is present
         boolean adminInDatabase = userService.getAdminUserIsPresentInDatabase();
 
         while (programIsRunning) {

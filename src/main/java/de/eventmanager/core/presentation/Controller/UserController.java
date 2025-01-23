@@ -75,7 +75,6 @@ public class UserController {
     }
 
     //#endregion CRUD-Operations
-
     public Optional<User> getUserByEmail(String email) {
         return userService.readUserByEmail(email);
     }
@@ -91,6 +90,17 @@ public class UserController {
 
     public List<PublicEvent> getPublicEventsByCity(String city) {
         return eventService.getPublicEventsByCity(city);
+    }
+
+    public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
+                                  String category, String postalCode, String address,
+                                  int maxCapacity, String eventLocation, String description, boolean isPublicEvent) {
+
+        return eventService.createNewEvent(
+                eventName, eventStart, eventEnd,
+                category, postalCode, address,
+                maxCapacity, eventLocation, description, isPublicEvent
+        );
     }
     //#endregion eventOperations
 

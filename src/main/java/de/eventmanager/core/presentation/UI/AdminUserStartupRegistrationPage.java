@@ -61,13 +61,13 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
     private String[] getPromptsForDialogs() {
          String[] dialogPrompts = {
-                 "Enter first name (leave blank to cancel Account creation): ",
-                 "Enter last name (leave blank to cancel Account creation): ",
-                 "Enter date of birth (leave blank to cancel Account creation): ",
-                 "Enter email (leave blank to cancel Account creation): ",
-                 "Enter phone number (leave blank to cancel Account creation): ",
-                 "Enter password (leave blank to cancel Account creation): ",
-                 "Confirm password (leave blank to cancel Account creation): "
+                 "Enter first name \n(leave blank to cancel Account creation): ",
+                 "Enter last name \n(leave blank to cancel Account creation): ",
+                 "Enter date of birth \n(leave blank to cancel Account creation): ",
+                 "Enter email \n(leave blank to cancel Account creation): ",
+                 "Enter phone number \n(leave blank to cancel Account creation): ",
+                 "Enter password \n(leave blank to cancel Account creation): ",
+                 "Confirm password \n(leave blank to cancel Account creation): "
          };
 
         return dialogPrompts;
