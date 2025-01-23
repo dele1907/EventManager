@@ -16,6 +16,7 @@ import static org.jooq.generated.tables.User.USER;
 
 public class UserDatabaseConnector {
 
+    //#region Constants
     private static final String USER_ADDED = "User added successfully";
     private static final String USER_NOT_ADDED = "Error adding user: ";
     private static final String USER_NOT_READ = "Error reading user: ";
@@ -24,6 +25,8 @@ public class UserDatabaseConnector {
     private static final String USER_NOT_FOUND = "No user found with the given ID";
     private static final String USER_DELETED = "User deleted successfully";
     private static final String USER_NOT_DELETED = "Error deleting user: ";
+
+    //#endregion Constants
 
     // Benutzer hinzufügen (CREATE)
     public static boolean createNewUser(User user) {

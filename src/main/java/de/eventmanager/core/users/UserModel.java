@@ -31,25 +31,17 @@ public abstract class UserModel {
         return null;
     };
 
-    //#endregion User related Crud-Operations
 
-    //#region Event-Operations
+
+
 
     public void addUserToEvent(String userID, String eventID) {}
 
     public void removeUserFromEvent(String userID, String eventID) {}
 
-    //#endregion Event-Operations
 
-    //#region Permission-Operations
-    public void addAdminStatusToUser(User user){
-        user.setRoleAdmin(true);
-    }
 
-    public void removeAdminStatusFromUser(User user) {
-        user.setRoleAdmin(false);
-    }
-    //#endregion Permission-Operations
+
 
     //#region Getter
     public Role getRole() {

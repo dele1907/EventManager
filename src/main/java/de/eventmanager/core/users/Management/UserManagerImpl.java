@@ -8,7 +8,6 @@ import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
-import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -89,13 +88,13 @@ public class UserManagerImpl implements UserManager {
 
     /**
      * <h3>Delete User</h3>
-     * {@code deleteUser()} accepts the userID of the user you want to delete.
+     * {@code deleteUser()} accepts the eMail of the user you want to delete.
      * @see UserDatabaseConnector UserManager
      */
 
 
     @Override
-    public boolean deleteUser(String userID, User loggedUser) {
+    public boolean deleteUser(String eMail, User loggedUser) {
         
         if (!loggedUser.getRole().equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_DELETE_USER);
@@ -103,7 +102,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        return UserDatabaseConnector.deleteUserByID(userID);
+        return UserDatabaseConnector.deleteUserByEmail(eMail);
     }
 
     @Override
@@ -293,17 +292,18 @@ public class UserManagerImpl implements UserManager {
 
     //#region Permission-Operations
 
+    @Override
     public void addAdminStatusToUser(User user){
         user.setRoleAdmin(true);
     }
 
+    @Override
     public void removeAdminStatusFromUser(User user) {
         user.setRoleAdmin(false);
     }
 
+    @Override
     public void addAdminStatusToUserByUserID(String userID, User loggedUser) {
-        
-
         if (!loggedUser.getRole().equals(Role.ADMIN)) {
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GIVE_ADMIN_STATUS);
 
@@ -312,7 +312,7 @@ public class UserManagerImpl implements UserManager {
 
         this.addAdminStatusToUser(UserDatabaseConnector.readUserByID(userID).get());
     }
-
+    @Override
     public void removeAdminStatusFromUserByUserID(String userID, User loggedUser) {
         
 
@@ -395,6 +395,5 @@ public class UserManagerImpl implements UserManager {
     }
     */
     //#endregion Registration & Authentication
-
 
 }

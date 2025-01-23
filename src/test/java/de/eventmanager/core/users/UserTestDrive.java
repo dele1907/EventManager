@@ -80,8 +80,7 @@ public class UserTestDrive {
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
-        String userID = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED, testAdminUser).get().getUserID(); //Eigentlich die editierte Email-Adresse, aber editUser funktioniert noch nicht
-        assertTrue(userManagerImpl.deleteUser(userID, testAdminUser));
+        assertTrue(userManagerImpl.deleteUser(TEST_USER_EMAIL_ADDRESS_EDITED, testAdminUser));
 
     }
     //#endregion CRUD-Operation-Tests
