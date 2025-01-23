@@ -18,14 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTestDrive {
 
-    User testUser = UserManager.readUserByID("GwQo2aW6AnTTv4KUe8t0").get(); //SoONY7IhPtVzCx1e0z18
+    User testUser = UserManager.readUserByID("5d3a1886-5837-45f6-8620-1ad04d8babeb").get();
 
     User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
-    PublicEvent publicEvent = EventManager.readPublicEventByID("61600b50-2d6d-4db9-83b6-1a71d46bfb73").get();
-    PrivateEvent privateEvent = EventManager.readPrivateEventByID("08e01d5b-6b63-43fb-b9e5-d548b26e6fb4").get();
+    PublicEvent publicEvent = EventManager.readPublicEventByID("b1a3e5ae-e23f-4c23-b857-f5867b5b4a89").get();
+    PrivateEvent privateEvent = EventManager.readPrivateEventByID("742e38fb-bbb4-49cc-b128-77df7100c766").get();
 
-    String temporaryEventID;
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
@@ -63,11 +62,11 @@ public class UserTestDrive {
     void editUserTest() {
 
         String userIDFromUserToEdit = testAdminUser.getUserByEmail(TEST_USER_EMAIL_ADDRESS).get().getUserID();
-        String firstName = "Markus";
+        String firstName = "Max";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
         String email = TEST_USER_EMAIL_ADDRESS_EDITED;
-        String password = "eventManager123";
+        String password = "password";
         String phoneNumber = "123456";
 
         testAdminUser.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber);
@@ -112,8 +111,8 @@ public class UserTestDrive {
 
         assertTrue(testAdminUser.editEvent(privateEventToEdit.getEventID(), "TestEventEdited", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
 
-        //assertTrue(testAdminUser.deleteEvent(privateEventToEdit.getEventID()));
-        //assertFalse(testAdminUser.deleteEvent(privateEventToEdit.getEventID())); //Check if the event is really deleted
+        assertTrue(testAdminUser.deleteEvent(privateEventToEdit.getEventID()));
+        assertFalse(testAdminUser.deleteEvent(privateEventToEdit.getEventID())); //Check if the event is really deleted
     }
 
     @Test
