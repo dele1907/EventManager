@@ -11,7 +11,9 @@ import helper.LoggerHelper;
 import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jooq.Log;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class User extends UserModel{
@@ -246,8 +248,7 @@ public class User extends UserModel{
     public boolean bookEvent(String eventID) {
         Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
-        if (publicEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(User.class, "Event not found");
+        if (!isEventExisting(publicEvent)) {
 
             return false;
         }
@@ -255,8 +256,8 @@ public class User extends UserModel{
         PublicEvent publicEventForBooking = publicEvent.get();
         publicEventForBooking.getBookedUsersOnEvent().add(this.getEMailAddress());
 
-        //Todo @Finn sobald DB integration für buchen existiert Methodenaufruf hinzufügen
-        System.out.println("Event booked successfully!");
+        EventManager.addBooking(eventID,this.userID);
+        LoggerHelper.logInfoMessage(User.class, "Event booked successfully!");
 
         return true;
     }
@@ -265,8 +266,7 @@ public class User extends UserModel{
     public boolean cancelEvent(String eventID) {
         Optional<? extends EventModel> OptionalEvent = EventManager.readEventByID(eventID);
 
-        if (OptionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(User.class, "Event not found");
+        if (!isEventExisting(OptionalEvent)) {
 
             return false;
         }
@@ -274,13 +274,41 @@ public class User extends UserModel{
         EventModel eventForCancel = OptionalEvent.get();
 
         if (!eventForCancel.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
-            System.out.println("You can only cancel events for which you are registered!");
+            LoggerHelper.logInfoMessage(User.class, "You can only cancel events for which you are registered!");
 
             return false;
         }
         eventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
-        //Todo @Finn sobald DB Integration für stornieren existiert, Methodenaufruf hinzufügen
-        System.out.println("Event cancelled successfully!");
+        EventManager.deleteBooking(eventID,this.getUserID());
+        LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
+
+        return true;
+    }
+
+    public String showAllEventParticipants(String eventID) {
+        Optional<?extends EventModel> optionalEvent = EventManager.readEventByID(eventID);
+        ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
+        if (!isEventExisting(optionalEvent)) {
+
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lastname, firstname\t eMailaddress\t phoneNumber\n\n");
+        for (int i = 0; i < participants.size(); i++) {
+            User user = getUserByEmail(participants.get(i)).get();
+            sb.append(user.getLastName() + ", " + user.getFirstName() + "\t" + user.getEMailAddress() + "\t" + user.getPhoneNumber() + "\n");
+        }
+
+        return sb.toString();
+    }
+
+    public boolean isEventExisting(Optional<? extends EventModel> event) {
+        if (event.isEmpty()) {
+            LoggerHelper.logErrorMessage(User.class, "Event not found");
+
+            return false;
+        }
 
         return true;
     }

@@ -101,6 +101,7 @@ public class UserTestDrive {
 
     @Test
     @Order(4)
+    @DisplayName("Edit Event Test")
     void editEventTest() {
 
         PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
@@ -115,6 +116,7 @@ public class UserTestDrive {
 
     @Test
     @Order(5)
+    @DisplayName("Book Event Test")
     void bookEventTest() {
 
         PublicEvent publicEvent = testAdminUser.createPublicEvent("publicTestEvent", "01/01/2021", "01/01/2021", "Test",
@@ -122,10 +124,33 @@ public class UserTestDrive {
         PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
                 "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
 
-        //assertTrue(testUser.bookEvent(publicEvent.getEventID()));
+        assertTrue(testUser.bookEvent(publicEvent.getEventID()));
         assertFalse(testUser.bookEvent(privateEvent.getEventID()));
-
+        //DB Clean
+        assertTrue(testAdminUser.deleteEvent(privateEvent.getEventID()));
+        assertFalse(testAdminUser.deleteEvent(publicEvent.getEventID()));
     }
+
+    @Test
+    @Order(6)
+    @DisplayName("Cancel Event Test")
+    void cancelEventTest() {
+        PublicEvent publicEvent = testAdminUser.createPublicEvent("publicTestEvent", "01/01/2021", "01/01/2021", "Test",
+                "12345", "Teststraße 1", "TestLocation", "TestDescription", 20).get();
+        PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
+                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
+
+        String notExistingEventID = "1234";
+
+        assertTrue(testUser.cancelEvent(privateEvent.getEventID()));
+        assertTrue(testUser.cancelEvent(privateEvent.getEventID()));
+        assertFalse(testUser.cancelEvent(notExistingEventID));
+
+        assertTrue(testAdminUser.deleteEvent(privateEvent.getEventID()));
+        assertFalse(testAdminUser.deleteEvent(publicEvent.getEventID()));
+    }
+
+
 
 }
 
