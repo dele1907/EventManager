@@ -178,9 +178,14 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
+        if (!EventDataBaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())) {
+
+            return false;
+        }
 
         if (!loggedUser.getRole().equals(Role.ADMIN)) {
-             return false;
+
+            return false;
         }
 
         EventModel eventToEdit = optionalEvent.get();
