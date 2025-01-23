@@ -1,11 +1,8 @@
 package de.eventmanager.core.events;
 
-import de.eventmanager.core.events.Management.EventManager;
 import helper.IDGenerationHelper;
-import helper.LoggerHelper;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class PublicEvent extends EventModel {
 
@@ -45,13 +42,14 @@ public class PublicEvent extends EventModel {
     }
 
     // Konstruktor für öffentliche Events aus DB
-    public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent,
+    public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, ArrayList<String> bookedUsersOnEvent,
                        String category, boolean privateEvent, String postalCode, String address, String eventLocation, String description, int maximumCapacity) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.numberOfBookedUsersOnEvent = numberOfBookedUsersOnEvent;
+        this.bookedUsersOnEvent = bookedUsersOnEvent;
         this.category = category;
         this.privateEvent = privateEvent;
         this.postalCode = postalCode;
@@ -63,24 +61,31 @@ public class PublicEvent extends EventModel {
 
     //#endregion constructors
 
-    //#region Getter
+    //#region getter
+
     public int getMaximumCapacity() {
         return maximumCapacity;
     }
+
     // #endregion Getter
 
-    //#region Setter
+    //#region setter
+
     public void setMaximumCapacity(int maximumCapacity) {
         this.maximumCapacity = maximumCapacity;
     }
-    // #endregion Setter
+
+    // #endregion setter
 
     //#region toString
+
     @Override
     public String toString() {
         return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
                 "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity + "\nPostal-Code: " + postalCode +
                 "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
     }
+
     //#endregion toString
+
 }
