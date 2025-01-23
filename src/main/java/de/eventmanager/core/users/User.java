@@ -256,12 +256,6 @@ public class User extends UserModel{
         publicEventForBooking.getBookedUsersOnEvent().add(this.getEMailAddress());
 
         //Todo @Finn sobald DB integration für buchen existiert Methodenaufruf hinzufügen
-
-        if (!publicEventForBooking.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
-            System.out.println("Event could not be booked!");
-
-            return false;
-        }
         System.out.println("Event booked successfully!");
 
         return true;
@@ -285,6 +279,7 @@ public class User extends UserModel{
             return false;
         }
         eventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
+        //Todo @Finn sobald DB Integration für stornieren existiert, Methodenaufruf hinzufügen
         System.out.println("Event cancelled successfully!");
 
         return true;
