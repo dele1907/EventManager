@@ -66,8 +66,8 @@ public class UserController {
 
     //#region CRUD-Operations
 
-    public boolean editUser(String userID) {
-        return userService.editUser(userID);
+    public boolean editUser(User user) {
+        return userService.editUser(user);
     }
 
     public boolean deleteUser(User user) {

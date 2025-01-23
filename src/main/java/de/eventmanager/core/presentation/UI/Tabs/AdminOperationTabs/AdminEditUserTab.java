@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
@@ -18,12 +19,12 @@ public class AdminEditUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayMessage("\n===== Edit User Tab =====");
+        textView.displayTabOrPageHeading("\n===== Edit User Tab =====");
 
         Optional<User> userOptional = showFindUser();
 
         if (userOptional.isEmpty()) {
-            textView.displayErrorMessage("\nUser not found.\n");
+            textView.displayErrorMessage(DefaultMessagesHelper.USER_NOT_FOUND);
 
             return;
         }
@@ -31,7 +32,7 @@ public class AdminEditUserTab implements Tab {
         User user = userOptional.get();
 
         showEditUserDialog(user);
-        userController.editUser(user.getUserID());
+        userController.editUser(user);
         textView.displaySuccessMessage("\nUser details updated successfully!");
     }
 

@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean editUser(String userID) {
-        return UserManager.updateUser(UserManager.readUserByID(userID).get());
+    public boolean editUser(User user) {
+        return UserManager.updateUser(user);
     }
 
     @Override
