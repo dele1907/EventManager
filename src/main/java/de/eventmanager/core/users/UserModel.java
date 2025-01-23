@@ -4,6 +4,7 @@ package de.eventmanager.core.users;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.events.PrivateEvent;
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 
 import java.util.Optional;
@@ -18,7 +19,7 @@ public abstract class UserModel {
     String phoneNumber;
     Role role;
 
-    //#region CRUD-Operations
+    //#region User related CRUD-Operations
 
     public abstract boolean createNewUser(
             String firstName,
@@ -41,17 +42,7 @@ public abstract class UserModel {
 
     public abstract Optional<User> getUserByEmail(String eMailAddress);
 
-    public abstract Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
-                                                              String address, String eventLocation, String description);
-    public abstract Optional<EventModel> createPublicEvent(String eventName, String eventStart, String eventEnd, String category,String postalCode,
-                                                           String address, String eventLocation, String description, int maxParticipants);
 
-    public abstract boolean editEvent(String eventID, String eventName,
-                                      String eventStart, String eventEnd, String category,
-                                      String postalCode, String address, String eventLocation,
-                                      String description);
-
-    public abstract boolean deleteEvent(String eventID);
 
     public String[] showUserIDsByEventID(String eventID) {
         return null;
@@ -65,11 +56,25 @@ public abstract class UserModel {
         return null;
     };
 
-    //#endregion Crud-Operations
+    //#endregion User related Crud-Operations
 
     //#region Event-Operations
 
-    public void bookEvent(String eventID) {}
+    public abstract Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+                                                              String address, String eventLocation, String description);
+    public abstract Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+                                                            String address, String eventLocation, String description, int maxParticipants);
+
+    public abstract boolean editEvent(String eventID, String eventName,
+                                      String eventStart, String eventEnd, String category,
+                                      String postalCode, String address, String eventLocation,
+                                      String description);
+
+    public abstract boolean deleteEvent(String eventID);
+
+    public abstract boolean bookEvent(String eventID);
+
+    public abstract boolean cancelEvent(String eventID);
 
     public void addUserToEvent(String userID, String eventID) {}
 

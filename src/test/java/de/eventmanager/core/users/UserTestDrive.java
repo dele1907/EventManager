@@ -4,8 +4,10 @@ package de.eventmanager.core.users;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.Management.EventManager;
 import de.eventmanager.core.events.PrivateEvent;
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
+import jdk.jfr.Event;
 import org.junit.jupiter.api.*;
 
 import java.util.Optional;
@@ -19,10 +21,14 @@ public class UserTestDrive {
 
     User testAdminUser = UserManager.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
-    User system = new User("System", "", "", "", "goodPassword", "0", true);
+
+
+
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
+
+
 
     //#region CRUD-Operation-Tests
 
@@ -58,8 +64,7 @@ public class UserTestDrive {
         String firstName = "Markus";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
-        String email = TEST_USER_EMAIL_ADDRESS_EDITED; //erst wenn editUser funktioniert
-        //String email = TEST_USER_EMAIL_ADDRESS;
+        String email = TEST_USER_EMAIL_ADDRESS_EDITED;
         String password = "eventManager123";
         String phoneNumber = "123456";
 
@@ -70,7 +75,7 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(4)
+    @Order(7)
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
@@ -81,7 +86,6 @@ public class UserTestDrive {
     //#endregion CRUD-Operation-Tests
 
     //#region Permission Tests
-    //Todo @Finn @Timo ! entfernen sobald nicht mehr mit DummyUsern gearbeitet/getestet wird
     @Test
     @Order(3)
     @DisplayName("Add&Remove AdminStatus Test")
@@ -96,13 +100,31 @@ public class UserTestDrive {
     //#endregion Permission Tests
 
     @Test
-    void testEditEvent() {
-        PrivateEvent event = testAdminUser.createPrivateEvent("TestEvent", "01/01/2021", "01/01/2021", "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
+    @Order(4)
+    void editEventTest() {
 
-        assertTrue(testAdminUser.editEvent(event.getEventID(), "TestEvent", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
+        PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
+                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
 
-        assertTrue(testAdminUser.deleteEvent(event.getEventID()));
-        assertFalse(testAdminUser.deleteEvent(event.getEventID()));
+
+        assertTrue(testAdminUser.editEvent(privateEvent.getEventID(), "TestEvent", "01/01/2021", "01/01/2021", "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1"));
+
+        assertTrue(testAdminUser.deleteEvent(privateEvent.getEventID()));
+        assertFalse(testAdminUser.deleteEvent(privateEvent.getEventID())); //Check if the event is really deleted
+    }
+
+    @Test
+    @Order(5)
+    void bookEventTest() {
+
+        PublicEvent publicEvent = testAdminUser.createPublicEvent("publicTestEvent", "01/01/2021", "01/01/2021", "Test",
+                "12345", "Teststraße 1", "TestLocation", "TestDescription", 20).get();
+        PrivateEvent privateEvent = testAdminUser.createPrivateEvent("privateTestEvent", "01/01/2021", "01/01/2021",
+                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription").get();
+
+        //assertTrue(testUser.bookEvent(publicEvent.getEventID()));
+        assertFalse(testUser.bookEvent(privateEvent.getEventID()));
+
     }
 
 }

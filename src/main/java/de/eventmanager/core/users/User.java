@@ -189,15 +189,14 @@ public class User extends UserModel{
     }
 
     @Override
-    public Optional<EventModel> createPublicEvent(String eventName, String eventStart, String eventEnd, String category,
+    public Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category,
                                                   String postalCode, String address, String eventLocation, String description, int maxParticipants) {
-        EventModel event;
 
         if (maxParticipants == 0) {
             maxParticipants = -1;
         }
 
-        event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description, maxParticipants);
+        PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description, maxParticipants);
         EventManager.createNewEvent(event);
         EventManager.addUserCreatedEvent(event.getEventID(), this.userID);
 
@@ -209,6 +208,7 @@ public class User extends UserModel{
          String eventStart, String eventEnd, String category,
          String postalCode, String address, String eventLocation, String description
     ) {
+
         Optional<PrivateEvent> privateEvent = EventManager.readPrivateEventByID(eventID);
 
         if (privateEvent.isEmpty()) {
@@ -234,9 +234,42 @@ public class User extends UserModel{
         return true;
     }
 
+
+
+
     @Override
     public boolean deleteEvent(String eventID) {
        return EventManager.deleteEventByID(eventID);
+    }
+
+    @Override
+    public boolean bookEvent(String eventID) {
+        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID("f5f17ea3-d7e5-4122-8644-861c5f501c09");
+
+        if (publicEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(User.class, "Event not found");
+
+            return false;
+        }
+
+        PublicEvent publicEventForBooking = publicEvent.get();
+        publicEventForBooking.getBookedUsersOnEvent().add(this.getEMailAddress());
+
+        //Todo @Finn sobald DB integration für buchen existiert Methodenaufruf hinzufügen
+
+        if (!publicEventForBooking.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
+            System.out.println("Event could not be booked!");
+
+            return false;
+        }
+        System.out.println("Event booked successfully!");
+
+        return true;
+    }
+
+    @Override
+    public boolean cancelEvent(String eventID) {
+        return false;
     }
 
     //#endregion Event related CRUD-Operations

@@ -10,7 +10,7 @@ public abstract class EventModel {
     String eventStart;
     String eventEnd;
     int numberOfBookedUsersOnEvent = 0;
-    ArrayList<String> bookedUsersOnEvent = null;
+    ArrayList<String> bookedUsersOnEvent = new ArrayList<>();
     String category;
     boolean privateEvent;
     String description;
@@ -18,38 +18,6 @@ public abstract class EventModel {
     String address;
     String eventLocation;
 
-    /*
-    //#region CRUD-Operationen
-    public abstract boolean createNewEvent(
-            String eventName,
-            String eventStart,
-            String eventEnd,
-            String category,
-            String postalCode,
-            String address,
-            String eventLocation,
-            String description
-    );
-
-    public abstract Optional<? extends EventModel> getEventByID(String eventID);
-
-    public abstract void editEvent(
-            String eventID,
-            String eventName,
-            String eventStart,
-            String eventEnd,
-            ArrayList<String> bookedUsersOnEvent,
-            String category,
-            String postalCode,
-            String address,
-            String eventLocation,
-            String description
-    );
-
-    public abstract boolean deleteEvent(String eventID);
-
-    //#endregion CRUD-Operationen
-    */
 
     //#region getter
 
