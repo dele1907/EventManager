@@ -44,8 +44,8 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
-        textView.displayMessage("\n===== Main Menu =====");
-        textView.displayMessage("\n1. Settings\n2. Event Operations\n3. Logout\n4. Logout and Exit Program");
+        textView.displayTabOrPageHeading("\n===== Main Menu =====");
+        textView.displayMessage("1. Settings\n2. Event Operations\n3. Logout\n4. Logout and Exit Program");
 
         if (menuType == MenuType.ADMIN) {
             textView.displayMessage("\n5. Admin Operations");

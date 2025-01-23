@@ -24,8 +24,8 @@ public class AdminOperationsTab implements Tab {
         
         while (adminIsActive) {
             //Review @Dennis: Create on call for choices
-            textView.displayMessage("\n====== Admin Operations ======");
-            textView.displayMessage("\n1. Edit user");
+            textView.displayTabOrPageHeading("\n====== Admin Operations ======");
+            textView.displayMessage("1. Edit user");
             textView.displayMessage("\n2. Delete user");
             textView.displayMessage("\n3. Create new user");
             textView.displayMessage("\n4. Back to main menu");

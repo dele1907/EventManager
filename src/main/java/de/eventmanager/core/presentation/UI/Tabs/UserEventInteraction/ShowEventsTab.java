@@ -23,10 +23,10 @@ public class ShowEventsTab implements Tab{
         while (eventSearchingIsActive) {
             textView.displayTabOrPageHeading("\n===== ShowEventsTab =====");
             textView.displayMessage(
-                    "\n1. Search by Name " +
+                    "1. Search by Name " +
                     "\n2. Search by Location " +
                     "\n3. Search by City " +
-                    "\n4. Go Back to Main Menu"
+                    "\n4. Back to Event Operations"
             );
 
             textView.displayMessage("\nChoose an option: ");

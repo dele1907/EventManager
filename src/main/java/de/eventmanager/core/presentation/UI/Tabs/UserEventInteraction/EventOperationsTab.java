@@ -24,7 +24,7 @@ public class EventOperationsTab implements Tab {
             textView.displayTabOrPageHeading("\n===== EventOperationsTab =====");
 
             textView.displayMessage(
-                    "\n1. Create Event" +
+                    "1. Create Event" +
                     "\n2. Show Events" +
                     "\n3. Back to main menu" +
                     "\nChoose a Option: "

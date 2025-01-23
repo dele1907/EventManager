@@ -37,7 +37,7 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void displayUserDetails(User user) {
-        textView.displayMessage("\nCurrent user details:");
+        textView.displayMessage("Current user details:");
         textView.displayMessage("\nFirst Name: " + user.getFirstName());
         textView.displayMessage("\nLast Name: " + user.getLastName());
         textView.displayMessage("\nEmail Address: " + user.getEMailAddress());

@@ -17,8 +17,8 @@ public class AdminDeleteUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayTabOrPageHeading("\n===== Delete User Tab ======s");
-        textView.displayMessage("\nEnter the email of the user to delete: ");
+        textView.displayTabOrPageHeading("\n===== Delete User Tab ======");
+        textView.displayMessage("Enter the email of the user to delete: ");
         String email = textView.getUserInput();
         User user = userController.getUserByEmail(email).get();
 

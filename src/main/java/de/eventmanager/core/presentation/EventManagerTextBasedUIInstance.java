@@ -31,12 +31,13 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         boolean programIsRunning = true;
         boolean adminInDatabase = userService.getAdminUserIsPresentInDatabase();
 
+
+        if (!adminInDatabase) {
+            adminUserStartupRegistrationPage.start();
+        }
+
         while (programIsRunning) {
             try {
-                if (adminInDatabase) {
-                    adminUserStartupRegistrationPage.start();
-                }
-
                 loginRegistrationPage.start();
                 loggedInUser = loginRegistrationPage.getLoggedInUser();
 
