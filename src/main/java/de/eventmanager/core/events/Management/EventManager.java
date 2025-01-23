@@ -550,7 +550,7 @@ public class EventManager {
     /**
      * Return a list of user email addresses
      * */
-    public static List<String> getBookedUsersOnEvent(String eventID) {
+    public static ArrayList<String> getBookedUsersOnEvent(String eventID) {
         ArrayList<String> bookedUsers = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
