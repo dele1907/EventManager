@@ -244,7 +244,7 @@ public class User extends UserModel{
 
     @Override
     public boolean bookEvent(String eventID) {
-        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID("f5f17ea3-d7e5-4122-8644-861c5f501c09");
+        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
 
         if (publicEvent.isEmpty()) {
             LoggerHelper.logErrorMessage(User.class, "Event not found");
@@ -269,7 +269,25 @@ public class User extends UserModel{
 
     @Override
     public boolean cancelEvent(String eventID) {
-        return false;
+        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
+
+        if (publicEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(User.class, "Event not found");
+
+            return false;
+        }
+
+        PublicEvent publicEventForCancel = publicEvent.get();
+
+        if (!publicEventForCancel.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
+            System.out.println("You can only cancel events for which you are registered!");
+
+            return false;
+        }
+        publicEventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
+        System.out.println("Event cancelled successfully!");
+
+        return true;
     }
 
     //#endregion Event related CRUD-Operations
