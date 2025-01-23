@@ -269,22 +269,22 @@ public class User extends UserModel{
 
     @Override
     public boolean cancelEvent(String eventID) {
-        Optional<PublicEvent> publicEvent = EventManager.readPublicEventByID(eventID);
+        Optional<? extends EventModel> OptionalEvent = EventManager.readEventByID(eventID);
 
-        if (publicEvent.isEmpty()) {
+        if (OptionalEvent.isEmpty()) {
             LoggerHelper.logErrorMessage(User.class, "Event not found");
 
             return false;
         }
 
-        PublicEvent publicEventForCancel = publicEvent.get();
+        EventModel eventForCancel = OptionalEvent.get();
 
-        if (!publicEventForCancel.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
+        if (!eventForCancel.getBookedUsersOnEvent().contains(this.getEMailAddress())) {
             System.out.println("You can only cancel events for which you are registered!");
 
             return false;
         }
-        publicEventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
+        eventForCancel.getBookedUsersOnEvent().remove(this.getEMailAddress());
         System.out.println("Event cancelled successfully!");
 
         return true;
