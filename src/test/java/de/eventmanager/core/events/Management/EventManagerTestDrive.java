@@ -197,27 +197,26 @@ public class EventManagerTestDrive {
      * Test relation on booking
      * */
     @Test
-    @Order(5)
+    @Order(6)
     public void testAddAndDeleteBooking() {
 
-        skipSetUp = true;
-        skipCleanUp = true;
+        EventManager.createNewEvent(testPrivateEvent);
+        EventManager.createNewEvent(testPublicEvent);
 
-        boolean testAddBooking = EventManager.addBooking("testEventID", "testCreatorID");
+        boolean testAddBooking = EventManager.addBooking("testPublicEventID", "testCreatorID");
 
         assertTrue(testAddBooking, "Adding user to booked event failed but should not.");
 
-        boolean testDeleteBooking = EventManager.deleteBooking("testEventID", "testCreatorID");
+        boolean testDeleteBooking = EventManager.deleteBooking("testPublicEventID", "testCreatorID");
 
         assertTrue(testDeleteBooking, "Adding user to booked event failed but should not.");
-
     }
 
     /**
      * Test relation on booking
      * */
     @Test
-    @Order(6)
+    @Order(7)
     public void getBookedUsersOnEvent() {
 
         skipSetUp = true;
@@ -229,22 +228,38 @@ public class EventManagerTestDrive {
         UserManager.createNewUser(testUser1);
         UserManager.createNewUser(testUser2);
 
-        EventManager.addBooking("testEventID", "testBookingUserID1");
-        EventManager.addBooking("testEventID", "testBookingUserID2");
+        EventManager.createNewEvent(testPrivateEvent);
+        EventManager.createNewEvent(testPublicEvent);
 
-        ArrayList<String> bookedTestUsers = EventManager.getBookedUsersOnEvent("testEventID");
+        EventManager.addBooking("testPublicEventID", "testBookingUserID1");
+        EventManager.addBooking("testPublicEventID", "testBookingUserID2");
+
+        ArrayList<String> bookedTestUsers = EventManager.getBookedUsersOnEvent("testPublicEventID");
         ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
         expectedBookedTestUsers.add("peter.bookman@testmail.com");
         expectedBookedTestUsers.add("herbert.bookson@testmail.com");
 
+        // test of user list
         assertEquals(expectedBookedTestUsers, bookedTestUsers);
+
+        int numberOfBookedUsers = EventManager.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
+
+        // test of user number after booking
+        assertEquals(2, numberOfBookedUsers);
+
+        EventManager.deleteBooking("testPublicEventID", "testBookingUserID1");
+        EventManager.deleteBooking("testPublicEventID", "testBookingUserID2");
+
+        int newNumberOfBookedUsers = EventManager.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
+
+        // test of user number after delete booking
+        assertEquals(0, newNumberOfBookedUsers);
+
+        EventManager.deleteEventByID("testPrivateEventID");
+        EventManager.deleteEventByID("testPublicEventID");
 
         UserManager.deleteUserByID("testBookingUserID1");
         UserManager.deleteUserByID("testBookingUserID2");
-
-        EventManager.deleteBooking("testEventID", "testBookingUserID1");
-        EventManager.deleteBooking("testEventID", "testBookingUserID2");
-
     }
 
 }
