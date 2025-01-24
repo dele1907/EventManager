@@ -1,5 +1,9 @@
 package de.eventmanager.core.presentation;
 
+import de.eventmanager.core.database.Communication.DatabaseConnector;
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.ProductiveDatabaseConnector;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
@@ -11,9 +15,11 @@ import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
-import helper.LoggerHelper;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static View textView = new TextView();
@@ -24,13 +30,15 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static LoginRegistrationPage loginRegistrationPage = new LoginRegistrationPage(textView, userController);
     private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage = new AdminUserStartupRegistrationPage(textView, userController);
 
-
     public void startEventManagerInstance() {
-        initDatabase();
+        boolean isProductiveSystem = false;
+
+        if (isProductiveSystem) {
+            initDatabase();
+        }
 
         boolean programIsRunning = true;
         boolean adminInDatabase = userService.getAdminUserIsPresentInDatabase();
-
 
         if (!adminInDatabase) {
             adminUserStartupRegistrationPage.start();
@@ -51,10 +59,23 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         }
     }
 
+    @Override
     public void initDatabase() {
-        /**
-         * TODO init database
-         * */
-        LoggerHelper.logInfoMessage(EventManagerTextBasedUIInstance.class, "Database initialized");
+        String databasePath = DatabasePathManager.loadDatabasePath();
+        if (databasePath.isEmpty() || !DatabasePathManager.isValidPath(databasePath)) {
+            System.out.println("Please provide a valid database path:");
+            databasePath = new Scanner(System.in).nextLine();
+            DatabasePathManager.saveDatabasePath(databasePath);
+        }
+
+        ProductiveDatabaseConnector.setDatabasePath(databasePath);
+        try (Connection conn = ProductiveDatabaseConnector.connect()) {
+            if (conn != null) {
+                DatabaseInitializer.initialize(conn);
+                System.out.println("Database initialized at: " + databasePath);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
