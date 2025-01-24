@@ -24,13 +24,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerAdminUser(String firstName, String lastName, String dateOfBirth, String email, String phoneNumber, String password, String passwordConfirmation, boolean isAdmin) {
+    public boolean registerAdminUser(String firstName, String lastName, String dateOfBirth, String email,
+            String phoneNumber, String password, String passwordConfirmation, String loggedUserID) {
 
-        if (!UserDatabaseConnector.isValidRegistrationPassword(password, passwordConfirmation)) {
+        if (!userManagerImpl.isValidRegistrationPassword(password, passwordConfirmation)) {
             return false;
         }
 
-        return UserDatabaseConnector.createNewUser(new User(firstName, lastName, dateOfBirth, email, password, phoneNumber, isAdmin));
+        return userManagerImpl.createNewUser(firstName, lastName, dateOfBirth, email, password, phoneNumber,
+                true, loggedUserID);
     }
 
     @Override

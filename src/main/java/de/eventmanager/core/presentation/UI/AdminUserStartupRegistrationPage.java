@@ -3,6 +3,7 @@ package de.eventmanager.core.presentation.UI;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
+import helper.ConfigurationDataSupplierHelper;
 
 public class AdminUserStartupRegistrationPage implements Tab {
     private View textView;
@@ -53,7 +54,7 @@ public class AdminUserStartupRegistrationPage implements Tab {
                 userInputs[3], userInputs[4], userInputs[5], userInputs[6]
         );
 
-        userController.createNewAdminUser(userRegistrationData, true);
+        userController.createNewAdminUser(userRegistrationData, ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID);
     }
 
     private String getUserInput(String prompt) {
@@ -63,13 +64,13 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
     private String[] getPromptsForDialogs() {
          String[] dialogPrompts = {
-                 "Enter first name \n(leave blank to cancel Account creation): ",
-                 "Enter last name \n(leave blank to cancel Account creation): ",
-                 "Enter date of birth \n(leave blank to cancel Account creation): ",
-                 "Enter email \n(leave blank to cancel Account creation): ",
-                 "Enter phone number \n(leave blank to cancel Account creation): ",
-                 "Enter password \n(leave blank to cancel Account creation): ",
-                 "Confirm password \n(leave blank to cancel Account creation): "
+                 "\n Enter first name (leave blank to cancel Account creation)\n > ",
+                 " Enter last name (leave blank to cancel Account creation)\n > ",
+                 " Enter date of birth (leave blank to cancel Account creation)\n > ",
+                 " Enter email (leave blank to cancel Account creation)\n > ",
+                 " Enter phone number (leave blank to cancel Account creation)\n > ",
+                 " Enter password (leave blank to cancel Account creation)\n > ",
+                 " Confirm password (leave blank to cancel Account creation)\n > "
          };
 
         return dialogPrompts;

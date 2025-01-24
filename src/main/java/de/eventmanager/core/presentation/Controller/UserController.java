@@ -39,7 +39,7 @@ public class UserController {
         return true;
     }
 
-    public boolean createNewAdminUser(UserRegistrationData userRegistrationData, boolean isAdmin) {
+    public boolean createNewAdminUser(UserRegistrationData userRegistrationData, String loggedInUserUserID) {
 
         boolean successfullyRegistered = userService.registerAdminUser(
                 userRegistrationData.getFirstName(),
@@ -49,7 +49,7 @@ public class UserController {
                 userRegistrationData.getPhoneNumber(),
                 userRegistrationData.getPassword(),
                 userRegistrationData.getConfirmPassword(),
-                isAdmin
+                loggedInUserUserID
         );
 
         if (!successfullyRegistered) {
