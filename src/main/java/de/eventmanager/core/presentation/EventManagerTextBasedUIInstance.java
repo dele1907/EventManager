@@ -14,6 +14,7 @@ import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
+import helper.ConfigurationDataSupplierHelper;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,7 +31,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage;
 
     public void startEventManagerInstance() {
-        boolean isProductiveSystem = false;
+        boolean isProductiveSystem = ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE;
         //@TODO: remove flush before release
         boolean flushDatabasePathAfterTest = true && isProductiveSystem;
 
