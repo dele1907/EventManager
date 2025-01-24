@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
@@ -11,17 +12,21 @@ public class MainMenuTab implements Tab {
     private User loggedInUser;
     private LoginRegistrationPage loginRegistrationPage;
     private UserController userController;
+    //@TODO: remove flush before release
+    private  boolean flushTestDatabase;
 
     private enum MenuType {
         ADMIN,
         NON_ADMIN
     }
 
-    public MainMenuTab(View textView, User loggedInUser, LoginRegistrationPage loginRegistrationPage, UserController userController) {
+    public MainMenuTab(View textView, User loggedInUser, LoginRegistrationPage loginRegistrationPage, UserController userController, boolean flushTestDatabase) {
         this.textView = textView;
         this.loggedInUser = loggedInUser;
         this.loginRegistrationPage = loginRegistrationPage;
         this.userController = userController;
+        //@TODO: remove flush before release
+        this.flushTestDatabase = flushTestDatabase;
     }
 
     @Override
@@ -100,6 +105,8 @@ public class MainMenuTab implements Tab {
         addDelay(2);
 
         textView.displayMessage("\nExiting Program...\n");
+        //@TODO: remove flush before release
+        DatabasePathManager.flushDatabasePath(flushTestDatabase);
         System.exit(0);
     }
 

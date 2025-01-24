@@ -3,7 +3,6 @@ package de.eventmanager.core.presentation;
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
-import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.ProductiveDatabaseConnector;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
@@ -27,12 +26,15 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static EventService eventService = new EventServiceImpl();
     private static UserController userController = new UserController(userService, eventService);
     private static Optional<User> loggedInUser;
-    private static LoginRegistrationPage loginRegistrationPage = new LoginRegistrationPage(textView, userController);
-    private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage = new AdminUserStartupRegistrationPage(textView, userController);
+    private static LoginRegistrationPage loginRegistrationPage;
+    private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage;
 
     public void startEventManagerInstance() {
-        boolean isProductiveSystem = false;
-        boolean flushDatabasePathAfterTest = true;
+        boolean isProductiveSystem = true;
+        //@TODO: remove flush before release
+        boolean flushDatabasePathAfterTest = true && isProductiveSystem;
+
+        initPages(flushDatabasePathAfterTest);
 
         initDatabase(isProductiveSystem);
 
@@ -49,7 +51,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
                 loggedInUser = loginRegistrationPage.getLoggedInUser();
 
                 if (loggedInUser.isPresent()) {
-                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginRegistrationPage, userController);
+                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginRegistrationPage, userController, flushDatabasePathAfterTest);
                     mainMenuTab.start();
                 }
             } catch (Exception e) {
@@ -76,5 +78,10 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initPages(boolean flushDatabasePathAfterTest) {
+        loginRegistrationPage = new LoginRegistrationPage(textView, userController, flushDatabasePathAfterTest);
+        adminUserStartupRegistrationPage = new AdminUserStartupRegistrationPage(textView, userController);
     }
 }

@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
@@ -12,10 +13,14 @@ public class LoginRegistrationPage implements Tab {
     private View textView;
     private UserController userController;
     private Optional<User> loggedInUser;
+    //@TODO: remove flush before release
+    private boolean flushTestDatabase;
 
-    public LoginRegistrationPage(View textView, UserController userController) {
+    public LoginRegistrationPage(View textView, UserController userController, boolean flushTestDatabase) {
         this.textView = textView;
         this.userController = userController;
+        //@TODO: remove flush before release
+        this.flushTestDatabase = flushTestDatabase;
     }
 
     @Override
@@ -41,6 +46,9 @@ public class LoginRegistrationPage implements Tab {
                 case "3":
                     textView.displayMessage("\nExit Program...");
                     programIsRunning = false;
+
+                    //@TODO: remove flush before release
+                    DatabasePathManager.flushDatabasePath(flushTestDatabase);
                     System.exit(0);
                     break;
                 default:
