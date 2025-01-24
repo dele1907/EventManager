@@ -5,7 +5,11 @@ import java.io.*;
 public class DatabasePathManager {
     private static final String PATH_FILE = "database_path.txt";
 
-    public static String loadDatabasePath() {
+    public static String loadDatabasePath(boolean isProductiveSystem) {
+        if (!isProductiveSystem) {
+            return "src/main/resources/eventmanager.sqlite";
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH_FILE))) {
             String path = reader.readLine();
             return (path != null) ? path : "";
@@ -14,7 +18,11 @@ public class DatabasePathManager {
         }
     }
 
-    public static void saveDatabasePath(String path) {
+    public static void saveDatabasePath(String path, boolean isProductiveSystem) {
+        if (!isProductiveSystem) {
+            return;
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_FILE))) {
             writer.write(path);
         } catch (IOException e) {
@@ -22,7 +30,11 @@ public class DatabasePathManager {
         }
     }
 
-    public static boolean isValidPath(String path) {
+    public static boolean isValidPath(String path, boolean isProductiveSystem) {
+        if (!isProductiveSystem) {
+            return true;
+        }
+
         File file = new File(path);
         return file.exists() || file.getParentFile().canWrite();
     }

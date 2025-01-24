@@ -8,22 +8,23 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    private static final String databaseUrl = "jdbc:sqlite:src/main/resources/eventmanager.sqlite";
+    private static String databasePath = "";
 
-    private static final String CONNECTION_ESTABLISHED = "Connection to SQLite established";
-    private static final String CONNECTION_NOT_ESTABLISHED = "Error establishing connection: ";
+    public static void setDatabasePath(String path) {
+        databasePath = path;
+    }
+
+    public static String getDatabasePath() {
+        return databasePath;
+    }
 
     public static Connection connect() {
-
-        Connection connection = null;
-
         try {
-            connection = DriverManager.getConnection(databaseUrl);
+            return DriverManager.getConnection("jdbc:sqlite:" + databasePath);
         } catch (SQLException e) {
-            LoggerHelper.logErrorMessage(DatabaseConnector.class, CONNECTION_NOT_ESTABLISHED + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
-
-        return connection;
     }
 
 }

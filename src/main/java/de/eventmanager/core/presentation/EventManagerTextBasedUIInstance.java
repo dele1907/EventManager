@@ -33,9 +33,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     public void startEventManagerInstance() {
         boolean isProductiveSystem = false;
 
-        if (isProductiveSystem) {
-            initDatabase();
-        }
+        initDatabase(isProductiveSystem);
 
         boolean programIsRunning = true;
         boolean adminInDatabase = userService.getAdminUserIsPresentInDatabase();
@@ -60,16 +58,16 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     }
 
     @Override
-    public void initDatabase() {
-        String databasePath = DatabasePathManager.loadDatabasePath();
-        if (databasePath.isEmpty() || !DatabasePathManager.isValidPath(databasePath)) {
+    public void initDatabase(boolean isProductiveSystem) {
+        String databasePath = DatabasePathManager.loadDatabasePath(isProductiveSystem);
+        if (databasePath.isEmpty() || !DatabasePathManager.isValidPath(databasePath, isProductiveSystem)) {
             System.out.println("Please provide a valid database path:");
             databasePath = new Scanner(System.in).nextLine();
-            DatabasePathManager.saveDatabasePath(databasePath);
+            DatabasePathManager.saveDatabasePath(databasePath, isProductiveSystem);
         }
 
-        ProductiveDatabaseConnector.setDatabasePath(databasePath);
-        try (Connection conn = ProductiveDatabaseConnector.connect()) {
+        DatabaseConnector.setDatabasePath(databasePath);
+        try (Connection conn = DatabaseConnector.connect()) {
             if (conn != null) {
                 DatabaseInitializer.initialize(conn);
                 System.out.println("Database initialized at: " + databasePath);
