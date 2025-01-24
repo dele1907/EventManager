@@ -20,9 +20,9 @@ public class AdminUserStartupRegistrationPage implements Tab {
         textView.displayTabOrPageHeading("\n===== Admin User Startup Registration Page ======");
         textView.displayMessage(
                 "There is no admin user present for your system." +
-                "\nWould you like to create one?" +
-                "\n\nType 'yes' to create an admin user or 'no' to exit: "
+                "\nWould you like to create one?"
         );
+        textView.displayUserInputMessage("\n\nType 'yes' to create an admin user or 'no' to exit\n> ");
         String choice = textView.getUserInput();
 
         if ("yes".equals(choice.toLowerCase())) {
@@ -58,19 +58,19 @@ public class AdminUserStartupRegistrationPage implements Tab {
     }
 
     private String getUserInput(String prompt) {
-        textView.displayMessage(prompt);
+        textView.displayUserInputMessage(prompt);
         return textView.getUserInput();
     }
 
     private String[] getPromptsForDialogs() {
          String[] dialogPrompts = {
-                 "\n Enter first name (leave blank to cancel Account creation)\n > ",
-                 " Enter last name (leave blank to cancel Account creation)\n > ",
-                 " Enter date of birth (leave blank to cancel Account creation)\n > ",
-                 " Enter email (leave blank to cancel Account creation)\n > ",
-                 " Enter phone number (leave blank to cancel Account creation)\n > ",
-                 " Enter password (leave blank to cancel Account creation)\n > ",
-                 " Confirm password (leave blank to cancel Account creation)\n > "
+                 "\nEnter first name (leave blank to cancel Account creation)\n> ",
+                 "Enter last name (leave blank to cancel Account creation)\n> ",
+                 "Enter date of birth (leave blank to cancel Account creation)\n> ",
+                 "Enter email (leave blank to cancel Account creation)\n> ",
+                 "Enter phone number (leave blank to cancel Account creation)\n> ",
+                 "Enter password (leave blank to cancel Account creation)\n> ",
+                 "Confirm password (leave blank to cancel Account creation)\n> "
          };
 
         return dialogPrompts;

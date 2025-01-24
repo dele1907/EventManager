@@ -31,7 +31,7 @@ public class LoginRegistrationPage implements Tab {
         while (programIsRunning) {
             textView.displayTabOrPageHeading("\n===== EventManager =====");
             textView.displayMessage("1. Register\n2. Login\n3. Exit Program");
-            textView.displayMessage("\nChoose an option: ");
+            textView.displayUserInputMessage("\n\nChoose an option\n> ");
             String choice = textView.getUserInput();
 
             switch (choice) {
@@ -104,9 +104,11 @@ public class LoginRegistrationPage implements Tab {
     }
 
     public Optional<User> showLoginUserDialog() {
-        textView.displayMessage("\n===== Login ======\nEnter eMail: ");
+        textView.displayTabOrPageHeading("\n===== Login ======");
+        textView.displayUserInputMessage("Enter eMail\n> ");
         String eMail = textView.getUserInput();
-        textView.displayMessage("Enter password: ");
+
+        textView.displayUserInputMessage("\nEnter password\n> ");
         String password = textView.getUserInput();
 
         if (eMail.isEmpty() || password.isEmpty()) {
@@ -122,7 +124,7 @@ public class LoginRegistrationPage implements Tab {
 
     private Optional<User> validateLoginUser(Optional<User> loginUser) {
         if (loginUser.isEmpty()) {
-            textView.displayErrorMessage("\nWrong eMail or password! Please try again.\n");
+            textView.displayErrorMessage("\nWrong eMail or password! \nPlease try again.\n");
 
             return Optional.empty();
         }

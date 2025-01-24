@@ -69,7 +69,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     public void initDatabase(boolean isProductiveSystem) {
         String databasePath = DatabasePathManager.loadDatabasePath(isProductiveSystem);
         if (databasePath.isEmpty() || !DatabasePathManager.isValidPath(databasePath, isProductiveSystem)) {
-            System.out.println("Please provide a valid database path:");
+            textView.displayUserInputMessage("\nPlease provide a valid database path\n> ");
             databasePath = new Scanner(System.in).nextLine();
             DatabasePathManager.saveDatabasePath(databasePath, isProductiveSystem);
         }
@@ -78,7 +78,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         try (Connection conn = DatabaseConnector.connect()) {
             if (conn != null) {
                 DatabaseInitializer.initialize(conn);
-                System.out.println("Database initialized at: " + databasePath);
+                textView.displaySuccessMessage("\nDatabase initialized at: " + databasePath + "\n");
             }
         } catch (SQLException e) {
             e.printStackTrace();

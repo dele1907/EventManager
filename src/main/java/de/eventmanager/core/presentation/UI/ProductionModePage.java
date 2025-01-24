@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI;
 
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import helper.ConfigurationDataSupplierHelper;
 
@@ -18,11 +19,11 @@ public class ProductionModePage implements Tab {
     }
 
     private void displayChangeDialog() {
-        textView.displayTabOrPageHeading("\n===== Production Mode Page ======");
-        textView.displayMessage(
-                "You are currently in develop mode." +
-                        "\n\nWould you like to switch to production mode?" +
-                        "\n\nType 'yes' to switch to production mode or 'no' to stay in develop mode:\n > "
+        textView.displayWarningMessage(DefaultMessagesHelper.WARNING_MESSAGE);
+        textView.displayErrorMessage(
+                "\nYou are currently in develop mode." +
+                "\n\nWould you like to switch to production mode?" +
+                "\n\nType 'yes' to switch to production mode or 'no' to stay in develop mode:\n\n> "
         );
         String choice = textView.getUserInput();
 

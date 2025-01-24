@@ -24,18 +24,18 @@ public class AdminCreateUserTab implements Tab {
     }
 
     public void showCreateUserDialog() {
-        textView.displayMessage("Enter first name: ");
+        textView.displayUserInputMessage("Enter first name\n> ");
         var firstName = textView.getUserInput();
-        textView.displayMessage("Enter last name: ");
+        textView.displayUserInputMessage("Enter last name\n> ");
         var lastName = textView.getUserInput();
-        textView.displayMessage("Enter date of birth: ");
+        textView.displayUserInputMessage("Enter date of birth\n> ");
         var dateOfBirth = textView.getUserInput();
-        textView.displayMessage("Enter email: ");
+        textView.displayUserInputMessage("Enter email\n> ");
         var email = textView.getUserInput();
         var phoneNumber = ValidationHelper.checkPhoneNumber(textView);
-        textView.displayMessage("Enter password: ");
+        textView.displayUserInputMessage("Enter password\n> ");
         var password = textView.getUserInput();
-        textView.displayMessage("Confirm password: ");
+        textView.displayUserInputMessage("Confirm password\n> ");
         var confirmPassword = textView.getUserInput();
 
         UserRegistrationData userRegistrationData = new UserRegistrationData(

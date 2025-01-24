@@ -26,9 +26,9 @@ public class EventOperationsTab implements Tab {
             textView.displayMessage(
                     "1. Create Event" +
                     "\n2. Show Events" +
-                    "\n3. Back to main menu" +
-                    "\nChoose a Option: "
+                    "\n3. Back to main menu"
             );
+            textView.displayUserInputMessage("\n\nChoose a Option\n> ");
             
             String choice = textView.getUserInput();
 

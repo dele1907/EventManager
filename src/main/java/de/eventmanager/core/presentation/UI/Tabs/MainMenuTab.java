@@ -56,7 +56,7 @@ public class MainMenuTab implements Tab {
         if (menuType == MenuType.ADMIN) {
             textView.displayMessage("\n5. Admin Operations");
         }
-        textView.displayMessage("\nChoose an option: ");
+        textView.displayUserInputMessage("\n\nChoose an option\n> ");
     }
 
     private boolean handleMenuChoice(MenuType menuType, String choice) {
