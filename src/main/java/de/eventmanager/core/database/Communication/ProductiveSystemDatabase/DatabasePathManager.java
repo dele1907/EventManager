@@ -30,6 +30,18 @@ public class DatabasePathManager {
         }
     }
 
+    public static void flushDatabasePath(boolean flush) {
+        if (!flush) {
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_FILE))) {
+            writer.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean isValidPath(String path, boolean isProductiveSystem) {
         if (!isProductiveSystem) {
             return true;

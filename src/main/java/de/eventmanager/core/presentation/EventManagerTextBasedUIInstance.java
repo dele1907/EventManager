@@ -32,6 +32,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
 
     public void startEventManagerInstance() {
         boolean isProductiveSystem = false;
+        boolean flushDatabasePathAfterTest = true;
 
         initDatabase(isProductiveSystem);
 
@@ -55,6 +56,8 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
                 e.printStackTrace();
             }
         }
+
+        DatabasePathManager.flushDatabasePath(flushDatabasePathAfterTest);
     }
 
     @Override
