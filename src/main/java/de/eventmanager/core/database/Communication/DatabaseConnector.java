@@ -7,8 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnector {
+    private  static boolean isProductive = false;
 
-    private static String databasePath = "";
+    private static String databasePath = isProductive ? "" : "src/main/resources/eventmanager.sqlite";
 
     public static void setDatabasePath(String path) {
         databasePath = path;
@@ -23,6 +24,7 @@ public class DatabaseConnector {
             return DriverManager.getConnection("jdbc:sqlite:" + databasePath);
         } catch (SQLException e) {
             e.printStackTrace();
+
             return null;
         }
     }

@@ -56,8 +56,6 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
                 e.printStackTrace();
             }
         }
-
-        DatabasePathManager.flushDatabasePath(flushDatabasePathAfterTest);
     }
 
     @Override
