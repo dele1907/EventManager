@@ -133,6 +133,11 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.3.0</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*TestDrive.java</include>
+                        </includes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>

@@ -111,7 +111,7 @@ public class UserManagerImplTestDrive {
         assertEquals("1980-01-10", userFromDatabase.getDateOfBirth());
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
-        assertEquals(1234567890, userFromDatabase.getPhoneNumber());
+        assertEquals("1234567890", userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
 
@@ -129,7 +129,7 @@ public class UserManagerImplTestDrive {
         assertEquals("1980-01-10", userFromDatabase.getDateOfBirth());
         assertEquals("max.mustermann@mail.com", userFromDatabase.getEMailAddress());
         assertEquals("password123", userFromDatabase.getPassword());
-        assertEquals(1234567890, userFromDatabase.getPhoneNumber());
+        assertEquals("1234567890", userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
 

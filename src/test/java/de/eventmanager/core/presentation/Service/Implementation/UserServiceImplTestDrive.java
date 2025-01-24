@@ -37,8 +37,8 @@ public class UserServiceImplTestDrive {
     void loginUser() {
         UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-        System.out.println(userServiceImpl.loginUser("dele00003@htwsaar.de", "Password123").get());
+        System.out.println(userServiceImpl.loginUser("dele0003@htwsaar.de", "Password123").get());
 
-        assertTrue(userServiceImpl.loginUser("dele00003@htwsaar.de", "Password123").isPresent());
+        assertTrue(userServiceImpl.loginUser("dele0003@htwsaar.de", "Password123").isPresent());
     }
 }
