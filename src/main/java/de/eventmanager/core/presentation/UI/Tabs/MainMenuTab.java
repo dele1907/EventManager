@@ -45,6 +45,7 @@ public class MainMenuTab implements Tab {
 
     private void displayMainMenu(MenuType menuType) {
         textView.displayTabOrPageHeading("\n===== Main Menu =====");
+        textView.displaySuccessMessage("Welcome " + loggedInUser.getFirstName() + "!\n");
         textView.displayMessage("1. Settings\n2. Event Operations\n3. Logout\n4. Logout and Exit Program");
 
         if (menuType == MenuType.ADMIN) {
