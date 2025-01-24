@@ -6,7 +6,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseInitializer {
-    public static void initialize(Connection conn) throws SQLException {
+    public static void initialize(Connection connection) throws SQLException {
+        initUserTable(connection);
+        initUserTable(connection);
+        initCreatedTable(connection);
+        initBookedTable(connection);
+        initCitiesPostalCodeTable(connection);
+    }
+
+    private static void initUserTable(Connection connection) throws SQLException {
         String createUsersTable = "CREATE TABLE IF NOT EXISTS user ("
                 + " userID TEXT PRIMARY KEY,"
                 + " firstName TEXT NOT NULL,"
@@ -18,8 +26,68 @@ public class DatabaseInitializer {
                 + " isAdmin BOOLEAN NOT NULL"
                 + ");";
 
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = connection.createStatement()) {
             stmt.execute(createUsersTable);
+        }
+    }
+
+    private static void initEventsTable(Connection connection) throws SQLException {
+        String createEventsTable = "CREATE TABLE IF NOT EXISTS events ("
+                + " eventID TEXT PRIMARY KEY,"
+                + " eventName TEXT NOT NULL,"
+                + " eventStart TEXT NOT NULL,"
+                + " eventEnd TEXT NOT NULL,"
+                + " maximumCapacity TEXT NULL,"
+                + " numberOfBookedUsers TEXT NOT NULL,"
+                + " category TEXT NOT NULL,"
+                + " eventLocation TEXT NOT NULL,"
+                + " postalCode TEXT NOT NULL,"
+                + " address TEXT NOT NULL,"
+                + " description TEXT NULL,"
+                + " maxParticipants INTEGER NULL"
+                + ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(createEventsTable);
+        }
+    }
+
+    private static void initCreatedTable(Connection connection) throws SQLException {
+        String createdEventsTable = "CREATE TABLE IF NOT EXISTS created ("
+                + " userID TEXT NOT NULL,"
+                + " eventID TEXT NOT NULL,"
+                + " PRIMARY KEY (userID, eventID),"
+                + " FOREIGN KEY (eventID) REFERENCES events(eventID),"
+                + " FOREIGN KEY (userID) REFERENCES user(userID)"
+                + ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(createdEventsTable);
+        }
+    }
+
+    private static void initBookedTable(Connection connection) throws SQLException {
+        String bookedEventsTable = "CREATE TABLE IF NOT EXISTS booked ("
+                + " userID TEXT NOT NULL,"
+                + " eventID TEXT NOT NULL,"
+                + " PRIMARY KEY (userID, eventID),"
+                + " FOREIGN KEY (eventID) REFERENCES events(eventID),"
+                + " FOREIGN KEY (userID) REFERENCES user(userID)"
+                + ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(bookedEventsTable);
+        }
+    }
+
+    private static void initCitiesPostalCodeTable(Connection connection) throws SQLException {
+        String citiesPostalCodeTable = "CREATE TABLE IF NOT EXISTS cities ("
+                + " postalCode TEXT PRIMARY KEY,"
+                + " cityName TEXT NOT NULL"
+                + ");";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(citiesPostalCodeTable);
         }
     }
 }
