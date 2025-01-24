@@ -9,6 +9,7 @@ import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.AdminUserStartupRegistrationPage;
+import de.eventmanager.core.presentation.UI.ProductionModePage;
 import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
 import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
@@ -29,8 +30,11 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static Optional<User> loggedInUser;
     private static LoginRegistrationPage loginRegistrationPage;
     private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage;
+    private static ProductionModePage productionModePage = new ProductionModePage(textView);
 
     public void startEventManagerInstance() {
+        productionModePage.start();
+
         boolean isProductiveSystem = ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE;
         //@TODO: remove flush before release
         boolean flushDatabasePathAfterTest = true && isProductiveSystem;
