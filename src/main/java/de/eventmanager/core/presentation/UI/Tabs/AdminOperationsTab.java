@@ -53,7 +53,7 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleCreateUser() {
-        AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController);
+        AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController, loggedInUser.getUserID());
         createUserTab.start();
     }
 

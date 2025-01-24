@@ -6,6 +6,7 @@ import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDat
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
+import helper.ConfigurationDataSupplierHelper;
 
 import java.util.Optional;
 
@@ -90,7 +91,8 @@ public class LoginRegistrationPage implements Tab {
 
     private void validateRegisterUser(UserRegistrationData userRegistrationData) {
 
-        boolean registrationSuccess = userController.createNewUser(userRegistrationData);
+        boolean registrationSuccess = userController.createNewUser(userRegistrationData,
+                ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID);
 
         if (!registrationSuccess) {
             textView.displayErrorMessage("\nUser registration failed\n");

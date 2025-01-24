@@ -22,7 +22,8 @@ public class UserServiceImplTestDrive {
                 "disappear@muster.com",
                 "12345678",
                 "123456",
-                "123456"
+                "123456",
+                "iwbLeZWwmrg5E0oC8KIs"
         );
         System.out.println("User registered: " + isRegistered);
         assertTrue(isRegistered);

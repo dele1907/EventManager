@@ -19,7 +19,7 @@ public class UserController {
     }
 
     //#region Login & Authentication
-    public boolean createNewUser(UserRegistrationData userRegistrationData) {
+    public boolean createNewUser(UserRegistrationData userRegistrationData, String loggedInUserUserID) {
 
         boolean successfullyRegistered = userService.registerUser(
                 userRegistrationData.getFirstName(),
@@ -28,7 +28,8 @@ public class UserController {
                 userRegistrationData.getEmail(),
                 userRegistrationData.getPhoneNumber(),
                 userRegistrationData.getPassword(),
-                userRegistrationData.getConfirmPassword()
+                userRegistrationData.getConfirmPassword(),
+                loggedInUserUserID
         );
 
         if (!successfullyRegistered) {

@@ -9,10 +9,12 @@ import de.eventmanager.core.presentation.UI.View;
 public class AdminCreateUserTab implements Tab {
     private View textView;
     private UserController userController;
+    private String loggedInUserUserID;
 
-    public AdminCreateUserTab(View textView, UserController userController) {
+    public AdminCreateUserTab(View textView, UserController userController, String loggedInUserUserID) {
         this.textView = textView;
         this.userController = userController;
+        this.loggedInUserUserID = loggedInUserUserID;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class AdminCreateUserTab implements Tab {
 
     private void validateCreateUser(UserRegistrationData userRegistrationData) {
 
-        if (!userController.createNewUser(userRegistrationData)) {
+        if (!userController.createNewUser(userRegistrationData, loggedInUserUserID)) {
             textView.displayErrorMessage("\nFailed to create user.\n");
 
             return;

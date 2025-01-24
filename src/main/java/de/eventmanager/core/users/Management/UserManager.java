@@ -18,7 +18,7 @@ public interface UserManager {
             String password,
             String phoneNumber,
             boolean isAdmin,
-            User loggedUser
+            String loggedInUserUserID
     );
 
     void editUser(String userID, String firstName,

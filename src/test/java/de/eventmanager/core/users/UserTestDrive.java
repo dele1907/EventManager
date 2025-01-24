@@ -39,7 +39,7 @@ public class UserTestDrive {
     void userWithoutPermissionCreateNewUserTest() {
 
         assertFalse(userManagerImpl.createNewUser("test", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
-                "eventManager123", "11223344", false, testUser));
+                "eventManager123", "11223344", false, testUser.getUserID()));
 
     }
 
@@ -51,7 +51,7 @@ public class UserTestDrive {
         assertNotNull(testAdminUser);
 
         assertTrue(userManagerImpl.createNewUser("new", "User", "dateOfBirth", TEST_USER_EMAIL_ADDRESS,
-                "eventManager123", "11223344", false, testAdminUser));
+                "eventManager123", "11223344", false, testAdminUser.getUserID()));
 
 
     }

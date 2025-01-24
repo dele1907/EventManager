@@ -7,7 +7,9 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
+import helper.ConfigurationDataSupplierHelper;
 import helper.LoggerHelper;
+import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,10 +40,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                                 String password, String phoneNumber, boolean isAdmin, User loggedUser) {
-        //
+                                 String password, String phoneNumber, boolean isAdmin, String loggedInUserUserID) {
 
-        if (!loggedUser.getRole().equals(Role.ADMIN)){
+        if (checkUserSelfRegisterOrCreated(loggedInUserUserID)) {
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_CREATE_USER);
 
             return false;
@@ -50,6 +51,13 @@ public class UserManagerImpl implements UserManager {
         UserDatabaseConnector.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
 
         return true;
+    }
+
+    private boolean checkUserSelfRegisterOrCreated(String loggedInUserUserID) {
+        return !loggedInUserUserID.equals(ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID) &&
+                !UserDatabaseConnector.readUserByID(loggedInUserUserID)
+                        .map(user -> user.getRole().equals(Role.ADMIN))
+                        .orElse(false);
     }
 
     /**
@@ -337,7 +345,6 @@ public class UserManagerImpl implements UserManager {
     //#endregion Permission-Operations
 
     //#region Registration & Authentication
-    /*
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
@@ -349,7 +356,6 @@ public class UserManagerImpl implements UserManager {
      * If the password contains any of the restricted characters, the method returns {@code false}. If no restricted characters are found, it returns {@code true}.
      * </p>
      */
-    /*
     private boolean isValidPassword(String password) {
         char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
 
@@ -384,13 +390,11 @@ public class UserManagerImpl implements UserManager {
         return true;
     }
 
-    /**
-     * <h3>User Login Authentication</h3>
+     /* <h3>User Login Authentication</h3>
      The method {@code authenticationUserLogin()} accepts an email address and password, authenticates the user
      by checking if the email exists, and verifies whether the provided password matches the one stored
      in the DB. If both conditions are met, the user is successfully logged in.
      */
-    /*
     public boolean authenticationUserLogin(String email, String password, User user) {
 
         if (comparingEmailAddress(email, user)) {
@@ -403,7 +407,6 @@ public class UserManagerImpl implements UserManager {
 
         return false;
     }
-    */
     //#endregion Registration & Authentication
 
 }
