@@ -30,7 +30,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage;
 
     public void startEventManagerInstance() {
-        boolean isProductiveSystem = true;
+        boolean isProductiveSystem = false;
         //@TODO: remove flush before release
         boolean flushDatabasePathAfterTest = true && isProductiveSystem;
 
