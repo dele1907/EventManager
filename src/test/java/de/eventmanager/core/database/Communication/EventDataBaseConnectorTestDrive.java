@@ -1,4 +1,4 @@
-package de.eventmanager.core.database.communication;
+package de.eventmanager.core.database.Communication;
 
 import de.eventmanager.core.database.Communication.EventDataBaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
