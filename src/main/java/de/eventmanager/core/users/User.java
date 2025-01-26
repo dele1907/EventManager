@@ -1,22 +1,11 @@
 package de.eventmanager.core.users;
 
-import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.database.Communication.EventDataBaseConnector;
-import de.eventmanager.core.events.PrivateEvent;
-import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.observer.Observer;
+
 import de.eventmanager.core.roles.Role;
-import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import helper.IDGenerationHelper;
-import helper.LoggerHelper;
 import helper.PasswordHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
-public class User extends UserModel implements Observer {
+public class User extends UserModel {
 
     //#region constructor
 
@@ -65,22 +54,6 @@ public class User extends UserModel implements Observer {
         this.role = isAdmin ? Role.ADMIN : Role.USER;
     }
     //#endregion constructor
-
-    //#region observer
-
-    @Override
-    public void update(EventModel event) {
-
-        if (event instanceof PrivateEvent) {
-            PrivateEvent privateEvent = (PrivateEvent) event;
-            // TODO: Methode zur Benachrichtigung des Users aufrufen
-        } else if (event instanceof PublicEvent) {
-            PublicEvent publicEvent = (PublicEvent) event;
-            // TODO: Methode zur Benachrichtigung des Users aufrufen
-        }
-    }
-
-    //#endregion observer
 
     //#region toString()
 

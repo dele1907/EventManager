@@ -5,6 +5,7 @@ import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.observer.Observer;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
@@ -17,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class UserManagerImpl implements UserManager {
+public class UserManagerImpl implements UserManager, Observer {
 
     Logger logger = LogManager.getLogger(User.class);
 
@@ -415,4 +416,19 @@ public class UserManagerImpl implements UserManager {
     }
     //#endregion Registration & Authentication
 
+    //#region observer
+
+    @Override
+    public void update(EventModel event) {
+
+        if (event instanceof PrivateEvent) {
+            PrivateEvent privateEvent = (PrivateEvent) event;
+            // TODO: Methode zur Benachrichtigung des Users aufrufen
+        } else if (event instanceof PublicEvent) {
+            PublicEvent publicEvent = (PublicEvent) event;
+            // TODO: Methode zur Benachrichtigung des Users aufrufen
+        }
+    }
+
+    //#endregion observer
 }
