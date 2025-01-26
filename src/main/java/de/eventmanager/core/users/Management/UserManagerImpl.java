@@ -116,30 +116,13 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public Optional<User> getUserByID(String userID, User loggedUser) {
-
-        if (loggedUser != null) {
-            if (!loggedUser.getRole().equals(Role.ADMIN)){
-                LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
-
-                return Optional.empty();
-            }
-        }
+    public Optional<User> getUserByID(String userID) {
 
         return UserDatabaseConnector.readUserByID(userID);
     }
 
     @Override
-    public Optional<User> getUserByEmail(String eMailAddress, User loggedUser) {
-        
-        if (loggedUser != null){
-            if (!loggedUser.getRole().equals(Role.ADMIN)){
-                LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
-
-                return Optional.empty();
-            }
-        }
-
+    public Optional<User> getUserByEmail(String eMailAddress) {
         return UserDatabaseConnector.readUserByEMail(eMailAddress);
     }
 
@@ -300,7 +283,7 @@ public class UserManagerImpl implements UserManager {
         sb.append("\n");
 
         for (String participantEmail : participants) {
-            Optional<User> userOptional = getUserByEmail(participantEmail, loggedUser);
+            Optional<User> userOptional = getUserByEmail(participantEmail);
 
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
@@ -419,7 +402,7 @@ public class UserManagerImpl implements UserManager {
      */
     @Override
     public boolean authenticationUserLogin(String email, String password) {
-        Optional<User> userOptional = getUserByEmail(email, null);
+        Optional<User> userOptional = getUserByEmail(email);
 
         if (userOptional.isEmpty()) {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, "Email address not found");

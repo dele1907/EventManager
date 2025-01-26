@@ -28,9 +28,9 @@ public interface UserManager {
 
     boolean deleteUser(String eMail, User loggedUser);
 
-    Optional<User> getUserByID(String userID, User loggedUser);
+    Optional<User> getUserByID(String userID);
 
-    Optional<User> getUserByEmail(String eMailAddress, User loggedUser);
+    Optional<User> getUserByEmail(String eMailAddress);
 
     //#endregion User related Crud-Operations
 
@@ -66,8 +66,9 @@ public interface UserManager {
 
     //#endregion Permission-Operations
 
+    //#region Registration & Authentication
     boolean isValidRegistrationPassword(String password, String checkPassword);
     boolean authenticationUserLogin(String email, String password);
-
+    //#endregion Registration & Authentication
 
 }

@@ -59,7 +59,7 @@ public class UserTestDrive {
     @DisplayName("EditUser Test")
     void editUserTest() {
 
-        String userIDFromUserToEdit = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS, testAdminUser).get().getUserID();
+        String userIDFromUserToEdit = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS).get().getUserID();
         String firstName = "Max";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
@@ -69,7 +69,7 @@ public class UserTestDrive {
 
         userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber, testAdminUser);
 
-        assertEquals(email, userManagerImpl.getUserByID(userIDFromUserToEdit, testAdminUser).get().getEMailAddress());
+        assertEquals(email, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
 
     }
 

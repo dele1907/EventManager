@@ -38,11 +38,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> loginUser(String email, String password) {
-        if (!UserDatabaseConnector.authenticationUserLogin(email, password)) {
+        if (!userManagerImpl.authenticationUserLogin(email, password)) {
             return Optional.empty();
         }
-
-        return UserDatabaseConnector.readUserByEMail(email);
+        return userManagerImpl.getUserByEmail(email);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> readUserByEmail(String email) {
-        return UserDatabaseConnector.readUserByEMail(email);
+        return userManagerImpl.getUserByEmail(email);
     }
 
     @Override
