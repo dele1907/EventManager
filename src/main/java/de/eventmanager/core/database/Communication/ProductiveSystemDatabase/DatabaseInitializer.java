@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class DatabaseInitializer {
     public static void initialize(Connection connection) throws SQLException {
         initUserTable(connection);
-        initUserTable(connection);
+        initEventsTable(connection);
         initCreatedTable(connection);
         initBookedTable(connection);
         initCitiesPostalCodeTable(connection);
@@ -38,13 +38,14 @@ public class DatabaseInitializer {
                 + " eventStart TEXT NOT NULL,"
                 + " eventEnd TEXT NOT NULL,"
                 + " maximumCapacity TEXT NULL,"
-                + " numberOfBookedUsers TEXT NOT NULL,"
+                + " numberOfBookedUsersOnEvent TEXT NOT NULL,"
                 + " category TEXT NOT NULL,"
                 + " eventLocation TEXT NOT NULL,"
                 + " postalCode TEXT NOT NULL,"
                 + " address TEXT NOT NULL,"
                 + " description TEXT NULL,"
-                + " maxParticipants INTEGER NULL"
+                + " maxParticipants INTEGER NULL,"
+                + " privateEvent BOOLEAN NOT NULL"
                 + ");";
 
         try (Statement stmt = connection.createStatement()) {

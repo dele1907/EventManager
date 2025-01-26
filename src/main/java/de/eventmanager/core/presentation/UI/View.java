@@ -6,5 +6,7 @@ public interface View {
     void displaySuccessMessage(String message);
     void displayWarningMessage(String message);
     void displayTabOrPageHeading(String message);
+    void displayUnderlinedSubheading(String message);
+    void displayUserInputMessage(String message);
     String getUserInput();
 }

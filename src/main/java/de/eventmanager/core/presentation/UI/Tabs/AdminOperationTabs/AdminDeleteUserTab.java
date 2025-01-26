@@ -19,7 +19,7 @@ public class AdminDeleteUserTab implements Tab {
     @Override
     public void start() {
         textView.displayTabOrPageHeading("\n===== Delete User Tab ======");
-        textView.displayMessage("Enter the email of the user to delete: ");
+        textView.displayUserInputMessage("Enter the email of the user to delete\n> ");
         String email = textView.getUserInput();
 
         var userOptional = userController.getUserByEmail(email);
@@ -31,7 +31,8 @@ public class AdminDeleteUserTab implements Tab {
         }
 
         textView.displayWarningMessage(DefaultMessagesHelper.WARNING_MESSAGE);
-        textView.displayWarningMessage("\nAre you sure you want to delete: " + userOptional + "\n\nType 'yes'> ");
+        textView.displayWarningMessage("\nAre you sure you want to delete: " + userOptional);
+        textView.displayUserInputMessage("\n\nType 'yes'> ");
         String confirmation = textView.getUserInput();
 
         if ("yes".equals(confirmation.toLowerCase())) {

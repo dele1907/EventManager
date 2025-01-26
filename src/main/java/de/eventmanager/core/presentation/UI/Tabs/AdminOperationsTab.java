@@ -29,7 +29,7 @@ public class AdminOperationsTab implements Tab {
             textView.displayMessage("\n2. Delete user");
             textView.displayMessage("\n3. Create new user");
             textView.displayMessage("\n4. Back to main menu");
-            textView.displayMessage("\nChoose an option: ");
+            textView.displayUserInputMessage("\n\nChoose an option\n> ");
             String choice = textView.getUserInput();
 
             switch (choice) {

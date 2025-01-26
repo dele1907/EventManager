@@ -37,7 +37,7 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void displayUserDetails(User user) {
-        textView.displayMessage("Current user details:");
+        textView.displayUnderlinedSubheading("\n\u001B[4mCurrent user details:\u001B[0m");
         textView.displayMessage("\nFirst Name: " + user.getFirstName());
         textView.displayMessage("\nLast Name: " + user.getLastName());
         textView.displayMessage("\nEmail Address: " + user.getEMailAddress());
@@ -45,7 +45,7 @@ public class AdminEditUserTab implements Tab {
     }
 
     private Optional<User> showFindUser() {
-        textView.displayMessage("\nEnter the email of the user to edit: ");
+        textView.displayUserInputMessage("Enter the email of the user to edit\n> ");
         String email = textView.getUserInput();
         Optional<User> userOptional = userController.getUserByEmail(email);
 

@@ -18,11 +18,11 @@ public class EventCreationTab implements Tab {
 
     @Override
     public void start() {
-       textView.displayTabOrPageHeading("\n===== Event Creation ======");
-        System.out.println("1. Create new public event");
-        System.out.println("2. Create new private event");
-        System.out.println("3. Back to Event Operations");
-        System.out.println("\nPlease enter your choice: ");
+        textView.displayTabOrPageHeading("\n===== Event Creation ======");
+        textView.displayMessage("1. Create new public event");
+        textView.displayMessage("\n2. Create new private event");
+        textView.displayMessage("\n3. Back to Event Operations");
+        textView.displayUserInputMessage("\n\nPlease enter your choice\n> ");
 
         String choice = textView.getUserInput();
 
@@ -36,32 +36,32 @@ public class EventCreationTab implements Tab {
             case "3":
                 break;
             default:
-                System.out.println("Invalid choice. Please try again.");
+                textView.displayErrorMessage("\nInvalid choice. Please try again.");
                 start();
         }
     }
 
     private boolean createNewEvent(boolean isPublicEvent) {
-        System.out.println("Enter event name: ");
+        textView.displayUserInputMessage("Enter event name\n> ");
         String eventName = textView.getUserInput();
-        System.out.println("Enter event start date: ");
+        textView.displayUserInputMessage("\nEnter event start date\n> ");
         String eventStart = textView.getUserInput();
-        System.out.println("Enter event end date: ");
+        textView.displayUserInputMessage("\nEnter event end date\n> ");
         String eventEnd = textView.getUserInput();
-        System.out.println("Enter event category: ");
+        textView.displayUserInputMessage("\nEnter event category\n> ");
         String category = textView.getUserInput();
-        System.out.println("Enter event postal code: ");
+        textView.displayUserInputMessage("\nEnter event postal code\n> ");
         String postalCode = textView.getUserInput();
-        System.out.println("Enter event address: ");
+        textView.displayUserInputMessage("\nEnter event address\n> ");
         String address = textView.getUserInput();
-        System.out.println("Enter event location: ");
+        textView.displayUserInputMessage("\nEnter event location\n> ");
         String eventLocation = textView.getUserInput();
-        System.out.println("Enter event description: ");
+        textView.displayUserInputMessage("\nEnter event description\n> ");
         String description = textView.getUserInput();
         int maxCapacity = 0;
 
         if (isPublicEvent) {
-            System.out.println("Enter event maximum capacity: ");
+            textView.displayUserInputMessage("\nEnter event maximum capacity\n> ");
             maxCapacity = Integer.parseInt(textView.getUserInput());
         }
 
