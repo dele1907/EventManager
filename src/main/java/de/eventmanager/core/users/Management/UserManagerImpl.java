@@ -1,6 +1,6 @@
 package de.eventmanager.core.users.Management;
 
-import de.eventmanager.core.database.Communication.EventDataBaseConnector;
+import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
@@ -137,9 +137,9 @@ public class UserManagerImpl implements UserManager, Observer {
         
         PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
 
-        EventDataBaseConnector.createNewEvent(event);
+        EventDatabaseConnector.createNewEvent(event);
 
-        EventDataBaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
+        EventDatabaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
     }
@@ -154,8 +154,8 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description, maxParticipants);
-        EventDataBaseConnector.createNewEvent(event);
-        EventDataBaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
+        EventDatabaseConnector.createNewEvent(event);
+        EventDatabaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
     }
@@ -168,7 +168,7 @@ public class UserManagerImpl implements UserManager, Observer {
                              String description, User loggedUser
     ) {
         
-        Optional<? extends EventModel> optionalEvent = EventDataBaseConnector.readEventByID(eventID);
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
         if (!isEventExisting(optionalEvent)) {
 
@@ -191,7 +191,7 @@ public class UserManagerImpl implements UserManager, Observer {
         eventToEdit.setEventLocation(eventLocation);
         eventToEdit.setDescription(description);
 
-        EventDataBaseConnector.updateEvent(eventToEdit);
+        EventDatabaseConnector.updateEvent(eventToEdit);
 
         LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 
@@ -200,7 +200,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
     @Override
     public boolean deleteEvent(String eventID, User loggedUser) {
-        Optional<? extends EventModel> optionalEvent = EventDataBaseConnector.readEventByID(eventID);
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
         if (!isEventExisting(optionalEvent)) {
 
@@ -212,12 +212,12 @@ public class UserManagerImpl implements UserManager, Observer {
             return false;
         }
 
-        return EventDataBaseConnector.deleteEventByID(eventID);
+        return EventDatabaseConnector.deleteEventByID(eventID);
     }
 
     @Override
     public boolean bookEvent(String eventID, User loggedUser) {
-        Optional<PublicEvent> publicEvent = EventDataBaseConnector.readPublicEventByID(eventID);
+        Optional<PublicEvent> publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
         
 
         if (!isEventExisting(publicEvent)) {
@@ -238,7 +238,7 @@ public class UserManagerImpl implements UserManager, Observer {
             return false;
         }
 
-        EventDataBaseConnector.addBooking(eventID,loggedUser.getUserID());
+        EventDatabaseConnector.addBooking(eventID,loggedUser.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event booked successfully!");
 
         return true;
@@ -247,7 +247,7 @@ public class UserManagerImpl implements UserManager, Observer {
     @Override
     public boolean cancelEvent(String eventID, User loggedUser) {
         
-        Optional<? extends EventModel> optionalEvent = EventDataBaseConnector.readEventByID(eventID);
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
         if (!isEventExisting(optionalEvent)) {
 
@@ -263,7 +263,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
 
-        EventDataBaseConnector.deleteBooking(eventID,loggedUser.getUserID());
+        EventDatabaseConnector.deleteBooking(eventID,loggedUser.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
 
         return true;
@@ -271,7 +271,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
 
      public String showEventParticipantList(String eventID, User loggedUser) {
-        Optional<?extends EventModel> optionalEvent = EventDataBaseConnector.readEventByID(eventID);
+        Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
          ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
 
         if (!isEventExisting(optionalEvent)) {

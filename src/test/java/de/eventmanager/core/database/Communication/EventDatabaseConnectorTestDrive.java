@@ -1,9 +1,7 @@
 package de.eventmanager.core.database.Communication;
 
-import de.eventmanager.core.database.Communication.EventDataBaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
 
@@ -14,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class EventDataBaseConnectorTestDrive {
+public class EventDatabaseConnectorTestDrive {
 
     private PrivateEvent testPrivateEvent;
     private PrivateEvent testPrivateEventUpdated;
@@ -56,8 +54,8 @@ public class EventDataBaseConnectorTestDrive {
             return;
         }
 
-        EventDataBaseConnector.deleteEventByID("testPrivateEventID");
-        EventDataBaseConnector.deleteEventByID("testPublicEventID");
+        EventDatabaseConnector.deleteEventByID("testPrivateEventID");
+        EventDatabaseConnector.deleteEventByID("testPublicEventID");
     }
 
     /**
@@ -69,20 +67,20 @@ public class EventDataBaseConnectorTestDrive {
 
         skipCleanUp = true;
 
-        boolean privateEventCreated = EventDataBaseConnector.createNewEvent(testPrivateEvent);
-        boolean publicEventCreated = EventDataBaseConnector.createNewEvent(testPublicEvent);
+        boolean privateEventCreated = EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        boolean publicEventCreated = EventDatabaseConnector.createNewEvent(testPublicEvent);
 
         assertTrue(privateEventCreated, "Event creation failed but should not.");
         assertTrue(publicEventCreated, "Event creation failed but should not.");
 
-        boolean privateEventUpdated = EventDataBaseConnector.updateEvent(testPrivateEventUpdated);
-        boolean publicEventUpdated = EventDataBaseConnector.updateEvent(testPublicEventUpdated);
+        boolean privateEventUpdated = EventDatabaseConnector.updateEvent(testPrivateEventUpdated);
+        boolean publicEventUpdated = EventDatabaseConnector.updateEvent(testPublicEventUpdated);
 
         assertTrue(privateEventUpdated, "Event update failed but should not.");
         assertTrue(publicEventUpdated, "Event update failed but should not.");
 
-        boolean privateEventDeleted = EventDataBaseConnector.deleteEventByID(testPrivateEvent.getEventID());
-        boolean publicEventDeleted = EventDataBaseConnector.deleteEventByID(testPublicEvent.getEventID());
+        boolean privateEventDeleted = EventDatabaseConnector.deleteEventByID(testPrivateEvent.getEventID());
+        boolean publicEventDeleted = EventDatabaseConnector.deleteEventByID(testPublicEvent.getEventID());
 
         assertTrue(privateEventDeleted, "Event deletion failed but should not.");
         assertTrue(publicEventDeleted, "Event deletion failed but should not.");
@@ -95,11 +93,11 @@ public class EventDataBaseConnectorTestDrive {
     @Order(1)
     public void testCreateEventFailed() {
 
-        EventDataBaseConnector.createNewEvent(testPrivateEvent);
-        boolean privateEventCreated = EventDataBaseConnector.createNewEvent(testPrivateEvent);
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        boolean privateEventCreated = EventDatabaseConnector.createNewEvent(testPrivateEvent);
 
-        EventDataBaseConnector.createNewEvent(testPublicEvent);
-        boolean publicEventCreated = EventDataBaseConnector.createNewEvent(testPublicEvent);
+        EventDatabaseConnector.createNewEvent(testPublicEvent);
+        boolean publicEventCreated = EventDatabaseConnector.createNewEvent(testPublicEvent);
 
         assertFalse(privateEventCreated, "Event creation was successful but should not.");
         assertFalse(publicEventCreated, "Event creation was successful but should not.");
@@ -114,8 +112,8 @@ public class EventDataBaseConnectorTestDrive {
 
         skipCleanUp = true;
 
-        boolean privateEventUpdated = EventDataBaseConnector.updateEvent(testPrivateEventUpdated);
-        boolean publicEventUpdated = EventDataBaseConnector.updateEvent(testPublicEventUpdated);
+        boolean privateEventUpdated = EventDatabaseConnector.updateEvent(testPrivateEventUpdated);
+        boolean publicEventUpdated = EventDatabaseConnector.updateEvent(testPublicEventUpdated);
 
         assertFalse(privateEventUpdated, "Event update was successful but should not.");
         assertFalse(publicEventUpdated, "Event update was successful but should not.");
@@ -131,7 +129,7 @@ public class EventDataBaseConnectorTestDrive {
         skipSetUp = true;
         skipCleanUp = true;
 
-        boolean eventDeleted = EventDataBaseConnector.deleteEventByID("invalidID");
+        boolean eventDeleted = EventDatabaseConnector.deleteEventByID("invalidID");
 
         assertFalse(eventDeleted, "Event deletion was successful but should not.");
     }
@@ -143,11 +141,11 @@ public class EventDataBaseConnectorTestDrive {
     @Order(4)
     public void testReadEventByID() {
 
-        EventDataBaseConnector.createNewEvent(testPrivateEvent);
-        EventDataBaseConnector.createNewEvent(testPublicEvent);
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        EventDatabaseConnector.createNewEvent(testPublicEvent);
 
-        PrivateEvent privateEventFromDatabase = EventDataBaseConnector.readPrivateEventByID("testPrivateEventID").get();
-        PublicEvent publicEventFromDatabase = EventDataBaseConnector.readPublicEventByID("testPublicEventID").get();
+        PrivateEvent privateEventFromDatabase = EventDatabaseConnector.readPrivateEventByID("testPrivateEventID").get();
+        PublicEvent publicEventFromDatabase = EventDatabaseConnector.readPublicEventByID("testPublicEventID").get();
 
         assertEquals("testPrivateEventID", privateEventFromDatabase.getEventID());
         assertEquals("Geburtstag von Oma", privateEventFromDatabase.getEventName());
@@ -185,11 +183,11 @@ public class EventDataBaseConnectorTestDrive {
         skipSetUp = true;
         skipCleanUp = true;
 
-        boolean testAddCreation = EventDataBaseConnector.addUserCreatedEvent("testEventID", "testCreatorID");
+        boolean testAddCreation = EventDatabaseConnector.addUserCreatedEvent("testEventID", "testCreatorID");
 
         assertTrue(testAddCreation, "Adding user to created event failed but should not.");
 
-        boolean testDeleteCreation = EventDataBaseConnector.removeUserCreatedEvent("testEventID", "testCreatorID");
+        boolean testDeleteCreation = EventDatabaseConnector.removeUserCreatedEvent("testEventID", "testCreatorID");
 
         assertTrue(testDeleteCreation, "Adding user to created event failed but should not.");
     }
@@ -201,14 +199,14 @@ public class EventDataBaseConnectorTestDrive {
     @Order(6)
     public void testAddAndDeleteBooking() {
 
-        EventDataBaseConnector.createNewEvent(testPrivateEvent);
-        EventDataBaseConnector.createNewEvent(testPublicEvent);
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        EventDatabaseConnector.createNewEvent(testPublicEvent);
 
-        boolean testAddBooking = EventDataBaseConnector.addBooking("testPublicEventID", "testCreatorID");
+        boolean testAddBooking = EventDatabaseConnector.addBooking("testPublicEventID", "testCreatorID");
 
         assertTrue(testAddBooking, "Adding user to booked event failed but should not.");
 
-        boolean testDeleteBooking = EventDataBaseConnector.deleteBooking("testPublicEventID", "testCreatorID");
+        boolean testDeleteBooking = EventDatabaseConnector.deleteBooking("testPublicEventID", "testCreatorID");
 
         assertTrue(testDeleteBooking, "Adding user to booked event failed but should not.");
     }
@@ -229,13 +227,13 @@ public class EventDataBaseConnectorTestDrive {
         UserDatabaseConnector.createNewUser(testUser1);
         UserDatabaseConnector.createNewUser(testUser2);
 
-        EventDataBaseConnector.createNewEvent(testPrivateEvent);
-        EventDataBaseConnector.createNewEvent(testPublicEvent);
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        EventDatabaseConnector.createNewEvent(testPublicEvent);
 
-        EventDataBaseConnector.addBooking("testPublicEventID", "testBookingUserID1");
-        EventDataBaseConnector.addBooking("testPublicEventID", "testBookingUserID2");
+        EventDatabaseConnector.addBooking("testPublicEventID", "testBookingUserID1");
+        EventDatabaseConnector.addBooking("testPublicEventID", "testBookingUserID2");
 
-        ArrayList<String> bookedTestUsers = EventDataBaseConnector.getBookedUsersOnEvent("testPublicEventID");
+        ArrayList<String> bookedTestUsers = EventDatabaseConnector.getBookedUsersOnEvent("testPublicEventID");
         ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
         expectedBookedTestUsers.add("peter.bookman@testmail.com");
         expectedBookedTestUsers.add("herbert.bookson@testmail.com");
@@ -243,21 +241,21 @@ public class EventDataBaseConnectorTestDrive {
         // test of user list
         assertEquals(expectedBookedTestUsers, bookedTestUsers);
 
-        int numberOfBookedUsers = EventDataBaseConnector.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
+        int numberOfBookedUsers = EventDatabaseConnector.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
 
         // test of user number after booking
         assertEquals(2, numberOfBookedUsers);
 
-        EventDataBaseConnector.deleteBooking("testPublicEventID", "testBookingUserID1");
-        EventDataBaseConnector.deleteBooking("testPublicEventID", "testBookingUserID2");
+        EventDatabaseConnector.deleteBooking("testPublicEventID", "testBookingUserID1");
+        EventDatabaseConnector.deleteBooking("testPublicEventID", "testBookingUserID2");
 
-        int newNumberOfBookedUsers = EventDataBaseConnector.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
+        int newNumberOfBookedUsers = EventDatabaseConnector.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
 
         // test of user number after delete booking
         assertEquals(0, newNumberOfBookedUsers);
 
-        EventDataBaseConnector.deleteEventByID("testPrivateEventID");
-        EventDataBaseConnector.deleteEventByID("testPublicEventID");
+        EventDatabaseConnector.deleteEventByID("testPrivateEventID");
+        EventDatabaseConnector.deleteEventByID("testPublicEventID");
 
         UserDatabaseConnector.deleteUserByID("testBookingUserID1");
         UserDatabaseConnector.deleteUserByID("testBookingUserID2");

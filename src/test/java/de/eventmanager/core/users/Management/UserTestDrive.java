@@ -1,7 +1,7 @@
 package de.eventmanager.core.users.Management;
 
 
-import de.eventmanager.core.database.Communication.EventDataBaseConnector;
+import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
@@ -21,8 +21,8 @@ public class UserTestDrive {
     User testAdminUser = UserDatabaseConnector.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
 
-    PublicEvent publicEvent = EventDataBaseConnector.readPublicEventByID("123").get();
-    PrivateEvent privateEvent = EventDataBaseConnector.readPrivateEventByID("124").get();
+    PublicEvent publicEvent = EventDatabaseConnector.readPublicEventByID("123").get();
+    PrivateEvent privateEvent = EventDatabaseConnector.readPrivateEventByID("124").get();
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";

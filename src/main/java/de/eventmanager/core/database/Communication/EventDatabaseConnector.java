@@ -3,14 +3,12 @@ package de.eventmanager.core.database.Communication;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
-import org.jooq.Log;
 import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
@@ -21,7 +19,7 @@ import static org.jooq.generated.tables.Created.CREATED;
 import static org.jooq.generated.tables.Booked.BOOKED;
 import static org.jooq.generated.tables.User.USER;
 
-public class EventDataBaseConnector {
+public class EventDatabaseConnector {
 
     //#region constants
 
@@ -110,13 +108,13 @@ public class EventDataBaseConnector {
             }
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDataBaseConnector.class, EVENT_ADDED);
+                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_ADDED);
 
                 return true;
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_ADDED + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_ADDED + exception.getMessage());
         }
 
         return false;
@@ -174,7 +172,7 @@ public class EventDataBaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return Optional.empty();
@@ -199,7 +197,7 @@ public class EventDataBaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return Optional.empty();
@@ -224,7 +222,7 @@ public class EventDataBaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return Optional.empty();
@@ -268,7 +266,7 @@ public class EventDataBaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return publicEvents;
@@ -309,7 +307,7 @@ public class EventDataBaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return publicEvents;
@@ -351,7 +349,7 @@ public class EventDataBaseConnector {
         }
 
     }catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return publicEvents;
@@ -406,17 +404,17 @@ public class EventDataBaseConnector {
             }
 
             if (rowsUpdated > 0) {
-                LoggerHelper.logInfoMessage(EventDataBaseConnector.class, EVENT_UPDATED);
+                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_UPDATED);
 
                 return true;
             } else {
-                LoggerHelper.logInfoMessage(EventDataBaseConnector.class, EVENT_NOT_FOUND);
+                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_NOT_FOUND);
 
                 return false;
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_UPDATED + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_UPDATED + exception.getMessage());
 
             return false;
         }
@@ -436,15 +434,15 @@ public class EventDataBaseConnector {
                     .execute();
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDataBaseConnector.class, EVENT_DELETED);
+                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_DELETED);
             } else {
-                LoggerHelper.logInfoMessage(EventDataBaseConnector.class, EVENT_NOT_FOUND);
+                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_NOT_FOUND);
             }
 
             return rowsAffected > 0;
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, EVENT_NOT_DELETED + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_DELETED + exception.getMessage());
 
             return false;
         }
@@ -470,7 +468,7 @@ public class EventDataBaseConnector {
             return rowsAffected > 0;
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "Error adding user created event: " +
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, "Error adding user created event: " +
                     exception.getMessage());
 
             return false;
@@ -494,7 +492,7 @@ public class EventDataBaseConnector {
                 return rowsAffected > 0;
 
             } catch (Exception exception) {
-                LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "Error deleting user created event: " +
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, "Error deleting user created event: " +
                         exception.getMessage());
 
                 return false;
@@ -514,13 +512,13 @@ public class EventDataBaseConnector {
                         .fetchOne();
 
                 if (record != null) {
-                    LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "EventID or UserID not found!");
+                    LoggerHelper.logErrorMessage(EventDatabaseConnector.class, "EventID or UserID not found!");
 
                     return false;
                 }
 
             }catch (Exception exception) {
-                LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "EventID or UserID not found!");
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, "EventID or UserID not found!");
 
                 return false;
             }
@@ -562,7 +560,7 @@ public class EventDataBaseConnector {
                 return false;
             });
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "Error booking event: " +
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, "Error booking event: " +
                     exception.getMessage());
 
             return false;
@@ -599,7 +597,7 @@ public class EventDataBaseConnector {
             });
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDataBaseConnector.class, "Error deleting booking: " +
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, "Error deleting booking: " +
                     exception.getMessage());
 
             return false;
