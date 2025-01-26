@@ -1,4 +1,4 @@
-package de.eventmanager.core.users;
+package de.eventmanager.core.users.Management;
 
 
 import de.eventmanager.core.database.Communication.EventDataBaseConnector;
@@ -6,10 +6,8 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
-import de.eventmanager.core.users.Management.UserManagerImpl;
+import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

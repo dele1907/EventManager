@@ -1,4 +1,4 @@
-package de.eventmanager.core.users.Management;
+package de.eventmanager.core.database.communication;
 
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.roles.Role;
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserManagerImplTestDrive {
+public class UserDatabaseConnectorTestDrive {
 
     private User testUser;
     private User testUserUpdated;
