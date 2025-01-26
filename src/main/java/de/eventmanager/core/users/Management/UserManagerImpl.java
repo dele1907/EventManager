@@ -188,12 +188,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!EventDataBaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())) {
-
-            return false;
-        }
-
-        if (!loggedUser.getRole().equals(Role.ADMIN)) {
+        if (!checkPermissionForEventOperations(loggedUser, eventID)) {
 
             return false;
         }
@@ -216,12 +211,20 @@ public class UserManagerImpl implements UserManager {
         return true;
     }
 
-
-
-
     @Override
     public boolean deleteEvent(String eventID, User loggedUser) {
-        
+        Optional<? extends EventModel> optionalEvent = EventDataBaseConnector.readEventByID(eventID);
+
+        if (!isEventExisting(optionalEvent)) {
+
+            return false;
+        }
+
+        if (!checkPermissionForEventOperations(loggedUser, eventID)) {
+
+            return false;
+        }
+
         return EventDataBaseConnector.deleteEventByID(eventID);
     }
 
@@ -236,6 +239,7 @@ public class UserManagerImpl implements UserManager {
         }
 
         if (publicEvent.get().isPrivateEvent()){
+
             return false;
         }
 
@@ -356,6 +360,16 @@ public class UserManagerImpl implements UserManager {
 
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
+
+    private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
+        if (!loggedUser.getRole().equals(Role.ADMIN) || !EventDataBaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())) {
+
+            return false;
+        }
+
+        return true;
+    }
+
     //#endregion Permission-Operations
 
     //#region Registration & Authentication
