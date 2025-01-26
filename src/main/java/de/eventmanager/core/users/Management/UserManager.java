@@ -66,4 +66,8 @@ public interface UserManager {
 
     //#endregion Permission-Operations
 
+    boolean isValidRegistrationPassword(String password, String checkPassword);
+    boolean authenticationUserLogin(String email, String password);
+
+
 }

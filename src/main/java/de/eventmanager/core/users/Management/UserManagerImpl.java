@@ -117,11 +117,13 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public Optional<User> getUserByID(String userID, User loggedUser) {
-        
-        if (!loggedUser.getRole().equals(Role.ADMIN)){
-            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
 
-            return Optional.empty();
+        if (loggedUser != null) {
+            if (!loggedUser.getRole().equals(Role.ADMIN)){
+                LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
+
+                return Optional.empty();
+            }
         }
 
         return UserDatabaseConnector.readUserByID(userID);
@@ -130,11 +132,12 @@ public class UserManagerImpl implements UserManager {
     @Override
     public Optional<User> getUserByEmail(String eMailAddress, User loggedUser) {
         
+        if (loggedUser != null){
+            if (!loggedUser.getRole().equals(Role.ADMIN)){
+                LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
 
-        if (!loggedUser.getRole().equals(Role.ADMIN)){
-            LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_GET_USER_INFORMATION);
-
-            return Optional.empty();
+                return Optional.empty();
+            }
         }
 
         return UserDatabaseConnector.readUserByEMail(eMailAddress);
@@ -362,7 +365,8 @@ public class UserManagerImpl implements UserManager {
     }
 
     private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
-        if (!loggedUser.getRole().equals(Role.ADMIN) || !EventDataBaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())) {
+        if (!loggedUser.getRole().equals(Role.ADMIN) ) {
+            System.out.println("Permission denied!");
 
             return false;
         }
@@ -373,6 +377,7 @@ public class UserManagerImpl implements UserManager {
     //#endregion Permission-Operations
 
     //#region Registration & Authentication
+    @Override
     public boolean isValidRegistrationPassword(String password, String checkPassword) {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
@@ -407,33 +412,23 @@ public class UserManagerImpl implements UserManager {
         return checkPassword.equals(password);
     }
 
-    private boolean comparingEmailAddress(String emailAddress, User loggedUser) {
-
-        if (getUserByEmail(emailAddress, loggedUser).isEmpty()) {
-
-            LoggerHelper.logInfoMessage(UserDatabaseConnector.class, "Email address not found");
-            return false;
-        }
-
-        return true;
-    }
-
      /* <h3>User Login Authentication</h3>
      The method {@code authenticationUserLogin()} accepts an email address and password, authenticates the user
      by checking if the email exists, and verifies whether the provided password matches the one stored
      in the DB. If both conditions are met, the user is successfully logged in.
      */
-    public boolean authenticationUserLogin(String email, String password, User user) {
+    @Override
+    public boolean authenticationUserLogin(String email, String password) {
+        Optional<User> userOptional = getUserByEmail(email, null);
 
-        if (comparingEmailAddress(email, user)) {
+        if (userOptional.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, "Email address not found");
 
-            if (PasswordHelper.verifyPassword(password, user.getPassword())) {
+            return false;
 
-                return true;
-            }
         }
 
-        return false;
+        return PasswordHelper.verifyPassword(password, userOptional.get().getPassword());
     }
     //#endregion Registration & Authentication
 
