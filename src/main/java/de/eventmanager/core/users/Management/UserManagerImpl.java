@@ -8,11 +8,13 @@ import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
+import helper.ListFormattingHelper;
 import helper.LoggerHelper;
 import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserManagerImpl implements UserManager {
@@ -275,25 +277,37 @@ public class UserManagerImpl implements UserManager {
 
         return true;
     }
-    /*
-     public String showAllEventParticipants(String eventID) {
+
+
+     public String showEventParticipantList(String eventID, User loggedUser) {
         Optional<?extends EventModel> optionalEvent = EventDataBaseConnector.readEventByID(eventID);
-        ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
+         ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
+
         if (!isEventExisting(optionalEvent)) {
 
             return "";
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Lastname\t firstname\t\t eMailaddress\t\t\t phoneNumber\n\n");
-        for (int i = 0; i < participants.size(); i++) {
-            User user = getUserByEmail(participants.get(i)).get();
-            sb.append(user.getLastName() + "\t" + user.getFirstName() + "\t\t\t" + user.getEMailAddress() + "\t" + user.getPhoneNumber() + "\n");
+         sb.append(String.format(ListFormattingHelper.rowFormat(4,3), "Lastname", "Firstname", "Email Address", "Phone Number"));
+        sb.append("\n");
+
+        for (String participantEmail : participants) {
+            Optional<User> userOptional = getUserByEmail(participantEmail, loggedUser);
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                sb.append(String.format(ListFormattingHelper.rowFormat(4,3),
+                        user.getLastName(),
+                        user.getFirstName(),
+                        user.getEMailAddress(),
+                        user.getPhoneNumber()));
+            }
         }
 
         return sb.toString();
     }
-     */
+
 
 
     public boolean isEventExisting(Optional<? extends EventModel> event) {
