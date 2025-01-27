@@ -139,7 +139,7 @@ public class UserTestDrive {
     @DisplayName("Show All Event-Participants")
     void printAllEventParticipants(){
         assertTrue(true);
-       System.out.println(userManagerImpl.showEventParticipantList(publicEvent.getEventID(), testAdminUser));
+       System.out.println(userManagerImpl.showEventParticipantList(publicEvent.getEventID()));
     }
 
 

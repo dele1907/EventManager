@@ -279,33 +279,16 @@ public class UserManagerImpl implements UserManager, Observer {
     }
 
 
-     public String showEventParticipantList(String eventID, User loggedUser) {
+     public ArrayList<String> showEventParticipantList(String eventID) {
         Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-         ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
+        ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
 
         if (!isEventExisting(optionalEvent)) {
 
-            return "";
+            return null;
         }
 
-        StringBuilder sb = new StringBuilder();
-         sb.append(String.format(ListFormattingHelper.rowFormat(4,3), "Lastname", "Firstname", "Email Address", "Phone Number"));
-        sb.append("\n");
-
-        for (String participantEmail : participants) {
-            Optional<User> userOptional = getUserByEmail(participantEmail);
-
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                sb.append(String.format(ListFormattingHelper.rowFormat(4,3),
-                        user.getLastName(),
-                        user.getFirstName(),
-                        user.getEMailAddress(),
-                        user.getPhoneNumber()));
-            }
-        }
-
-        return sb.toString();
+        return participants;
     }
 
 
