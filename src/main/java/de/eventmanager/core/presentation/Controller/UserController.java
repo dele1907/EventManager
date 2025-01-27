@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.Controller;
 
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.UserService;
@@ -71,8 +72,16 @@ public class UserController {
         return userService.editUser(user);
     }
 
-    public boolean deleteUser(User user) {
-       return userService.deleteUser(user);
+    public boolean deleteUser(String userEmailAddress, String loggeddInUserID) {
+       return userService.deleteUser(userEmailAddress, loggeddInUserID);
+    }
+
+    private boolean getUserIsPresentInDatabaseByEmail(String eMailAddress) {
+        return userService.getUserIsPresentInDatabaseByEmail(eMailAddress);
+    }
+
+    public String getUserInformationByEmail(String email) {
+        return getUserIsPresentInDatabaseByEmail(email) ? userService.readUserByEmail(email).get().toString() : "";
     }
 
     //#endregion CRUD-Operations

@@ -26,7 +26,7 @@ public interface UserManager {
                                   String eMailAddress, String password,
                                   String phoneNumber,User loggedUser);
 
-    boolean deleteUser(String eMail, User loggedUser);
+    boolean deleteUser(String eMailUserToDelete, String loggedInUserID);
 
     Optional<User> getUserByID(String userID);
 

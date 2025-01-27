@@ -78,7 +78,7 @@ public class UserTestDrive {
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
-        assertTrue(userManagerImpl.deleteUser(TEST_USER_EMAIL_ADDRESS_EDITED, testAdminUser));
+        assertTrue(userManagerImpl.deleteUser(TEST_USER_EMAIL_ADDRESS_EDITED, testAdminUser.getUserID()));
 
     }
     //#endregion CRUD-Operation-Tests

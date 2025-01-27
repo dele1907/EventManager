@@ -10,8 +10,9 @@ public interface UserService {
     boolean registerAdminUser(String firstName, String lastName, String dateOfBirth, String email,
                               String phoneNumber, String password, String passwordConfirmation, String loggedUserID);
     Optional<User> loginUser(String email, String password);
-    boolean deleteUser(User user);
+    boolean deleteUser(String userToDeleteEmail, String loggedInUserEmail);
     boolean editUser(User user);
     Optional<User> readUserByEmail(String email);
+    boolean getUserIsPresentInDatabaseByEmail(String eMailAddress);
     boolean getAdminUserIsPresentInDatabase();
 }

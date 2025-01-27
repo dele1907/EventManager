@@ -58,7 +58,7 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleDeleteUser() {
-        AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView, userController);
+        AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView, userController, loggedInUser.getUserID());
         deleteUserTab.start();
     }
 

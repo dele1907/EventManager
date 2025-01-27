@@ -105,15 +105,24 @@ public class UserManagerImpl implements UserManager, Observer {
 
 
     @Override
-    public boolean deleteUser(String eMail, User loggedUser) {
-        
+    public boolean deleteUser(String eMailUserToDelete, String loggedInUserID) {
+        var loggedUserOptional = UserDatabaseConnector.readUserByID(loggedInUserID);
+
+        if (loggedUserOptional.isEmpty()) {
+            LoggerHelper.logErrorMessage(User.class, "User not found");
+
+            return false;
+        }
+
+        var loggedUser = loggedUserOptional.get();
+
         if (!loggedUser.getRole().equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_DELETE_USER);
 
             return false;
         }
 
-        return UserDatabaseConnector.deleteUserByEmail(eMail);
+        return UserDatabaseConnector.deleteUserByEmail(eMailUserToDelete);
     }
 
     @Override

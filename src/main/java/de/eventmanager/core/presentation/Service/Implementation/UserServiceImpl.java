@@ -13,7 +13,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registerUser(String firstName, String lastName, String dateOfBirth,
-            String email, String phoneNumber, String password, String passwordConfirmation, String loggedInUserUserID) {
+            String email, String phoneNumber, String password,
+            String passwordConfirmation, String loggedInUserUserID) {
 
         if (!userManagerImpl.isValidRegistrationPassword(password, passwordConfirmation)) {
             return false;
@@ -45,8 +46,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(User user) {
-        return UserDatabaseConnector.deleteUserByEmail(user.getEMailAddress());
+    public boolean deleteUser(String userToDeleteEmail, String loggedInUserEmail) {
+        var userToDelete = userManagerImpl.getUserByEmail(userToDeleteEmail);
+
+        if (userToDelete.isEmpty()) {
+            return false;
+        }
+
+
+       return userManagerImpl.deleteUser(userToDeleteEmail, loggedInUserEmail);
     }
 
     @Override
@@ -57,6 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> readUserByEmail(String email) {
         return userManagerImpl.getUserByEmail(email);
+    }
+
+    @Override
+    public boolean getUserIsPresentInDatabaseByEmail(String eMailAddress) {
+        return readUserByEmail(eMailAddress).isPresent();
     }
 
     @Override
