@@ -30,7 +30,7 @@ public class AdminDeleteUserTab implements Tab {
             return;
         }
 
-        if (!showConfirmationDialog(userInformationUserToDelete).toLowerCase().equals("yes")) {
+        if (!showConfirmationDialog(userInformationUserToDelete).equalsIgnoreCase("yes")) {
             textView.displayErrorMessage("\nUser deletion canceled.\n");
 
             return;
