@@ -68,18 +68,19 @@ public class LoginRegistrationPage implements Tab {
     }
 
     public void showRegisterUserDialog() {
-        textView.displayMessage("\n===== Registration =====\nEnter first name: ");
+        textView.displayTabOrPageHeading("\n===== Registration =====");
+        textView.displayUserInputMessage("Enter first name\n> ");
         String firstName = textView.getUserInput();
-        textView.displayMessage("Enter last name: ");
+        textView.displayUserInputMessage("Enter last name\n> ");
         String lastName = textView.getUserInput();
-        textView.displayMessage("Enter date of birth: ");
+        textView.displayUserInputMessage("Enter date of birth\n> ");
         String dateOfBirth = textView.getUserInput();
-        textView.displayMessage("Enter email: ");
+        textView.displayUserInputMessage("Enter email\n> ");
         String email = textView.getUserInput();
         String phoneNumber = ValidationHelper.checkPhoneNumber(textView);
-        textView.displayMessage("Enter password: ");
+        textView.displayUserInputMessage("Enter password\n> ");
         String password = textView.getUserInput();
-        textView.displayMessage("Confirm password: ");
+        textView.displayUserInputMessage("Confirm password\n> ");
         String confirmPassword = textView.getUserInput();
 
         UserRegistrationData userData = new UserRegistrationData(firstName, lastName, dateOfBirth,
