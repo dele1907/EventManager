@@ -145,9 +145,7 @@ public class UserManagerImpl implements UserManager, Observer {
                                                      String postalCode, String address, String eventLocation, String description, User loggedUser) {
         
         PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
-
         EventDatabaseConnector.createNewEvent(event);
-
         EventDatabaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
@@ -340,7 +338,8 @@ public class UserManagerImpl implements UserManager, Observer {
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
 
-    private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
+    public boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
+        //Todo add "|| EventDatabaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())" if checkUserOrganizer work
         if (!loggedUser.getRole().equals(Role.ADMIN) ) {
             System.out.println("Permission denied!");
 

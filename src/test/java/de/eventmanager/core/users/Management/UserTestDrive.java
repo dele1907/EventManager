@@ -123,7 +123,7 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     @DisplayName("Cancel Event Test")
     void cancelEventTest() {
         String notExistingEventID = "1234";
@@ -142,7 +142,41 @@ public class UserTestDrive {
        System.out.println(userManagerImpl.showEventParticipantList(publicEvent.getEventID()));
     }
 
+    @Test
+    @Order(7)
+    @DisplayName("CheckPermission")
+    void checkPermissionTest() {
+        assertTrue(userManagerImpl.checkPermissionForEventOperations(testAdminUser,publicEvent.getEventID()));
+    }
 
+    //#region Registration and Authentication Tests
+    @Test
+    @Order(6)
+    @DisplayName("Password-Registration Test")
+    void isValidAndIsNotValidRegistrationPasswordTest() {
+
+        boolean skipSetUp = true;
+        boolean skipCleanUp = true;
+
+        String validTestPassword = "eventManager123";
+        String inValidTestPassword = "eventManagerÄ";
+
+        assertFalse(userManagerImpl.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
+
+        assertTrue(userManagerImpl.isValidRegistrationPassword(validTestPassword, "eventManager123"));
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("Login-System Test")
+    void authenticateUserLoginTest() {
+
+        boolean skipSetUp = true;
+        boolean skipCleanUp = true;
+
+        assertTrue(userManagerImpl.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
+    }
+    //#endregion Registration and Authentication Tests
 
 }
 

@@ -133,33 +133,6 @@ public class UserDatabaseConnectorTestDrive {
         assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
 
-    //#region Registration and Authentication Tests
-    @Test
-    @Order(6)
-    @DisplayName("Password-Registration Test")
-    void isValidAndIsNotValidRegistrationPasswordTest() {
 
-        skipSetUp = true;
-        skipCleanUp = true;
-
-        String validTestPassword = "eventManager123";
-        String inValidTestPassword = "eventManagerÄ";
-
-        assertFalse(UserDatabaseConnector.isValidRegistrationPassword(inValidTestPassword, "eventManagerÄ"));
-
-        assertTrue(UserDatabaseConnector.isValidRegistrationPassword(validTestPassword, "eventManager123"));
-    }
-
-    @Test
-    @Order(7)
-    @DisplayName("Login-System Test")
-    void authenticateUserLoginTest() {
-
-        skipSetUp = true;
-        skipCleanUp = true;
-
-        assertTrue(UserDatabaseConnector.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
-    }
-    //#endregion Registration and Authentication Tests
 
 }
