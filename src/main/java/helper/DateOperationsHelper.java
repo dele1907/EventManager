@@ -49,12 +49,6 @@ public class DateOperationsHelper {
         return days;
     }
 
-    public static void main(String[] args) {
-              DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
-              dateOperationsHelper.validateTheAge("Timo");
-              dateOperationsHelper.timeToEvent("Genetikk Tour");
-          }
-
     public int timeToEvent(String eventName) {
         int days = 0;
         int hours = 0;
