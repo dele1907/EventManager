@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseInitializer {
+
+    //TODO: @Dennis try-catch + connection close
     public static void initialize(Connection connection) throws SQLException {
         initUserTable(connection);
         initEventsTable(connection);
