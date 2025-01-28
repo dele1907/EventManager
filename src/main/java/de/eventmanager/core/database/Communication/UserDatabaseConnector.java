@@ -6,7 +6,6 @@ import java.util.Optional;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
-import helper.PasswordHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
@@ -16,7 +15,7 @@ import static org.jooq.generated.tables.User.USER;
 
 public class UserDatabaseConnector {
 
-    //#region Constants
+    //#region constants
     private static final String USER_ADDED = "User added successfully";
     private static final String USER_NOT_ADDED = "Error adding user: ";
     private static final String USER_NOT_READ = "Error reading user: ";
@@ -26,9 +25,13 @@ public class UserDatabaseConnector {
     private static final String USER_DELETED = "User deleted successfully";
     private static final String USER_NOT_DELETED = "Error deleting user: ";
 
-    //#endregion Constants
+    //#endregion constants
 
-    // Benutzer hinzufügen (CREATE)
+    //#region CRUD operations
+
+    /**
+     * CREATE a new user
+     * */
     public static boolean createNewUser(User user) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -68,7 +71,9 @@ public class UserDatabaseConnector {
         return false;
     }
 
-    // Benutzer laden (READ) anhand der ID
+    /**
+     * READ a user by ID
+     * */
     public static Optional<User> readUserByID(String userID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -102,7 +107,9 @@ public class UserDatabaseConnector {
         return Optional.empty();
     }
 
-    // Benutzer laden (READ) anhand der E-Mail-Adresse
+    /**
+     * READ a user by email address
+     * */
     public static Optional<User> readUserByEMail(String eMailAddress) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -137,7 +144,9 @@ public class UserDatabaseConnector {
         return Optional.empty();
     }
 
-    // Benutzer ändern (UPDATE)
+    /**
+     * UPDATE a user
+     * */
     public static boolean updateUser(User user) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -171,7 +180,9 @@ public class UserDatabaseConnector {
         }
     }
 
-    // Benutzer löschen (DELETE)
+    /**
+     * DELETE a user by ID
+     * */
     public static boolean deleteUserByID(String userID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -197,6 +208,9 @@ public class UserDatabaseConnector {
         }
     }
 
+    /**
+     * DELETE a user by email address
+     * */
     public static boolean deleteUserByEmail(String email) {
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -222,6 +236,11 @@ public class UserDatabaseConnector {
         }
     }
 
+    //#endregion CRUD operations
+
+    /**
+     * Check if user is admin
+     * */
     public static boolean getAdminUserIsPresentInDatabase() {
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -240,7 +259,5 @@ public class UserDatabaseConnector {
 
         return false;
     }
-
-
 
 }
