@@ -46,7 +46,7 @@ public class EventDatabaseConnector {
     //#endregion constants
 
     //#region CRUD operations
-
+    //TODO review @Laura: add finally block to close connection
     /**
      * CREATE a new event
      * */
@@ -57,7 +57,7 @@ public class EventDatabaseConnector {
             DSLContext create = DSL.using(connection);
 
             int rowsAffected = 0;
-
+            //TODO review @Laura: shorten method by using a common method for both event types
             if (event.isPrivateEvent()) {
                 PrivateEvent privateEvent = (PrivateEvent) event;
 
@@ -138,6 +138,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                //TODO review @Laura: remove cast
                 (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
@@ -155,6 +156,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                //TODO review @Laura: remove cast
                 (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
@@ -378,7 +380,7 @@ public class EventDatabaseConnector {
             DSLContext create = DSL.using(connection);
 
             int rowsUpdated = 0;
-
+            //TODO review @Laura: shorten method by using a common method for both event types
             if (event.isPrivateEvent()) {
                 PrivateEvent privateEvent = (PrivateEvent) event;
 
