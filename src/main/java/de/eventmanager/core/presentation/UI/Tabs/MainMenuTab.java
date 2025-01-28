@@ -1,11 +1,13 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
+import helper.ConfigurationDataSupplierHelper;
 
 public class MainMenuTab implements Tab {
     private View textView;
@@ -105,8 +107,10 @@ public class MainMenuTab implements Tab {
         addDelay(2);
 
         textView.displayMessage("\nExiting Program...\n");
-        //@TODO: remove flush before release
+        //TODO @Dennis: remove flush before release
         DatabasePathManager.flushDatabasePath(flushTestDatabase);
+        //TODO @Dennis: remove following line before release
+        DatabaseInitializer.deInit(ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE);
         System.exit(0);
     }
 

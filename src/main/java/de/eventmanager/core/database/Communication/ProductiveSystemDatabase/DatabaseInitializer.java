@@ -1,96 +1,132 @@
 package de.eventmanager.core.database.Communication.ProductiveSystemDatabase;
 
 
+import de.eventmanager.core.database.Communication.DatabaseConnector;
+import helper.LoggerHelper;
+import org.jooq.DSLContext;
+import org.jooq.exception.DataAccessException;
+import org.jooq.impl.DSL;
+
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class DatabaseInitializer {
 
-    //TODO: @Dennis try-catch + connection close
-    public static void initialize(Connection connection) throws SQLException {
-        initUserTable(connection);
-        initEventsTable(connection);
-        initCreatedTable(connection);
-        initBookedTable(connection);
-        initCitiesPostalCodeTable(connection);
+    private final static String USER_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS user ("
+            + " userID TEXT PRIMARY KEY,"
+            + " firstName TEXT NOT NULL,"
+            + " lastName TEXT NOT NULL,"
+            + " birthDate TEXT NOT NULL,"
+            + " eMail TEXT NOT NULL,"
+            + " phoneNumber TEXT NOT NULL,"
+            + " password TEXT NOT NULL,"
+            + " isAdmin BOOLEAN NOT NULL"
+            + ");";
+
+    private final static String EVENTS_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS events ("
+            + " eventID TEXT PRIMARY KEY,"
+            + " eventName TEXT NOT NULL,"
+            + " eventStart TEXT NOT NULL,"
+            + " eventEnd TEXT NOT NULL,"
+            + " maximumCapacity TEXT NULL,"
+            + " numberOfBookedUsersOnEvent TEXT NOT NULL,"
+            + " category TEXT NOT NULL,"
+            + " eventLocation TEXT NOT NULL,"
+            + " postalCode TEXT NOT NULL,"
+            + " address TEXT NOT NULL,"
+            + " description TEXT NULL,"
+            + " maxParticipants INTEGER NULL,"
+            + " privateEvent BOOLEAN NOT NULL"
+            + ");";
+
+    private final static String CREATED_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS created ("
+            + " userID TEXT NOT NULL,"
+            + " eventID TEXT NOT NULL,"
+            + " PRIMARY KEY (userID, eventID),"
+            + " FOREIGN KEY (eventID) REFERENCES events(eventID),"
+            + " FOREIGN KEY (userID) REFERENCES user(userID)"
+            + ");";
+
+    private final static String BOOKED_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS booked ("
+            + " userID TEXT NOT NULL,"
+            + " eventID TEXT NOT NULL,"
+            + " PRIMARY KEY (userID, eventID),"
+            + " FOREIGN KEY (eventID) REFERENCES events(eventID),"
+            + " FOREIGN KEY (userID) REFERENCES user(userID)"
+            + ");";
+
+    private final static String CITIES_POSTAL_CODE_TABLE_MODEL =  "CREATE TABLE IF NOT EXISTS cities ("
+            + " postalCode TEXT PRIMARY KEY,"
+            + " cityName TEXT NOT NULL"
+            + ");";
+
+    private static List<String> tableModels = List.of(
+            USER_TABLE_MODEL,
+            EVENTS_TABLE_MODEL,
+            CREATED_TABLE_MODEL,
+            BOOKED_TABLE_MODEL,
+            CITIES_POSTAL_CODE_TABLE_MODEL);
+
+
+
+    public static void initialize() {
+        Connection connection = DatabaseConnector.connect();
+       try {
+           initDataBaseTables(connection);
+       } catch (SQLException e) {
+           LoggerHelper.logErrorMessage(DatabaseInitializer.class,
+                   "Error initializing database: " + e.getMessage());
+       } finally {
+              closeConnection(connection);
+       }
     }
 
-    private static void initUserTable(Connection connection) throws SQLException {
-        String createUsersTable = "CREATE TABLE IF NOT EXISTS user ("
-                + " userID TEXT PRIMARY KEY,"
-                + " firstName TEXT NOT NULL,"
-                + " lastName TEXT NOT NULL,"
-                + " birthDate TEXT NOT NULL,"
-                + " eMail TEXT NOT NULL,"
-                + " phoneNumber TEXT NOT NULL,"
-                + " password TEXT NOT NULL,"
-                + " isAdmin BOOLEAN NOT NULL"
-                + ");";
+    private static void initDataBaseTables(Connection connection) throws SQLException {
+        DSLContext create = DSL.using(connection);
+        tableModels.forEach(tableModel -> {
+            try {
+                create.execute(tableModel);
+            } catch (DataAccessException e) {
+                LoggerHelper.logErrorMessage(DatabaseInitializer.class,
+                        "Error initializing database with statement: " +
+                                tableModel + " - " + e.getMessage());
+            }
+        });
+    }
 
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(createUsersTable);
+    private static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LoggerHelper.logErrorMessage(DatabaseInitializer.class,
+                        "Error closing connection: " + e.getMessage());
+            }
         }
     }
 
-    private static void initEventsTable(Connection connection) throws SQLException {
-        String createEventsTable = "CREATE TABLE IF NOT EXISTS events ("
-                + " eventID TEXT PRIMARY KEY,"
-                + " eventName TEXT NOT NULL,"
-                + " eventStart TEXT NOT NULL,"
-                + " eventEnd TEXT NOT NULL,"
-                + " maximumCapacity TEXT NULL,"
-                + " numberOfBookedUsersOnEvent TEXT NOT NULL,"
-                + " category TEXT NOT NULL,"
-                + " eventLocation TEXT NOT NULL,"
-                + " postalCode TEXT NOT NULL,"
-                + " address TEXT NOT NULL,"
-                + " description TEXT NULL,"
-                + " maxParticipants INTEGER NULL,"
-                + " privateEvent BOOLEAN NOT NULL"
-                + ");";
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(createEventsTable);
+    //INFO: for testing purposes only
+    public static void deInit(boolean isProductiveSystem) {
+        if (!isProductiveSystem) {
+            return;
         }
-    }
 
-    private static void initCreatedTable(Connection connection) throws SQLException {
-        String createdEventsTable = "CREATE TABLE IF NOT EXISTS created ("
-                + " userID TEXT NOT NULL,"
-                + " eventID TEXT NOT NULL,"
-                + " PRIMARY KEY (userID, eventID),"
-                + " FOREIGN KEY (eventID) REFERENCES events(eventID),"
-                + " FOREIGN KEY (userID) REFERENCES user(userID)"
-                + ");";
+        String databasePath = DatabaseConnector.getDatabasePath();
+        File databaseFile = new File(databasePath);
 
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(createdEventsTable);
-        }
-    }
-
-    private static void initBookedTable(Connection connection) throws SQLException {
-        String bookedEventsTable = "CREATE TABLE IF NOT EXISTS booked ("
-                + " userID TEXT NOT NULL,"
-                + " eventID TEXT NOT NULL,"
-                + " PRIMARY KEY (userID, eventID),"
-                + " FOREIGN KEY (eventID) REFERENCES events(eventID),"
-                + " FOREIGN KEY (userID) REFERENCES user(userID)"
-                + ");";
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(bookedEventsTable);
-        }
-    }
-
-    private static void initCitiesPostalCodeTable(Connection connection) throws SQLException {
-        String citiesPostalCodeTable = "CREATE TABLE IF NOT EXISTS cities ("
-                + " postalCode TEXT PRIMARY KEY,"
-                + " cityName TEXT NOT NULL"
-                + ");";
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(citiesPostalCodeTable);
+        if (databaseFile.exists()) {
+            if (databaseFile.delete()) {
+                LoggerHelper.logInfoMessage(DatabaseInitializer.class,
+                        "Database file deleted successfully at: " +
+                        databasePath);
+            } else {
+                LoggerHelper.logErrorMessage(DatabaseInitializer.class, "Failed to delete the database file.");
+            }
+        } else {
+            LoggerHelper.logInfoMessage(DatabaseInitializer.class, "Database file does not exist.");
         }
     }
 }

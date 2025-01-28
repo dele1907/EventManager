@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
@@ -16,6 +17,7 @@ public class LoginRegistrationPage implements Tab {
     private Optional<User> loggedInUser;
     //@TODO: remove flush before release
     private boolean flushTestDatabase;
+    private String loggedInUserID;
 
     public LoginRegistrationPage(View textView, UserController userController, boolean flushTestDatabase) {
         this.textView = textView;
@@ -48,8 +50,10 @@ public class LoginRegistrationPage implements Tab {
                     textView.displayMessage("\nExit Program...");
                     programIsRunning = false;
 
-                    //@TODO: remove flush before release
+                    //TODO @Dennis: remove flush before release
                     DatabasePathManager.flushDatabasePath(flushTestDatabase);
+                    //TODO @Dennis: remove following line before release
+                    DatabaseInitializer.deInit(ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE);
                     System.exit(0);
                     break;
                 default:
@@ -61,6 +65,14 @@ public class LoginRegistrationPage implements Tab {
 
     public Optional<User> getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public String getLoggedInUserID() {
+        return loggedInUserID;
+    }
+
+    public String resetLoggedInUserID() {
+        return loggedInUserID = "";
     }
 
     public void resetLoggedInUser() {
