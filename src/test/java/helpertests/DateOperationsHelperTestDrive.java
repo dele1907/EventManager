@@ -15,6 +15,6 @@ public class DateOperationsHelperTestDrive {
         int notcorrecttestcase = dateOperationsHelper.validateTheAge("hallo");
 
         assertTrue(notcorrecttestcase == 0);
-        assertNotNull(correcttestcase);
+        assertFalse(correcttestcase == 0 || correcttestcase < 0);
     }
 }
