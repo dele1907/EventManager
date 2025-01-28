@@ -25,17 +25,16 @@ public class DateOperationsHelper {
                     "TIMEDIFF(datetime('now'), (SELECT birthDate FROM user WHERE firstName = {0}))",
                     Integer.class,
                     inline(name)
-            ).as("yeardiff");
+            ).as("age");
 
             Result<Record1<Integer>> result = create.select(daytimeField).fetch();
 
             for (Record1<Integer> record : result) {
-                int rechnung = record.get(daytimeField);
-                System.out.println("Jahr: " + record.get("yeardiff"));
-                if (rechnung >= 18) {
-                    System.out.println("Test: " + rechnung);
+                int alter = record.get(daytimeField);
+                if (alter >= 18) {
+                    System.out.println("Alter: " + alter);
                 } else {
-                    System.out.println("Er ist keine 18!");
+                    System.out.println("This person is not 18!");
                 }
             }
 
@@ -54,12 +53,12 @@ public class DateOperationsHelper {
                     "TIMEDIFF(datetime('now'), (SELECT eventStart FROM events WHERE eventName = {0}))",
                     String.class,
                     inline(eventName)
-            ).as("daydiff");
+            ).as("timetoEvent");
 
             Result<Record1<String>> result = create.select(daytimeField).fetch();
 
             for (Record1<String> record : result) {
-                System.out.println("days: " + record.get("daydiff"));
+                System.out.println("days: " + record.get("timetoEvent"));
             }
 
         } catch (Exception exception) {
