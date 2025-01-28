@@ -9,7 +9,6 @@ import de.eventmanager.core.observer.Observer;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
-import helper.ListFormattingHelper;
 import helper.LoggerHelper;
 import helper.PasswordHelper;
 import org.apache.logging.log4j.LogManager;
@@ -146,7 +145,7 @@ public class UserManagerImpl implements UserManager, Observer {
         
         PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
         EventDatabaseConnector.createNewEvent(event);
-        EventDatabaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
+        EventDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
     }
@@ -162,7 +161,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
         PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description, maxParticipants);
         EventDatabaseConnector.createNewEvent(event);
-        EventDatabaseConnector.addUserCreatedEvent(event.getEventID(), loggedUser.getUserID());
+        EventDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
     }
@@ -270,7 +269,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
 
-        EventDatabaseConnector.deleteBooking(eventID,loggedUser.getUserID());
+        EventDatabaseConnector.removeBooking(eventID,loggedUser.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
 
         return true;

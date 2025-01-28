@@ -183,11 +183,11 @@ public class EventDatabaseConnectorTestDrive {
         skipSetUp = true;
         skipCleanUp = true;
 
-        boolean testAddCreation = EventDatabaseConnector.addUserCreatedEvent("testEventID", "testCreatorID");
+        boolean testAddCreation = EventDatabaseConnector.assignUserAsEventCreator("testEventID", "testCreatorID");
 
         assertTrue(testAddCreation, "Adding user to created event failed but should not.");
 
-        boolean testDeleteCreation = EventDatabaseConnector.removeUserCreatedEvent("testEventID", "testCreatorID");
+        boolean testDeleteCreation = EventDatabaseConnector.removeUserAsEventCreator("testEventID", "testCreatorID");
 
         assertTrue(testDeleteCreation, "Adding user to created event failed but should not.");
     }
@@ -206,9 +206,9 @@ public class EventDatabaseConnectorTestDrive {
 
         assertTrue(testAddBooking, "Adding user to booked event failed but should not.");
 
-        boolean testDeleteBooking = EventDatabaseConnector.deleteBooking("testPublicEventID", "testCreatorID");
+        boolean testRemoveBooking = EventDatabaseConnector.removeBooking("testPublicEventID", "testCreatorID");
 
-        assertTrue(testDeleteBooking, "Adding user to booked event failed but should not.");
+        assertTrue(testRemoveBooking, "Adding user to booked event failed but should not.");
     }
 
     /**
@@ -246,8 +246,8 @@ public class EventDatabaseConnectorTestDrive {
         // test of user number after booking
         assertEquals(2, numberOfBookedUsers);
 
-        EventDatabaseConnector.deleteBooking("testPublicEventID", "testBookingUserID1");
-        EventDatabaseConnector.deleteBooking("testPublicEventID", "testBookingUserID2");
+        EventDatabaseConnector.removeBooking("testPublicEventID", "testBookingUserID1");
+        EventDatabaseConnector.removeBooking("testPublicEventID", "testBookingUserID2");
 
         int newNumberOfBookedUsers = EventDatabaseConnector.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
 
