@@ -28,7 +28,7 @@ public class UserDatabaseConnector {
     //#endregion constants
 
     //#region CRUD operations
-    //TODO review @Laura: add finally blocks to close the connection
+
     /**
      * CREATE a new user
      * */

@@ -3,6 +3,7 @@ package de.eventmanager.core.database.Communication;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
@@ -46,7 +47,7 @@ public class EventDatabaseConnector {
     //#endregion constants
 
     //#region CRUD operations
-    //TODO review @Laura: add finally block to close connection
+
     /**
      * CREATE a new event
      * */
@@ -57,65 +58,13 @@ public class EventDatabaseConnector {
             DSLContext create = DSL.using(connection);
 
             int rowsAffected = 0;
-            //TODO review @Laura: shorten method by using a common method for both event types
+
             if (event.isPrivateEvent()) {
                 PrivateEvent privateEvent = (PrivateEvent) event;
-
-                rowsAffected = create.insertInto(EVENTS,
-                                EVENTS.EVENTID,
-                                EVENTS.EVENTNAME,
-                                EVENTS.EVENTSTART,
-                                EVENTS.EVENTEND,
-                                EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
-                                EVENTS.CATEGORY,
-                                EVENTS.PRIVATEEVENT,
-                                EVENTS.POSTALCODE,
-                                EVENTS.ADDRESS,
-                                EVENTS.EVENTLOCATION,
-                                EVENTS.DESCRIPTION)
-                        .values(
-                                privateEvent.getEventID(),
-                                privateEvent.getEventName(),
-                                privateEvent.getEventStart(),
-                                privateEvent.getEventEnd(),
-                                privateEvent.getNumberOfBookedUsersOnEvent(),
-                                privateEvent.getCategory(),
-                                privateEvent.isPrivateEvent(),
-                                privateEvent.getPostalCode(),
-                                privateEvent.getAddress(),
-                                privateEvent.getEventLocation(),
-                                privateEvent.getDescription())
-                        .execute();
+                rowsAffected = insertPrivateEvent(create, privateEvent);
             } else {
                 PublicEvent publicEvent = (PublicEvent) event;
-
-                rowsAffected = create.insertInto(EVENTS,
-                                EVENTS.EVENTID,
-                                EVENTS.EVENTNAME,
-                                EVENTS.EVENTSTART,
-                                EVENTS.EVENTEND,
-                                EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
-                                EVENTS.CATEGORY,
-                                EVENTS.PRIVATEEVENT,
-                                EVENTS.MAXIMUMCAPACITY,
-                                EVENTS.POSTALCODE,
-                                EVENTS.ADDRESS,
-                                EVENTS.EVENTLOCATION,
-                                EVENTS.DESCRIPTION)
-                        .values(
-                                publicEvent.getEventID(),
-                                publicEvent.getEventName(),
-                                publicEvent.getEventStart(),
-                                publicEvent.getEventEnd(),
-                                publicEvent.getNumberOfBookedUsersOnEvent(),
-                                publicEvent.getCategory(),
-                                publicEvent.isPrivateEvent(),
-                                publicEvent.getMaximumCapacity(),
-                                publicEvent.getPostalCode(),
-                                publicEvent.getAddress(),
-                                publicEvent.getEventLocation(),
-                                publicEvent.getDescription())
-                        .execute();
+                rowsAffected = insertPublicEvent(create, publicEvent);
             }
 
             if (rowsAffected > 0) {
@@ -131,6 +80,64 @@ public class EventDatabaseConnector {
         return false;
     }
 
+    private static int insertPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
+        return create.insertInto(EVENTS,
+                        EVENTS.EVENTID,
+                        EVENTS.EVENTNAME,
+                        EVENTS.EVENTSTART,
+                        EVENTS.EVENTEND,
+                        EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
+                        EVENTS.CATEGORY,
+                        EVENTS.PRIVATEEVENT,
+                        EVENTS.POSTALCODE,
+                        EVENTS.ADDRESS,
+                        EVENTS.EVENTLOCATION,
+                        EVENTS.DESCRIPTION)
+                .values(
+                        privateEvent.getEventID(),
+                        privateEvent.getEventName(),
+                        privateEvent.getEventStart(),
+                        privateEvent.getEventEnd(),
+                        privateEvent.getNumberOfBookedUsersOnEvent(),
+                        privateEvent.getCategory(),
+                        privateEvent.isPrivateEvent(),
+                        privateEvent.getPostalCode(),
+                        privateEvent.getAddress(),
+                        privateEvent.getEventLocation(),
+                        privateEvent.getDescription())
+                .execute();
+    }
+
+    private static int insertPublicEvent(DSLContext create, PublicEvent publicEvent) {
+        return create.insertInto(EVENTS,
+                        EVENTS.EVENTID,
+                        EVENTS.EVENTNAME,
+                        EVENTS.EVENTSTART,
+                        EVENTS.EVENTEND,
+                        EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
+                        EVENTS.CATEGORY,
+                        EVENTS.PRIVATEEVENT,
+                        EVENTS.MAXIMUMCAPACITY,
+                        EVENTS.POSTALCODE,
+                        EVENTS.ADDRESS,
+                        EVENTS.EVENTLOCATION,
+                        EVENTS.DESCRIPTION)
+                .values(
+                        publicEvent.getEventID(),
+                        publicEvent.getEventName(),
+                        publicEvent.getEventStart(),
+                        publicEvent.getEventEnd(),
+                        publicEvent.getNumberOfBookedUsersOnEvent(),
+                        publicEvent.getCategory(),
+                        publicEvent.isPrivateEvent(),
+                        publicEvent.getMaximumCapacity(),
+                        publicEvent.getPostalCode(),
+                        publicEvent.getAddress(),
+                        publicEvent.getEventLocation(),
+                        publicEvent.getDescription())
+                .execute();
+    }
+
     public static Optional<PrivateEvent> getPrivateEventFromRecord(Record record) {
         return Optional.of(new PrivateEvent(
                 record.get(EVENTS.EVENTID),
@@ -138,8 +145,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                //TODO review @Laura: remove cast
-                (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
+                getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
@@ -156,8 +162,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                //TODO review @Laura: remove cast
-                (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
+                getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
@@ -168,6 +173,9 @@ public class EventDatabaseConnector {
         ));
     }
 
+    /**
+     * READ private and public events by ID
+     * */
     public static Optional<? extends EventModel> readEventByID(String eventID) {
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -258,25 +266,7 @@ public class EventDatabaseConnector {
                     .where(EVENTS.EVENTNAME.eq(eventName))
                     .fetch();
 
-            for (Record record : records) {
-                PublicEvent publicEvent = new PublicEvent(
-                        record.get(EVENTS.EVENTID),
-                        record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTSTART),
-                        record.get(EVENTS.EVENTEND),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
-                        record.get(EVENTS.CATEGORY),
-                        record.get(EVENTS.PRIVATEEVENT),
-                        record.get(EVENTS.POSTALCODE),
-                        record.get(EVENTS.ADDRESS),
-                        record.get(EVENTS.EVENTLOCATION),
-                        record.get(EVENTS.DESCRIPTION),
-                        record.get(EVENTS.MAXIMUMCAPACITY)
-                );
-
-                publicEvents.add(publicEvent);
-            }
+            readPublicEventsFromDatabase(publicEvents, records);
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
@@ -300,24 +290,7 @@ public class EventDatabaseConnector {
                     .where(EVENTS.EVENTLOCATION.eq(eventLocation))
                     .fetch();
 
-            for (Record record : records) {
-                PublicEvent publicEvent = new PublicEvent(
-                        record.get(EVENTS.EVENTID),
-                        record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTSTART),
-                        record.get(EVENTS.EVENTEND),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
-                        record.get(EVENTS.CATEGORY),
-                        record.get(EVENTS.PRIVATEEVENT),
-                        record.get(EVENTS.POSTALCODE),
-                        record.get(EVENTS.ADDRESS),
-                        record.get(EVENTS.EVENTLOCATION),
-                        record.get(EVENTS.DESCRIPTION),
-                        record.get(EVENTS.MAXIMUMCAPACITY)
-                );
-                publicEvents.add(publicEvent);
-            }
+            readPublicEventsFromDatabase(publicEvents, records);
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
@@ -342,30 +315,38 @@ public class EventDatabaseConnector {
                     .where(CITIES.CITYNAME.eq(eventCity))
                     .fetch();
 
-            for (Record record : records) {
-                PublicEvent publicEvent = new PublicEvent(
-                        record.get(EVENTS.EVENTID),
-                        record.get(EVENTS.EVENTNAME),
-                        record.get(EVENTS.EVENTSTART),
-                        record.get(EVENTS.EVENTEND),
-                        record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                        (ArrayList<String>) getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
-                        record.get(EVENTS.CATEGORY),
-                        record.get(EVENTS.PRIVATEEVENT),
-                        record.get(EVENTS.POSTALCODE),
-                        record.get(EVENTS.ADDRESS),
-                        record.get(EVENTS.EVENTLOCATION),
-                        record.get(EVENTS.DESCRIPTION),
-                        record.get(EVENTS.MAXIMUMCAPACITY)
-                );
-                publicEvents.add(publicEvent);
-        }
+            readPublicEventsFromDatabase(publicEvents, records);
 
-    }catch (Exception exception) {
+        } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
         }
 
         return publicEvents;
+    }
+
+    /**
+     * READ a list of public events
+     * */
+    private static void readPublicEventsFromDatabase(ArrayList<PublicEvent> publicEvents, Result<Record> records) {
+        for (var record : records) {
+            PublicEvent publicEvent = new PublicEvent(
+                    record.get(EVENTS.EVENTID),
+                    record.get(EVENTS.EVENTNAME),
+                    record.get(EVENTS.EVENTSTART),
+                    record.get(EVENTS.EVENTEND),
+                    record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
+                    getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
+                    record.get(EVENTS.CATEGORY),
+                    record.get(EVENTS.PRIVATEEVENT),
+                    record.get(EVENTS.POSTALCODE),
+                    record.get(EVENTS.ADDRESS),
+                    record.get(EVENTS.EVENTLOCATION),
+                    record.get(EVENTS.DESCRIPTION),
+                    record.get(EVENTS.MAXIMUMCAPACITY)
+            );
+
+            publicEvents.add(publicEvent);
+        }
     }
 
     //# endregion eventSearch
@@ -380,40 +361,13 @@ public class EventDatabaseConnector {
             DSLContext create = DSL.using(connection);
 
             int rowsUpdated = 0;
-            //TODO review @Laura: shorten method by using a common method for both event types
+
             if (event.isPrivateEvent()) {
                 PrivateEvent privateEvent = (PrivateEvent) event;
-
-                rowsUpdated = create.update(EVENTS)
-                        .set(EVENTS.EVENTNAME, privateEvent.getEventName())
-                        .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
-                        .set(EVENTS.EVENTEND, privateEvent.getEventEnd())
-                        .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
-                        .set(EVENTS.CATEGORY, privateEvent.getCategory())
-                        .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
-                        .set(EVENTS.POSTALCODE, privateEvent.getPostalCode())
-                        .set(EVENTS.ADDRESS, privateEvent.getAddress())
-                        .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
-                        .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
-                        .where(EVENTS.EVENTID.eq(event.getEventID()))
-                        .execute();
+                rowsUpdated = setPrivateEvent(create, privateEvent);
             } else {
                 PublicEvent publicEvent = (PublicEvent) event;
-
-                rowsUpdated = create.update(EVENTS)
-                        .set(EVENTS.EVENTNAME, publicEvent.getEventName())
-                        .set(EVENTS.EVENTSTART, publicEvent.getEventStart())
-                        .set(EVENTS.EVENTEND, publicEvent.getEventEnd())
-                        .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
-                        .set(EVENTS.CATEGORY, publicEvent.getCategory())
-                        .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
-                        .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
-                        .set(EVENTS.ADDRESS, publicEvent.getAddress())
-                        .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
-                        .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
-                        .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
-                        .where(EVENTS.EVENTID.eq(event.getEventID()))
-                        .execute();
+                rowsUpdated = setPublicEvent(create, publicEvent);
             }
 
             if (rowsUpdated > 0) {
@@ -431,6 +385,39 @@ public class EventDatabaseConnector {
 
             return false;
         }
+    }
+
+    private static int setPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
+        return create.update(EVENTS)
+                .set(EVENTS.EVENTNAME, privateEvent.getEventName())
+                .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
+                .set(EVENTS.EVENTEND, privateEvent.getEventEnd())
+                .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
+                .set(EVENTS.CATEGORY, privateEvent.getCategory())
+                .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
+                .set(EVENTS.POSTALCODE, privateEvent.getPostalCode())
+                .set(EVENTS.ADDRESS, privateEvent.getAddress())
+                .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
+                .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
+                .where(EVENTS.EVENTID.eq(privateEvent.getEventID()))
+                .execute();
+    }
+
+    private static int setPublicEvent(DSLContext create, PublicEvent publicEvent) {
+        return create.update(EVENTS)
+                .set(EVENTS.EVENTNAME, publicEvent.getEventName())
+                .set(EVENTS.EVENTSTART, publicEvent.getEventStart())
+                .set(EVENTS.EVENTEND, publicEvent.getEventEnd())
+                .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
+                .set(EVENTS.CATEGORY, publicEvent.getCategory())
+                .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
+                .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
+                .set(EVENTS.ADDRESS, publicEvent.getAddress())
+                .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
+                .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
+                .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
+                .where(EVENTS.EVENTID.eq(publicEvent.getEventID()))
+                .execute();
     }
 
     /**
@@ -625,7 +612,6 @@ public class EventDatabaseConnector {
                     LoggerHelper.logInfoMessage(EventDatabaseConnector.class, BOOKING_REMOVED);
 
                     return updatedRows > 0;
-
                 }
 
                 return false;
@@ -655,11 +641,9 @@ public class EventDatabaseConnector {
                     .where(BOOKED.EVENTID.eq(eventID))
                     .fetch();
 
-            for (Record record : records) {
-                String eMailAddress = record.get(USER.EMAIL);
-
-                bookedUsers.add(eMailAddress);
-            }
+            bookedUsers.addAll(records.stream()
+                    .map(record -> record.get(USER.EMAIL))
+                    .collect(Collectors.toList()));
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
