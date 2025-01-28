@@ -290,7 +290,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
 
 
-    public boolean isEventExisting(Optional<? extends EventModel> event) {
+    private boolean isEventExisting(Optional<? extends EventModel> event) {
         if (event.isEmpty()) {
             LoggerHelper.logErrorMessage(User.class, "Event not found");
 
@@ -338,7 +338,7 @@ public class UserManagerImpl implements UserManager, Observer {
     }
 
     public boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
-        //Todo add "|| EventDatabaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())" if checkUserOrganizer work
+        //Todo @Finn add "|| EventDatabaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())" if checkUserOrganizer work
         if (!loggedUser.getRole().equals(Role.ADMIN) ) {
             System.out.println("Permission denied!");
 
