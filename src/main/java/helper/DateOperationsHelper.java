@@ -10,60 +10,75 @@ import org.jooq.Record;
 import static org.jooq.generated.Tables.EVENTS;
 import static org.jooq.impl.DSL.*;
 import org.jooq.*;
+import org.jooq.impl.SQLDataType;
+import org.jooq.types.DayToSecond;
 
 public class DateOperationsHelper {
 
     private static final String CONNECTION_FAIL = "The Databaseconnection fails!";
+    private static final String NO_BIRTHDAY_FOUND = "Wrong eMail Address or no Birthday found!";
+    private static final String NO_EVENTSART_FOUND = "Wrong Event Name or no start day found";
 
-    public void validateTheAge(String name) {
+    public int validateTheAge(String eMailAddresse) {
+        int days = 0;
 
         try (Connection connection = DatabaseConnector.connect()){
 
             DSLContext create = DSL.using(connection);
 
-            Field<Integer> daytimeField = field(
-                    "TIMEDIFF(datetime('now'), (SELECT birthDate FROM user WHERE firstName = {0}))",
-                    Integer.class,
-                    inline(name)
-            ).as("age");
+            Result<Record1<DayToSecond>> result = create.select(
+                            DSL.timestampDiff(DSL.currentTimestamp(),
+                                    DSL.field("birthDate", SQLDataType.TIMESTAMP)))
+                                    .from("user")
+                                    .where(DSL.field("eMail").eq(eMailAddresse))
+                                    .fetch();
 
-            Result<Record1<Integer>> result = create.select(daytimeField).fetch();
+            if(!result.isEmpty()) {
 
-            for (Record1<Integer> record : result) {
-                int alter = record.get(daytimeField);
-                if (alter >= 18) {
-                    System.out.println("Alter: " + alter);
-                } else {
-                    System.out.println("This person is not 18!");
+                for (Record1<DayToSecond> record : result) {
+                    days = record.value1().getDays();
                 }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_BIRTHDAY_FOUND);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+        return days;
     }
 
-    public void timeToEvent(String eventName) {
+    public int timeToEvent(String eventName) {
+        int days = 0;
+        int hours = 0;
+        int minutes = 0;
 
         try (Connection connection = DatabaseConnector.connect()){
 
             DSLContext create = DSL.using(connection);
 
-            Field<String> daytimeField = field(
-                    "TIMEDIFF(datetime('now'), (SELECT eventStart FROM events WHERE eventName = {0}))",
-                    String.class,
-                    inline(eventName)
-            ).as("timetoEvent");
+            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.currentTimestamp(), DSL.field("eventStart", SQLDataType.TIMESTAMP)))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
 
-            Result<Record1<String>> result = create.select(daytimeField).fetch();
+            if(!result.isEmpty()) {
 
-            for (Record1<String> record : result) {
-                System.out.println("days: " + record.get("timetoEvent"));
+                for (Record1<DayToSecond> record : result) {
+                    days = record.value1().getDays();
+                    hours = record.value1().getHours();
+                    minutes = record.value1().getMinutes();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENTSART_FOUND);
             }
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+        return days;
     }
 
     /**

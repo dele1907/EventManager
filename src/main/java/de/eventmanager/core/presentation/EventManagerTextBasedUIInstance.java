@@ -75,14 +75,8 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         }
 
         DatabaseConnector.setDatabasePath(databasePath);
-        try (Connection conn = DatabaseConnector.connect()) {
-            if (conn != null) {
-                DatabaseInitializer.initialize(conn);
-                textView.displaySuccessMessage("\nDatabase initialized at: " + databasePath + "\n");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DatabaseInitializer.initialize();
+        textView.displaySuccessMessage("\nDatabase initialized at: " + databasePath + "\n");
     }
 
     private void initPages(boolean flushDatabasePathAfterTest) {
