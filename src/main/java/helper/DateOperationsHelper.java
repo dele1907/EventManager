@@ -17,7 +17,6 @@ public class DateOperationsHelper {
     private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
 
     //Todo Review: @Timo add comments to methods
-    //Todo Review: @Timo add whitespaces above return statements
 
     public int validateTheAge(String eMailAddresse) {
         int years = 0;
@@ -46,6 +45,7 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return years;
     }
 
@@ -78,6 +78,7 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return days;
     }
 
