@@ -10,7 +10,9 @@ public class PublicEvent extends EventModel {
 
     //#region constructors
 
-    // Konstruktor für öffentliche Events ohne Teilnehmerbeschränkung
+    /**
+     * Regular constructor for initialising a public event
+     * */
     public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
@@ -24,7 +26,9 @@ public class PublicEvent extends EventModel {
         this.description = description;
     }
 
-    // Konstruktor für öffentliche Events mit Teilnehmerbeschränkung
+    /**
+     * Regular constructor for initialising a public event with maximum capacity
+     * */
     public PublicEvent(String eventName,  String eventStart, String eventEnd, String category, String postalCode, String address,
                        String eventLocation, String description, int maximumCapacity) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
@@ -41,7 +45,9 @@ public class PublicEvent extends EventModel {
 
     }
 
-    // Konstruktor für öffentliche Events aus DB
+    /**
+     * Constructor for initialising a public event from database
+     * */
     public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, ArrayList<String> bookedUsersOnEvent,
                        String category, boolean privateEvent, String postalCode, String address, String eventLocation, String description, int maximumCapacity) {
         this.eventID = eventID;
