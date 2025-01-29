@@ -126,7 +126,6 @@ public class UserManagerImpl implements UserManager, Observer {
 
     @Override
     public Optional<User> getUserByID(String userID) {
-
         return UserDatabaseConnector.readUserByID(userID);
     }
 
@@ -220,6 +219,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
         String userIDofUserCreatedEvent = EventDatabaseConnector.getEventCreator(eventID).get().getUserID();
         EventDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
+
         return EventDatabaseConnector.deleteEventByID(eventID);
     }
     @Override
@@ -242,7 +242,6 @@ public class UserManagerImpl implements UserManager, Observer {
     @Override
     public boolean bookEvent(String eventID, User loggedUser) {
         Optional<PublicEvent> publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
-
 
         if (!isEventExisting(publicEvent)) {
 
@@ -292,6 +291,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
         return true;
     }
+
     @Override
     public boolean addUserToEvent(String eventID, String userEmail, String loggedUserID) {
         Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
@@ -335,6 +335,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
         if (!checkPermissionForEventOperations(loggedUser.get(), eventID)) {
             LoggerHelper.logErrorMessage(User.class, "You do not have permission to remove user from this event!");
+
             return false;
         }
 
@@ -385,10 +386,9 @@ public class UserManagerImpl implements UserManager, Observer {
 
         this.addAdminStatusToUser(UserDatabaseConnector.readUserByID(userID).get());
     }
+
     @Override
     public void removeAdminStatusFromUserByUserID(String userID, User loggedUser) {
-        
-
         if (!loggedUser.getRole().equals(Role.ADMIN)) {
             LoggerHelper.logErrorMessage(User.class, NO_PERMISSION_REMOVE_ADMIN_STATUS);
 
