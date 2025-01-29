@@ -55,13 +55,6 @@ public class UserManagerImpl implements UserManager, Observer {
         return true;
     }
 
-    private boolean checkUserSelfRegisterOrCreated(String loggedInUserUserID) {
-        return !loggedInUserUserID.equals(ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID) &&
-                !UserDatabaseConnector.readUserByID(loggedInUserUserID)
-                        .map(user -> user.getRole().equals(Role.ADMIN))
-                        .orElse(false);
-    }
-
     /**
      * <h3>Edit User</h3>
      * {@code editUser()} accepts the userID of the user you want to edit and the parameters you want to modify.
@@ -132,6 +125,13 @@ public class UserManagerImpl implements UserManager, Observer {
     @Override
     public Optional<User> getUserByEmail(String eMailAddress) {
         return UserDatabaseConnector.readUserByEMail(eMailAddress);
+    }
+
+    private boolean checkUserSelfRegisterOrCreated(String loggedInUserUserID) {
+        return !loggedInUserUserID.equals(ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID) &&
+                !UserDatabaseConnector.readUserByID(loggedInUserUserID)
+                        .map(user -> user.getRole().equals(Role.ADMIN))
+                        .orElse(false);
     }
 
     //#endregion User related CRUD-Operations
