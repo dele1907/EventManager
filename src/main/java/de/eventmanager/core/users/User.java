@@ -60,7 +60,7 @@ public class User extends UserModel {
     /**
      * <h3>Own toString()-Method</h3>
      * <p>
-     * Custom {@link #toString()} toString()} method  for a more readable output
+     * Custom {@link #toString()} method  for a more readable output
      */
 
     @Override
