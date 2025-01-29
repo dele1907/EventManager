@@ -7,15 +7,17 @@ import org.jooq.impl.DSL;
 import java.sql.Connection;
 
 import org.jooq.*;
-import org.jooq.impl.QOM;
 import org.jooq.impl.SQLDataType;
 import org.jooq.types.DayToSecond;
 
 public class DateOperationsHelper {
 
-    private static final String CONNECTION_FAIL = "The Databaseconnection fails!";
+    private static final String CONNECTION_FAIL = "The Database-Connection failed!";
     private static final String NO_BIRTHDAY_FOUND = "Wrong eMail Address or no Birthday found!";
-    private static final String NO_EVENTSART_FOUND = "Wrong Event Name or no start day found";
+    private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
+
+    //Todo Review: @Timo add comments to methods
+    //Todo Review: @Timo add whitespaces above return statements
 
     public int validateTheAge(String eMailAddresse) {
         int years = 0;
@@ -70,7 +72,7 @@ public class DateOperationsHelper {
                 }
 
             } else {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENTSART_FOUND);
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
             }
 
         } catch (Exception exception) {
@@ -97,7 +99,7 @@ public class DateOperationsHelper {
                 }
 
             } else {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENTSART_FOUND);
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
             }
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
@@ -122,7 +124,7 @@ public class DateOperationsHelper {
                 }
 
             } else {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENTSART_FOUND);
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
             }
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
