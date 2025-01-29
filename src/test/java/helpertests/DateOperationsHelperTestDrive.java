@@ -7,14 +7,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DateOperationsHelperTestDrive {
 
     @Test
-    void testValidateTheAge() {
+    void testcorrectEmail() {
+
+        DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
+
+        int testcase = dateOperationsHelper.validateTheAge("hallo");
+
+        assertTrue(testcase == 0);
+    }
+
+    @Test
+    void testAgelogic() {
 
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
 
         int correcttestcase = dateOperationsHelper.validateTheAge("tisc00006@htwsaar.de");
-        int notcorrecttestcase = dateOperationsHelper.validateTheAge("hallo");
 
-        assertTrue(notcorrecttestcase == 0);
-        assertFalse(correcttestcase == 0 || correcttestcase < 0);
+        assertFalse(correcttestcase > 27);
+        assertTrue(correcttestcase > 18);
     }
 }

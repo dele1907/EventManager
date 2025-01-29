@@ -3,12 +3,9 @@ package helper;
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import org.jooq.DSLContext;
-import org.jooq.Select;
 import org.jooq.impl.DSL;
 import java.sql.Connection;
-import org.jooq.Record;
-import static org.jooq.generated.Tables.EVENTS;
-import static org.jooq.impl.DSL.*;
+
 import org.jooq.*;
 import org.jooq.impl.SQLDataType;
 import org.jooq.types.DayToSecond;
@@ -20,7 +17,7 @@ public class DateOperationsHelper {
     private static final String NO_EVENTSART_FOUND = "Wrong Event Name or no start day found";
 
     public int validateTheAge(String eMailAddresse) {
-        int days = 0;
+        int years = 0;
 
         try (Connection connection = DatabaseConnector.connect()){
 
@@ -33,10 +30,10 @@ public class DateOperationsHelper {
                                     .where(DSL.field("eMail").eq(eMailAddresse))
                                     .fetch();
 
-            if(!result.isEmpty()) {
+            if(result.isNotEmpty()) {
 
                 for (Record1<DayToSecond> record : result) {
-                    days = record.value1().getDays();
+                    years = record.value1().getDays() / 365;
                 }
 
             } else {
@@ -46,7 +43,7 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
-        return days;
+        return years;
     }
 
     public int timeToEvent(String eventName) {
@@ -63,7 +60,7 @@ public class DateOperationsHelper {
                     .where(DSL.field("eventName").eq(eventName))
                     .fetch();
 
-            if(!result.isEmpty()) {
+            if(result.isNotEmpty()) {
 
                 for (Record1<DayToSecond> record : result) {
                     days = record.value1().getDays();
