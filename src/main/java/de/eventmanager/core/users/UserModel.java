@@ -18,32 +18,8 @@ public abstract class UserModel {
     String phoneNumber;
     Role role;
 
-
-    public String[] showUserIDsByEventID(String eventID) {
-        return null;
-    }
-
-    public String[] showEventIDsByUserID(String userID) {
-        return null;
-    }
-
-    public Optional<EventModel> showEventByID(String userID){
-        return null;
-    };
-
-
-
-
-
-    public void addUserToEvent(String userID, String eventID) {}
-
-    public void removeUserFromEvent(String userID, String eventID) {}
-
-
-
-
-
     //#region Getter
+
     public Role getRole() {
         return role;
     }
@@ -106,6 +82,5 @@ public abstract class UserModel {
     public void setRoleAdmin(boolean hasAdminRole) {
         this. role = hasAdminRole ? Role.ADMIN : Role.USER;
     }
-
-//#endregion Setter
+    //#endregion Setter
 }
