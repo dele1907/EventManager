@@ -528,19 +528,18 @@ public class EventDatabaseConnector {
                         .and(CREATED.EVENTID.eq(eventID))
                         .fetchOne();
 
-                if (record != null) {
+                if (record == null) {
                     LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
 
                     return false;
                 }
 
+                return true;
             } catch (Exception exception) {
                 LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CHECK_IF_CREATOR_FAILED);
 
                 return false;
             }
-
-            return true;
         }
 
     //#endregion createdByUser
