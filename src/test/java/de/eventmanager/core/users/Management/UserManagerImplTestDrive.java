@@ -147,11 +147,12 @@ public class UserManagerImplTestDrive {
     @DisplayName("Add & Remove User to Event Test")
     void addAndRemoveUserToEventTest() {
         assertFalse(userManagerImpl.addUserToEvent(privateEvent.getEventID(),testUser.getEMailAddress(),testUser.getUserID()));
-        assertTrue(userManagerImpl.addUserToEvent(privateEvent.getEventID(),testUser.getEMailAddress(),testAdminUser.getUserID()));
+        assertFalse(userManagerImpl.removeUserFromEvent(privateEvent.getEventID(),testUser.getEMailAddress(), testUser.getUserID()));
 
-        //assertFalse(userManagerImpl.removeUserFromEvent(privateEvent.getEventID(),testUser.getEMailAddress(), testUser.getUserID()));
-        //assertTrue(userManagerImpl.removeUserFromEvent(privateEvent.getEventID(),testUser.getEMailAddress(), testAdminUser.getUserID()));
+        assertTrue(userManagerImpl.addUserToEvent(privateEvent.getEventID(),testUser.getEMailAddress(),testAdminUser.getUserID()));
+        assertTrue(userManagerImpl.removeUserFromEvent(privateEvent.getEventID(),testUser.getEMailAddress(), testAdminUser.getUserID()));
     }
+
     //#region Registration and Authentication Tests
     @Test
     @Order(9)

@@ -4,6 +4,7 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public interface UserManager {
@@ -48,11 +49,21 @@ public interface UserManager {
 
     boolean deleteEvent(String eventID, User loggedUser);
 
+    ArrayList<String> showEventParticipantList(String eventID);
+
+    //#endregion Event related CRUD-Operations
+
+    //#region Event-Operations
+
     boolean bookEvent(String eventID, User loggedUser);
 
     boolean cancelEvent(String eventID, User loggedUser);
 
-    //#endregion Event related CRUD-Operations
+    boolean addUserToEvent(String eventID, String userEmail, String loggedUserID);
+
+    boolean removeUserFromEvent(String eventID, String userEmail, String loggedUserID);
+
+    //#endregion Event-Operations
 
     //#region Permission-Operations
 

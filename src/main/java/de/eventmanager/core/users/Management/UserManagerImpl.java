@@ -217,18 +217,32 @@ public class UserManagerImpl implements UserManager, Observer {
 
             return false;
         }
-        /*
-        Todo @Finn add this "String userIDofUserCreatedEvent = EventDatabaseConnector.getEventCreator(eventID).get().getUserID();" instant of the following line
-         */
-        String userIDofUserCreatedEvent = "";
+
+        String userIDofUserCreatedEvent = EventDatabaseConnector.getEventCreator(eventID).get().getUserID();
         EventDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
         return EventDatabaseConnector.deleteEventByID(eventID);
     }
+    @Override
+    public ArrayList<String> showEventParticipantList(String eventID) {
+        Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
+
+        if (!isEventExisting(optionalEvent)) {
+
+            return null;
+        }
+
+        return participants;
+    }
+
+    //#endregion Event related CRUD-Operations
+
+    //#region Event-Operations
 
     @Override
     public boolean bookEvent(String eventID, User loggedUser) {
         Optional<PublicEvent> publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
-        
+
 
         if (!isEventExisting(publicEvent)) {
 
@@ -256,7 +270,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
     @Override
     public boolean cancelEvent(String eventID, User loggedUser) {
-        
+
         Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
         if (!isEventExisting(optionalEvent)) {
@@ -278,20 +292,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
         return true;
     }
-
-
-     public ArrayList<String> showEventParticipantList(String eventID) {
-        Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
-
-        if (!isEventExisting(optionalEvent)) {
-
-            return null;
-        }
-
-        return participants;
-    }
-
+    @Override
     public boolean addUserToEvent(String eventID, String userEmail, String loggedUserID) {
         Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
         Optional<User> userToAdd = UserDatabaseConnector.readUserByEMail(userEmail);
@@ -303,6 +304,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         if (!checkPermissionForEventOperations(loggedUser.get(), eventID)) {
+            LoggerHelper.logErrorMessage(User.class, "You do not have permission to add user to this event!");
 
             return false;
         }
@@ -320,6 +322,7 @@ public class UserManagerImpl implements UserManager, Observer {
         return true;
     }
 
+    @Override
     public boolean removeUserFromEvent(String eventID, String userEmail, String loggedUserID) {
         Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
         Optional<User> userToRemove = UserDatabaseConnector.readUserByEMail(userEmail);
@@ -331,7 +334,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         if (!checkPermissionForEventOperations(loggedUser.get(), eventID)) {
-
+            LoggerHelper.logErrorMessage(User.class, "You do not have permission to remove user from this event!");
             return false;
         }
 
@@ -344,10 +347,9 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         EventDatabaseConnector.removeBooking(eventID,userToRemove.get().getUserID());
-        
+
         return true;
     }
-
 
     private boolean isEventExisting(Optional<? extends EventModel> event) {
         if (event.isEmpty()) {
@@ -359,7 +361,7 @@ public class UserManagerImpl implements UserManager, Observer {
         return true;
     }
 
-    //#endregion Event related CRUD-Operations
+    //#endregion Event-Operations
 
     //#region Permission-Operations
 
@@ -397,10 +399,7 @@ public class UserManagerImpl implements UserManager, Observer {
     }
 
     private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
-        boolean permissionForEventOperations = loggedUser.getRole().equals(Role.ADMIN) || EventDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUser.getUserID());
-
-        return permissionForEventOperations;
-
+        return loggedUser.getRole().equals(Role.ADMIN) || EventDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUser.getUserID());
     }
 
     //#endregion Permission-Operations
@@ -476,4 +475,6 @@ public class UserManagerImpl implements UserManager, Observer {
     }
 
     //#endregion observer
+
+
 }
