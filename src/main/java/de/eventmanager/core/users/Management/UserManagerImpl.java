@@ -217,7 +217,11 @@ public class UserManagerImpl implements UserManager, Observer {
 
             return false;
         }
-
+        /*
+        Todo @Finn add this "String userIDofUserCreatedEvent = EventDatabaseConnector.getEventCreator(eventID).get().getUserID();" instant of the following line
+         */
+        String userIDofUserCreatedEvent = "";
+        EventDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
         return EventDatabaseConnector.deleteEventByID(eventID);
     }
 
@@ -288,6 +292,61 @@ public class UserManagerImpl implements UserManager, Observer {
         return participants;
     }
 
+    public boolean addUserToEvent(String eventID, String userEmail, String loggedUserID) {
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        Optional<User> userToAdd = UserDatabaseConnector.readUserByEMail(userEmail);
+        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+
+        if (!isEventExisting(optionalEvent) || !loggedUser.isPresent() || !userToAdd.isPresent()) {
+
+            return false;
+        }
+
+        if (!checkPermissionForEventOperations(loggedUser.get(), eventID)) {
+
+            return false;
+        }
+
+        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToAdd.get().getEMailAddress());
+
+        if (hasUserBookedTheEvent){
+            LoggerHelper.logErrorMessage(User.class, "Event already booked!");
+
+            return false;
+        }
+
+        EventDatabaseConnector.addBooking(eventID, userToAdd.get().getUserID());
+
+        return true;
+    }
+
+    public boolean removeUserFromEvent(String eventID, String userEmail, String loggedUserID) {
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        Optional<User> userToRemove = UserDatabaseConnector.readUserByEMail(userEmail);
+        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+
+        if (!isEventExisting(optionalEvent) || !loggedUser.isPresent() || !userToRemove.isPresent()) {
+
+            return false;
+        }
+
+        if (!checkPermissionForEventOperations(loggedUser.get(), eventID)) {
+
+            return false;
+        }
+
+        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToRemove.get().getEMailAddress());
+
+        if (!hasUserBookedTheEvent) {
+            LoggerHelper.logErrorMessage(User.class, "You can only cancel events for which you are registered!");
+
+            return false;
+        }
+
+        EventDatabaseConnector.removeBooking(eventID,userToRemove.get().getUserID());
+        
+        return true;
+    }
 
 
     private boolean isEventExisting(Optional<? extends EventModel> event) {
@@ -337,15 +396,11 @@ public class UserManagerImpl implements UserManager, Observer {
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
 
-    public boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
-        //Todo @Finn add "|| EventDatabaseConnector.checkUserOrganizerStatusForEvent(eventID, loggedUser.getUserID())" if checkUserOrganizer work
-        if (!loggedUser.getRole().equals(Role.ADMIN) ) {
-            System.out.println("Permission denied!");
+    private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
+        boolean permissionForEventOperations = loggedUser.getRole().equals(Role.ADMIN) || EventDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUser.getUserID());
 
-            return false;
-        }
+        return permissionForEventOperations;
 
-        return true;
     }
 
     //#endregion Permission-Operations

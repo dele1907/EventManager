@@ -21,8 +21,8 @@ public class UserTestDrive {
     User testAdminUser = UserDatabaseConnector.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
 
 
-    PublicEvent publicEvent = EventDatabaseConnector.readPublicEventByID("123").get();
-    PrivateEvent privateEvent = EventDatabaseConnector.readPrivateEventByID("124").get();
+    PublicEvent publicEvent = EventDatabaseConnector.readPublicEventByID("b017d79b-14a1-4e69-bd7c-584bd3858f17").get();
+    PrivateEvent privateEvent = EventDatabaseConnector.readPrivateEventByID("be3236a1-ebb6-4962-a9ba-9c91d7deadaf").get();
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
@@ -74,7 +74,7 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(8)
+    @Order(11)
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
 
@@ -123,7 +123,15 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(8)
+    @Order(6)
+    @DisplayName("Show All Event-Participants")
+    void printAllEventParticipants(){
+        assertTrue(true);
+        System.out.println(userManagerImpl.showEventParticipantList(publicEvent.getEventID()));
+    }
+
+    @Test
+    @Order(7)
     @DisplayName("Cancel Event Test")
     void cancelEventTest() {
         String notExistingEventID = "1234";
@@ -135,28 +143,20 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(6)
-    @DisplayName("Show All Event-Participants")
-    void printAllEventParticipants(){
-        assertTrue(true);
-       System.out.println(userManagerImpl.showEventParticipantList(publicEvent.getEventID()));
-    }
+    @Order(8)
+    @DisplayName("Add & Remove User to Event Test")
+    void addAndRemoveUserToEventTest() {
+        assertFalse(userManagerImpl.addUserToEvent(privateEvent.getEventID(),testUser.getEMailAddress(),testUser.getUserID()));
+        assertTrue(userManagerImpl.addUserToEvent(privateEvent.getEventID(),testUser.getEMailAddress(),testAdminUser.getUserID()));
 
-    @Test
-    @Order(7)
-    @DisplayName("CheckPermission")
-    void checkPermissionTest() {
-        assertTrue(userManagerImpl.checkPermissionForEventOperations(testAdminUser,publicEvent.getEventID()));
+        //assertFalse(userManagerImpl.removeUserFromEvent(privateEvent.getEventID(),testUser.getEMailAddress(), testUser.getUserID()));
+        //assertTrue(userManagerImpl.removeUserFromEvent(privateEvent.getEventID(),testUser.getEMailAddress(), testAdminUser.getUserID()));
     }
-
     //#region Registration and Authentication Tests
     @Test
-    @Order(6)
+    @Order(9)
     @DisplayName("Password-Registration Test")
     void isValidAndIsNotValidRegistrationPasswordTest() {
-
-        boolean skipSetUp = true;
-        boolean skipCleanUp = true;
 
         String validTestPassword = "eventManager123";
         String inValidTestPassword = "eventManagerÄ";
@@ -167,12 +167,9 @@ public class UserTestDrive {
     }
 
     @Test
-    @Order(7)
+    @Order(10)
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
-
-        boolean skipSetUp = true;
-        boolean skipCleanUp = true;
 
         assertTrue(userManagerImpl.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
     }

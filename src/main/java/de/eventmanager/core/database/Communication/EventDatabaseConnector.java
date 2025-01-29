@@ -12,6 +12,7 @@ import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.generated.tables.User;
 import org.jooq.impl.DSL;
 
 import static org.jooq.generated.Tables.CITIES;
@@ -542,6 +543,10 @@ public class EventDatabaseConnector {
             }
         }
 
+        public static Optional<User> getEventCreator(String eventID) {
+            //Todo @Laura add logic
+            return Optional.empty();
+        }
     //#endregion createdByUser
 
     //#region booking
