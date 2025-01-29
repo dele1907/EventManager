@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserTestDrive {
+public class UserManagerImplTestDrive {
 
     UserManagerImpl userManagerImpl = new UserManagerImpl();
 
