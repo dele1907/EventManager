@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
-import org.jooq.generated.tables.User;
 import org.jooq.impl.DSL;
 
 import static org.jooq.generated.Tables.CITIES;
@@ -34,10 +34,11 @@ public class EventDatabaseConnector {
     private static final String EVENT_DELETED = "Event deleted successfully";
     private static final String EVENT_NOT_DELETED = "Error deleting event: ";
     private static final String EVENT_CREATOR_ASSIGNED = "User assigned as event creator successfully";
-    private static final String EVENT_CREATOR_NOT_ASSIGNED = "Error user assigning as event creator: ";
+    private static final String EVENT_CREATOR_NOT_ASSIGNED = "Error assigning user as event creator: ";
     private static final String EVENT_CREATOR_REMOVED = "User removed as event creator successfully";
-    private static final String EVENT_CREATOR_NOT_REMOVED = "Error user removing as event creator: ";
+    private static final String EVENT_CREATOR_NOT_REMOVED = "Error removing user as event creator: ";
     private static final String CHECK_IF_CREATOR_FAILED = "Checking if user is event creator failed: ";
+    private static final String EVENT_CREATOR_NOT_FOUND = "Error finding event creator: ";
     private static final String ID_NOT_FOUND = "Error finding UserID or EventID";
     private static final String BOOKING_ADDED = "Booking added successfully";
     private static final String BOOKING_NOT_ADDED = "Error adding booking: ";
@@ -543,10 +544,44 @@ public class EventDatabaseConnector {
             }
         }
 
+    /**
+     * Get the user who is the event creator
+     * */
         public static Optional<User> getEventCreator(String eventID) {
-            //Todo @Laura add logic
+
+            try (Connection connection = DatabaseConnector.connect()) {
+
+                DSLContext create = DSL.using(connection);
+
+                Record record = create.select()
+                        .from(USER)
+                        .join(CREATED).on(USER.USERID.eq(CREATED.USERID))
+                        .where(CREATED.EVENTID.eq(eventID))
+                        .fetchOne();
+
+                if (record != null) {
+
+                    User user = new User(
+                            record.get(USER.USERID),
+                            record.get(USER.FIRSTNAME),
+                            record.get(USER.LASTNAME),
+                            record.get(USER.BIRTHDATE),
+                            record.get(USER.EMAIL),
+                            record.get(USER.PASSWORD),
+                            record.get(USER.PHONENUMBER),
+                            record.get(USER.ISADMIN)
+                    );
+
+                    return Optional.of(user);
+                }
+
+            } catch (Exception exception) {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_FOUND + exception.getMessage());
+            }
+
             return Optional.empty();
         }
+
     //#endregion createdByUser
 
     //#region booking
