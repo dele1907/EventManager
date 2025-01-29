@@ -95,7 +95,6 @@ public class UserManagerImpl implements UserManager, Observer {
      * @see UserDatabaseConnector UserManager
      */
 
-
     @Override
     public boolean deleteUser(String eMailUserToDelete, String loggedInUserID) {
         var loggedUserOptional = UserDatabaseConnector.readUserByID(loggedInUserID);
