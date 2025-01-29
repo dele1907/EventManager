@@ -62,7 +62,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test creating, updating and deleting events
      * */
     @Test
-    @Order(0)
     public void testCreateUpdateDeleteEvent() {
 
         skipCleanUp = true;
@@ -90,7 +89,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test that created events are unique
      * */
     @Test
-    @Order(1)
     public void testCreateEventFailed() {
 
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
@@ -107,7 +105,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test that updating is only possible if there is an entry in the database
      * */
     @Test
-    @Order(2)
     public void testUpdateEventFailed() {
 
         skipCleanUp = true;
@@ -123,7 +120,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test that deleting is only possible if there is an entry in the database
      * */
     @Test
-    @Order(3)
     public void testDeleteEventFailed() {
 
         skipSetUp = true;
@@ -138,7 +134,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test reading an event from the database
      * */
     @Test
-    @Order(4)
     public void testReadEventByID() {
 
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
@@ -177,7 +172,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test relation between event and creator (user)
      * */
     @Test
-    @Order(5)
     public void testAddAndRemoveUserCreatedEvent() {
 
         skipSetUp = true;
@@ -196,7 +190,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test relation on booking
      * */
     @Test
-    @Order(6)
     public void testAddAndDeleteBooking() {
 
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
@@ -215,7 +208,6 @@ public class EventDatabaseConnectorTestDrive {
      * Test relation on booking
      * */
     @Test
-    @Order(7)
     public void getBookedUsersOnEvent() {
 
         skipSetUp = true;

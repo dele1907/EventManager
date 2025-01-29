@@ -1,6 +1,5 @@
 package de.eventmanager.core.database.Communication;
 
-import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 
@@ -17,7 +16,9 @@ public class UserDatabaseConnectorTestDrive {
     private boolean skipSetUp = false;
     private boolean skipCleanUp = false;
 
-    // Vor jedem Test zwei Test-User erstellen:
+    /**
+     * Create two users before each test
+     * */
     @BeforeEach
     public void setUp() {
 
@@ -32,7 +33,9 @@ public class UserDatabaseConnectorTestDrive {
                 "max.m@mail.com", "password987", "1357902468", false);
     }
 
-    // Nach jedem Test die Datenbank bereinigen:
+    /**
+     * Clean up the database after testing
+     * */
     @AfterEach
     public void cleanUp() {
 
@@ -44,9 +47,10 @@ public class UserDatabaseConnectorTestDrive {
         UserDatabaseConnector.deleteUserByID("testUserID");
     }
 
-    // Testen von Erstellen, Updaten und Löschen eines Users in der Datenbank:
+    /**
+     * Test creating, updating and deleting users
+     * */
     @Test
-    @Order(0)
     public void testCreateUpdateDeleteUser() {
 
         skipCleanUp = true;
@@ -61,9 +65,10 @@ public class UserDatabaseConnectorTestDrive {
         assertTrue(userDeleted, "User deletion failed but should not.");
     }
 
-    // Testen, ob ein User nicht mehrmals erstellt werden kann:
+    /**
+     * Test that created users are unique
+     * */
     @Test
-    @Order(1)
     public void testCreateUserFailed() {
 
         UserDatabaseConnector.createNewUser(testUser);
@@ -72,9 +77,10 @@ public class UserDatabaseConnectorTestDrive {
         assertFalse(userCreated, "User creation was successful but should not.");
     }
 
-    // Testen, ob ein Update nur möglich ist, wenn der entsprechende Datensatz vorliegt:
+    /**
+     * Test that updating is only possible if there is an entry in the database
+     * */
     @Test
-    @Order(2)
     public void testUpdateUserFailed() {
 
         skipCleanUp = true;
@@ -84,9 +90,10 @@ public class UserDatabaseConnectorTestDrive {
         assertFalse(userUpdated, "User update was successful but should not.");
     }
 
-    // Testen, ob Löschen nur möglich ist, wenn der entsprechende Datensatz vorliegt:
+    /**
+     * Test that deleting is only possible if there is an entry in the database
+     * */
     @Test
-    @Order(3)
     public void testDeleteUserFailed() {
 
         skipSetUp = true;
@@ -97,9 +104,10 @@ public class UserDatabaseConnectorTestDrive {
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
-    // Testen, ob ein User anhand der ID korrekt ausgelesen werden kann:
+    /**
+     * Test reading a user from the database by ID
+     * */
     @Test
-    @Order(4)
     public void testReadUserByID() {
 
         UserDatabaseConnector.createNewUser(testUser);
@@ -115,9 +123,10 @@ public class UserDatabaseConnectorTestDrive {
         assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
 
-    // Testen, ob ein User anhand der E-Mail korrekt ausgelesen werden kann:
+    /**
+     * Test reading a user from the database by email address
+     * */
     @Test
-    @Order(5)
     public void testReadUserByEMail() {
 
         UserDatabaseConnector.createNewUser(testUser);
@@ -132,7 +141,5 @@ public class UserDatabaseConnectorTestDrive {
         assertEquals("1234567890", userFromDatabase.getPhoneNumber());
         assertEquals(false, userFromDatabase.getRole().equals(Role.ADMIN));
     }
-
-
 
 }
