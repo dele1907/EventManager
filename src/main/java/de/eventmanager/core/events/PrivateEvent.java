@@ -12,7 +12,7 @@ public class PrivateEvent extends EventModel{
      * Regular constructor for initialising a private event
      * */
     public PrivateEvent(String eventName, String eventStart, String eventEnd, String category,
-                        String postalCode, String address, String eventLocation, String description) {
+                        String postalCode, String city, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -20,6 +20,7 @@ public class PrivateEvent extends EventModel{
         this.category = category;
         this.privateEvent = true;
         this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;
@@ -29,7 +30,7 @@ public class PrivateEvent extends EventModel{
      * Constructor for initialising a private event from database
      * */
     public PrivateEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, ArrayList<String> bookedUsersOnEvent,
-                        String category, boolean privateEvent, String postalCode, String address, String eventLocation, String description) {
+                        String category, boolean privateEvent, String postalCode, String city, String address, String eventLocation, String description) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -39,6 +40,7 @@ public class PrivateEvent extends EventModel{
         this.category = category;
         this.privateEvent = privateEvent;
         this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;

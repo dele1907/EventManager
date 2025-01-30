@@ -33,14 +33,14 @@ public class EventDatabaseConnectorTestDrive {
         }
 
         testPrivateEvent = new PrivateEvent("testPrivateEventID", "Geburtstag von Oma", "2025-11-11", "2025-11-11", 0, null,
-                "private Feier", true, "66119", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier für meine super tolle TestOma ;)");
+                "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier für meine super tolle TestOma ;)");
         testPrivateEventUpdated = new PrivateEvent("testPrivateEventID", "Weihnachtsfeier", "2025-12-12", "2025-11-11", 0, null,
-                "Firmenfeier", true, "66119", "Gutenbergstraße 2", "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier von der tollen Firma!");
+                "Firmenfeier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Firmengebäude - Mensa", "Eine tolle Weihnachtsfeier von der tollen Firma!");
 
         testPublicEvent = new PublicEvent("testPublicEventID", "Ostermarkt", "2025-04-04", "2025-04-06", 0, null,
-                "Markt", false, "66119", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
         testPublicEventUpdated = new PublicEvent("testPublicEventID", "Kirmes", "2025-06-06", "2025-06-12", 0, null,
-                "Dorffest", false, "66119", "St. Johanner Markt", "Marktplatz", "Kirmes für tolle Menschen", 2000);
+                "Dorffest", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Kirmes für tolle Menschen", 2000);
     }
 
     /**
@@ -150,6 +150,7 @@ public class EventDatabaseConnectorTestDrive {
         assertEquals("private Feier", privateEventFromDatabase.getCategory());
         assertEquals(true, privateEventFromDatabase.isPrivateEvent());
         assertEquals("66119", privateEventFromDatabase.getPostalCode());
+        assertEquals("Saarbrücken", privateEventFromDatabase.getCity());
         assertEquals("Gutenbergstraße 2", privateEventFromDatabase.getAddress());
         assertEquals("Omas Haus", privateEventFromDatabase.getEventLocation());
         assertEquals("Geburtstagsfeier für meine super tolle TestOma ;)", privateEventFromDatabase.getDescription());
@@ -162,6 +163,7 @@ public class EventDatabaseConnectorTestDrive {
         assertEquals("Markt", publicEventFromDatabase.getCategory());
         assertEquals(false, publicEventFromDatabase.isPrivateEvent());
         assertEquals("66119", publicEventFromDatabase.getPostalCode());
+        assertEquals("Saarbrücken", privateEventFromDatabase.getCity());
         assertEquals("St. Johanner Markt", publicEventFromDatabase.getAddress());
         assertEquals("Marktplatz", publicEventFromDatabase.getEventLocation());
         assertEquals("Ostermarkt für tolle Menschen", publicEventFromDatabase.getDescription());

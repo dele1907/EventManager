@@ -104,10 +104,10 @@ public class UserManagerImplTestDrive {
     void createEditDeleteEventTest() {
 
         PrivateEvent privateEventToEdit = userManagerImpl.createPrivateEvent("privateTestEventToEdit", "01/01/2021", "01/01/2021",
-                "Test", "12345", "Teststraße 1", "TestLocation", "TestDescription",testAdminUser).get();
+                "Test", "12345", "Teststadt", "Teststraße 1", "TestLocation", "TestDescription",testAdminUser).get();
 
         assertTrue(userManagerImpl.editEvent(privateEventToEdit.getEventID(), "TestEventEdited", "01/01/2021", "01/01/2021",
-                "Test1", "12345", "Teststraße 177", "TestLocation1", "TestDescription1", testAdminUser));
+                "Test1", "12345", "Teststadt","Teststraße 177", "TestLocation1", "TestDescription1", testAdminUser));
 
         assertTrue(userManagerImpl.deleteEvent(privateEventToEdit.getEventID(), testAdminUser));
         assertFalse(userManagerImpl.deleteEvent(privateEventToEdit.getEventID(), testAdminUser)); //Check if the event is really deleted

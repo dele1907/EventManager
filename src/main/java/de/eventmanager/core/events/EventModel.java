@@ -12,10 +12,11 @@ public abstract class EventModel {
     ArrayList<String> bookedUsersOnEvent = new ArrayList<>();
     String category;
     boolean privateEvent;
-    String description;
     String postalCode;
+    String city;
     String address;
     String eventLocation;
+    String description;
 
 
     //#region getter
@@ -52,16 +53,20 @@ public abstract class EventModel {
         return privateEvent;
     }
 
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     public String getAddress() {
         return address;
     }
 
     public String getEventLocation() {
         return eventLocation;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
     }
 
     public String getDescription() {
@@ -96,6 +101,14 @@ public abstract class EventModel {
         this.category = category;
     }
 
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -106,10 +119,6 @@ public abstract class EventModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     //#endregion setter

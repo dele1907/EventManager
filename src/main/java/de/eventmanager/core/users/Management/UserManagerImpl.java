@@ -148,10 +148,10 @@ public class UserManagerImpl implements UserManager, Observer {
     @Override
     public Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
                                                      String eventEnd, String category,
-                                                     String postalCode, String address,
-                                                     String eventLocation, String description,
-                                                     User loggedUser) {
-        PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
+                                                     String postalCode, String city,
+                                                     String address, String eventLocation,
+                                                     String description, User loggedUser) {
+        PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
 
@@ -167,14 +167,15 @@ public class UserManagerImpl implements UserManager, Observer {
     @Override
     public Optional<PublicEvent> createPublicEvent(String eventName, String eventStart,
                                                    String eventEnd, String category,
-                                                   String postalCode, String address,
-                                                   String eventLocation, String description,
-                                                   int maxParticipants, User loggedUser) {
+                                                   String postalCode, String city,
+                                                   String address, String eventLocation,
+                                                   String description, int maxParticipants,
+                                                   User loggedUser) {
         if (maxParticipants == 0) {
             maxParticipants = -1;
         }
 
-        PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description, maxParticipants);
+        PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description, maxParticipants);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
 
@@ -193,8 +194,9 @@ public class UserManagerImpl implements UserManager, Observer {
     public boolean editEvent(String eventID, String eventName,
                              String eventStart, String eventEnd,
                              String category, String postalCode,
-                             String address, String eventLocation,
-                             String description, User loggedUser
+                             String city, String address,
+                             String eventLocation, String description,
+                             User loggedUser
     ) {
         
         Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
@@ -216,6 +218,7 @@ public class UserManagerImpl implements UserManager, Observer {
         eventToEdit.setEventEnd(eventEnd);
         eventToEdit.setCategory(category);
         eventToEdit.setPostalCode(postalCode);
+        eventToEdit.setCity(city);
         eventToEdit.setAddress(address);
         eventToEdit.setEventLocation(eventLocation);
         eventToEdit.setDescription(description);

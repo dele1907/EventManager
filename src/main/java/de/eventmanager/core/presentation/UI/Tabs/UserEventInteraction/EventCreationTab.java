@@ -52,6 +52,8 @@ public class EventCreationTab implements Tab {
         String category = textView.getUserInput();
         textView.displayUserInputMessage("\nEnter event postal code\n> ");
         String postalCode = textView.getUserInput();
+        textView.displayUserInputMessage("\nEnter event city\n> ");
+        String city = textView.getUserInput();
         textView.displayUserInputMessage("\nEnter event address\n> ");
         String address = textView.getUserInput();
         textView.displayUserInputMessage("\nEnter event location\n> ");
@@ -65,6 +67,6 @@ public class EventCreationTab implements Tab {
             maxCapacity = Integer.parseInt(textView.getUserInput());
         }
 
-        return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, address, maxCapacity, eventLocation, description, isPublicEvent);
+        return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, maxCapacity, eventLocation, description, isPublicEvent);
     }
 }

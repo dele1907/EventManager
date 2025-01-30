@@ -66,64 +66,89 @@ public class EventDatabaseConnector {
     }
 
     private static int insertPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
-        return create.insertInto(EVENTS,
-                        EVENTS.EVENTID,
-                        EVENTS.EVENTNAME,
-                        EVENTS.EVENTSTART,
-                        EVENTS.EVENTEND,
-                        EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
-                        EVENTS.CATEGORY,
-                        EVENTS.PRIVATEEVENT,
-                        EVENTS.POSTALCODE,
-                        EVENTS.ADDRESS,
-                        EVENTS.EVENTLOCATION,
-                        EVENTS.DESCRIPTION)
-                .values(
-                        privateEvent.getEventID(),
-                        privateEvent.getEventName(),
-                        privateEvent.getEventStart(),
-                        privateEvent.getEventEnd(),
-                        privateEvent.getNumberOfBookedUsersOnEvent(),
-                        privateEvent.getCategory(),
-                        privateEvent.isPrivateEvent(),
-                        privateEvent.getPostalCode(),
-                        privateEvent.getAddress(),
-                        privateEvent.getEventLocation(),
-                        privateEvent.getDescription())
-                .execute();
+
+        return create.transactionResult(configuration -> {
+            DSLContext ctx = DSL.using(configuration);
+
+            int insertedCities = ctx.insertInto(CITIES, CITIES.POSTALCODE, CITIES.CITYNAME)
+                    .values(privateEvent.getPostalCode(), privateEvent.getCity())
+                    .onDuplicateKeyIgnore()
+                    .execute();
+
+            int insertedEvents = ctx.insertInto(EVENTS,
+                            EVENTS.EVENTID,
+                            EVENTS.EVENTNAME,
+                            EVENTS.EVENTSTART,
+                            EVENTS.EVENTEND,
+                            EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
+                            EVENTS.CATEGORY,
+                            EVENTS.PRIVATEEVENT,
+                            EVENTS.POSTALCODE,
+                            EVENTS.ADDRESS,
+                            EVENTS.EVENTLOCATION,
+                            EVENTS.DESCRIPTION)
+                    .values(
+                            privateEvent.getEventID(),
+                            privateEvent.getEventName(),
+                            privateEvent.getEventStart(),
+                            privateEvent.getEventEnd(),
+                            privateEvent.getNumberOfBookedUsersOnEvent(),
+                            privateEvent.getCategory(),
+                            privateEvent.isPrivateEvent(),
+                            privateEvent.getPostalCode(),
+                            privateEvent.getAddress(),
+                            privateEvent.getEventLocation(),
+                            privateEvent.getDescription())
+                    .execute();
+
+            return insertedCities + insertedEvents;
+        });
     }
 
     private static int insertPublicEvent(DSLContext create, PublicEvent publicEvent) {
-        return create.insertInto(EVENTS,
-                        EVENTS.EVENTID,
-                        EVENTS.EVENTNAME,
-                        EVENTS.EVENTSTART,
-                        EVENTS.EVENTEND,
-                        EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
-                        EVENTS.CATEGORY,
-                        EVENTS.PRIVATEEVENT,
-                        EVENTS.MAXIMUMCAPACITY,
-                        EVENTS.POSTALCODE,
-                        EVENTS.ADDRESS,
-                        EVENTS.EVENTLOCATION,
-                        EVENTS.DESCRIPTION)
-                .values(
-                        publicEvent.getEventID(),
-                        publicEvent.getEventName(),
-                        publicEvent.getEventStart(),
-                        publicEvent.getEventEnd(),
-                        publicEvent.getNumberOfBookedUsersOnEvent(),
-                        publicEvent.getCategory(),
-                        publicEvent.isPrivateEvent(),
-                        publicEvent.getMaximumCapacity(),
-                        publicEvent.getPostalCode(),
-                        publicEvent.getAddress(),
-                        publicEvent.getEventLocation(),
-                        publicEvent.getDescription())
-                .execute();
+
+        return create.transactionResult(configuration -> {
+            DSLContext ctx = DSL.using(configuration);
+
+            int insertedCities = ctx.insertInto(CITIES, CITIES.POSTALCODE, CITIES.CITYNAME)
+                    .values(publicEvent.getPostalCode(), publicEvent.getCity())
+                    .onDuplicateKeyIgnore()
+                    .execute();
+
+            int insertedEvents = ctx.insertInto(EVENTS,
+                            EVENTS.EVENTID,
+                            EVENTS.EVENTNAME,
+                            EVENTS.EVENTSTART,
+                            EVENTS.EVENTEND,
+                            EVENTS.NUMBEROFBOOKEDUSERSONEVENT,
+                            EVENTS.CATEGORY,
+                            EVENTS.PRIVATEEVENT,
+                            EVENTS.POSTALCODE,
+                            EVENTS.ADDRESS,
+                            EVENTS.EVENTLOCATION,
+                            EVENTS.DESCRIPTION,
+                            EVENTS.MAXIMUMCAPACITY)
+                    .values(
+                            publicEvent.getEventID(),
+                            publicEvent.getEventName(),
+                            publicEvent.getEventStart(),
+                            publicEvent.getEventEnd(),
+                            publicEvent.getNumberOfBookedUsersOnEvent(),
+                            publicEvent.getCategory(),
+                            publicEvent.isPrivateEvent(),
+                            publicEvent.getPostalCode(),
+                            publicEvent.getAddress(),
+                            publicEvent.getEventLocation(),
+                            publicEvent.getDescription(),
+                            publicEvent.getMaximumCapacity())
+                    .execute();
+
+            return insertedCities + insertedEvents;
+        });
     }
 
     public static Optional<PrivateEvent> getPrivateEventFromRecord(Record record) {
+
         return Optional.of(new PrivateEvent(
                 record.get(EVENTS.EVENTID),
                 record.get(EVENTS.EVENTNAME),
@@ -134,6 +159,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
+                record.get(CITIES.CITYNAME),
                 record.get(EVENTS.ADDRESS),
                 record.get(EVENTS.EVENTLOCATION),
                 record.get(EVENTS.DESCRIPTION)
@@ -151,6 +177,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
+                record.get(CITIES.CITYNAME),
                 record.get(EVENTS.ADDRESS),
                 record.get(EVENTS.EVENTLOCATION),
                 record.get(EVENTS.DESCRIPTION),
@@ -168,6 +195,7 @@ public class EventDatabaseConnector {
 
             Record record = create.select()
                     .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTID.eq(eventID))
                     .fetchOne();
 
@@ -195,6 +223,7 @@ public class EventDatabaseConnector {
 
             Record record = create.select()
                     .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTID.eq(eventID))
                     .fetchOne();
 
@@ -220,6 +249,7 @@ public class EventDatabaseConnector {
 
             Record record = create.select()
                     .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTID.eq(eventID))
                     .fetchOne();
 
@@ -248,6 +278,7 @@ public class EventDatabaseConnector {
 
             Result<Record> records = create.select()
                     .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTNAME.eq(eventName))
                     .fetch();
 
@@ -272,6 +303,7 @@ public class EventDatabaseConnector {
 
             Result<Record> records = create.select()
                     .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTLOCATION.eq(eventLocation))
                     .fetch();
 
@@ -324,6 +356,7 @@ public class EventDatabaseConnector {
                     record.get(EVENTS.CATEGORY),
                     record.get(EVENTS.PRIVATEEVENT),
                     record.get(EVENTS.POSTALCODE),
+                    record.get(CITIES.CITYNAME),
                     record.get(EVENTS.ADDRESS),
                     record.get(EVENTS.EVENTLOCATION),
                     record.get(EVENTS.DESCRIPTION),
@@ -373,36 +406,60 @@ public class EventDatabaseConnector {
     }
 
     private static int setPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
-        return create.update(EVENTS)
-                .set(EVENTS.EVENTNAME, privateEvent.getEventName())
-                .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
-                .set(EVENTS.EVENTEND, privateEvent.getEventEnd())
-                .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
-                .set(EVENTS.CATEGORY, privateEvent.getCategory())
-                .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
-                .set(EVENTS.POSTALCODE, privateEvent.getPostalCode())
-                .set(EVENTS.ADDRESS, privateEvent.getAddress())
-                .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
-                .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
-                .where(EVENTS.EVENTID.eq(privateEvent.getEventID()))
-                .execute();
+
+        return create.transactionResult(configuration -> {
+            DSLContext ctx = DSL.using(configuration);
+
+            int updatedEvents = ctx.update(EVENTS)
+                    .set(EVENTS.EVENTNAME, privateEvent.getEventName())
+                    .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
+                    .set(EVENTS.EVENTEND, privateEvent.getEventEnd())
+                    .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
+                    .set(EVENTS.CATEGORY, privateEvent.getCategory())
+                    .set(EVENTS.PRIVATEEVENT, privateEvent.isPrivateEvent())
+                    .set(EVENTS.POSTALCODE, privateEvent.getPostalCode())
+                    .set(EVENTS.ADDRESS, privateEvent.getAddress())
+                    .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
+                    .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
+                    .where(EVENTS.EVENTID.eq(privateEvent.getEventID()))
+                    .execute();
+
+            int updatedCities = ctx.update(CITIES)
+                    .set(CITIES.CITYNAME, privateEvent.getCity())
+                    .where(CITIES.POSTALCODE.eq(privateEvent.getPostalCode()))
+                    .execute();
+
+            return updatedEvents;
+        });
     }
 
     private static int setPublicEvent(DSLContext create, PublicEvent publicEvent) {
-        return create.update(EVENTS)
-                .set(EVENTS.EVENTNAME, publicEvent.getEventName())
-                .set(EVENTS.EVENTSTART, publicEvent.getEventStart())
-                .set(EVENTS.EVENTEND, publicEvent.getEventEnd())
-                .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
-                .set(EVENTS.CATEGORY, publicEvent.getCategory())
-                .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
-                .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
-                .set(EVENTS.ADDRESS, publicEvent.getAddress())
-                .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
-                .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
-                .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
-                .where(EVENTS.EVENTID.eq(publicEvent.getEventID()))
-                .execute();
+
+        return create.transactionResult(configuration -> {
+            DSLContext ctx = DSL.using(configuration);
+
+            int updatedEvents = ctx.update(EVENTS)
+                    .set(EVENTS.EVENTNAME, publicEvent.getEventName())
+                    .set(EVENTS.EVENTSTART, publicEvent.getEventStart())
+                    .set(EVENTS.EVENTEND, publicEvent.getEventEnd())
+                    .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
+                    .set(EVENTS.CATEGORY, publicEvent.getCategory())
+                    .set(EVENTS.PRIVATEEVENT, publicEvent.isPrivateEvent())
+                    .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
+                    .set(EVENTS.ADDRESS, publicEvent.getAddress())
+                    .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
+                    .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
+                    .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
+                    .where(EVENTS.EVENTID.eq(publicEvent.getEventID()))
+                    .execute();
+
+            int updatedCities = ctx.update(CITIES)
+                    .set(CITIES.CITYNAME, publicEvent.getCity())
+                    .where(CITIES.POSTALCODE.eq(publicEvent.getPostalCode()))
+                    .execute();
+
+            return updatedEvents;
+        });
     }
 
     /**
