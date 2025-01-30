@@ -3,12 +3,10 @@ package de.eventmanager.core.database.Communication;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -17,9 +15,6 @@ import org.jooq.impl.DSL;
 
 import static org.jooq.generated.Tables.CITIES;
 import static org.jooq.generated.tables.Events.EVENTS;
-import static org.jooq.generated.tables.Created.CREATED;
-import static org.jooq.generated.tables.Booked.BOOKED;
-import static org.jooq.generated.tables.User.USER;
 
 public class EventDatabaseConnector {
 
@@ -33,18 +28,6 @@ public class EventDatabaseConnector {
     private static final String EVENT_NOT_FOUND = "No event found with the given ID";
     private static final String EVENT_DELETED = "Event deleted successfully";
     private static final String EVENT_NOT_DELETED = "Error deleting event: ";
-    private static final String EVENT_CREATOR_ASSIGNED = "User assigned as event creator successfully";
-    private static final String EVENT_CREATOR_NOT_ASSIGNED = "Error assigning user as event creator: ";
-    private static final String EVENT_CREATOR_REMOVED = "User removed as event creator successfully";
-    private static final String EVENT_CREATOR_NOT_REMOVED = "Error removing user as event creator: ";
-    private static final String CHECK_IF_CREATOR_FAILED = "Checking if user is event creator failed: ";
-    private static final String EVENT_CREATOR_NOT_FOUND = "Error finding event creator: ";
-    private static final String ID_NOT_FOUND = "Error finding UserID or EventID";
-    private static final String BOOKING_ADDED = "Booking added successfully";
-    private static final String BOOKING_NOT_ADDED = "Error adding booking: ";
-    private static final String BOOKING_REMOVED = "Booking removed successfully";
-    private static final String BOOKING_NOT_REMOVED = "Error removing booking: ";
-    private static final String NO_USER_LIST_AVAILABLE = "Error getting a list of booked users: ";
 
     //#endregion constants
 
@@ -147,7 +130,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
+                BookingDatabaseConnector.getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
@@ -164,7 +147,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTSTART),
                 record.get(EVENTS.EVENTEND),
                 record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
+                BookingDatabaseConnector.getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                 record.get(EVENTS.CATEGORY),
                 record.get(EVENTS.PRIVATEEVENT),
                 record.get(EVENTS.POSTALCODE),
@@ -337,7 +320,7 @@ public class EventDatabaseConnector {
                     record.get(EVENTS.EVENTSTART),
                     record.get(EVENTS.EVENTEND),
                     record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                    getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
+                    BookingDatabaseConnector.getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
                     record.get(EVENTS.CATEGORY),
                     record.get(EVENTS.PRIVATEEVENT),
                     record.get(EVENTS.POSTALCODE),
@@ -451,246 +434,5 @@ public class EventDatabaseConnector {
     }
 
     //#endregion CRUD operations
-
-    //#region createdByUser
-
-    /**
-     * Assign a user to an event as the creator
-     * */
-    public static boolean assignUserAsEventCreator(String eventID, String userID) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            int rowsAffected = create.insertInto(CREATED, CREATED.EVENTID, CREATED.USERID)
-                    .values(eventID, userID)
-                    .execute();
-
-            if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_CREATOR_ASSIGNED);
-            }
-            else {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
-            }
-
-            return rowsAffected > 0;
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_ASSIGNED +
-                    exception.getMessage());
-
-            return false;
-        }
-    }
-
-    /**
-     * Unlink a user from an event as the creator
-     * */
-        public static boolean removeUserAsEventCreator(String eventID, String userID) {
-
-            try (Connection connection = DatabaseConnector.connect()) {
-
-                DSLContext create = DSL.using(connection);
-
-                int rowsAffected = create.deleteFrom(CREATED)
-                        .where(CREATED.EVENTID.eq(eventID))
-                        .and(CREATED.USERID.eq(userID))
-                        .execute();
-
-                if (rowsAffected > 0) {
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_CREATOR_REMOVED);
-                }
-                else {
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
-                }
-
-                return rowsAffected > 0;
-
-            } catch (Exception exception) {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_REMOVED +
-                        exception.getMessage());
-
-                return false;
-            }
-        }
-
-    /**
-     * Check if a user is the creator of an event
-     * */
-        public static boolean checkIfUserIsEventCreator(String eventID, String userID) {
-
-            try (Connection connection = DatabaseConnector.connect()){
-
-                DSLContext create = DSL.using(connection);
-
-                Record record = create.select()
-                        .from(CREATED)
-                        .where(CREATED.USERID.eq(userID))
-                        .and(CREATED.EVENTID.eq(eventID))
-                        .fetchOne();
-
-                if (record == null) {
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
-
-                    return false;
-                }
-
-                return true;
-            } catch (Exception exception) {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CHECK_IF_CREATOR_FAILED);
-
-                return false;
-            }
-        }
-
-    /**
-     * Get the user who is the event creator
-     * */
-        public static Optional<User> getEventCreator(String eventID) {
-
-            try (Connection connection = DatabaseConnector.connect()) {
-
-                DSLContext create = DSL.using(connection);
-
-                Record record = create.select()
-                        .from(USER)
-                        .join(CREATED).on(USER.USERID.eq(CREATED.USERID))
-                        .where(CREATED.EVENTID.eq(eventID))
-                        .fetchOne();
-
-                if (record != null) {
-
-                    User user = new User(
-                            record.get(USER.USERID),
-                            record.get(USER.FIRSTNAME),
-                            record.get(USER.LASTNAME),
-                            record.get(USER.BIRTHDATE),
-                            record.get(USER.EMAIL),
-                            record.get(USER.PASSWORD),
-                            record.get(USER.PHONENUMBER),
-                            record.get(USER.ISADMIN)
-                    );
-
-                    return Optional.of(user);
-                }
-
-            } catch (Exception exception) {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_FOUND + exception.getMessage());
-            }
-
-            return Optional.empty();
-        }
-
-    //#endregion createdByUser
-
-    //#region booking
-
-    /**
-     * Relate an event to a user as booked
-     * */
-    public static boolean addBooking(String eventID, String userID) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            return create.transactionResult(configuration -> {
-
-                DSLContext ctx = DSL.using(configuration);
-
-                int rowsAffected = ctx.insertInto(BOOKED, BOOKED.EVENTID, BOOKED.USERID)
-                        .values(eventID, userID)
-                        .execute();
-
-                if (rowsAffected > 0) {
-                    int updatedRows = ctx.update(EVENTS)
-                            .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, EVENTS.NUMBEROFBOOKEDUSERSONEVENT.plus(1))
-                            .where(EVENTS.EVENTID.eq(eventID))
-                            .execute();
-
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, BOOKING_ADDED);
-
-                    return updatedRows > 0;
-                }
-
-                return false;
-            });
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, BOOKING_NOT_ADDED +
-                    exception.getMessage());
-
-            return false;
-        }
-    }
-
-    /**
-     * Unlink an event from a user as booked
-     * */
-    public static boolean removeBooking(String eventID, String userID) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            return create.transactionResult(configuration -> {
-                DSLContext ctx = DSL.using(configuration);
-
-                int rowsAffected = ctx.deleteFrom(BOOKED)
-                        .where(BOOKED.EVENTID.eq(eventID))
-                        .and(BOOKED.USERID.eq(userID))
-                        .execute();
-
-                if (rowsAffected > 0) {
-                    int updatedRows = ctx.update(EVENTS)
-                            .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, EVENTS.NUMBEROFBOOKEDUSERSONEVENT.minus(1))
-                            .where(EVENTS.EVENTID.eq(eventID))
-                            .execute();
-
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, BOOKING_REMOVED);
-
-                    return updatedRows > 0;
-                }
-
-                return false;
-            });
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, BOOKING_NOT_REMOVED +
-                    exception.getMessage());
-
-            return false;
-        }
-    }
-
-    /**
-     * Return a list of user email addresses
-     * */
-    public static ArrayList<String> getBookedUsersOnEvent(String eventID) {
-        ArrayList<String> bookedUsers = new ArrayList<>();
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            Result<Record> records = create.select()
-                    .from(USER)
-                    .join(BOOKED).on(USER.USERID.eq(BOOKED.USERID))
-                    .where(BOOKED.EVENTID.eq(eventID))
-                    .fetch();
-
-            bookedUsers.addAll(records.stream()
-                    .map(record -> record.get(USER.EMAIL))
-                    .collect(Collectors.toList()));
-
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
-        }
-
-        return bookedUsers;
-    }
-
-    //#endregion booking
 
 }

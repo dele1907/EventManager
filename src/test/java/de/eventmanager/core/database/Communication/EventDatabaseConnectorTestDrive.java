@@ -177,11 +177,11 @@ public class EventDatabaseConnectorTestDrive {
         skipSetUp = true;
         skipCleanUp = true;
 
-        boolean testAddCreation = EventDatabaseConnector.assignUserAsEventCreator("testEventID", "testCreatorID");
+        boolean testAddCreation = CreatorDatabaseConnector.assignUserAsEventCreator("testEventID", "testCreatorID");
 
         assertTrue(testAddCreation, "Adding user to created event failed but should not.");
 
-        boolean testDeleteCreation = EventDatabaseConnector.removeUserAsEventCreator("testEventID", "testCreatorID");
+        boolean testDeleteCreation = CreatorDatabaseConnector.removeUserAsEventCreator("testEventID", "testCreatorID");
 
         assertTrue(testDeleteCreation, "Adding user to created event failed but should not.");
     }
@@ -195,11 +195,11 @@ public class EventDatabaseConnectorTestDrive {
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
         EventDatabaseConnector.createNewEvent(testPublicEvent);
 
-        boolean testAddBooking = EventDatabaseConnector.addBooking("testPublicEventID", "testCreatorID");
+        boolean testAddBooking = BookingDatabaseConnector.addBooking("testPublicEventID", "testCreatorID");
 
         assertTrue(testAddBooking, "Adding user to booked event failed but should not.");
 
-        boolean testRemoveBooking = EventDatabaseConnector.removeBooking("testPublicEventID", "testCreatorID");
+        boolean testRemoveBooking = BookingDatabaseConnector.removeBooking("testPublicEventID", "testCreatorID");
 
         assertTrue(testRemoveBooking, "Adding user to booked event failed but should not.");
     }
@@ -222,10 +222,10 @@ public class EventDatabaseConnectorTestDrive {
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
         EventDatabaseConnector.createNewEvent(testPublicEvent);
 
-        EventDatabaseConnector.addBooking("testPublicEventID", "testBookingUserID1");
-        EventDatabaseConnector.addBooking("testPublicEventID", "testBookingUserID2");
+        BookingDatabaseConnector.addBooking("testPublicEventID", "testBookingUserID1");
+        BookingDatabaseConnector.addBooking("testPublicEventID", "testBookingUserID2");
 
-        ArrayList<String> bookedTestUsers = EventDatabaseConnector.getBookedUsersOnEvent("testPublicEventID");
+        ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersOnEvent("testPublicEventID");
         ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
         expectedBookedTestUsers.add("peter.bookman@testmail.com");
         expectedBookedTestUsers.add("herbert.bookson@testmail.com");
@@ -238,8 +238,8 @@ public class EventDatabaseConnectorTestDrive {
         // test of user number after booking
         assertEquals(2, numberOfBookedUsers);
 
-        EventDatabaseConnector.removeBooking("testPublicEventID", "testBookingUserID1");
-        EventDatabaseConnector.removeBooking("testPublicEventID", "testBookingUserID2");
+        BookingDatabaseConnector.removeBooking("testPublicEventID", "testBookingUserID1");
+        BookingDatabaseConnector.removeBooking("testPublicEventID", "testBookingUserID2");
 
         int newNumberOfBookedUsers = EventDatabaseConnector.readPublicEventByID("testPublicEventID").get().getNumberOfBookedUsersOnEvent();
 

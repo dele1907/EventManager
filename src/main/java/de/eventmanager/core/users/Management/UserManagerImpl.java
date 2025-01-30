@@ -1,5 +1,7 @@
 package de.eventmanager.core.users.Management;
 
+import de.eventmanager.core.database.Communication.BookingDatabaseConnector;
+import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
@@ -151,7 +153,7 @@ public class UserManagerImpl implements UserManager, Observer {
                                                      User loggedUser) {
         PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description);
         EventDatabaseConnector.createNewEvent(event);
-        EventDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
+        CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
     }
@@ -174,7 +176,7 @@ public class UserManagerImpl implements UserManager, Observer {
 
         PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation, description, maxParticipants);
         EventDatabaseConnector.createNewEvent(event);
-        EventDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
+        CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUser.getUserID());
 
         return Optional.of(event);
     }
@@ -246,8 +248,8 @@ public class UserManagerImpl implements UserManager, Observer {
             return false;
         }
 
-        String userIDofUserCreatedEvent = EventDatabaseConnector.getEventCreator(eventID).get().getUserID();
-        EventDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
+        String userIDofUserCreatedEvent = CreatorDatabaseConnector.getEventCreator(eventID).get().getUserID();
+        CreatorDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
 
         return EventDatabaseConnector.deleteEventByID(eventID);
     }
@@ -305,7 +307,7 @@ public class UserManagerImpl implements UserManager, Observer {
             return false;
         }
 
-        EventDatabaseConnector.addBooking(eventID,loggedUser.getUserID());
+        BookingDatabaseConnector.addBooking(eventID,loggedUser.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event booked successfully!");
 
         return true;
@@ -336,7 +338,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
 
-        EventDatabaseConnector.removeBooking(eventID,loggedUser.getUserID());
+        BookingDatabaseConnector.removeBooking(eventID,loggedUser.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
 
         return true;
@@ -374,7 +376,7 @@ public class UserManagerImpl implements UserManager, Observer {
             return false;
         }
 
-        EventDatabaseConnector.addBooking(eventID, userToAdd.get().getUserID());
+        BookingDatabaseConnector.addBooking(eventID, userToAdd.get().getUserID());
 
         return true;
     }
@@ -411,7 +413,7 @@ public class UserManagerImpl implements UserManager, Observer {
             return false;
         }
 
-        EventDatabaseConnector.removeBooking(eventID,userToRemove.get().getUserID());
+        BookingDatabaseConnector.removeBooking(eventID,userToRemove.get().getUserID());
 
         return true;
     }
@@ -463,7 +465,7 @@ public class UserManagerImpl implements UserManager, Observer {
     }
 
     private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
-        return loggedUser.getRole().equals(Role.ADMIN) || EventDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUser.getUserID());
+        return loggedUser.getRole().equals(Role.ADMIN) || CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUser.getUserID());
     }
 
     //#endregion Permission-Operations
