@@ -1,6 +1,6 @@
 package de.eventmanager.core.database.Communication;
 
-import java.sql.Connection;;
+import java.sql.Connection;
 import java.util.Optional;
 
 import de.eventmanager.core.users.User;
