@@ -1,6 +1,7 @@
 package de.eventmanager.core.events;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class EventModel {
 
@@ -122,5 +123,28 @@ public abstract class EventModel {
     }
 
     //#endregion setter
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) {
+
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+
+            return false;
+        }
+
+        EventModel other = (EventModel) object;
+
+        return eventID.equals(other.eventID);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(eventID);
+    }
 
 }
