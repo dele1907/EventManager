@@ -9,6 +9,7 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.observer.EventNotificator;
 import de.eventmanager.core.observer.Observer;
+import de.eventmanager.core.observer.UserObserver;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
@@ -20,10 +21,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class UserManagerImpl implements UserManager, Observer {
+public class UserManagerImpl implements UserManager {
 
     Logger logger = LogManager.getLogger(User.class);
-    EventNotificator eventNotificator = new EventNotificator();
+    private final EventNotificator eventNotificator = EventNotificator.getInstance();
 
     //#region Constant variables
 
@@ -226,9 +227,7 @@ public class UserManagerImpl implements UserManager, Observer {
         eventToEdit.setDescription(description);
 
         EventDatabaseConnector.updateEvent(eventToEdit);
-
-        eventNotificator.notifyObserver(eventToEdit);
-
+        eventNotificator.notifyObservers(eventToEdit);
         LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 
         return true;
@@ -315,6 +314,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         BookingDatabaseConnector.addBooking(eventID,loggedUser.getUserID());
+        eventNotificator.addObserver(new UserObserver(loggedUser, publicEvent.get()));
         LoggerHelper.logInfoMessage(User.class, "Event booked successfully!");
 
         return true;
@@ -345,6 +345,7 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         BookingDatabaseConnector.removeBooking(eventID,loggedUser.getUserID());
+        eventNotificator.removeObserver(new UserObserver(loggedUser, optionalEvent.get()));
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
 
         return true;
@@ -383,6 +384,8 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         BookingDatabaseConnector.addBooking(eventID, userToAdd.get().getUserID());
+        eventNotificator.addObserver(new UserObserver(userToAdd.get(), optionalEvent.get()));
+        LoggerHelper.logInfoMessage(User.class, "User added to event successfully!");
 
         return true;
     }
@@ -420,6 +423,8 @@ public class UserManagerImpl implements UserManager, Observer {
         }
 
         BookingDatabaseConnector.removeBooking(eventID,userToRemove.get().getUserID());
+        eventNotificator.addObserver(new UserObserver(userToRemove.get(), optionalEvent.get()));
+        LoggerHelper.logInfoMessage(User.class, "User removed from event successfully!");
 
         return true;
     }
@@ -531,22 +536,5 @@ public class UserManagerImpl implements UserManager, Observer {
         return PasswordHelper.verifyPassword(password, userOptional.get().getPassword());
     }
     //#endregion Registration & Authentication
-
-    //#region observer
-
-    @Override
-    public void update(EventModel event) {
-
-        if (event instanceof PrivateEvent) {
-            PrivateEvent privateEvent = (PrivateEvent) event;
-            // TODO: Methode zur Benachrichtigung des Users aufrufen
-        } else if (event instanceof PublicEvent) {
-            PublicEvent publicEvent = (PublicEvent) event;
-            // TODO: Methode zur Benachrichtigung des Users aufrufen
-        }
-    }
-
-    //#endregion observer
-
 
 }
