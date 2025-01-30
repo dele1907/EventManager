@@ -7,6 +7,7 @@ import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.observer.EventNotificator;
 import de.eventmanager.core.observer.Observer;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class UserManagerImpl implements UserManager, Observer {
 
     Logger logger = LogManager.getLogger(User.class);
+    EventNotificator eventNotificator = new EventNotificator();
 
     //#region Constant variables
 
@@ -225,6 +227,8 @@ public class UserManagerImpl implements UserManager, Observer {
 
         EventDatabaseConnector.updateEvent(eventToEdit);
 
+        eventNotificator.notifyObserver(eventToEdit);
+
         LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 
         return true;
@@ -339,7 +343,6 @@ public class UserManagerImpl implements UserManager, Observer {
 
             return false;
         }
-
 
         BookingDatabaseConnector.removeBooking(eventID,loggedUser.getUserID());
         LoggerHelper.logInfoMessage(User.class, "Event cancelled successfully!");
