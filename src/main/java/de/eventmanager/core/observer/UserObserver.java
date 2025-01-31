@@ -25,19 +25,22 @@ public class UserObserver implements Observer {
     @Override
     public void update(EventModel event) {
 
+        if (!this.event.equals(event)) {
+
+            return;
+        }
+
         String updateMessage;
 
-        if (this.event.equals(event)) {
-
-            if (event instanceof PrivateEvent) {
-                PrivateEvent privateEvent = (PrivateEvent) event;
-                updateMessage = "-- UPDATE INFORMATION -- " + privateEvent.toString();
-            } else if (event instanceof PublicEvent) {
-                PublicEvent publicEvent = (PublicEvent) event;
-                updateMessage = "-- UPDATE INFORMATION -- " + publicEvent.toString();
-            }
-
+        if (event instanceof PrivateEvent) {
+            PrivateEvent privateEvent = (PrivateEvent) event;
+            updateMessage = "-- UPDATE INFORMATION -- " + privateEvent.toString();
+        } else if (event instanceof PublicEvent) {
+            PublicEvent publicEvent = (PublicEvent) event;
+            updateMessage = "-- UPDATE INFORMATION -- " + publicEvent.toString();
         }
+
+        // TODO: send updateMessage to user
     }
 
     //#endregion observer
