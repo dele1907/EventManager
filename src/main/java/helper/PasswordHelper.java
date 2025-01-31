@@ -8,14 +8,10 @@ public class PasswordHelper {
 
     /**
      * TODO @Dennis: Comment in when change to Argon2, also add to pom.xml:
-     *  <dependency>
-     *      <groupId>org.bouncycastle</groupId>
-     *      <artifactId>bcpkix-jdk15on</artifactId>
-     *      <version>1.70</version>
-     *  </dependency>
+     *
      * */
-    //private static final PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
+    //private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static String hashPassword(String plainPassword) {
         return passwordEncoder.encode(plainPassword);
@@ -23,5 +19,9 @@ public class PasswordHelper {
 
     public static boolean verifyPassword(String plainPassword, String hashedPassword) {
         return passwordEncoder.matches(plainPassword, hashedPassword);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(hashPassword("password"));
     }
 }
