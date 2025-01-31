@@ -52,9 +52,9 @@ public class PrivateEvent extends EventModel{
 
     @Override
     public String toString() {
-        return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
-                "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nPostal-Code: " + postalCode +
-                "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
+        return "EVENT: \nEvent name: " + eventName + "\nEvent date: " + eventStart + " to " + eventEnd + "\nNumber of booked users: " + numberOfBookedUsersOnEvent +
+                "\nCategory: " + category + "\nPrivate event: " + (privateEvent ? "yes" : "no") + "\nPostal code: " + postalCode + "\nCity: " + city +
+                "\nAddress: " + address + "\nEvent location: " + eventLocation + "\nDescription: " + description + "\n";
     }
 
     //#endregion toString
