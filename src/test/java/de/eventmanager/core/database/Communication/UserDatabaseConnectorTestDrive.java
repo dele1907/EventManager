@@ -150,7 +150,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testReadUserByIDFailed() {
 
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail("invalidIDToRead");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("invalidIDToRead");
         assertFalse(userFromDatabase.isPresent(), "User was found by ID address but should not.");
     }
 
