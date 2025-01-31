@@ -17,9 +17,7 @@ public class UserManagerImplTestDrive {
     UserManagerImpl userManagerImpl = new UserManagerImpl();
 
     User testUser = UserDatabaseConnector.readUserByID("GwQo2aW6AnTTv4KUe8t0").get();
-
     User testAdminUser = UserDatabaseConnector.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
-
 
     PublicEvent publicEvent = EventDatabaseConnector.readPublicEventByID("b017d79b-14a1-4e69-bd7c-584bd3858f17").get();
     PrivateEvent privateEvent = EventDatabaseConnector.readPrivateEventByID("be3236a1-ebb6-4962-a9ba-9c91d7deadaf").get();
