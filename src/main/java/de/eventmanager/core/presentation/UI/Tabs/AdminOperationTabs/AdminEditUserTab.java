@@ -2,6 +2,7 @@ package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
@@ -95,7 +96,14 @@ public class AdminEditUserTab implements Tab {
 
     private void showEditPhoneNumber(User user) {
         textView.displayMessage("\nEnter new phone number (leave blank to keep current): ");
-        String newPhoneNumber = textView.getUserInput();
+        String newPhoneNumber = "";
+        boolean validPhoneNumber = true;
+
+        while (validPhoneNumber) {
+            textView.displayMessage("Enter phone number: ");
+            newPhoneNumber = textView.getUserInput();
+            validPhoneNumber = !ValidationHelper.checkPhoneNumber(textView, newPhoneNumber); //If phoneNumber is valid, the loop ends
+        }
 
         if (newPhoneNumber.isEmpty()) {
             return;
