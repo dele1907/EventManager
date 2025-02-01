@@ -59,13 +59,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean editUser(User user) {
-        return UserDatabaseConnector.updateUser(user);
+    public void editUser(String userEmailAddress, String loggedInUserID, String newFirstName, String newLastName,
+                         String newEmailAddress, String newPhoneNumber) {
+
+        userManagerImpl.getUserByEmail(userEmailAddress).ifPresent(user -> {
+            String firstName = Optional.ofNullable(newFirstName).orElse(user.getFirstName());
+            String lastName = Optional.ofNullable(newLastName).orElse(user.getLastName());
+            String emailAddress = Optional.ofNullable(newEmailAddress).orElse(user.getEMailAddress());
+            String phoneNumber = Optional.ofNullable(newPhoneNumber).orElse(user.getPhoneNumber());
+
+            userManagerImpl.editUser(user.getUserID(), firstName, lastName, user.getDateOfBirth(),
+                    emailAddress, user.getPassword(), phoneNumber, loggedInUserID);
+        });
     }
 
     @Override
     public Optional<User> readUserByEmail(String email) {
         return userManagerImpl.getUserByEmail(email);
+    }
+
+    public String getUserInformationByEmail(String email) {
+        return getUserIsPresentInDatabaseByEmail(email) ? readUserByEmail(email).get().toString() : "";
     }
 
     @Override

@@ -75,20 +75,22 @@ public class UserController {
 
     //#region CRUD-Operations
 
-    public boolean editUser(User user) {
-        return userService.editUser(user);
+    public void editUser(String userEmailAddress, String loggedInUserID, String newFirstName, String newLastName,
+                         String newEmailAddress, String newPhoneNumber) {
+
+        userService.editUser(userEmailAddress, loggedInUserID, newFirstName, newLastName, newEmailAddress, newPhoneNumber);
     }
 
     public boolean deleteUser(String userEmailAddress, String loggeddInUserID) {
        return userService.deleteUser(userEmailAddress, loggeddInUserID);
     }
 
-    private boolean getUserIsPresentInDatabaseByEmail(String eMailAddress) {
+    public boolean getUserIsPresentInDatabaseByEmail(String eMailAddress) {
         return userService.getUserIsPresentInDatabaseByEmail(eMailAddress);
     }
 
     public String getUserInformationByEmail(String email) {
-        return getUserIsPresentInDatabaseByEmail(email) ? userService.readUserByEmail(email).get().toString() : "";
+        return getUserIsPresentInDatabaseByEmail(email) ? userService.getUserInformationByEmail(email) : "";
     }
 
     //#endregion CRUD-Operations

@@ -63,7 +63,7 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleEditUser() {
-        AdminEditUserTab editUserTab = new AdminEditUserTab(textView, userController);
+        AdminEditUserTab editUserTab = new AdminEditUserTab(textView, userController, loggedInUserID);
         editUserTab.start();
     }
 

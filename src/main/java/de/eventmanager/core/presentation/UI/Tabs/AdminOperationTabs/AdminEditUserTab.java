@@ -12,56 +12,65 @@ import java.util.Optional;
 public class AdminEditUserTab implements Tab {
     private View textView;
     private UserController userController;
+    private String userToEditEmail;
+    private String loggedInUserID;
+    private String editedFirstName;
+    private String editedLastName;
+    private String editedEmail;
+    private String editedPhoneNumber;
 
-    public AdminEditUserTab(View textView, UserController userController) {
+    public AdminEditUserTab(View textView, UserController userController, String loggedInUserID) {
         this.textView = textView;
         this.userController = userController;
+        this.loggedInUserID = loggedInUserID;
     }
 
     @Override
     public void start() {
         textView.displayTabOrPageHeading("\n===== Edit User Tab =====");
 
-        Optional<User> userOptional = showFindUser();
+        if (!showFindUser()) {
+            textView.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
 
-        if (userOptional.isEmpty()) {
+            return;
+        }
+        showEditUserDialog();
+        userController.editUser(
+                userToEditEmail, loggedInUserID,
+                editedFirstName, editedLastName,
+                editedEmail, editedPhoneNumber
+        );
+
+        textView.displaySuccessMessage("\nUser details updated successfully!");
+    }
+
+    private void displayUserDetails() {
+        if (!userController.getUserIsPresentInDatabaseByEmail(userToEditEmail)) {
             textView.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
 
             return;
         }
 
-        User user = userOptional.get();
-
-        showEditUserDialog(user);
-        userController.editUser(user);
-        textView.displaySuccessMessage("\nUser details updated successfully!");
-    }
-
-    private void displayUserDetails(User user) {
         textView.displayUnderlinedSubheading("\n\u001B[4mCurrent user details:\u001B[0m");
-        textView.displayMessage("\nFirst Name: " + user.getFirstName());
-        textView.displayMessage("\nLast Name: " + user.getLastName());
-        textView.displayMessage("\nEmail Address: " + user.getEMailAddress());
-        textView.displayMessage("\nPhone Number: " + user.getPhoneNumber() + "\n");
+        textView.displayMessage(userController.getUserInformationByEmail(userToEditEmail));
     }
 
-    private Optional<User> showFindUser() {
+    private boolean showFindUser() {
         textView.displayUserInputMessage("Enter the email of the user to edit\n> ");
-        String email = textView.getUserInput();
-        Optional<User> userOptional = userController.getUserByEmail(email);
+        userToEditEmail = textView.getUserInput();
 
-        return userOptional.isPresent() ? userOptional : Optional.empty();
+        return userController.getUserIsPresentInDatabaseByEmail(userToEditEmail);
     }
 
-    private void showEditUserDialog(User user) {
-        displayUserDetails(user);
-        showEditFirstname(user);
-        showEditLastname(user);
-        showEditEmailAddress(user);
-        handleEditPhoneNumber(user);
+    private void showEditUserDialog() {
+        displayUserDetails();
+        showEditFirstname();
+        showEditLastname();
+        showEditEmailAddress();
+        handleEditPhoneNumber();
     }
 
-    private void showEditFirstname(User user) {
+    private void showEditFirstname() {
         textView.displayUserInputMessage("\nEnter new first name (leave blank to keep current)\n> ");
         String newFirstName = textView.getUserInput();
 
@@ -69,10 +78,10 @@ public class AdminEditUserTab implements Tab {
             return;
         }
 
-        user.setFirstName(newFirstName);
+        editedFirstName = newFirstName;
     }
 
-    private void showEditLastname(User user) {
+    private void showEditLastname() {
         textView.displayUserInputMessage("\nEnter new last name (leave blank to keep current)\n> ");
         String newLastName = textView.getUserInput();
 
@@ -80,10 +89,10 @@ public class AdminEditUserTab implements Tab {
             return;
         }
 
-        user.setLastName(newLastName);
+        editedLastName = newLastName;
     }
 
-    private void showEditEmailAddress(User user) {
+    private void showEditEmailAddress() {
         textView.displayUserInputMessage("\nEnter new email address (leave blank to keep current)\n> ");
         String newEmail = textView.getUserInput();
 
@@ -91,17 +100,17 @@ public class AdminEditUserTab implements Tab {
             return;
         }
 
-        user.seteMailAddress(newEmail);
+        editedEmail = newEmail;
     }
 
-    private void handleEditPhoneNumber(User user) {
+    private void handleEditPhoneNumber() {
         var newPhoneNumber = showPhoneNumberDialog();
 
         if (newPhoneNumber.isEmpty()) {
             return;
         }
 
-        user.setPhoneNumber(newPhoneNumber);
+        editedPhoneNumber = newPhoneNumber;
     }
 
     private String showPhoneNumberDialog() {
@@ -118,7 +127,7 @@ public class AdminEditUserTab implements Tab {
     }
 
     private boolean showEditPhoneNumberAgainDialog() {
-        textView.displayUserInputMessage("\nDo you want to edit the phone number again? (yes/no)\n> ");
+        textView.displayUserInputMessage("\nDo you want to edit the phone number again? (yes/any key)\n> ");
         String userChoice = textView.getUserInput();
 
         if (userChoice.equalsIgnoreCase("yes")) {
