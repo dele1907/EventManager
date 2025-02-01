@@ -5,6 +5,7 @@ import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -22,7 +23,8 @@ public class CreatorDatabaseConnectorTestDrive {
     /**
      * Clean up the database after testing
      * */
-    /*@AfterAll
+    @AfterAll
+    @Disabled // Probably database conflicts with other test classes
     static void cleanUp() throws SQLException {
 
         try (Connection cleanupConnection = DatabaseConnector.connect()) {
@@ -30,7 +32,7 @@ public class CreatorDatabaseConnectorTestDrive {
             cleanupDsl.deleteFrom(USER).execute();
             cleanupDsl.deleteFrom(CREATED).execute();
         }
-    }*/
+    }
 
     //#region successful CRUD operations
 

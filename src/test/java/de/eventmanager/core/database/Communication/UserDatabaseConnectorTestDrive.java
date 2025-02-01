@@ -22,14 +22,15 @@ public class UserDatabaseConnectorTestDrive {
     /**
      * Clean up the database after testing
      * */
-    /*@AfterAll
+    @AfterAll
+    @Disabled // Probably database conflicts with other test classes
     static void cleanUp() throws SQLException {
 
         try (Connection cleanupConnection = DatabaseConnector.connect()) {
            DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
             cleanupDsl.deleteFrom(USER).execute();
         }
-    }*/
+    }
 
     //#region successful CRUD operations
 
