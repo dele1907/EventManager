@@ -133,7 +133,7 @@ public class CreatorDatabaseConnectorTestDrive {
     public void testRemoveUserAsEventCreatorFailed() {
 
         boolean creatorToRemove = CreatorDatabaseConnector.removeUserAsEventCreator("invalidEventIDToRemove", "invalidUserIDToRemove");
-        assertFalse(creatorToRemove);
+        assertFalse(creatorToRemove, "Creator was successfully removed but should not.");
     }
 
     //#endregion failed CRUD operations
