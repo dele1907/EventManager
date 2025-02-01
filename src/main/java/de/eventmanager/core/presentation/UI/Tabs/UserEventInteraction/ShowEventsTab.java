@@ -53,25 +53,11 @@ public class ShowEventsTab implements Tab{
         }
     }
 
-    public void displaySearchResult(PublicEvent event) {
-        textView.displayMessage("\n Event Name: " + event.getEventName());
-        textView.displayMessage("\n Event Start: " + event.getEventStart());
-        textView.displayMessage("\n Event End: " + event.getEventEnd());
-        textView.displayMessage("\n Event Location: " + event.getEventLocation());
-        textView.displayMessage("\n Event Address: " + event.getAddress());
-        textView.displayMessage("\n Event Postcode: " + event.getPostalCode());
-        textView.displayMessage("\n Event Description: " + event.getDescription());
-        textView.displayMessage("\n Event Category: " + event.getCategory());
-        textView.displayMessage("\n Event Capacity: " + event.getMaximumCapacity());
-        textView.displayMessage("\n Event Booked: " + event.getBookedUsersOnEvent() + "\n");
-    }
-
-
     public void getEventInformationByName() {
         textView.displayUserInputMessage("\nWhats the Name of the Event you looking for?\n> ");
         String eventName = textView.getUserInput();
 
-        List<PublicEvent> listFoundEvents = userController.getPublicEventsByName(eventName);
+        List<String> listFoundEvents = userController.getPublicEventsByName(eventName);
 
         if (listFoundEvents.isEmpty()) {
             textView.displayErrorMessage("\nNo Event found with the name: " + eventName);
@@ -81,7 +67,7 @@ public class ShowEventsTab implements Tab{
 
         for(var event : listFoundEvents) {
             addDelay(1);
-            displaySearchResult(event);
+            textView.displayMessage(event);
         }
     }
 
@@ -89,7 +75,7 @@ public class ShowEventsTab implements Tab{
         textView.displayUserInputMessage("\nWhats the Location of the Event you looking for?\n> ");
         String eventLocation = textView.getUserInput();
 
-        List<PublicEvent> listFoundEvents = userController.getPublicEventsByLocation(eventLocation);
+        List<String> listFoundEvents = userController.getPublicEventsByLocation(eventLocation);
 
         if (listFoundEvents.isEmpty()) {
             textView.displayErrorMessage("\nNo Event found for provided location: " + eventLocation);
@@ -97,9 +83,9 @@ public class ShowEventsTab implements Tab{
             return;
         }
 
-        for (PublicEvent event : listFoundEvents) {
+        for (var event : listFoundEvents) {
             addDelay(1);
-            displaySearchResult(event);
+            textView.displayMessage(event);
         }
     }
 
@@ -107,7 +93,7 @@ public class ShowEventsTab implements Tab{
         textView.displayUserInputMessage("\nWhats the City of the Event you looking for?\n> ");
         String eventCity = textView.getUserInput();
 
-        List<PublicEvent> listFoundEvents = userController.getPublicEventsByCity(eventCity);
+        List<String> listFoundEvents = userController.getPublicEventsByCity(eventCity);
 
         if (listFoundEvents.isEmpty()) {
             textView.displayErrorMessage("\nNo Event for following city: " + eventCity);
@@ -115,9 +101,9 @@ public class ShowEventsTab implements Tab{
             return;
         }
 
-        for (PublicEvent event : listFoundEvents) {
+        for (var event : listFoundEvents) {
             addDelay(1);
-            displaySearchResult(event);
+            textView.displayMessage(event);
         }
     }
 

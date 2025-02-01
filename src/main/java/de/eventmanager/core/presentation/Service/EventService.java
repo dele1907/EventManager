@@ -6,9 +6,9 @@ import jdk.jfr.Event;
 import java.util.List;
 
 public interface EventService {
-    List<PublicEvent> getPublicEventsByName(String name);
-    List<PublicEvent> getPublicEventsByLocation(String location);
-    List<PublicEvent> getPublicEventsByCity(String city);
+    List<String> getPublicEventsByName(String name);
+    List<String> getPublicEventsByLocation(String location);
+    List<String> getPublicEventsByCity(String city);
     boolean createNewEvent(String eventName, String eventStart, String eventEnd,
                            String category, String postalCode, String city, String address,
                            int maxCapacity, String eventLocation, String description, boolean isPublicEvent
