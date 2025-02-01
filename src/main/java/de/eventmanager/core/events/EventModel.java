@@ -1,6 +1,7 @@
 package de.eventmanager.core.events;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class EventModel {
 
@@ -12,10 +13,11 @@ public abstract class EventModel {
     ArrayList<String> bookedUsersOnEvent = new ArrayList<>();
     String category;
     boolean privateEvent;
-    String description;
     String postalCode;
+    String city;
     String address;
     String eventLocation;
+    String description;
 
 
     //#region getter
@@ -52,16 +54,20 @@ public abstract class EventModel {
         return privateEvent;
     }
 
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     public String getAddress() {
         return address;
     }
 
     public String getEventLocation() {
         return eventLocation;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
     }
 
     public String getDescription() {
@@ -96,6 +102,14 @@ public abstract class EventModel {
         this.category = category;
     }
 
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -108,10 +122,29 @@ public abstract class EventModel {
         this.description = description;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    //#endregion setter
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) {
+
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+
+            return false;
+        }
+
+        EventModel other = (EventModel) object;
+
+        return eventID.equals(other.eventID);
     }
 
-    //#endregion setter
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(eventID);
+    }
 
 }

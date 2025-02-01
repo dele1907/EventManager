@@ -24,6 +24,9 @@ public class AdminCreateUserTab implements Tab {
     }
 
     public void showCreateUserDialog() {
+        boolean validPhoneNumber = true;
+        var phoneNumber = "";
+
         textView.displayUserInputMessage("Enter first name\n> ");
         var firstName = textView.getUserInput();
         textView.displayUserInputMessage("Enter last name\n> ");
@@ -32,7 +35,12 @@ public class AdminCreateUserTab implements Tab {
         var dateOfBirth = textView.getUserInput();
         textView.displayUserInputMessage("Enter email\n> ");
         var email = textView.getUserInput();
-        var phoneNumber = ValidationHelper.checkPhoneNumber(textView);
+        textView.displayUserInputMessage("Enter phoneNumber\n> ");
+        while (validPhoneNumber) {
+            textView.displayMessage("Enter phone number: ");
+            phoneNumber = textView.getUserInput();
+            validPhoneNumber = !ValidationHelper.checkPhoneNumber(textView, phoneNumber); //If phoneNumber is valid, the loop ends
+        }
         textView.displayUserInputMessage("Enter password\n> ");
         var password = textView.getUserInput();
         textView.displayUserInputMessage("Confirm password\n> ");

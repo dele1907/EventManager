@@ -13,7 +13,7 @@ public class PublicEvent extends EventModel {
     /**
      * Regular constructor for initialising a public event
      * */
-    public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String address, String eventLocation, String description) {
+    public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city, String address, String eventLocation, String description) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -21,6 +21,7 @@ public class PublicEvent extends EventModel {
         this.category = category;
         this.privateEvent = false;
         this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;
@@ -29,7 +30,7 @@ public class PublicEvent extends EventModel {
     /**
      * Regular constructor for initialising a public event with maximum capacity
      * */
-    public PublicEvent(String eventName,  String eventStart, String eventEnd, String category, String postalCode, String address,
+    public PublicEvent(String eventName,  String eventStart, String eventEnd, String category, String postalCode, String city, String address,
                        String eventLocation, String description, int maximumCapacity) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
@@ -38,6 +39,7 @@ public class PublicEvent extends EventModel {
         this.category = category;
         this.privateEvent = false;
         this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;
@@ -49,7 +51,7 @@ public class PublicEvent extends EventModel {
      * Constructor for initialising a public event from database
      * */
     public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, ArrayList<String> bookedUsersOnEvent,
-                       String category, boolean privateEvent, String postalCode, String address, String eventLocation, String description, int maximumCapacity) {
+                       String category, boolean privateEvent, String postalCode, String city, String address, String eventLocation, String description, int maximumCapacity) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -59,6 +61,7 @@ public class PublicEvent extends EventModel {
         this.category = category;
         this.privateEvent = privateEvent;
         this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;
@@ -87,9 +90,9 @@ public class PublicEvent extends EventModel {
 
     @Override
     public String toString() {
-        return "Event: \nevent name: " + eventName + "\nevent date: " + eventStart + " to " + eventEnd + "\nnumber of booked users: " + numberOfBookedUsersOnEvent +
-                "\ncategory: " + category + "\nprivate event: " + privateEvent + "\nmaximum capacity: " + maximumCapacity + "\nPostal-Code: " + postalCode +
-                "\naddress: " + address + "\nevent location: " + eventLocation + "\ndescription: " + description;
+        return "EVENT: \nEvent name: " + eventName + "\nEvent date: " + eventStart + " to " + eventEnd + "\nNumber of booked users: " + numberOfBookedUsersOnEvent +
+                "\nMaximum capacity: " + (maximumCapacity < 0 ? "unlimited" : maximumCapacity) + "\nCategory: " + category + "\nPrivate event: " + (privateEvent ? "yes" : "no") +
+                "\nPostal code: " + postalCode + "\nCity: " + city + "\nAddress: " + address + "\nEvent location: " + eventLocation + "\nDescription: " + description + "\n";
     }
 
     //#endregion toString

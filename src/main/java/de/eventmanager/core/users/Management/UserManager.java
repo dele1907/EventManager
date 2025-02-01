@@ -37,15 +37,15 @@ public interface UserManager {
 
     //#region Event related CRUD-Operations
 
-    Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+    Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city,
                                               String address, String eventLocation, String description, User loggedUser);
-    Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode,
+    Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city,
                                             String address, String eventLocation, String description, int maxParticipants, User loggedUser);
 
     boolean editEvent(String eventID, String eventName,
                       String eventStart, String eventEnd, String category,
-                      String postalCode, String address, String eventLocation,
-                      String description, User loggedUser);
+                      String postalCode, String city, String address,
+                      String eventLocation, String description, User loggedUser);
 
     boolean deleteEvent(String eventID, User loggedUser);
 
@@ -78,8 +78,10 @@ public interface UserManager {
     //#endregion Permission-Operations
 
     //#region Registration & Authentication
+
     boolean isValidRegistrationPassword(String password, String checkPassword);
     boolean authenticationUserLogin(String email, String password);
+
     //#endregion Registration & Authentication
 
 }

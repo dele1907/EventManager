@@ -65,9 +65,9 @@ public class User extends UserModel {
 
     @Override
     public String toString() {
-        return "User: \nfirstName: " + firstName + "\nlastName: " + lastName + "\ndateOfBirth: " + dateOfBirth +
-                "\neMailAddress: " + eMailAddress + "\npassword: " + password + "\nphoneNumber: " + phoneNumber +
-                "\nisAdmin: " + (this.role.equals(Role.ADMIN) ? true : false) + "\n";
+        return "USER: \nFirst name: " + firstName + "\nLast name: " + lastName + "\nDate of birth: " + dateOfBirth +
+                "\neMail address: " + eMailAddress + "\nPassword: " + password + "\nPhone number: " + phoneNumber +
+                "\nIs admin: " + (this.role.equals(Role.ADMIN) ? true : false) + "\n";
     }
 
     //#endregion toString()

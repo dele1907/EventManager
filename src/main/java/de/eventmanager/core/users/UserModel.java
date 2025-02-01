@@ -1,12 +1,7 @@
 package de.eventmanager.core.users;
 
-
-import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.events.PrivateEvent;
-import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.roles.Role;
-
-import java.util.Optional;
+import java.util.Objects;
 
 public abstract class UserModel {
     String userID;
@@ -18,7 +13,7 @@ public abstract class UserModel {
     String phoneNumber;
     Role role;
 
-    //#region Getter
+    //#region getter
 
     public Role getRole() {
         return role;
@@ -51,9 +46,10 @@ public abstract class UserModel {
     public String getUserID() {
         return userID;
     }
-    //#endregion Getter
 
-    //#region Setter
+    //#endregion getter
+
+    //#region setter
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -82,5 +78,30 @@ public abstract class UserModel {
     public void setRoleAdmin(boolean hasAdminRole) {
         this. role = hasAdminRole ? Role.ADMIN : Role.USER;
     }
-    //#endregion Setter
+
+    //#endregion setter
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) {
+
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+
+            return false;
+        }
+
+        UserModel other = (UserModel) object;
+
+        return userID.equals(other.userID);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(userID);
+    }
+
 }

@@ -1,0 +1,76 @@
+package de.eventmanager.core.observer;
+
+import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.events.PrivateEvent;
+import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.User;
+
+import java.util.Objects;
+
+public class UserObserver implements Observer {
+
+    private final User user;
+    private final EventModel event;
+
+    /**
+     * Wrapping a user as an observer for event notifications
+     * */
+    public UserObserver(User user, EventModel event) {
+        this.user = user;
+        this.event = event;
+    }
+
+    //#region observer
+
+    @Override
+    public void update(EventModel event) {
+
+        if (!this.event.equals(event)) {
+
+            return;
+        }
+
+        String updateMessage;
+
+        if (event instanceof PrivateEvent) {
+            PrivateEvent privateEvent = (PrivateEvent) event;
+            updateMessage = "-- UPDATE INFORMATION -- " + privateEvent.toString();
+        } else if (event instanceof PublicEvent) {
+            PublicEvent publicEvent = (PublicEvent) event;
+            updateMessage = "-- UPDATE INFORMATION -- " + publicEvent.toString();
+        }
+
+        // TODO: send updateMessage to user
+    }
+
+    //#endregion observer
+
+    public User getUser() {
+
+        return user;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) {
+
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+
+            return false;
+        }
+
+        UserObserver other = (UserObserver) object;
+
+        return user.equals(other.user) && event.equals(other.event);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(user, event);
+    }
+
+}

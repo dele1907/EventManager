@@ -8,12 +8,14 @@ import java.sql.SQLException;
 
 public class DatabaseConnectorTestDrive {
 
-    // Testen auf erfolgreiche Verbindung
+    /**
+     * Test database connection
+     * */
     @Test
     void testConnection() throws SQLException {
 
         Connection connection = DatabaseConnector.connect();
-        assertNotNull(connection, "Connection should not be null");
+        assertNotNull(connection, "Connection should not be null.");
 
         connection.close();
     }

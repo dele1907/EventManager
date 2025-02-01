@@ -1,7 +1,6 @@
 package de.eventmanager.core.presentation.Controller;
 
 import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.UserService;
@@ -103,12 +102,12 @@ public class UserController {
     }
 
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
-                                  String category, String postalCode, String address,
+                                  String category, String postalCode, String city, String address,
                                   int maxCapacity, String eventLocation, String description, boolean isPublicEvent) {
 
         return eventService.createNewEvent(
                 eventName, eventStart, eventEnd,
-                category, postalCode, address,
+                category, postalCode, city, address,
                 maxCapacity, eventLocation, description, isPublicEvent
         );
     }
