@@ -108,7 +108,7 @@ public class AdminEditUserTab implements Tab {
         textView.displayUserInputMessage("\nEnter new phone number (leave blank to keep current)\n> ");
         var phoneNumber = textView.getUserInput();
 
-        if (!ValidationHelper.checkPhoneNumber(phoneNumber)) {
+        if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
             textView.displayErrorMessage("\nInvalid phone number\n");
             var tryAgainChangeNumber = showEditPhoneNumberAgainDialog();
             return tryAgainChangeNumber ? showPhoneNumberDialog() : "";

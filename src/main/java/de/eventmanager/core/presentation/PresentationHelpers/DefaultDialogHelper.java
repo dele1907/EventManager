@@ -33,7 +33,7 @@ public class DefaultDialogHelper {
         view.displayUserInputMessage("Enter phone number\n> ");
         phoneNumber = view.getUserInput();
 
-        if (!ValidationHelper.checkPhoneNumber(phoneNumber)) {
+        if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
             view.displayErrorMessage("\nInvalid phone number\n");
             return showPhoneNumberDialog(view);
         }

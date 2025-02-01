@@ -45,7 +45,7 @@ public class AdminCreateUserTab implements Tab {
         textView.displayUserInputMessage("Enter phone number\n> ");
         phoneNumber = textView.getUserInput();
 
-        if (!ValidationHelper.checkPhoneNumber(phoneNumber)) {
+        if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
             textView.displayErrorMessage("\nInvalid phone number\n");
             return showPhoneNumberDialog();
         }
