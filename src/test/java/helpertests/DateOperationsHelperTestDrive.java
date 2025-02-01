@@ -11,7 +11,7 @@ public class DateOperationsHelperTestDrive {
 
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
 
-        int testcase = dateOperationsHelper.validateTheAge("hallo");
+        int testcase = dateOperationsHelper.getTheAgeFromDatabase("hallo");
 
         assertTrue(testcase == 0);
     }
@@ -21,7 +21,7 @@ public class DateOperationsHelperTestDrive {
 
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
 
-        int correcttestcase = dateOperationsHelper.validateTheAge("tisc00006@htwsaar.de");
+        int correcttestcase = dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de");
 
         assertFalse(correcttestcase > 27);
         assertTrue(correcttestcase > 18);

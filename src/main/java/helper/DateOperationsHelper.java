@@ -16,9 +16,8 @@ public class DateOperationsHelper {
     private static final String NO_BIRTHDAY_FOUND = "Wrong eMail Address or no Birthday found!";
     private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
 
-    //Todo Review: @Timo add comments to methods
 
-    public int validateTheAge(String eMailAddresse) {
+    public int getTheAgeFromDatabase(String eMailAddresse) {
         int years = 0;
 
         try (Connection connection = DatabaseConnector.connect()){
