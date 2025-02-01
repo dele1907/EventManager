@@ -118,7 +118,7 @@ public class CreatorDatabaseConnectorTestDrive {
     }
 
     /**
-     * Test getting a user who doesn't exist
+     * Test getting a creator who doesn't exist
      * */
     @Test
     public void testGetEventCreatorFailed() {
