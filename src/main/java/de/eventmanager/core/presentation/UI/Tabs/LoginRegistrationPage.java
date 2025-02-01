@@ -80,6 +80,9 @@ public class LoginRegistrationPage implements Tab {
     }
 
     public void showRegisterUserDialog() {
+        boolean validPhoneNumber = true;
+        String phoneNumber = "";
+
         textView.displayTabOrPageHeading("\n===== Registration =====");
         textView.displayUserInputMessage("Enter first name\n> ");
         String firstName = textView.getUserInput();
@@ -89,7 +92,11 @@ public class LoginRegistrationPage implements Tab {
         String dateOfBirth = textView.getUserInput();
         textView.displayUserInputMessage("Enter email\n> ");
         String email = textView.getUserInput();
-        String phoneNumber = ValidationHelper.checkPhoneNumber(textView);
+        while (validPhoneNumber) {
+            textView.displayMessage("Enter phone number: ");
+            phoneNumber = textView.getUserInput();
+            validPhoneNumber = !ValidationHelper.checkPhoneNumber(textView, phoneNumber); //If phoneNumber is valid, the loop ends
+        }
         textView.displayUserInputMessage("Enter password\n> ");
         String password = textView.getUserInput();
         textView.displayUserInputMessage("Confirm password\n> ");
