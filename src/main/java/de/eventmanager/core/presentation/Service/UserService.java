@@ -19,4 +19,5 @@ public interface UserService {
     boolean getUserIsAdminUser(String userID);
     String getLoggedInUserName(String userID);
     String getUserInformationByEmail(String email);
+
 }
