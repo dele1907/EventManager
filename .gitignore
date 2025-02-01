@@ -36,3 +36,6 @@ build/
 
 ### Ignore all log files ###
 app.log
+
+### Ignore all .sqlite files ###
+*.sqlite
