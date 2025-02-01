@@ -106,6 +106,44 @@ public class DateOperationsHelper {
         }
     }
 
+    public int checkIsAEventOver() {
+        int days = 0;
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.field("eventEnd", SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
+                    .from("events")
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<DayToSecond> record : result) {
+                    days = record.value1().getDays();
+                    System.out.println(record.value1());
+                    //System.out.println(days);
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+
+        return days;
+    }
+
+    /*
+    public static void main(String[] args) {
+        DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
+        dateOperationsHelper.checkIsAEventOver();
+    }
+
+     */
+
     public void whichWeekIsTheEvent(String eventName) {
 
         try (Connection connection = DatabaseConnector.connect()) {
