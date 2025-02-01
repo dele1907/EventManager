@@ -167,6 +167,7 @@ public class EventDatabaseConnector {
     }
 
     public static Optional<PublicEvent> getPublicEventFromRecord(Record record) {
+
         return Optional.of(new PublicEvent(
                 record.get(EVENTS.EVENTID),
                 record.get(EVENTS.EVENTNAME),
@@ -410,6 +411,15 @@ public class EventDatabaseConnector {
         return create.transactionResult(configuration -> {
             DSLContext ctx = DSL.using(configuration);
 
+            boolean postalCodeExists = ctx.fetchCount(ctx.selectFrom(CITIES)
+                    .where(CITIES.POSTALCODE.eq(privateEvent.getPostalCode()))) > 0;
+
+            if (!postalCodeExists) {
+                ctx.insertInto(CITIES, CITIES.CITYNAME, CITIES.POSTALCODE)
+                        .values(privateEvent.getCity(), privateEvent.getPostalCode())
+                        .execute();
+            }
+
             int updatedEvents = ctx.update(EVENTS)
                     .set(EVENTS.EVENTNAME, privateEvent.getEventName())
                     .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
@@ -424,11 +434,6 @@ public class EventDatabaseConnector {
                     .where(EVENTS.EVENTID.eq(privateEvent.getEventID()))
                     .execute();
 
-            int updatedCities = ctx.update(CITIES)
-                    .set(CITIES.CITYNAME, privateEvent.getCity())
-                    .where(CITIES.POSTALCODE.eq(privateEvent.getPostalCode()))
-                    .execute();
-
             return updatedEvents;
         });
     }
@@ -437,6 +442,15 @@ public class EventDatabaseConnector {
 
         return create.transactionResult(configuration -> {
             DSLContext ctx = DSL.using(configuration);
+
+            boolean postalCodeExists = ctx.fetchCount(ctx.selectFrom(CITIES)
+                    .where(CITIES.POSTALCODE.eq(publicEvent.getPostalCode()))) > 0;
+
+            if (!postalCodeExists) {
+                ctx.insertInto(CITIES, CITIES.CITYNAME, CITIES.POSTALCODE)
+                        .values(publicEvent.getCity(), publicEvent.getPostalCode())
+                        .execute();
+            }
 
             int updatedEvents = ctx.update(EVENTS)
                     .set(EVENTS.EVENTNAME, publicEvent.getEventName())
@@ -451,11 +465,6 @@ public class EventDatabaseConnector {
                     .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
                     .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
                     .where(EVENTS.EVENTID.eq(publicEvent.getEventID()))
-                    .execute();
-
-            int updatedCities = ctx.update(CITIES)
-                    .set(CITIES.CITYNAME, publicEvent.getCity())
-                    .where(CITIES.POSTALCODE.eq(publicEvent.getPostalCode()))
                     .execute();
 
             return updatedEvents;
