@@ -4,7 +4,6 @@ import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.UserService;
-import de.eventmanager.core.users.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -94,9 +93,6 @@ public class UserController {
     }
 
     //#endregion CRUD-Operations
-    public Optional<User> getUserByEmail(String email) {
-        return userService.readUserByEmail(email);
-    }
 
     //#region eventOperations
     public List<PublicEvent> getPublicEventsByName(String name) {
