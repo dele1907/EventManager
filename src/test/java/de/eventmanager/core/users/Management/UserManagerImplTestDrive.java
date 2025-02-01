@@ -16,11 +16,11 @@ public class UserManagerImplTestDrive {
 
     UserManagerImpl userManagerImpl = new UserManagerImpl();
 
-    User testUser = UserDatabaseConnector.readUserByID("GwQo2aW6AnTTv4KUe8t0").get();
-    User testAdminUser = UserDatabaseConnector.readUserByID("iwbLeZWwmrg5E0oC8KIs").get();
+    User testUser;
+    User testAdminUser;
 
-    PublicEvent publicEvent = EventDatabaseConnector.readPublicEventByID("b017d79b-14a1-4e69-bd7c-584bd3858f17").get();
-    PrivateEvent privateEvent = EventDatabaseConnector.readPrivateEventByID("be3236a1-ebb6-4962-a9ba-9c91d7deadaf").get();
+    PublicEvent publicEvent;
+    PrivateEvent privateEvent;
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
@@ -28,7 +28,20 @@ public class UserManagerImplTestDrive {
 
 
     //#region CRUD-Operation-Tests
+    @BeforeEach
+    void setup() {
+        testUser = new User("123", "testLastName", "testFirstName", TEST_USER_EMAIL_ADDRESS,
+                "password", "+497788866", false);
+        testAdminUser = new User("124","Admin","1999/04/05", "firstName.lastName@testmail.com",
+                "AdminPassword", "+4977336866", true);
+        testAdminUser.setRoleAdmin(true);
 
+        publicEvent = new PublicEvent("TestPublicEvent", "2000/01/01", "2000/01/02", "TestCategory",
+                "66115","Saarbrücken", "TestStraße 6", "Turmschule", "This is a cool event", 20);
+        privateEvent = new PrivateEvent("TestPrivateEvent", "2000/01/01", "2000/01/02", "TestCategory",
+                "66115","Saarbrücken", "TestStraße 6", "Turmschule", "This is a cool event");
+
+    }
     @Test
     @Order(0)
     @DisplayName("UserCreateUser Test")
@@ -57,7 +70,7 @@ public class UserManagerImplTestDrive {
     @DisplayName("EditUser Test")
     void editUserTest() {
 
-        String userIDFromUserToEdit = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS).get().getUserID();
+        String userIDFromUserToEdit = testUser.getUserID();
         String firstName = "Max";
         String lastName = "Mustermann";
         String dateOfBirth = "01/01/2000";
@@ -67,7 +80,7 @@ public class UserManagerImplTestDrive {
 
         userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber, testAdminUser);
 
-        assertEquals(email, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
+        assertEquals(email, testUser.getEMailAddress());
 
     }
 
