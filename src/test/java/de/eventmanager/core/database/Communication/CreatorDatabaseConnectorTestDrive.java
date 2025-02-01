@@ -23,8 +23,7 @@ public class CreatorDatabaseConnectorTestDrive {
     /**
      * Clean up the database after testing
      * */
-    @AfterAll
-    @Disabled // Probably database conflicts with other test classes
+    /*@AfterAll
     static void cleanUp() throws SQLException {
 
         try (Connection cleanupConnection = DatabaseConnector.connect()) {
@@ -32,7 +31,7 @@ public class CreatorDatabaseConnectorTestDrive {
             cleanupDsl.deleteFrom(USER).execute();
             cleanupDsl.deleteFrom(CREATED).execute();
         }
-    }
+    }*/
 
     //#region successful CRUD operations
 

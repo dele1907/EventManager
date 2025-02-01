@@ -22,15 +22,14 @@ public class UserDatabaseConnectorTestDrive {
     /**
      * Clean up the database after testing
      * */
-    @AfterAll
-    @Disabled // Probably database conflicts with other test classes
+    /*@AfterAll
     static void cleanUp() throws SQLException {
 
         try (Connection cleanupConnection = DatabaseConnector.connect()) {
            DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
             cleanupDsl.deleteFrom(USER).execute();
         }
-    }
+    }*/
 
     //#region successful CRUD operations
 
@@ -40,7 +39,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testCreateUserAndReadByID() {
 
-        User testUser = new User("createTestUserDatabaseConnector", "Max", "Mustermann", "1980-01-10",
+        testUser = new User("createTestUserDatabaseConnector", "Max", "Mustermann", "1980-01-10",
                 "max.create@testmail.com", "Password123", "1234567890", false);
 
         boolean userCreated = UserDatabaseConnector.createNewUser(testUser);
