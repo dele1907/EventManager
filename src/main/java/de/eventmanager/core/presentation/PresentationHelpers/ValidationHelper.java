@@ -18,6 +18,10 @@ public class ValidationHelper {
         return date.matches("^(19[0-9]{2}|20[0-2][0-9]|2030)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
     }
 
+    public static boolean validateTimeInput(String time) {
+        return time.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
+    }
+
     private static int getAgeFromBirthdate(String birthdate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate birthDate = LocalDate.parse(birthdate, formatter);
