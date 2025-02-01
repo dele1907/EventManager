@@ -6,23 +6,47 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Service.EventService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventServiceImpl implements EventService {
 
     @Override
-    public List<PublicEvent> getPublicEventsByName(String name) {
-        return EventDatabaseConnector.readPublicEventsByName(name);
+    public List<String> getPublicEventsByName(String name) {
+        List<String> publicEventsByName = new ArrayList<>();
+
+        EventDatabaseConnector.readPublicEventsByName(name).forEach(event -> {
+            if (event instanceof PublicEvent) {
+                publicEventsByName.add(event.toString());
+            }
+        });
+
+        return publicEventsByName;
     }
 
     @Override
-    public List<PublicEvent> getPublicEventsByLocation(String location) {
-        return EventDatabaseConnector.readPublicEventsByLocation(location);
+    public List<String> getPublicEventsByLocation(String location) {
+        List<String> publicEventsByLocation = new ArrayList<>();
+
+        EventDatabaseConnector.readPublicEventsByLocation(location).forEach(event -> {
+            if (event instanceof PublicEvent) {
+                publicEventsByLocation.add(event.toString());
+            }
+        });
+
+        return publicEventsByLocation;
     }
 
     @Override
-    public List<PublicEvent> getPublicEventsByCity(String city) {
-        return EventDatabaseConnector.readPublicEventByCity(city);
+    public List<String> getPublicEventsByCity(String city) {
+        List<String> publicEventsByCity = new ArrayList<>();
+
+        EventDatabaseConnector.readPublicEventByCity(city).forEach(event -> {
+            if (event instanceof PublicEvent) {
+                publicEventsByCity.add(event.toString());
+            }
+        });
+        return publicEventsByCity;
     }
 
     @Override

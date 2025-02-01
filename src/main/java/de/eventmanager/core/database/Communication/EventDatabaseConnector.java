@@ -281,6 +281,7 @@ public class EventDatabaseConnector {
                     .from(EVENTS)
                     .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTNAME.eq(eventName))
+                    .and(EVENTS.PRIVATEEVENT.eq(false))
                     .fetch();
 
             readPublicEventsFromDatabase(publicEvents, records);
@@ -306,6 +307,7 @@ public class EventDatabaseConnector {
                     .from(EVENTS)
                     .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(EVENTS.EVENTLOCATION.eq(eventLocation))
+                    .and(EVENTS.PRIVATEEVENT.eq(false))
                     .fetch();
 
             readPublicEventsFromDatabase(publicEvents, records);
@@ -331,6 +333,7 @@ public class EventDatabaseConnector {
                     .from(EVENTS)
                     .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
                     .where(CITIES.CITYNAME.eq(eventCity))
+                    .and(EVENTS.PRIVATEEVENT.eq(false))
                     .fetch();
 
             readPublicEventsFromDatabase(publicEvents, records);
