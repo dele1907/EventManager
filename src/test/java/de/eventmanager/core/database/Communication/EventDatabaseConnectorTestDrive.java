@@ -145,6 +145,9 @@ public class EventDatabaseConnectorTestDrive {
         ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByName("ReadByName-Ostermarkt");
         assertEquals(2, publicEventsFromDatabase.size());
 
+        ArrayList<PublicEvent> noPublicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByName("ReadInvalidEventName");
+        assertEquals(0, noPublicEventsFromDatabase.size());
+
         EventDatabaseConnector.deleteEventByID("readByNameTestPublicEventDatabaseConnector1");
         EventDatabaseConnector.deleteEventByID("readByNameTestPublicEventDatabaseConnector2");
     }
@@ -166,6 +169,9 @@ public class EventDatabaseConnectorTestDrive {
         ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByLocation("ReadByLocation-Innenstadt");
         assertEquals(2, publicEventsFromDatabase.size());
 
+        ArrayList<PublicEvent> noPublicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByLocation("ReadInvalidEventLocation");
+        assertEquals(0, noPublicEventsFromDatabase.size());
+
         EventDatabaseConnector.deleteEventByID("readByLocationTestPublicEventDatabaseConnector1");
         EventDatabaseConnector.deleteEventByID("readByLocationTestPublicEventDatabaseConnector2");
     }
@@ -186,6 +192,9 @@ public class EventDatabaseConnectorTestDrive {
 
         ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventByCity("ReadByCity-Teststadt");
         assertEquals(2, publicEventsFromDatabase.size());
+
+        ArrayList<PublicEvent> noPublicEventsFromDatabase = EventDatabaseConnector.readPublicEventByCity("ReadInvalidEventCity");
+        assertEquals(0, noPublicEventsFromDatabase.size());
 
         EventDatabaseConnector.deleteEventByID("readByCityTestPublicEventDatabaseConnector1");
         EventDatabaseConnector.deleteEventByID("readByCityTestPublicEventDatabaseConnector2");
@@ -297,7 +306,6 @@ public class EventDatabaseConnectorTestDrive {
     //#region failed CRUD operations
 
     // TODO: testCreatePrivateEventFailed, testCreatePublicEventFailed, testReadPrivateEventByIDFailed, testReadPublicEventByIDFailed, testReadPrivateOrPublicEventByIDFailed,
-    //  testReadPublicEventsByNameFailed, testReadPublicEventsByLocationFailed, testReadPublicEventsByCity/PostalCodeFailed,
     //  testUpdatePrivateEventFailed, testUpdatePublicEventFailed, testDeletePrivateEventFailed, testDeletePublicEventFailed
 
     //#endregion failed CRUD operations
