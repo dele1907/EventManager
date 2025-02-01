@@ -134,15 +134,15 @@ public class EventDatabaseConnectorTestDrive {
     @Test
     public void testReadPublicEventsByName() {
 
-        testPublicEvent1 = new PublicEvent("readByNameTestPublicEventDatabaseConnector1", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
+        testPublicEvent1 = new PublicEvent("readByNameTestPublicEventDatabaseConnector1", "ReadByName-Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
                 "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
-        testPublicEvent2 = new PublicEvent("readByNameTestPublicEventDatabaseConnector2", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
+        testPublicEvent2 = new PublicEvent("readByNameTestPublicEventDatabaseConnector2", "ReadByName-Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
                 "Markt", false, "66740", "Saarlouis", "Großer Markt 1", "Marktplatz", "Ostermarkt für super Menschen", 3000);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         EventDatabaseConnector.createNewEvent(testPublicEvent2);
 
-        ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByName("Ostermarkt");
+        ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByName("ReadByName-Ostermarkt");
         assertEquals(2, publicEventsFromDatabase.size());
 
         EventDatabaseConnector.deleteEventByID("readByNameTestPublicEventDatabaseConnector1");
@@ -156,14 +156,14 @@ public class EventDatabaseConnectorTestDrive {
     public void testReadPublicEventsByLocation() {
 
         testPublicEvent1 = new PublicEvent("readByLocationTestPublicEventDatabaseConnector1", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "ReadByLocation-Innenstadt", "Essen, Getränke und Musik", 10000);
         testPublicEvent2 = new PublicEvent("readByLocationTestPublicEventDatabaseConnector2", "Altstadtfest", "2025-07-07 12:00", "2025-07-13 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Traditionelles Stadtfest", 10000);
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "ReadByLocation-Innenstadt", "Traditionelles Stadtfest", 10000);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         EventDatabaseConnector.createNewEvent(testPublicEvent2);
 
-        ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByLocation("Innenstadt");
+        ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventsByLocation("ReadByLocation-Innenstadt");
         assertEquals(2, publicEventsFromDatabase.size());
 
         EventDatabaseConnector.deleteEventByID("readByLocationTestPublicEventDatabaseConnector1");
@@ -177,14 +177,14 @@ public class EventDatabaseConnectorTestDrive {
     public void testReadEventsByCity() {
 
         testPublicEvent1 = new PublicEvent("readByCityTestPublicEventDatabaseConnector1", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
+                "Stadtfest", false, "#####", "ReadByCity-Teststadt", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
         testPublicEvent2 = new PublicEvent("readByCityTestPublicEventDatabaseConnector2", "Altstadtfest", "2025-07-07 12:00", "2025-07-13 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Traditionelles Stadtfest", 10000);
+                "Stadtfest", false, "#####", "ReadByCity-Teststadt", "Großer Markt 1", "Innenstadt", "Traditionelles Stadtfest", 10000);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         EventDatabaseConnector.createNewEvent(testPublicEvent2);
 
-        ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventByCity("Saarlouis");
+        ArrayList<PublicEvent> publicEventsFromDatabase = EventDatabaseConnector.readPublicEventByCity("ReadByCity-Teststadt");
         assertEquals(2, publicEventsFromDatabase.size());
 
         EventDatabaseConnector.deleteEventByID("readByCityTestPublicEventDatabaseConnector1");
