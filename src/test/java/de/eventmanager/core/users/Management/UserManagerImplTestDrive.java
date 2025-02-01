@@ -81,7 +81,7 @@ public class UserManagerImplTestDrive {
         String password = "password";
         String phoneNumber = "123456";
 
-        userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber, testAdminUser);
+        userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber, testAdminUser.getUserID());
 
         assertEquals(email, testUser.getEMailAddress());
 

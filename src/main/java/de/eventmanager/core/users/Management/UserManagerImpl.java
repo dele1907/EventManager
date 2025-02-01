@@ -68,10 +68,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                         String password, String phoneNumber, User loggedUser) {
-        
+                         String password, String phoneNumber, String loggedInUserID) {
 
-        if (!loggedUser.getRole().equals(Role.ADMIN)){
+        if (!getUserByID(loggedInUserID).get().getRole().equals(Role.ADMIN)){
             logger.error(NO_PERMISSION_EDIT_USER);
 
             return;

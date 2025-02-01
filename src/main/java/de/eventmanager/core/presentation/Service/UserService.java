@@ -11,10 +11,12 @@ public interface UserService {
                               String phoneNumber, String password, String passwordConfirmation, String loggedUserID);
     String loginUser(String email, String password);
     boolean deleteUser(String userToDeleteEmail, String loggedInUserEmail);
-    boolean editUser(User user);
+    void editUser(String userEmailAddress, String loggedInUserID, String newFirstName, String newLastName,
+                  String newEmailAddress, String newPhoneNumber);
     Optional<User> readUserByEmail(String email);
     boolean getUserIsPresentInDatabaseByEmail(String eMailAddress);
     boolean getAdminUserIsPresentInDatabase();
     boolean getUserIsAdminUser(String userID);
     String getLoggedInUserName(String userID);
+    String getUserInformationByEmail(String email);
 }

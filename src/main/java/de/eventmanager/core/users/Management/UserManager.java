@@ -25,7 +25,7 @@ public interface UserManager {
     void editUser(String userID, String firstName,
                                   String lastName, String dateOfBirth,
                                   String eMailAddress, String password,
-                                  String phoneNumber,User loggedUser);
+                                  String phoneNumber,String loggedInUserID);
 
     boolean deleteUser(String eMailUserToDelete, String loggedInUserID);
 
