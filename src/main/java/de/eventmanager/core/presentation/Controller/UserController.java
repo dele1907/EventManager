@@ -59,8 +59,16 @@ public class UserController {
         return true;
     }
 
-    public Optional<User> loginUser(String eMail, String password) {
+    public String loginUser(String eMail, String password) {
         return userService.loginUser(eMail, password);
+    }
+
+    public boolean getUserIsAdminUser(String userID) {
+        return userService.getUserIsAdminUser(userID);
+    }
+
+    public String getLoggedInUserName(String userID) {
+        return userService.getLoggedInUserName(userID);
     }
 
     //#endregion Login & Authentication

@@ -7,12 +7,12 @@ import de.eventmanager.core.users.User;
 
 public class EventOperationsTab implements Tab {
     private View textView;
-    private User loggedInUser;
+    private String loggedInUserID;
     private UserController userController;
 
-    public EventOperationsTab(View textView, User loggedInUser, UserController userController) {
+    public EventOperationsTab(View textView, String loggedInUserID, UserController userController) {
         this.textView = textView;
-        this.loggedInUser = loggedInUser;
+        this.loggedInUserID = loggedInUserID;
         this.userController = userController;
     }
 
@@ -50,12 +50,12 @@ public class EventOperationsTab implements Tab {
     }
 
     private void handleCreateEvent() {
-        EventCreationTab eventCreationTab = new EventCreationTab(textView, loggedInUser, userController);
+        EventCreationTab eventCreationTab = new EventCreationTab(textView, loggedInUserID, userController);
         eventCreationTab.start();
     }
 
     private void handleShowEvents() {
-        ShowEventsTab showEventsTab = new ShowEventsTab(textView, userController, loggedInUser);
+        ShowEventsTab showEventsTab = new ShowEventsTab(textView, userController, loggedInUserID);
         showEventsTab.start();
     }
 }

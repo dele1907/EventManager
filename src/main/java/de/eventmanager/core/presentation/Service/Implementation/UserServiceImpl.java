@@ -2,6 +2,7 @@ package de.eventmanager.core.presentation.Service.Implementation;
 
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
+import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.Management.UserManagerImpl;
 import de.eventmanager.core.users.User;
@@ -38,11 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> loginUser(String email, String password) {
+    public String loginUser(String email, String password) {
         if (!userManagerImpl.authenticationUserLogin(email, password)) {
-            return Optional.empty();
+            return "";
         }
-        return userManagerImpl.getUserByEmail(email);
+        return userManagerImpl.getUserByEmail(email).get().getUserID();
     }
 
     @Override
@@ -75,5 +76,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean getAdminUserIsPresentInDatabase() {
         return UserDatabaseConnector.getAdminUserIsPresentInDatabase();
+    }
+
+    @Override
+    public boolean getUserIsAdminUser(String userID) {
+        return userManagerImpl.getUserByID(userID).get().getRole().equals(Role.ADMIN);
+    }
+
+    @Override
+    public String getLoggedInUserName(String userID) {
+        return userManagerImpl.getUserByID(userID).get().getFirstName();
     }
 }

@@ -11,7 +11,7 @@ import helper.ConfigurationDataSupplierHelper;
 
 public class MainMenuTab implements Tab {
     private View textView;
-    private User loggedInUser;
+    private String loggedInUserID;
     private LoginRegistrationPage loginRegistrationPage;
     private UserController userController;
     //@TODO: remove flush before release
@@ -22,9 +22,9 @@ public class MainMenuTab implements Tab {
         NON_ADMIN
     }
 
-    public MainMenuTab(View textView, User loggedInUser, LoginRegistrationPage loginRegistrationPage, UserController userController, boolean flushTestDatabase) {
+    public MainMenuTab(View textView, String loggedInUserID, LoginRegistrationPage loginRegistrationPage, UserController userController, boolean flushTestDatabase) {
         this.textView = textView;
-        this.loggedInUser = loggedInUser;
+        this.loggedInUserID = loggedInUserID;
         this.loginRegistrationPage = loginRegistrationPage;
         this.userController = userController;
         //@TODO: remove flush before release
@@ -33,7 +33,7 @@ public class MainMenuTab implements Tab {
 
     @Override
     public void start() {
-        if (loggedInUser.getRole().equals(Role.ADMIN)) {
+        if (userController.getUserIsAdminUser(loggedInUserID)) {
             showMainMenu(MenuType.ADMIN);
         } else {
             showMainMenu(MenuType.NON_ADMIN);
@@ -52,7 +52,7 @@ public class MainMenuTab implements Tab {
 
     private void displayMainMenu(MenuType menuType) {
         textView.displayTabOrPageHeading("\n===== Main Menu =====");
-        textView.displaySuccessMessage("Welcome " + loggedInUser.getFirstName() + "!\n");
+        textView.displaySuccessMessage("Welcome " + userController.getLoggedInUserName(loggedInUserID) + "!\n");
         textView.displayMessage("1. Settings\n2. Event Operations\n3. Logout\n4. Logout and Exit Program");
 
         if (menuType == MenuType.ADMIN) {
@@ -117,7 +117,7 @@ public class MainMenuTab implements Tab {
     private void doShowAdminOperations(MenuType menuType) {
 
         if (menuType == MenuType.ADMIN) {
-            AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUser, userController);
+            AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUserID, userController);
             adminOperationsTab.start();
         } else {
             textView.displayErrorMessage("\nInvalid choice!\n");
@@ -125,7 +125,7 @@ public class MainMenuTab implements Tab {
     }
 
     private void doShowEventOperationTab() {
-        EventOperationsTab eventOperationsTab = new EventOperationsTab(textView, loggedInUser, userController);
+        EventOperationsTab eventOperationsTab = new EventOperationsTab(textView, loggedInUserID, userController);
         eventOperationsTab.start();
     }
 }

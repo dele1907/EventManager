@@ -9,12 +9,12 @@ import de.eventmanager.core.presentation.Controller.UserController;
 
 public class AdminOperationsTab implements Tab {
     private View textView;
-    private User loggedInUser;
+    private String loggedInUserID;
     private UserController userController;
 
-    public AdminOperationsTab(View textView, User loggedInUser, UserController userController) {
+    public AdminOperationsTab(View textView, String loggedInUserID, UserController userController) {
         this.textView = textView;
-        this.loggedInUser = loggedInUser;
+        this.loggedInUserID = loggedInUserID;
         this.userController = userController;
     }
 
@@ -53,12 +53,12 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleCreateUser() {
-        AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController, loggedInUser.getUserID());
+        AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController, loggedInUserID);
         createUserTab.start();
     }
 
     private void handleDeleteUser() {
-        AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView, userController, loggedInUser.getUserID());
+        AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView, userController, loggedInUserID);
         deleteUserTab.start();
     }
 

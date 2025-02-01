@@ -7,12 +7,12 @@ import de.eventmanager.core.users.User;
 
 public class EventCreationTab implements Tab {
     private View textView;
-    private User loggedInUser;
+    private String loggedInUserID;
     private UserController userController;
 
-    public EventCreationTab(View textView, User loggedInUser, UserController userController) {
+    public EventCreationTab(View textView, String loggedInUserID, UserController userController) {
         this.textView = textView;
-        this.loggedInUser = loggedInUser;
+        this.loggedInUserID = loggedInUserID;
         this.userController = userController;
     }
 

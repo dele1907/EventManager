@@ -27,7 +27,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static UserService userService = new UserServiceImpl();
     private static EventService eventService = new EventServiceImpl();
     private static UserController userController = new UserController(userService, eventService);
-    private static Optional<User> loggedInUser;
+    private static String loggedInUserID = "";
     private static LoginRegistrationPage loginRegistrationPage;
     private static AdminUserStartupRegistrationPage adminUserStartupRegistrationPage;
     private static ProductionModePage productionModePage = new ProductionModePage(textView);
@@ -53,10 +53,10 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         while (programIsRunning) {
             try {
                 loginRegistrationPage.start();
-                loggedInUser = loginRegistrationPage.getLoggedInUser();
+                loggedInUserID = loginRegistrationPage.getLoggedInUser();
 
-                if (loggedInUser.isPresent()) {
-                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUser.get(), loginRegistrationPage, userController, flushDatabasePathAfterTest);
+                if (!loggedInUserID.isEmpty()) {
+                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUserID, loginRegistrationPage, userController, flushDatabasePathAfterTest);
                     mainMenuTab.start();
                 }
             } catch (Exception e) {

@@ -14,7 +14,6 @@ import java.util.Optional;
 public class LoginRegistrationPage implements Tab {
     private View textView;
     private UserController userController;
-    private Optional<User> loggedInUser;
     //@TODO: remove flush before release
     private boolean flushTestDatabase;
     private String loggedInUserID;
@@ -41,8 +40,8 @@ public class LoginRegistrationPage implements Tab {
                     showRegisterUserDialog();
                     break;
                 case "2":
-                    loggedInUser = showLoginUserDialog();
-                    if (loggedInUser.isPresent()) {
+                    loggedInUserID = showLoginUserDialog();
+                    if (!loggedInUserID.isEmpty()) {
                         programIsRunning = false;
                     }
                     break;
@@ -63,20 +62,12 @@ public class LoginRegistrationPage implements Tab {
         }
     }
 
-    public Optional<User> getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public String getLoggedInUserID() {
+    public String getLoggedInUser() {
         return loggedInUserID;
     }
 
-    public String resetLoggedInUserID() {
-        return loggedInUserID = "";
-    }
-
     public void resetLoggedInUser() {
-        loggedInUser = Optional.empty();
+        loggedInUserID = "";
     }
 
     public void showRegisterUserDialog() {
@@ -98,7 +89,7 @@ public class LoginRegistrationPage implements Tab {
         textView.displaySuccessMessage("\nUser registered successfully\n");
     }
 
-    public Optional<User> showLoginUserDialog() {
+    public String showLoginUserDialog() {
         textView.displayTabOrPageHeading("\n===== Login ======");
         textView.displayUserInputMessage("Enter eMail\n> ");
         String eMail = textView.getUserInput();
@@ -109,23 +100,23 @@ public class LoginRegistrationPage implements Tab {
         if (eMail.isEmpty() || password.isEmpty()) {
             textView.displayErrorMessage("\nYou must enter eMail or password");
 
-            return Optional.empty();
+            return "";
         }
 
-        Optional<User> loginUser = userController.loginUser(eMail, password);
+        String loginUserID = userController.loginUser(eMail, password);
 
-        return validateLoginUser(loginUser);
+        return validateLoginUser(loginUserID);
     }
 
-    private Optional<User> validateLoginUser(Optional<User> loginUser) {
-        if (loginUser.isEmpty()) {
+    private String validateLoginUser(String loginUserID) {
+        if (loginUserID.isEmpty()) {
             textView.displayErrorMessage("\nWrong eMail or password! \nPlease try again.\n");
 
-            return Optional.empty();
+            return "";
         }
 
         textView.displayMessage("\nLogin successful\n");
 
-        return loginUser;
+        return loginUserID;
     }
 }

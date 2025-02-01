@@ -11,10 +11,12 @@ import java.util.List;
 public class ShowEventsTab implements Tab{
     private View textView;
     private UserController userController;
+    private String loggedInUserID;
 
-    public ShowEventsTab(View textView, UserController userController, User loggedInUser) {
+    public ShowEventsTab(View textView, UserController userController, String loggedInUserID) {
         this.textView = textView;
         this.userController = userController;
+        this.loggedInUserID = loggedInUserID;
     }
 
     public void start() {
