@@ -1,7 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
-import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
@@ -25,7 +25,7 @@ public class AdminDeleteUserTab implements Tab {
         String userInformationUserToDelete = userController.getUserInformationByEmail(email);
 
         if (userInformationUserToDelete.isEmpty()) {
-            textView.displayErrorMessage(DefaultMessagesHelper.USER_NOT_FOUND);
+            textView.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
 
             return;
         }
@@ -40,7 +40,7 @@ public class AdminDeleteUserTab implements Tab {
     }
 
     private String showConfirmationDialog(String userInformationUserToDelete) {
-        textView.displayWarningMessage(DefaultMessagesHelper.WARNING_MESSAGE);
+        textView.displayWarningMessage(DefaultDialogHelper.WARNING_MESSAGE);
         textView.displayWarningMessage("\nAre you sure you want to delete: " );
         textView.displayUnderlinedSubheading("User Information: \n");
         textView.displayMessage(userInformationUserToDelete);

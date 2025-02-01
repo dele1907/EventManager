@@ -1,7 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
-import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
@@ -25,7 +25,7 @@ public class AdminEditUserTab implements Tab {
         Optional<User> userOptional = showFindUser();
 
         if (userOptional.isEmpty()) {
-            textView.displayErrorMessage(DefaultMessagesHelper.USER_NOT_FOUND);
+            textView.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
 
             return;
         }
@@ -58,11 +58,11 @@ public class AdminEditUserTab implements Tab {
         showEditFirstname(user);
         showEditLastname(user);
         showEditEmailAddress(user);
-        showEditPhoneNumber(user);
+        handleEditPhoneNumber(user);
     }
 
     private void showEditFirstname(User user) {
-        textView.displayMessage("\nEnter new first name (leave blank to keep current): ");
+        textView.displayUserInputMessage("\nEnter new first name (leave blank to keep current)\n> ");
         String newFirstName = textView.getUserInput();
 
         if (newFirstName.isEmpty()) {
@@ -73,7 +73,7 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditLastname(User user) {
-        textView.displayMessage("\nEnter new last name (leave blank to keep current): ");
+        textView.displayUserInputMessage("\nEnter new last name (leave blank to keep current)\n> ");
         String newLastName = textView.getUserInput();
 
         if (newLastName.isEmpty()) {
@@ -84,7 +84,7 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditEmailAddress(User user) {
-        textView.displayMessage("\nEnter new email address (leave blank to keep current): ");
+        textView.displayUserInputMessage("\nEnter new email address (leave blank to keep current)\n> ");
         String newEmail = textView.getUserInput();
 
         if (newEmail.isEmpty()) {
@@ -94,27 +94,37 @@ public class AdminEditUserTab implements Tab {
         user.seteMailAddress(newEmail);
     }
 
-    private void showEditPhoneNumber(User user) {
-        textView.displayMessage("\nEnter new phone number (leave blank to keep current): ");
-        String newPhoneNumber = "";
-        boolean validPhoneNumber = true;
-
-        while (validPhoneNumber) {
-            textView.displayMessage("Enter phone number: ");
-            newPhoneNumber = textView.getUserInput();
-            validPhoneNumber = !ValidationHelper.checkPhoneNumber(textView, newPhoneNumber); //If phoneNumber is valid, the loop ends
-        }
+    private void handleEditPhoneNumber(User user) {
+        var newPhoneNumber = showPhoneNumberDialog();
 
         if (newPhoneNumber.isEmpty()) {
             return;
         }
 
-        try {
-            user.setPhoneNumber(newPhoneNumber);
+        user.setPhoneNumber(newPhoneNumber);
+    }
 
-        } catch (NumberFormatException e) {
-            textView.displayErrorMessage("\nInvalid phone number format. Please enter a valid number.");
-            showEditPhoneNumber(user);
+    private String showPhoneNumberDialog() {
+        textView.displayUserInputMessage("\nEnter new phone number (leave blank to keep current)\n> ");
+        var phoneNumber = textView.getUserInput();
+
+        if (!ValidationHelper.checkPhoneNumber(phoneNumber)) {
+            textView.displayErrorMessage("\nInvalid phone number\n");
+            var tryAgainChangeNumber = showEditPhoneNumberAgainDialog();
+            return tryAgainChangeNumber ? showPhoneNumberDialog() : "";
         }
+
+        return phoneNumber;
+    }
+
+    private boolean showEditPhoneNumberAgainDialog() {
+        textView.displayUserInputMessage("\nDo you want to edit the phone number again? (yes/no)\n> ");
+        String userChoice = textView.getUserInput();
+
+        if (userChoice.equalsIgnoreCase("yes")) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,5 +1,7 @@
 package de.eventmanager.core.presentation.PresentationHelpers;
 
+import de.eventmanager.core.presentation.UI.View;
+
 public class UserRegistrationData {
     private String firstName;
     private String lastName;

@@ -1,6 +1,6 @@
 package de.eventmanager.core.presentation.UI;
 
-import de.eventmanager.core.presentation.PresentationHelpers.DefaultMessagesHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import helper.ConfigurationDataSupplierHelper;
 
@@ -19,7 +19,7 @@ public class ProductionModePage implements Tab {
     }
 
     private void displayChangeDialog() {
-        textView.displayWarningMessage(DefaultMessagesHelper.WARNING_MESSAGE);
+        textView.displayWarningMessage(DefaultDialogHelper.WARNING_MESSAGE);
         textView.displayErrorMessage(
                 "\nYou are currently in develop mode." +
                 "\n\nWould you like to switch to production mode?" +

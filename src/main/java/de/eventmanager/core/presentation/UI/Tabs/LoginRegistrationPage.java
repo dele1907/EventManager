@@ -3,8 +3,8 @@ package de.eventmanager.core.presentation.UI.Tabs;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
-import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
@@ -80,33 +80,8 @@ public class LoginRegistrationPage implements Tab {
     }
 
     public void showRegisterUserDialog() {
-        boolean validPhoneNumber = true;
-        String phoneNumber = "";
-
         textView.displayTabOrPageHeading("\n===== Registration =====");
-        textView.displayUserInputMessage("Enter first name\n> ");
-        String firstName = textView.getUserInput();
-        textView.displayUserInputMessage("Enter last name\n> ");
-        String lastName = textView.getUserInput();
-        textView.displayUserInputMessage("Enter date of birth\n> ");
-        String dateOfBirth = textView.getUserInput();
-        textView.displayUserInputMessage("Enter email\n> ");
-        String email = textView.getUserInput();
-        while (validPhoneNumber) {
-            textView.displayMessage("Enter phone number: ");
-            phoneNumber = textView.getUserInput();
-            validPhoneNumber = !ValidationHelper.checkPhoneNumber(textView, phoneNumber); //If phoneNumber is valid, the loop ends
-        }
-        textView.displayUserInputMessage("Enter password\n> ");
-        String password = textView.getUserInput();
-        textView.displayUserInputMessage("Confirm password\n> ");
-        String confirmPassword = textView.getUserInput();
-
-        UserRegistrationData userData = new UserRegistrationData(firstName, lastName, dateOfBirth,
-                email, phoneNumber, password, confirmPassword
-        );
-
-        validateRegisterUser(userData);
+        validateRegisterUser(DefaultDialogHelper.createNewUserDefaultDialog(textView));
     }
 
     private void validateRegisterUser(UserRegistrationData userRegistrationData) {

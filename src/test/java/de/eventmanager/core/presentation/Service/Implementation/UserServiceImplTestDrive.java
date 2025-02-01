@@ -11,7 +11,6 @@ public class UserServiceImplTestDrive {
 
     @Test
     @Order(1)
-    @Disabled // Disabled because it is not possible to remove the user after registration
     void registerUser() {
         UserServiceImpl userServiceImpl = new UserServiceImpl();
 
@@ -28,7 +27,10 @@ public class UserServiceImplTestDrive {
         System.out.println("User registered: " + isRegistered);
         assertTrue(isRegistered);
 
-        boolean isRemoved = UserDatabaseConnector.deleteUserByID("disappear@muster.com");
+        boolean isRemoved = userServiceImpl.deleteUser(
+                "disappear@muster.com",
+                "iwbLeZWwmrg5E0oC8KIs"
+        );
         System.out.println("User removed: " + isRemoved);
         assertTrue(isRemoved);
     }

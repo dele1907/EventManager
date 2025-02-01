@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
@@ -24,34 +25,7 @@ public class AdminCreateUserTab implements Tab {
     }
 
     public void showCreateUserDialog() {
-        boolean validPhoneNumber = true;
-        var phoneNumber = "";
-
-        textView.displayUserInputMessage("Enter first name\n> ");
-        var firstName = textView.getUserInput();
-        textView.displayUserInputMessage("Enter last name\n> ");
-        var lastName = textView.getUserInput();
-        textView.displayUserInputMessage("Enter date of birth\n> ");
-        var dateOfBirth = textView.getUserInput();
-        textView.displayUserInputMessage("Enter email\n> ");
-        var email = textView.getUserInput();
-        textView.displayUserInputMessage("Enter phoneNumber\n> ");
-        while (validPhoneNumber) {
-            textView.displayMessage("Enter phone number: ");
-            phoneNumber = textView.getUserInput();
-            validPhoneNumber = !ValidationHelper.checkPhoneNumber(textView, phoneNumber); //If phoneNumber is valid, the loop ends
-        }
-        textView.displayUserInputMessage("Enter password\n> ");
-        var password = textView.getUserInput();
-        textView.displayUserInputMessage("Confirm password\n> ");
-        var confirmPassword = textView.getUserInput();
-
-        UserRegistrationData userRegistrationData = new UserRegistrationData(
-                firstName, lastName, dateOfBirth,
-                email, phoneNumber, password, confirmPassword
-        );
-
-        validateCreateUser(userRegistrationData);
+        validateCreateUser(DefaultDialogHelper.createNewUserDefaultDialog(textView));
     }
 
     private void validateCreateUser(UserRegistrationData userRegistrationData) {
@@ -63,5 +37,19 @@ public class AdminCreateUserTab implements Tab {
         }
 
         textView.displaySuccessMessage("\nUser created successfully.\n");
+    }
+
+    private String showPhoneNumberDialog() {
+        String phoneNumber = "";
+
+        textView.displayUserInputMessage("Enter phone number\n> ");
+        phoneNumber = textView.getUserInput();
+
+        if (!ValidationHelper.checkPhoneNumber(phoneNumber)) {
+            textView.displayErrorMessage("\nInvalid phone number\n");
+            return showPhoneNumberDialog();
+        }
+
+        return phoneNumber;
     }
 }
