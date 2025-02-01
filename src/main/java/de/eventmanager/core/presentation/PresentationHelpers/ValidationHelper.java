@@ -22,14 +22,14 @@ public class ValidationHelper {
         return time.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
     }
 
+    public static boolean validateAge(String birthdate) {
+        return getAgeFromBirthdate(birthdate) >= 12 && getAgeFromBirthdate(birthdate) <= 130;
+    }
+
     private static int getAgeFromBirthdate(String birthdate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate birthDate = LocalDate.parse(birthdate, formatter);
         LocalDate currentDate = LocalDate.now();
         return Period.between(birthDate, currentDate).getYears();
-    }
-
-    public static boolean validateAge(String birthdate) {
-        return getAgeFromBirthdate(birthdate) >= 12 && getAgeFromBirthdate(birthdate) <= 130;
     }
 }
