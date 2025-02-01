@@ -12,10 +12,8 @@ public class DefaultDialogHelper {
         var firstName = view.getUserInput();
         view.displayUserInputMessage("Enter last name\n> ");
         var lastName = view.getUserInput();
-        view.displayUserInputMessage("Enter date of birth\n> ");
-        var dateOfBirth = view.getUserInput();
-        view.displayUserInputMessage("Enter email\n> ");
-        var email = view.getUserInput();
+        var dateOfBirth = showDateOfBirthDialog(view);
+        var email = showEmailAddressDialog(view);
         var phoneNumber = showPhoneNumberDialog(view);
         view.displayUserInputMessage("Enter password\n> ");
         var password = view.getUserInput();
@@ -34,10 +32,38 @@ public class DefaultDialogHelper {
         phoneNumber = view.getUserInput();
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
-            view.displayErrorMessage("\nInvalid phone number\n");
+            view.displayErrorMessage("Invalid phone number\n");
             return showPhoneNumberDialog(view);
         }
 
         return phoneNumber;
+    }
+
+    private static String showEmailAddressDialog(View view) {
+        String email = "";
+
+        view.displayUserInputMessage("Enter email\n> ");
+        email = view.getUserInput();
+
+        if (!ValidationHelper.validateEmailInput(email)) {
+            view.displayErrorMessage("Invalid email\n");
+            return showEmailAddressDialog(view);
+        }
+
+        return email;
+    }
+
+    private static String showDateOfBirthDialog(View view) {
+        String dateOfBirth = "";
+
+        view.displayUserInputMessage("Enter date of birth\n(Format: YYYY-MM-DD)\n> ");
+        dateOfBirth = view.getUserInput();
+
+        if (!ValidationHelper.validateDateInput(dateOfBirth)) {
+            view.displayErrorMessage("Invalid date of birth\n");
+            return showDateOfBirthDialog(view);
+        }
+
+        return dateOfBirth;
     }
 }
