@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         return userManagerImpl.getUserByEmail(email);
     }
 
+    @Override
     public String getUserInformationByEmail(String email) {
         return getUserIsPresentInDatabaseByEmail(email) ? readUserByEmail(email).get().toString() : "";
     }

@@ -21,7 +21,7 @@
         <Logger name="org.jooq" level="off" additivity="false" />
         <!-- root logger -->
         <Root level="debug">
-            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="Console"/>-->
             <!--<AppenderRef ref="File"/>-->
         </Root>
     </Loggers>
