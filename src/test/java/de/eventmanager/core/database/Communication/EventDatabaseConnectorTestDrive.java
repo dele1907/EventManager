@@ -5,6 +5,7 @@ import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.generated.tables.Events;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.*;
 
@@ -305,8 +306,119 @@ public class EventDatabaseConnectorTestDrive {
 
     //#region failed CRUD operations
 
-    // TODO: testCreatePrivateEventFailed, testCreatePublicEventFailed, testReadPrivateEventByIDFailed, testReadPublicEventByIDFailed, testReadPrivateOrPublicEventByIDFailed,
-    //  testUpdatePrivateEventFailed, testUpdatePublicEventFailed, testDeletePrivateEventFailed, testDeletePublicEventFailed
+    /**
+     * Test that created private events are unique
+     * */
+    @Test
+    public void testCreatePrivateEventFailed() {
+
+        testPrivateEvent = new PrivateEvent("createFailTestPrivateEventDatabaseConnector", "Geburtstag von Oma", "2025-11-11 12:00", "2025-11-11 12:00", 0, null,
+                "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier von meiner super tollen Test-Oma");
+
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        Optional<PrivateEvent> privateEventFromDatabase = EventDatabaseConnector.readPrivateEventByID("createFailTestPrivateEventDatabaseConnector");
+        assertTrue(privateEventFromDatabase.isPresent(), "Private event not found after first creation.");
+
+        boolean privateEventCreated = EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        assertFalse(privateEventCreated, "Second private event creation was successful but should not.");
+
+        EventDatabaseConnector.deleteEventByID("createFailTestPrivateEventDatabaseConnector");
+    }
+
+    /**
+     * Test that created public events are unique
+     * */
+    @Test
+    public void testCreatePublicEventFailed() {
+
+        testPublicEvent1 = new PublicEvent("createFailTestPublicEventDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+
+        EventDatabaseConnector.createNewEvent(testPublicEvent1);
+        Optional<PublicEvent> publicEventFromDatabase = EventDatabaseConnector.readPublicEventByID("createFailTestPublicEventDatabaseConnector");
+        assertTrue(publicEventFromDatabase.isPresent(), "Public event not found after first creation.");
+
+        boolean publicEventCreated = EventDatabaseConnector.createNewEvent(testPublicEvent1);
+        assertFalse(publicEventCreated, "Second public event creation was successful but should not.");
+
+        EventDatabaseConnector.deleteEventByID("createFailTestPublicEventDatabaseConnector");
+    }
+
+    /**
+     * Test reading a private Event with invalid ID
+     * */
+    @Test
+    public void testReadPrivateEventByIDFailed() {
+
+        Optional<PrivateEvent> privateEventFromDatabase = EventDatabaseConnector.readPrivateEventByID("invalidPrivateEventIDToRead");
+        assertFalse(privateEventFromDatabase.isPresent(), "Private event was found by ID address but should not.");
+    }
+
+    /**
+     * Test reading a public Event with invalid ID
+     * */
+    @Test
+    public void testReadPublicEventByIDFailed() {
+
+        Optional<PublicEvent> publicEventFromDatabase = EventDatabaseConnector.readPublicEventByID("invalidPublicEventIDToRead");
+        assertFalse(publicEventFromDatabase.isPresent(), "Public event was found by ID address but should not.");
+    }
+
+    /**
+     * Test reading a private or public Event with invalid ID
+     * */
+    @Test
+    public void testReadPrivateOrPublicEventByIDFailed() {
+
+        Optional<? extends EventModel> eventFromDatabase = EventDatabaseConnector.readEventByID("invalidEventIDToRead");
+        assertFalse(eventFromDatabase.isPresent(), "Event was found by ID address but should not.");
+    }
+
+    /**
+     * Test that updating a private event is only possible if there is an entry in the database
+     * */
+    @Test
+    public void testUpdatePrivateEventFailed() {
+
+        testPrivateEventUpdated = new PrivateEvent("updateFailTestPrivateEventDatabaseConnector", "Weihnachtsfeier", "2025-12-12 12:00", "2025-12-12 12:00", 0, null,
+                "Firmenfeier", true, "66763", "Dillingen", "Werderstraße 4", "Lokschuppen", "Eine tolle Weihnachtsfeier von der tollen Firma");
+
+        boolean privateEventUpdated = EventDatabaseConnector.updateEvent(testPrivateEventUpdated);
+        assertFalse(privateEventUpdated, "Private event update was successful but should not.");
+    }
+
+    /**
+     * Test that updating a public event is only possible if there is an entry in the database
+     * */
+    @Test
+    public void testUpdatePublicEventFailed() {
+
+        testPublicEventUpdated = new PublicEvent("updateFailTestPublicEventDatabaseConnector", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
+
+        boolean publicEventUpdated = EventDatabaseConnector.updateEvent(testPrivateEventUpdated);
+        assertFalse(publicEventUpdated, "Public event update was successful but should not.");
+    }
+
+    /**
+     * Test deleting a private event with invalid ID
+     * */
+    @Test
+    public void testDeletePrivateEventFailed() {
+
+        boolean privateEventDeleted = EventDatabaseConnector.deleteEventByID("invalidPrivateEventIDToDelete");
+        assertFalse(privateEventDeleted, "Private event deletion was successful but should not.");
+    }
+
+    /**
+     * Test deleting a public event with invalid ID
+     * */
+    @Test
+    public void testDeletePublicEventFailed() {
+
+        boolean publicEventDeleted = EventDatabaseConnector.deleteEventByID("invalidPublicEventIDToDelete");
+        assertFalse(publicEventDeleted, "Public event deletion was successful but should not.");
+    }
 
     //#endregion failed CRUD operations
 
