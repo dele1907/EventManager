@@ -242,6 +242,8 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean deleteEvent(String eventID, User loggedUser) {
         Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        Optional<User> optionalEventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
+        String userIDofUserCreatedEvent = "";
 
         if (!isEventExisting(optionalEvent)) {
 
@@ -253,7 +255,10 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        String userIDofUserCreatedEvent = CreatorDatabaseConnector.getEventCreator(eventID).get().getUserID();
+        if (optionalEventCreator.isPresent()) {
+            userIDofUserCreatedEvent = optionalEventCreator.get().getUserID();
+        }
+
         CreatorDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
 
         return EventDatabaseConnector.deleteEventByID(eventID);
