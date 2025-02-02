@@ -150,7 +150,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testReadUserByIDFailed() {
 
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("invalidIDToRead");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("invalidUserIDToRead");
         assertFalse(userFromDatabase.isPresent(), "User was found by ID address but should not.");
     }
 
@@ -165,7 +165,7 @@ public class UserDatabaseConnectorTestDrive {
     }
 
     /**
-     * Test that updating is only possible if there is an entry in the database
+     * Test that updating a user is only possible if there is an entry in the database
      * */
     @Test
 
@@ -184,7 +184,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testDeleteUserByIDFailed() {
 
-        boolean userDeleted = UserDatabaseConnector.deleteUserByID("invalidIDToDelete");
+        boolean userDeleted = UserDatabaseConnector.deleteUserByID("invalidUserIDToDelete");
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
