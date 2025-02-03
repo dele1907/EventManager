@@ -21,15 +21,19 @@ public class EventEditTab implements Tab {
     @Override
     public void start() {
         DefaultDialogHelper.getTabOrPageHeading(view, "Edit Event");
+        handleShowCreatedEventsForLoggedInUser();
+    }
 
+    private void handleShowCreatedEventsForLoggedInUser() {
         List<String > createdEvents = userController.getCreatedEventsForLoggedInUser(loggedInUserID);
 
         if (createdEvents.isEmpty()) {
-            view.displayMessage("You have not created any events yet.");
+            view.displayWarningMessage("\nYou have not created any events yet.\n");
 
             return;
         }
 
+        view.displayUnderlinedSubheading("\nYour Created Events, you can edit:\n");
         createdEvents.forEach(view::displayMessage);
     }
 }
