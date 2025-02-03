@@ -12,6 +12,7 @@ import org.junit.jupiter.api.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.jooq.generated.tables.Events.EVENTS;
@@ -420,6 +421,38 @@ public class EventDatabaseConnectorTestDrive {
         assertFalse(publicEventDeleted, "Public event deletion was successful but should not.");
     }
 
-    //#endregion failed CRUD operations
+    /**
+     * Test reading events by creator ID
+     */
+    @Test
+    public void testGetEventsByCreatorID() {
+        String creatorID = "testCreatorID";
 
+        // Create test events
+        PrivateEvent testPrivateEvent = new PrivateEvent("testPrivateEventID", "Private Event", "2025-11-11 12:00", "2025-11-11 12:00", 0, null,
+                "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier von meiner super tollen Test-Oma");
+        PublicEvent testPublicEvent = new PublicEvent("testPublicEventID", "Public Event", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+
+        // Insert test events
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        EventDatabaseConnector.createNewEvent(testPublicEvent);
+
+        // Link events to creator
+        CreatorDatabaseConnector.assignUserAsEventCreator("testPrivateEventID", creatorID);
+        CreatorDatabaseConnector.assignUserAsEventCreator("testPublicEventID", creatorID);
+
+        // Retrieve events by creator ID
+        List<EventModel> events = EventDatabaseConnector.getEventsByCreatorID(creatorID);
+
+        // Verify the events
+        assertEquals(2, events.size(), "Number of events retrieved by creator ID is incorrect.");
+        assertTrue(events.stream().anyMatch(event -> event.getEventID().equals("testPrivateEventID")), "Private event not found.");
+        assertTrue(events.stream().anyMatch(event -> event.getEventID().equals("testPublicEventID")), "Public event not found.");
+
+        // Clean up
+        EventDatabaseConnector.deleteEventByID("testPrivateEventID");
+        EventDatabaseConnector.deleteEventByID("testPublicEventID");
+    }
+    //#endregion failed CRUD operations
 }
