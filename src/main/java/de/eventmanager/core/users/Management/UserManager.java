@@ -11,20 +11,15 @@ public interface UserManager {
 
     //#region User related CRUD-Operations
     boolean createNewUser(
-            String firstName,
-            String lastName,
-            String dateOfBirth,
-            String eMailAddress,
-            String password,
-            String phoneNumber,
-            boolean isAdmin,
-            String loggedUserByID
-    );
+            String firstName, String lastName,
+            String dateOfBirth, String eMailAddress,
+            String password, String phoneNumber,
+            boolean isAdmin, String loggedUserByID);
 
     void editUser(String userID, String firstName,
-                                  String lastName, String dateOfBirth,
-                                  String eMailAddress, String password,
-                                  String phoneNumber, String loggedUserByID);
+                  String lastName, String dateOfBirth,
+                  String eMailAddress, String password,
+                  String phoneNumber, String loggedUserByID);
 
     boolean deleteUser(String eMailUserToDelete, String loggedUserByID);
 
@@ -44,14 +39,19 @@ public interface UserManager {
 
     List<String> readCreatedEventsByUserID(String userID);
 
-    boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
-                           String postalCode, String city, String address, String eventLocation,
-                           String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID);
+    boolean createNewEvent(String eventName, String eventStart,
+                           String eventEnd, String category,
+                           String postalCode, String city,
+                           String address, String eventLocation,
+                           String description, int maxParticipants,
+                           boolean isPrivateEvent, String loggedUserID);
 
     boolean editEvent(String eventID, String eventName,
-                      String eventStart, String eventEnd, String category,
-                      String postalCode, String city, String address,
-                      String eventLocation, String description, String loggedUserID);
+                      String eventStart, String eventEnd,
+                      String category, String postalCode,
+                      String city, String address,
+                      String eventLocation, String description,
+                      String loggedUserID);
 
     Optional<? extends EventModel> getEventByID(String eventID);
 
