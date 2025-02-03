@@ -142,16 +142,16 @@ public class UserManagerImpl implements UserManager {
 
     //#region Event related CRUD-Operations
 
+    @Override
     public boolean createEvent(String eventName, String eventStart, String eventEnd, String category,
                                String postalCode, String city, String address, String eventLocation,
                                String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
 
-        boolean successfulEventCreation = isPrivateEvent ?
+        return isPrivateEvent ?
                 createPrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
                         description, loggedUserID).isPresent() :
                 createPublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
                         description, maxParticipants, loggedUserID).isPresent();
-
     }
 
     /**
