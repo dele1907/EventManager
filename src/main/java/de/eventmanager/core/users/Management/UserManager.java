@@ -29,16 +29,6 @@ public interface UserManager {
     //#endregion User related Crud-Operations
 
     //#region Event related CRUD-Operations
-    String getEventInformationByEventID(String eventID);
-
-    List<String> readPublicEventsByName(String name);
-
-    List<String> readPublicEventsByLocation(String location);
-
-    List<String> readPublicEventByCity(String city);
-
-    List<String> readCreatedEventsByUserID(String userID);
-
     boolean createNewEvent(String eventName, String eventStart,
                            String eventEnd, String category,
                            String postalCode, String city,
@@ -53,11 +43,21 @@ public interface UserManager {
                       String eventLocation, String description,
                       String loggedUserID);
 
-    Optional<? extends EventModel> getEventByID(String eventID);
-
     boolean deleteEvent(String eventID, String loggedUserID);
 
     ArrayList<String> showEventParticipantList(String eventID);
+
+    Optional<? extends EventModel> getEventByID(String eventID);
+
+    String getEventInformationByEventID(String eventID);
+
+    List<String> readPublicEventsByName(String name);
+
+    List<String> readPublicEventsByLocation(String location);
+
+    List<String> readPublicEventByCity(String city);
+
+    List<String> readCreatedEventsByUserID(String userID);
     //#endregion Event related CRUD-Operations
 
     //#region Event-Operations

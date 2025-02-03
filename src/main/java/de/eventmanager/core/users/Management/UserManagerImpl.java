@@ -24,17 +24,14 @@ import java.util.function.Function;
 
 public class UserManagerImpl implements UserManager {
 
-    private final Logger logger = LogManager.getLogger(User.class);
+    private final Logger logger = LogManager.getLogger(UserManagerImpl.class);
     private final EventNotificator eventNotificator = EventNotificator.getInstance();
 
     //#region Constant variables
-
     private final String GENERAL_MISSING_PERMISSION = "Permission denied!";
     private final String NOT_EVENT_CREATOR_OR_ADMIN = "Only the Event-Creator or Admins can do this!";
     private final String EVENT_NOT_FOUND = "Event not found!";
     private final String USER_NOT_FOUND = "User not found!";
-
-
     //#endregion Constant variables
 
     //#region User related CRUD-Operations
@@ -139,59 +136,9 @@ public class UserManagerImpl implements UserManager {
                         .map(user -> user.getRole().equals(Role.ADMIN))
                         .orElse(false);
     }
-
     //#endregion User related CRUD-Operations
 
     //#region Event related CRUD-Operations
-    @Override
-    public String getEventInformationByEventID(String eventID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return null;
-        }
-
-        return optionalEvent.get().toString();
-    }
-
-    @Override
-    public List<String> readPublicEventsByName(String name) {
-        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventsByName, name);
-    }
-
-    @Override
-    public List<String> readPublicEventsByLocation(String location) {
-        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventsByLocation, location);
-    }
-
-    @Override
-    public List<String> readPublicEventByCity(String city) {
-        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventByCity, city);
-    }
-
-    private List<String> getEventsQueryAsArrayList(Function<String, List<PublicEvent>> queryFunction, String queryParam) {
-        List<String> events = new ArrayList<>();
-
-        queryFunction.apply(queryParam).forEach(event -> {
-            events.add(event.toString());
-        });
-
-        return events;
-    }
-
-    @Override
-    public List<String> readCreatedEventsByUserID(String userID) {
-        List<String> createdEvents = new ArrayList<>();
-
-        EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
-            createdEvents.add(event.toString());
-        });
-
-        return createdEvents;
-    }
-
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
                                   String postalCode, String city, String address, String eventLocation,
@@ -209,6 +156,7 @@ public class UserManagerImpl implements UserManager {
      * {@code createPrivateEvent()} create a new Private Event and safe the EventCreator in the Database.
      * @see EventDatabaseConnector EventDatabaseConnector
      */
+
     private Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
                                                      String eventEnd, String category,
                                                      String postalCode, String city,
@@ -226,6 +174,7 @@ public class UserManagerImpl implements UserManager {
      * {@code createPublicEvent()} create a new Public Event and safe the EventCreator in the Database.
      * @see EventDatabaseConnector EventDatabaseConnector
      */
+
     private Optional<PublicEvent> createPublicEvent(String eventName, String eventStart,
                                                    String eventEnd, String category,
                                                    String postalCode, String city,
@@ -249,7 +198,6 @@ public class UserManagerImpl implements UserManager {
      * Only Admins or the EventCreator can edit the Event
      * @see EventDatabaseConnector EventDatabaseConnector
      */
-
 
     @Override
     public boolean editEvent(String eventID, String eventName,
@@ -290,11 +238,6 @@ public class UserManagerImpl implements UserManager {
         LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 
         return true;
-    }
-
-    @Override
-    public Optional<? extends EventModel> getEventByID(String eventID) {
-        return EventDatabaseConnector.readEventByID(eventID);
     }
 
     /**
@@ -348,21 +291,72 @@ public class UserManagerImpl implements UserManager {
     @Override
     public ArrayList<String> showEventParticipantList(String eventID) {
         Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        ArrayList<String> participants = optionalEvent.get().getBookedUsersOnEvent();
 
-        if (!optionalEvent.isPresent()) {
+        if (optionalEvent.isEmpty()) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
 
             return null;
         }
 
-        return participants;
+        return optionalEvent.get().getBookedUsersOnEvent();
     }
 
+    @Override
+    public Optional<? extends EventModel> getEventByID(String eventID) {
+        return EventDatabaseConnector.readEventByID(eventID);
+    }
+
+    @Override
+    public String getEventInformationByEventID(String eventID) {
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+
+        if (optionalEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+
+            return null;
+        }
+
+        return optionalEvent.get().toString();
+    }
+
+    @Override
+    public List<String> readPublicEventsByName(String name) {
+        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventsByName, name);
+    }
+
+    @Override
+    public List<String> readPublicEventsByLocation(String location) {
+        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventsByLocation, location);
+    }
+
+    @Override
+    public List<String> readPublicEventByCity(String city) {
+        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventByCity, city);
+    }
+
+    private List<String> getEventsQueryAsArrayList(Function<String, List<PublicEvent>> queryFunction, String queryParam) {
+        List<String> events = new ArrayList<>();
+
+        queryFunction.apply(queryParam).forEach(event -> {
+            events.add(event.toString());
+        });
+
+        return events;
+    }
+
+    @Override
+    public List<String> readCreatedEventsByUserID(String userID) {
+        List<String> createdEvents = new ArrayList<>();
+
+        EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
+            createdEvents.add(event.toString());
+        });
+
+        return createdEvents;
+    }
     //#endregion Event related CRUD-Operations
 
     //#region Event-Operations
-
     /**
      * <h3>Book Event</h3>
      * {@code bookEvent()} books an Event for the loggedUser by eventID.
@@ -536,11 +530,9 @@ public class UserManagerImpl implements UserManager {
 
         return true;
     }
-
     //#endregion Event-Operations
 
     //#region Permission-Operations
-
     @Override
     public void addAdminStatusToUser(User user){
         user.setRoleAdmin(true);
@@ -577,7 +569,6 @@ public class UserManagerImpl implements UserManager {
         return !(getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
                 CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID));
     }
-
     //#endregion Permission-Operations
 
     //#region Registration & Authentication

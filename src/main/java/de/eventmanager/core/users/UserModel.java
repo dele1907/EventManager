@@ -14,7 +14,6 @@ public abstract class UserModel {
     Role role;
 
     //#region getter
-
     public Role getRole() {
         return role;
     }
@@ -46,11 +45,9 @@ public abstract class UserModel {
     public String getUserID() {
         return userID;
     }
-
     //#endregion getter
 
     //#region setter
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -78,12 +75,10 @@ public abstract class UserModel {
     public void setRoleAdmin(boolean hasAdminRole) {
         this. role = hasAdminRole ? Role.ADMIN : Role.USER;
     }
-
     //#endregion setter
 
     @Override
     public boolean equals(Object object) {
-
         if (this == object) {
 
             return true;
@@ -100,7 +95,6 @@ public abstract class UserModel {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(userID);
     }
 
