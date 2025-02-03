@@ -229,7 +229,6 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        //TODO: Check does not work proper, can not edit Event when user is admin && creator
         if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
