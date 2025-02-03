@@ -115,6 +115,10 @@ public class UserController {
                 maxCapacity, eventLocation, description, isPublicEvent
         );
     }
+
+    public List<String> getCreatedEventsForLoggedInUser(String loggedInUserID) {
+        return eventService.getCreatedEventsByUserID(loggedInUserID);
+    }
     //#endregion eventOperations
 
 }

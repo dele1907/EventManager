@@ -62,4 +62,15 @@ public class EventServiceImpl implements EventService {
 
         return EventDatabaseConnector.createNewEvent(eventToCreate);
     }
+
+    @Override
+    public List<String> getCreatedEventsByUserID(String userID ) {
+        List<String > createdEvents = new ArrayList<>();
+
+        EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
+            createdEvents.add(event.toString());
+        });
+
+        return createdEvents;
+    }
 }

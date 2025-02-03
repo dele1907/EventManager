@@ -142,6 +142,18 @@ public class UserManagerImpl implements UserManager {
 
     //#region Event related CRUD-Operations
 
+    public boolean createEvent(String eventName, String eventStart, String eventEnd, String category,
+                               String postalCode, String city, String address, String eventLocation,
+                               String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
+
+        boolean successfulEventCreation = isPrivateEvent ?
+                createPrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
+                        description, loggedUserID).isPresent() :
+                createPublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
+                        description, maxParticipants, loggedUserID).isPresent();
+
+    }
+
     /**
      * <h3>Create Private-Event</h3>
      * {@code createPrivateEvent()} create a new Private Event and safe the EventCreator in the Database.

@@ -13,5 +13,5 @@ public interface EventService {
                            String category, String postalCode, String city, String address,
                            int maxCapacity, String eventLocation, String description, boolean isPublicEvent
     );
-
+    List<String> getCreatedEventsByUserID(String userID );
 }

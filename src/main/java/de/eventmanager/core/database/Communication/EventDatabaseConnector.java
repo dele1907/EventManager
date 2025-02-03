@@ -2,6 +2,7 @@ package de.eventmanager.core.database.Communication;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import de.eventmanager.core.events.EventModel;
@@ -14,6 +15,7 @@ import org.jooq.Result;
 import org.jooq.impl.DSL;
 
 import static org.jooq.generated.Tables.CITIES;
+import static org.jooq.generated.Tables.CREATED;
 import static org.jooq.generated.tables.Events.EVENTS;
 
 public class EventDatabaseConnector {
@@ -369,6 +371,35 @@ public class EventDatabaseConnector {
 
             publicEvents.add(publicEvent);
         }
+    }
+
+    public static List<EventModel> getEventsByCreatorID(String creatorID) {
+        List<EventModel> events = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnector.connect()) {
+            DSLContext create = DSL.using(connection);
+
+            Result<Record> records = create.select()
+                    .from(EVENTS)
+                    .join(CREATED).on(EVENTS.EVENTID.eq(CREATED.EVENTID))
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
+                    .where(CREATED.USERID.eq(creatorID))
+                    .fetch();
+
+            for (Record record : records) {
+                EventModel event = record.get(EVENTS.PRIVATEEVENT) ?
+                        getPrivateEventFromRecord(record).orElse(null) :
+                        getPublicEventFromRecord(record).orElse(null);
+
+                if (event != null) {
+                    events.add(event);
+                }
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return events;
     }
 
     //# endregion eventSearch
