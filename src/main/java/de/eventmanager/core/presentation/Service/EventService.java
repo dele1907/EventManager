@@ -9,9 +9,10 @@ public interface EventService {
     List<String> getPublicEventsByName(String name);
     List<String> getPublicEventsByLocation(String location);
     List<String> getPublicEventsByCity(String city);
+    String getEventInformationByID(String eventID);
     boolean createNewEvent(String eventName, String eventStart, String eventEnd,
                            String category, String postalCode, String city, String address,
-                           int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPublicEvent,
+                           int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPrivateEvent,
                            String loggedUserID);
     List<String> getCreatedEventsByUserID(String userID );
 }

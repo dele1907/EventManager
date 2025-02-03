@@ -93,6 +93,10 @@ public class UserController {
     //#endregion CRUD-Operations
 
     //#region eventOperations
+    public String getEventInformationByEventID(String eventID) {
+        return eventService.getEventInformationByID(eventID);
+    }
+
     public List<String> getPublicEventsByName(String name) {
         return eventService.getPublicEventsByName(name);
     }
@@ -107,11 +111,11 @@ public class UserController {
 
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
                                   String category, String postalCode, String city, String address,
-                                  int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPublicEvent,
+                                  int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPrivateEvent,
                                   String loggedUserID) {
 
         return eventService.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
-                maxCapacity, eventLocation, description, minimumAge, isPublicEvent, loggedUserID);
+                maxCapacity, eventLocation, description, minimumAge, isPrivateEvent, loggedUserID);
     }
 
     public List<String> getCreatedEventsForLoggedInUser(String loggedInUserID) {

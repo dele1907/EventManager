@@ -34,10 +34,10 @@ public class EventCreationTab implements Tab {
 
         switch (choice) {
             case "1":
-                createNewEvent(true);
+                createNewEvent(false);
                 break;
             case "2":
-                createNewEvent(false);
+                createNewEvent(true);
                 break;
             case "3":
                 break;
@@ -47,7 +47,7 @@ public class EventCreationTab implements Tab {
         }
     }
 
-    private boolean createNewEvent(boolean isPublicEvent) {
+    private boolean createNewEvent(boolean isPrivateEvent) {
         textView.displayUserInputMessage("Enter event name\n> ");
         String eventName = textView.getUserInput();
         textView.displayUserInputMessage("\nEnter event start date\n> ");
@@ -67,12 +67,12 @@ public class EventCreationTab implements Tab {
         textView.displayUserInputMessage("\nEnter event description\n> ");
         String description = textView.getUserInput();
         int maxCapacity = 0;
-
         int minimumAge = 0;
 
-        if (isPublicEvent) {
+        if (isPrivateEvent) {
             textView.displayUserInputMessage("\nEnter event maximum capacity\n> ");
-            maxCapacity = Integer.parseInt(textView.getUserInput());
+            String maxCapacityInputString = textView.getUserInput();
+            maxCapacity = maxCapacityInputString.isEmpty() ? 9999 : Integer.parseInt(maxCapacityInputString);
 
             textView.displayUserInputMessage(
                     "\nEnter minimum age to participate on the event " +
@@ -84,6 +84,6 @@ public class EventCreationTab implements Tab {
         }
 
         return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
-                maxCapacity, eventLocation, description, minimumAge, isPublicEvent, loggedInUserID);
+                maxCapacity, eventLocation, description, minimumAge, isPrivateEvent, loggedInUserID);
     }
 }
