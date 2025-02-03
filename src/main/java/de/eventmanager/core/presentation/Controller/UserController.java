@@ -107,11 +107,11 @@ public class UserController {
 
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
                                   String category, String postalCode, String city, String address,
-                                  int maxCapacity, String eventLocation, String description, boolean isPublicEvent,
+                                  int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPublicEvent,
                                   String loggedUserID) {
 
         return eventService.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
-                maxCapacity, eventLocation, description, isPublicEvent, loggedUserID);
+                maxCapacity, eventLocation, description, minimumAge, isPublicEvent, loggedUserID);
     }
 
     public List<String> getCreatedEventsForLoggedInUser(String loggedInUserID) {

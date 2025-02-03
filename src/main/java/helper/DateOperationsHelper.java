@@ -146,14 +146,14 @@ public class DateOperationsHelper {
         return days;
     }
 
-
+/*
     public static void main(String[] args) {
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
         dateOperationsHelper.checkIsAEventOver();
         //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
     }
 
-
+*/
 
     public void whichWeekIsTheEvent(String eventName) {
 

@@ -81,6 +81,6 @@ public class EventCreationTab implements Tab {
         }
 
         return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
-                maxCapacity, eventLocation, description, isPublicEvent, loggedInUserID);
+                maxCapacity, eventLocation, description, minimumAge, isPublicEvent, loggedInUserID);
     }
 }
