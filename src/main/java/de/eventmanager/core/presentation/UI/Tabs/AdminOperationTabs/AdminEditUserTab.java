@@ -71,7 +71,10 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditFirstname() {
-        textView.displayUserInputMessage("\nEnter new first name (leave blank to keep current)\n> ");
+        textView.displayUserInputMessage(
+                "\nEnter new first name " +
+                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
+        );
         String newFirstName = textView.getUserInput();
 
         if (newFirstName.isEmpty()) {
@@ -82,7 +85,11 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditLastname() {
-        textView.displayUserInputMessage("\nEnter new last name (leave blank to keep current)\n> ");
+        textView.displayUserInputMessage(
+                "\nEnter new last name " +
+                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
+        );
+
         String newLastName = textView.getUserInput();
 
         if (newLastName.isEmpty()) {
@@ -93,7 +100,11 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditEmailAddress() {
-        textView.displayUserInputMessage("\nEnter new email address (leave blank to keep current)\n> ");
+        textView.displayUserInputMessage(
+                "\nEnter new email address " +
+                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
+        );
+
         String newEmail = textView.getUserInput();
 
         if (newEmail.isEmpty()) {
@@ -114,7 +125,10 @@ public class AdminEditUserTab implements Tab {
     }
 
     private String showPhoneNumberDialog() {
-        textView.displayUserInputMessage("\nEnter new phone number (leave blank to keep current)\n> ");
+        textView.displayUserInputMessage(
+                "\nEnter new phone number " +
+                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
+        );
         var phoneNumber = textView.getUserInput();
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
