@@ -4,12 +4,12 @@ import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.users.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserManager {
 
     //#region User related CRUD-Operations
-
     boolean createNewUser(
             String firstName,
             String lastName,
@@ -31,11 +31,19 @@ public interface UserManager {
     Optional<User> getUserByID(String userID);
 
     Optional<User> getUserByEmail(String eMailAddress);
-
     //#endregion User related Crud-Operations
 
     //#region Event related CRUD-Operations
     String getEventInformationByEventID(String eventID);
+
+    List<String> readPublicEventsByName(String name);
+
+    List<String> readPublicEventsByLocation(String location);
+
+    List<String> readPublicEventByCity(String city);
+
+    List<String> readCreatedEventsByUserID(String userID);
+
     boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
                            String postalCode, String city, String address, String eventLocation,
                            String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID);
@@ -50,11 +58,9 @@ public interface UserManager {
     boolean deleteEvent(String eventID, String loggedUserID);
 
     ArrayList<String> showEventParticipantList(String eventID);
-
     //#endregion Event related CRUD-Operations
 
     //#region Event-Operations
-
     boolean bookEvent(String eventID, String loggedUserID);
 
     boolean cancelEvent(String eventID, String loggedUserID);
@@ -62,11 +68,9 @@ public interface UserManager {
     boolean addUserToEvent(String eventID, String userEmail, String loggedUserID);
 
     boolean removeUserFromEvent(String eventID, String userEmail, String loggedUserID);
-
     //#endregion Event-Operations
 
     //#region Permission-Operations
-
     void addAdminStatusToUser(User user);
 
     void removeAdminStatusFromUser(User user);
@@ -74,14 +78,12 @@ public interface UserManager {
     void addAdminStatusToUserByUserID(String userID, User loggedUser);
 
     void removeAdminStatusFromUserByUserID(String userID, User loggedUser);
-
     //#endregion Permission-Operations
 
     //#region Registration & Authentication
-
     boolean isValidRegistrationPassword(String password, String checkPassword);
-    boolean authenticationUserLogin(String email, String password);
 
+    boolean authenticationUserLogin(String email, String password);
     //#endregion Registration & Authentication
 
 }

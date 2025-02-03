@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserManagerImpl implements UserManager {
@@ -152,6 +153,50 @@ public class UserManagerImpl implements UserManager {
         }
 
         return optionalEvent.get().toString();
+    }
+
+    @Override
+    public List<String> readPublicEventsByName(String name) {
+        List<String> eventsByName = new ArrayList<>();
+
+        EventDatabaseConnector.readPublicEventsByName(name).forEach(event -> {
+            eventsByName.add(event.toString());
+        });
+
+        return eventsByName;
+    }
+
+    @Override
+    public List<String> readPublicEventsByLocation(String location) {
+        List<String> eventsByLocation = new ArrayList<>();
+
+        EventDatabaseConnector.readPublicEventsByLocation(location).forEach(event -> {
+            eventsByLocation.add(event.toString());
+        });
+
+        return eventsByLocation;
+    }
+
+    @Override
+    public List<String> readPublicEventByCity(String city) {
+        List<String> eventsByCity = new ArrayList<>();
+
+        EventDatabaseConnector.readPublicEventByCity(city).forEach(event -> {
+            eventsByCity.add(event.toString());
+        });
+
+        return eventsByCity;
+    }
+
+    @Override
+    public List<String> readCreatedEventsByUserID(String userID) {
+        List<String> createdEvents = new ArrayList<>();
+
+        EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
+            createdEvents.add(event.toString());
+        });
+
+        return createdEvents;
     }
 
     @Override
