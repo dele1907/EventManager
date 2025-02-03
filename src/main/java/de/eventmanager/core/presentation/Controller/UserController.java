@@ -78,8 +78,8 @@ public class UserController {
         userService.editUser(userEmailAddress, loggedInUserID, newFirstName, newLastName, newEmailAddress, newPhoneNumber);
     }
 
-    public boolean deleteUser(String userEmailAddress, String loggeddInUserID) {
-       return userService.deleteUser(userEmailAddress, loggeddInUserID);
+    public boolean deleteUser(String userEmailAddress, String loggedInUserID) {
+       return userService.deleteUser(userEmailAddress, loggedInUserID);
     }
 
     public boolean getUserIsPresentInDatabaseByEmail(String eMailAddress) {
