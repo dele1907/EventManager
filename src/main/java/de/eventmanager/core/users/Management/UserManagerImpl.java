@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class UserManagerImpl implements UserManager {
 
@@ -157,35 +158,27 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public List<String> readPublicEventsByName(String name) {
-        List<String> eventsByName = new ArrayList<>();
-
-        EventDatabaseConnector.readPublicEventsByName(name).forEach(event -> {
-            eventsByName.add(event.toString());
-        });
-
-        return eventsByName;
+        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventsByName, name);
     }
 
     @Override
     public List<String> readPublicEventsByLocation(String location) {
-        List<String> eventsByLocation = new ArrayList<>();
-
-        EventDatabaseConnector.readPublicEventsByLocation(location).forEach(event -> {
-            eventsByLocation.add(event.toString());
-        });
-
-        return eventsByLocation;
+        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventsByLocation, location);
     }
 
     @Override
     public List<String> readPublicEventByCity(String city) {
-        List<String> eventsByCity = new ArrayList<>();
+        return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventByCity, city);
+    }
 
-        EventDatabaseConnector.readPublicEventByCity(city).forEach(event -> {
-            eventsByCity.add(event.toString());
+    private List<String> getEventsQueryAsArrayList(Function<String, List<PublicEvent>> queryFunction, String queryParam) {
+        List<String> events = new ArrayList<>();
+
+        queryFunction.apply(queryParam).forEach(event -> {
+            events.add(event.toString());
         });
 
-        return eventsByCity;
+        return events;
     }
 
     @Override
