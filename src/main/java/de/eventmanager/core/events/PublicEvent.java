@@ -90,9 +90,18 @@ public class PublicEvent extends EventModel {
 
     @Override
     public String toString() {
-        return "EVENT: \nEvent name: " + eventName + "\nEvent date: " + eventStart + " to " + eventEnd + "\nNumber of booked users: " + numberOfBookedUsersOnEvent +
-                "\nMaximum capacity: " + (maximumCapacity < 0 ? "unlimited" : maximumCapacity) + "\nCategory: " + category + "\nPrivate event: " + (privateEvent ? "yes" : "no") +
-                "\nPostal code: " + postalCode + "\nCity: " + city + "\nAddress: " + address + "\nEvent location: " + eventLocation + "\nDescription: " + description + "\n";
+        return "\nEvent ID: " + eventID +
+                "\nEvent name: " + eventName +
+                "\nEvent date: " + eventStart + " to " + eventEnd +
+                "\nNumber of booked users: " + numberOfBookedUsersOnEvent +
+                "\nMaximum capacity: " + (maximumCapacity < 0 ? "unlimited" : maximumCapacity) +
+                "\nCategory: " + category +
+                "\nPrivate event: " + (privateEvent ? "yes" : "no") +
+                "\nPostal code: " + postalCode +
+                "\nCity: " + city +
+                "\nAddress: " + address +
+                "\nEvent location: " + eventLocation +
+                "\nDescription: " + description + "\n";
     }
 
     //#endregion toString

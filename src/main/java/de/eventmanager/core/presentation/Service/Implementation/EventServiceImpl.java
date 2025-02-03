@@ -50,13 +50,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public String getEventInformationByID(String eventID) {
+        return userManager.getEventInformationByEventID(eventID);
+    }
+
+    @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
                                   String category, String postalCode, String city, String address,
-                                  int maxCapacity, String eventLocation, String description, boolean isPublicEvent,
+                                  int maxCapacity, String eventLocation, String description, boolean isPrivateEvent,
                                   String loggedUserID) {
 
         return userManager.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
-                description, maxCapacity, isPublicEvent, loggedUserID);
+                description, maxCapacity, isPrivateEvent, loggedUserID);
     }
 
     @Override
