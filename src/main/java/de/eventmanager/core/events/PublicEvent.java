@@ -13,7 +13,7 @@ public class PublicEvent extends EventModel {
     /**
      * Regular constructor for initialising a public event
      * */
-    public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city, String address, String eventLocation, String description) {
+    public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city, String address, String eventLocation, String description, int minimumAge) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -25,13 +25,14 @@ public class PublicEvent extends EventModel {
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;
+        this.minimuAge = minimuAge;
     }
 
     /**
      * Regular constructor for initialising a public event with maximum capacity
      * */
     public PublicEvent(String eventName,  String eventStart, String eventEnd, String category, String postalCode, String city, String address,
-                       String eventLocation, String description, int maximumCapacity) {
+                       String eventLocation, String description, int maximumCapacity, int minimumAge) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -44,6 +45,7 @@ public class PublicEvent extends EventModel {
         this.eventLocation = eventLocation;
         this.description = description;
         this.maximumCapacity = maximumCapacity;
+        this.minimuAge = minimumAge;
 
     }
 
@@ -51,7 +53,7 @@ public class PublicEvent extends EventModel {
      * Constructor for initialising a public event from database
      * */
     public PublicEvent(String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, ArrayList<String> bookedUsersOnEvent,
-                       String category, boolean privateEvent, String postalCode, String city, String address, String eventLocation, String description, int maximumCapacity) {
+                       String category, boolean privateEvent, String postalCode, String city, String address, String eventLocation, String description, int maximumCapacity, int minimumAge) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventStart = eventStart;
@@ -66,6 +68,7 @@ public class PublicEvent extends EventModel {
         this.eventLocation = eventLocation;
         this.description = description;
         this.maximumCapacity = maximumCapacity;
+        this.minimuAge = minimuAge;
     }
 
     //#endregion constructors
@@ -92,7 +95,7 @@ public class PublicEvent extends EventModel {
     public String toString() {
         return "EVENT: \nEvent name: " + eventName + "\nEvent date: " + eventStart + " to " + eventEnd + "\nNumber of booked users: " + numberOfBookedUsersOnEvent +
                 "\nMaximum capacity: " + (maximumCapacity < 0 ? "unlimited" : maximumCapacity) + "\nCategory: " + category + "\nPrivate event: " + (privateEvent ? "yes" : "no") +
-                "\nPostal code: " + postalCode + "\nCity: " + city + "\nAddress: " + address + "\nEvent location: " + eventLocation + "\nDescription: " + description + "\n";
+                "\nPostal code: " + postalCode + "\nCity: " + city + "\nAddress: " + address + "\nEvent location: " + eventLocation + "\nDescription: " + description + "\nMinimum age: " + minimuAge + "\n";
     }
 
     //#endregion toString

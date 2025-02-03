@@ -129,7 +129,8 @@ public class EventDatabaseConnector {
                             EVENTS.ADDRESS,
                             EVENTS.EVENTLOCATION,
                             EVENTS.DESCRIPTION,
-                            EVENTS.MAXIMUMCAPACITY)
+                            EVENTS.MAXIMUMCAPACITY,
+                            EVENTS.A)
                     .values(
                             publicEvent.getEventID(),
                             publicEvent.getEventName(),
@@ -142,7 +143,8 @@ public class EventDatabaseConnector {
                             publicEvent.getAddress(),
                             publicEvent.getEventLocation(),
                             publicEvent.getDescription(),
-                            publicEvent.getMaximumCapacity())
+                            publicEvent.getMaximumCapacity(),
+                            publicEvent.getMinimuAge())
                     .execute();
 
             return insertedCities + insertedEvents;
