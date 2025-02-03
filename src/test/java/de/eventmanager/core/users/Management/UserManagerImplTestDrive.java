@@ -47,7 +47,7 @@ public class UserManagerImplTestDrive {
 
         publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID,"TestPublicEvent", "2000-01-01", "2000-01-02", 0,
                 testArrayList, "TestCategory", false,"66115","Saarbrücken", "TestStraße 6", "Turmschule",
-                "This is a cool event", 20);
+                "This is a cool event", 20, 0);
         privateEvent = new PrivateEvent(TEST_PRIVATE_EVENT_ID,"TestPrivateEvent", "2000-01-01", "2000-01-02", 0,
                 testArrayList,"TestCategory", true, "66115","Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event");

@@ -186,8 +186,8 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.ADDRESS),
                 record.get(EVENTS.EVENTLOCATION),
                 record.get(EVENTS.DESCRIPTION),
-                record.get(EVENTS.AGERESTRICTION),
-                record.get(EVENTS.MAXIMUMCAPACITY)
+                record.get(EVENTS.MAXIMUMCAPACITY),
+                record.get(EVENTS.AGERESTRICTION)
         ));
     }
 
