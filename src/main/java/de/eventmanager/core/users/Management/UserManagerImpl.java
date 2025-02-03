@@ -221,7 +221,7 @@ public class UserManagerImpl implements UserManager {
                              String eventLocation, String description,
                              String loggedUserID
     ) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        Optional<? extends EventModel> optionalEvent = getEventByID(eventID);
 
         if (!optionalEvent.isPresent()) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
@@ -229,7 +229,8 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (checkPermissionForEventOperations(UserDatabaseConnector.readUserByID(loggedUserID).get(), eventID)) {
+        //TODO: Check does not work proper, can not edit Event when user is admin && creator
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -252,6 +253,11 @@ public class UserManagerImpl implements UserManager {
         LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 
         return true;
+    }
+
+    @Override
+    public Optional<? extends EventModel> getEventByID(String eventID) {
+        return EventDatabaseConnector.readEventByID(eventID);
     }
 
     /**
@@ -280,7 +286,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (checkPermissionForEventOperations(loggedUser.get(), eventID)) {
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -427,7 +433,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (checkPermissionForEventOperations(loggedUser.get(), eventID)) {
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -473,7 +479,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (checkPermissionForEventOperations(loggedUser.get(), eventID)) {
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -530,8 +536,9 @@ public class UserManagerImpl implements UserManager {
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
 
-    private boolean checkPermissionForEventOperations(User loggedUser, String eventID) {
-        return !loggedUser.getRole().equals(Role.ADMIN) || CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUser.getUserID());
+    private boolean checkPermissionForEventOperations(String loggedUserID, String eventID) {
+        return getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
+                CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID);
     }
 
     //#endregion Permission-Operations

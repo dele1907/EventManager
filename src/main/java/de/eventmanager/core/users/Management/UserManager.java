@@ -1,5 +1,6 @@
 package de.eventmanager.core.users.Management;
 
+import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.users.User;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public interface UserManager {
                       String eventStart, String eventEnd, String category,
                       String postalCode, String city, String address,
                       String eventLocation, String description, String loggedUserID);
+
+    Optional<? extends EventModel> getEventByID(String eventID);
 
     boolean deleteEvent(String eventID, String loggedUserID);
 

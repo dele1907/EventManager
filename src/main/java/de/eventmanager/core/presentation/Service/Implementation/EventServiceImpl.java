@@ -7,6 +7,7 @@ import de.eventmanager.core.users.Management.UserManagerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EventServiceImpl implements EventService {
     UserManagerImpl userManager = new UserManagerImpl();
@@ -73,5 +74,25 @@ public class EventServiceImpl implements EventService {
         });
 
         return createdEvents;
+    }
+
+    public void editEvent(String eventID, String newEventName, String newEventStart, String newEventEnd,
+                          String newCategory, String newPostalCode, String newCity, String newAddress,
+                          String newEventLocation, String newDescription, String loggedUserID) {
+
+        userManager.getEventByID(eventID).ifPresent(event -> {
+            String eventName = Optional.ofNullable(newEventName).orElse(event.getEventName());
+            String eventStart = Optional.ofNullable(newEventStart).orElse(event.getEventStart());
+            String eventEnd = Optional.ofNullable(newEventEnd).orElse(event.getEventEnd());
+            String category = Optional.ofNullable(newCategory).orElse(event.getCategory());
+            String postalCode = Optional.ofNullable(newPostalCode).orElse(event.getPostalCode());
+            String city = Optional.ofNullable(newCity).orElse(event.getCity());
+            String address = Optional.ofNullable(newAddress).orElse(event.getAddress());
+            String eventLocation = Optional.ofNullable(newEventLocation).orElse(event.getEventLocation());
+            String description = Optional.ofNullable(newDescription).orElse(event.getDescription());
+
+            userManager.editEvent(event.getEventID(), eventName, eventStart, eventEnd, category, postalCode, city,
+                    address, eventLocation, description, loggedUserID);
+        });
     }
 }

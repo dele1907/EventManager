@@ -15,4 +15,7 @@ public interface EventService {
                            int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPrivateEvent,
                            String loggedUserID);
     List<String> getCreatedEventsByUserID(String userID );
+    void editEvent(String eventID, String eventName, String eventStart, String eventEnd, String category,
+                  String postalCode, String city, String address, String eventLocation, String description,
+                  String loggedUserID);
 }

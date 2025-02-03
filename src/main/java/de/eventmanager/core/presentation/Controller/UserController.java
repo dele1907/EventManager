@@ -121,6 +121,14 @@ public class UserController {
     public List<String> getCreatedEventsForLoggedInUser(String loggedInUserID) {
         return eventService.getCreatedEventsByUserID(loggedInUserID);
     }
+
+    public void editEvent(String eventID, String eventName, String eventStart, String eventEnd, String category,
+                          String postalCode, String city, String address, String eventLocation, String description,
+                          String loggedUserID) {
+
+        eventService.editEvent(eventID, eventName, eventStart, eventEnd, category, postalCode, city, address,
+                eventLocation, description, loggedUserID);
+    }
     //#endregion eventOperations
 
 }
