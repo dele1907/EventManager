@@ -22,8 +22,6 @@ public class EventEditTab implements Tab {
     private String newEventAddress;
     private String newEventLocation;
     private String newEventDescription;
-    private int newEventMaximumCapacity;
-    private int newEventMinimumAge;
 
     public EventEditTab(View view, String loggedInUserID, UserController userController) {
         this.view = view;
