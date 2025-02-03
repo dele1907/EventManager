@@ -66,10 +66,13 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditUserDialog() {
-        showEditUserAttributeDialog("first name").ifPresent(value -> editedFirstName = value);
-        showEditUserAttributeDialog("last name").ifPresent(value -> editedLastName = value);
-        showEditUserAttributeDialog("email address").ifPresent(value -> editedEmail = value);
-        handleEditPhoneNumber().ifPresent(value -> editedPhoneNumber = value);
+        DefaultDialogHelper.showEditAttributeDialog(
+                textView, "first name").ifPresent(attribute -> editedFirstName = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                textView, "last name").ifPresent(attribute -> editedLastName = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                textView, "email address").ifPresent(attribute -> editedEmail = attribute);
+        handleEditPhoneNumber().ifPresent(attribute -> editedPhoneNumber = attribute);
     }
 
     private Optional<String> showEditUserAttributeDialog(String prompt) {

@@ -89,27 +89,23 @@ public class EventEditTab implements Tab {
     }
 
     private void handleEventEditing() {
-        showEditEventAttributeDialog("event's name").ifPresent(dialog -> newEventName = dialog);
-        showEditEventAttributeDialog("event's start date").ifPresent(dialog -> newEventStart = dialog);
-        showEditEventAttributeDialog("event's end date").ifPresent(dialog -> newEventEnd = dialog);
-        showEditEventAttributeDialog("event's category").ifPresent(dialog -> newEventCategory = dialog);
-        showEditEventAttributeDialog("event location postal code").ifPresent(dialog -> newEventPostalCode = dialog);
-        showEditEventAttributeDialog("event location city").ifPresent(dialog -> newEventCity = dialog);
-        showEditEventAttributeDialog("event location address").ifPresent(dialog -> newEventAddress = dialog);
-        showEditEventAttributeDialog("event location").ifPresent(dialog -> newEventLocation = dialog);
-        showEditEventAttributeDialog("event description").ifPresent(dialog -> newEventDescription = dialog);
-    }
-
-    private Optional<String> showEditEventAttributeDialog(String prompt) {
-        view.displayUserInputMessage("\nEnter new " + prompt +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        String eventAttribute = view.getUserInput();
-
-        if (eventAttribute.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(eventAttribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event's name").ifPresent(attribute -> newEventName = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event's start date").ifPresent(attribute -> newEventStart = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event's end date").ifPresent(attribute -> newEventEnd = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event's category").ifPresent(attribute -> newEventCategory = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event location postal code").ifPresent(attribute -> newEventPostalCode = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event location city").ifPresent(attribute -> newEventCity = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event location address").ifPresent(attribute -> newEventAddress = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event location").ifPresent(attribute -> newEventLocation = attribute);
+        DefaultDialogHelper.showEditAttributeDialog(
+                view, "event description").ifPresent(attribute -> newEventDescription = attribute);
     }
 }

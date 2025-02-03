@@ -95,7 +95,6 @@ public class DefaultDialogHelper {
         return dateOfBirth;
     }
 
-    //TODO @Dennis: This method should be uses in AdminEditUserTab & EventEditTab
     public static Optional<String> showEditAttributeDialog(View view, String prompt) {
         view.displayUserInputMessage("\nEnter new " + prompt + "\n" + BLANK_TO_KEEP + "\n> ");
         var userAttribute = view.getUserInput();
