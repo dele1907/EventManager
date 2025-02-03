@@ -49,8 +49,7 @@ public class EventEditTab implements Tab {
             return;
         }
 
-        //TODO @Dennis: implement method getEventInformationByID in userController
-        String eventInformation = "";//userController.getEventInformationByID(eventID);
+        String eventInformation = userController.getEventInformationByEventID(eventID);
 
         if (eventInformation.isEmpty()) {
             view.displayErrorMessage("\nNo event found with the given event ID. Please try again.\n");
