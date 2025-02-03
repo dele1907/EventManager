@@ -1,7 +1,5 @@
 package de.eventmanager.core.users.Management;
 
-import de.eventmanager.core.events.PrivateEvent;
-import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
 
 import java.util.ArrayList;
@@ -36,13 +34,9 @@ public interface UserManager {
     //#endregion User related Crud-Operations
 
     //#region Event related CRUD-Operations
-    boolean createEvent(String eventName, String eventStart, String eventEnd, String category,
-                        String postalCode, String city, String address, String eventLocation,
-                        String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID);
-    Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city,
-                                              String address, String eventLocation, String description, String loggedUserID);
-    Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city,
-                                            String address, String eventLocation, String description, int maxParticipants, String loggedUserID);
+    boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
+                           String postalCode, String city, String address, String eventLocation,
+                           String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID);
 
     boolean editEvent(String eventID, String eventName,
                       String eventStart, String eventEnd, String category,

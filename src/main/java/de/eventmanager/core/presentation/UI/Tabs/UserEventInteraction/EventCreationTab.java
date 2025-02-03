@@ -78,6 +78,7 @@ public class EventCreationTab implements Tab {
             maxCapacity = Integer.parseInt(textView.getUserInput());
         }
 
-        return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, maxCapacity, eventLocation, description, isPublicEvent);
+        return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
+                maxCapacity, eventLocation, description, isPublicEvent, loggedInUserID);
     }
 }

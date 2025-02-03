@@ -143,9 +143,9 @@ public class UserManagerImpl implements UserManager {
     //#region Event related CRUD-Operations
 
     @Override
-    public boolean createEvent(String eventName, String eventStart, String eventEnd, String category,
-                               String postalCode, String city, String address, String eventLocation,
-                               String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
+    public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
+                                  String postalCode, String city, String address, String eventLocation,
+                                  String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
 
         return isPrivateEvent ?
                 createPrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
@@ -159,9 +159,7 @@ public class UserManagerImpl implements UserManager {
      * {@code createPrivateEvent()} create a new Private Event and safe the EventCreator in the Database.
      * @see EventDatabaseConnector EventDatabaseConnector
      */
-
-    @Override
-    public Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
+    private Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
                                                      String eventEnd, String category,
                                                      String postalCode, String city,
                                                      String address, String eventLocation,
@@ -178,9 +176,7 @@ public class UserManagerImpl implements UserManager {
      * {@code createPublicEvent()} create a new Public Event and safe the EventCreator in the Database.
      * @see EventDatabaseConnector EventDatabaseConnector
      */
-
-    @Override
-    public Optional<PublicEvent> createPublicEvent(String eventName, String eventStart,
+    private Optional<PublicEvent> createPublicEvent(String eventName, String eventStart,
                                                    String eventEnd, String category,
                                                    String postalCode, String city,
                                                    String address, String eventLocation,
