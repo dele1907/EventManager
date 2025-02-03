@@ -19,15 +19,15 @@ public interface UserManager {
             String password,
             String phoneNumber,
             boolean isAdmin,
-            String loggedInUserUserID
+            String loggedUserByID
     );
 
     void editUser(String userID, String firstName,
                                   String lastName, String dateOfBirth,
                                   String eMailAddress, String password,
-                                  String phoneNumber,String loggedInUserID);
+                                  String phoneNumber, String loggedUserByID);
 
-    boolean deleteUser(String eMailUserToDelete, String loggedInUserID);
+    boolean deleteUser(String eMailUserToDelete, String loggedUserByID);
 
     Optional<User> getUserByID(String userID);
 
@@ -38,16 +38,16 @@ public interface UserManager {
     //#region Event related CRUD-Operations
 
     Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city,
-                                              String address, String eventLocation, String description, User loggedUser);
+                                              String address, String eventLocation, String description, String loggedUserID);
     Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city,
-                                            String address, String eventLocation, String description, int maxParticipants, User loggedUser);
+                                            String address, String eventLocation, String description, int maxParticipants, String loggedUserID);
 
     boolean editEvent(String eventID, String eventName,
                       String eventStart, String eventEnd, String category,
                       String postalCode, String city, String address,
-                      String eventLocation, String description, User loggedUser);
+                      String eventLocation, String description, String loggedUserID);
 
-    boolean deleteEvent(String eventID, User loggedUser);
+    boolean deleteEvent(String eventID, String loggedUserID);
 
     ArrayList<String> showEventParticipantList(String eventID);
 
@@ -55,9 +55,9 @@ public interface UserManager {
 
     //#region Event-Operations
 
-    boolean bookEvent(String eventID, User loggedUser);
+    boolean bookEvent(String eventID, String loggedUserID);
 
-    boolean cancelEvent(String eventID, User loggedUser);
+    boolean cancelEvent(String eventID, String loggedUserID);
 
     boolean addUserToEvent(String eventID, String userEmail, String loggedUserID);
 
