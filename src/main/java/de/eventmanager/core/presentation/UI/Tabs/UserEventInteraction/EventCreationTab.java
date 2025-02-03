@@ -69,7 +69,7 @@ public class EventCreationTab implements Tab {
         int maxCapacity = 0;
         int minimumAge = 0;
 
-        if (isPrivateEvent) {
+        if (!isPrivateEvent) {
             textView.displayUserInputMessage("\nEnter event maximum capacity\n> ");
             String maxCapacityInputString = textView.getUserInput();
             maxCapacity = maxCapacityInputString.isEmpty() ? 9999 : Integer.parseInt(maxCapacityInputString);
