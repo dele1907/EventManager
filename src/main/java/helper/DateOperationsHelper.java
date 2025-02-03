@@ -19,7 +19,7 @@ public class DateOperationsHelper {
     private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
 
 
-    public int getTheAgeFromDatabase(String eMailAddresse) {
+    public static int getTheAgeFromDatabase(String eMailAddresse) {
         int years = 0;
 
         try (Connection connection = DatabaseConnector.connect()){
@@ -59,7 +59,7 @@ public class DateOperationsHelper {
         return years;
     }
 
-    public int timeToEvent(String eventName) {
+    public static int timeToEvent(String eventName) {
         int days = 0;
         int hours = 0;
         int minutes = 0;
@@ -92,7 +92,7 @@ public class DateOperationsHelper {
         return days;
     }
 
-    public void getDayTime(String eventName) {
+    public static void getDayTime(String eventName) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -117,7 +117,7 @@ public class DateOperationsHelper {
         }
     }
 
-    public int checkIsAEventOver() {
+    public static int checkIsAEventOver() {
         int days = 0;
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -152,24 +152,24 @@ public class DateOperationsHelper {
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
         //dateOperationsHelper.checkIsAEventOver();
         //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
-        System.out.println(dateOperationsHelper.getEventStartMinute("Finch Tour 2025"));
+        System.out.println(dateOperationsHelper.getEventStartHour("Finch Tour 2025"));
     }
 */
 
-    public String getEventStartYear(String eventName) {
-        String year = "";
+    public static int getEventStartYear(String eventName) {
+        int year = 0;
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%G', eventStart))", String.class))
+            Result<Record1<Integer>> result = create.select(DSL.field("(strftime('%G', eventStart))", Integer.class))
                     .from("events")
                     .where(DSL.field("eventName").eq(eventName))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<String> record : result) {
+                for (Record1<Integer> record : result) {
                     year = record.value1();
                 }
 
@@ -182,21 +182,21 @@ public class DateOperationsHelper {
         return year;
     }
 
-    public String getEventStartMonth(String eventName) {
-            String month = "";
+    public static int getEventStartMonth(String eventName) {
+            int month = 0;
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%m', eventStart))", String.class))
+            Result<Record1<Integer>> result = create.select(DSL.field("(strftime('%m', eventStart))", Integer.class))
                     .from("events")
                     .where(DSL.field("eventName").eq(eventName))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<String> record : result) {
+                for (Record1<Integer> record : result) {
                     month = record.value1();
                 }
 
@@ -209,20 +209,20 @@ public class DateOperationsHelper {
         return month;
     }
 
-    public String getEventStartDay(String eventName) {
-        String day = "";
+    public static int getEventStartDay(String eventName) {
+        Integer day = 0;
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%d', eventStart))", String.class))
+            Result<Record1<Integer>> result = create.select(DSL.field("(strftime('%d', eventStart))", Integer.class))
                     .from("events")
                     .where(DSL.field("eventName").eq(eventName))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<String> record : result) {
+                for (Record1<Integer> record : result) {
                     day = record.value1();
                 }
 
@@ -235,21 +235,21 @@ public class DateOperationsHelper {
         return day;
     }
 
-    public String getEventStartHour(String eventName) {
-        String hour = "";
+    public static int getEventStartHour(String eventName) {
+        int hour = 0;
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%H', eventStart))", String.class))
+            Result<Record1<Integer>> result = create.select(DSL.field("(strftime('%H', eventStart))", Integer.class))
                     .from("events")
                     .where(DSL.field("eventName").eq(eventName))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<String> record : result) {
+                for (Record1<Integer> record : result) {
                     hour = record.value1();
                 }
 
@@ -262,21 +262,21 @@ public class DateOperationsHelper {
         return hour;
     }
 
-    public String getEventStartMinute(String eventName) {
-        String minute = "";
+    public static int getEventStartMinute(String eventName) {
+        int minute = 0;
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%M', eventStart))", String.class))
+            Result<Record1<Integer>> result = create.select(DSL.field("(strftime('%M', eventStart))", Integer.class))
                     .from("events")
                     .where(DSL.field("eventName").eq(eventName))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<String> record : result) {
+                for (Record1<Integer> record : result) {
                     minute = record.value1();
                 }
 
