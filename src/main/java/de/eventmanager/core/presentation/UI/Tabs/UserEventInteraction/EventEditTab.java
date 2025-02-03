@@ -6,6 +6,7 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EventEditTab implements Tab {
     private View view;
@@ -90,147 +91,27 @@ public class EventEditTab implements Tab {
     }
 
     private void handleEventEditing() {
-        showEditEventNameDialog();
-        showEditEventStartDialog();
-        showEditEventEndDialog();
-        showEditEventCategoryDialog();
-        showEditEventPostalCodeDialog();
-        showEditEventCityDialog();
-        showEditEventAddressDialog();
-        showEditEventLocationDialog();
-        showEditEventDescriptionDialog();
+        showEditEventAttributeDialog("event's name").ifPresent(dialog -> newEventName = dialog);
+        showEditEventAttributeDialog("event's start date").ifPresent(dialog -> newEventStart = dialog);
+        showEditEventAttributeDialog("event's end date").ifPresent(dialog -> newEventEnd = dialog);
+        showEditEventAttributeDialog("event's category").ifPresent(dialog -> newEventCategory = dialog);
+        showEditEventAttributeDialog("event location postal code").ifPresent(dialog -> newEventPostalCode = dialog);
+        showEditEventAttributeDialog("event location city").ifPresent(dialog -> newEventCity = dialog);
+        showEditEventAttributeDialog("event location address").ifPresent(dialog -> newEventAddress = dialog);
+        showEditEventAttributeDialog("event location").ifPresent(dialog -> newEventLocation = dialog);
+        showEditEventAttributeDialog("event description").ifPresent(dialog -> newEventDescription = dialog);
     }
 
-    private void showEditEventNameDialog() {
-        view.displayUserInputMessage("\nEnter new event name\n> ");
-        String eventName = view.getUserInput();
-
-        if (eventName.isEmpty()) {
-            return;
-        }
-
-        newEventName = eventName;
-    }
-
-    private void showEditEventStartDialog() {
-        view.displayUserInputMessage("\nEnter new event start date\n> ");
-        String eventStart = view.getUserInput();
-
-        if (eventStart.isEmpty()) {
-            return;
-        }
-
-        newEventStart = eventStart;
-    }
-
-    private void showEditEventEndDialog() {
-        view.displayUserInputMessage("\nEnter new event end date\n> ");
-        String eventEnd = view.getUserInput();
-
-        if (eventEnd.isEmpty()) {
-            return;
-        }
-
-        newEventEnd = eventEnd;
-    }
-
-    private void showEditEventCategoryDialog() {
-        view.displayUserInputMessage("\nEnter new event category\n> ");
-        String eventCategory = view.getUserInput();
-
-        if (eventCategory.isEmpty()) {
-            return;
-        }
-
-        newEventCategory = eventCategory;
-    }
-
-    private void showEditEventPostalCodeDialog() {
-        view.displayUserInputMessage("\nEnter new event postal code\n> ");
-        String eventPostalCode = view.getUserInput();
-
-        if (eventPostalCode.isEmpty()) {
-            return;
-        }
-
-        newEventPostalCode = eventPostalCode;
-    }
-
-    private void showEditEventCityDialog() {
-        view.displayUserInputMessage("\nEnter new event city" +
+    private Optional<String> showEditEventAttributeDialog(String prompt) {
+        view.displayUserInputMessage("\nEnter new " + prompt +
                 "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
                 "\n> ");
-        String eventCity = view.getUserInput();
+        String eventAttribute = view.getUserInput();
 
-        if (eventCity.isEmpty()) {
-            return;
+        if (eventAttribute.isEmpty()) {
+            return Optional.empty();
         }
 
-        newEventCity = eventCity;
-    }
-
-    private void showEditEventAddressDialog() {
-        view.displayUserInputMessage("\nEnter new event address" +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        String eventAddress = view.getUserInput();
-
-        if (eventAddress.isEmpty()) {
-            return;
-        }
-
-        newEventAddress = eventAddress;
-    }
-
-    private void showEditEventLocationDialog() {
-        view.displayUserInputMessage("\nEnter new event location" +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        String eventLocation = view.getUserInput();
-
-        if (eventLocation.isEmpty()) {
-            return;
-        }
-
-        newEventLocation = eventLocation;
-    }
-
-    private void showEditEventDescriptionDialog() {
-        view.displayUserInputMessage("\nEnter new event description" +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        String eventDescription = view.getUserInput();
-
-        if (eventDescription.isEmpty()) {
-            return;
-        }
-
-        newEventDescription = eventDescription;
-    }
-
-    private void showEditEventMaximumCapacityDialog() {
-        view.displayUserInputMessage("\nEnter new event maximum capacity" +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        String eventMaximumCapacity = view.getUserInput();
-
-        if (eventMaximumCapacity.isEmpty()) {
-            return;
-        }
-
-        newEventMaximumCapacity = Integer.parseInt(eventMaximumCapacity);
-    }
-
-    private void showEditEventMinimumAgeDialog() {
-        view.displayUserInputMessage("\nEnter new event minimum age" +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        String eventMinimumAge = view.getUserInput();
-
-        if (eventMinimumAge.isEmpty()) {
-            return;
-        }
-
-        newEventMinimumAge = Integer.parseInt(eventMinimumAge);
+        return Optional.of(eventAttribute);
     }
 }
