@@ -77,7 +77,7 @@ public class EventDatabaseConnectorTestDrive {
     public void testCreateAndReadPublicEvent() {
 
         testPublicEvent1 = new PublicEvent("createTestPublicEventDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         boolean publicEventCreated = EventDatabaseConnector.createNewEvent(testPublicEvent1);
         assertTrue(publicEventCreated, "Public event creation failed but should not.");
@@ -109,7 +109,7 @@ public class EventDatabaseConnectorTestDrive {
         testPrivateEvent = new PrivateEvent("readByIDTestPrivateEventDatabaseConnector", "Geburtstag von Oma", "2025-11-11 12:00", "2025-11-11 12:00", 0, null,
                 "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier von meiner super tollen Test-Oma");
         testPublicEvent1 = new PublicEvent("readByIDTestPublicEventDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
@@ -137,9 +137,9 @@ public class EventDatabaseConnectorTestDrive {
     public void testReadPublicEventsByName() {
 
         testPublicEvent1 = new PublicEvent("readByNameTestPublicEventDatabaseConnector1", "ReadByName-Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
         testPublicEvent2 = new PublicEvent("readByNameTestPublicEventDatabaseConnector2", "ReadByName-Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66740", "Saarlouis", "Großer Markt 1", "Marktplatz", "Ostermarkt für super Menschen", 3000);
+                "Markt", false, "66740", "Saarlouis", "Großer Markt 1", "Marktplatz", "Ostermarkt für super Menschen", 3000, 0);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         EventDatabaseConnector.createNewEvent(testPublicEvent2);
@@ -161,9 +161,9 @@ public class EventDatabaseConnectorTestDrive {
     public void testReadPublicEventsByLocation() {
 
         testPublicEvent1 = new PublicEvent("readByLocationTestPublicEventDatabaseConnector1", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "ReadByLocation-Innenstadt", "Essen, Getränke und Musik", 10000);
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "ReadByLocation-Innenstadt", "Essen, Getränke und Musik", 10000, 0);
         testPublicEvent2 = new PublicEvent("readByLocationTestPublicEventDatabaseConnector2", "Altstadtfest", "2025-07-07 12:00", "2025-07-13 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "ReadByLocation-Innenstadt", "Traditionelles Stadtfest", 10000);
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "ReadByLocation-Innenstadt", "Traditionelles Stadtfest", 10000, 0);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         EventDatabaseConnector.createNewEvent(testPublicEvent2);
@@ -185,9 +185,9 @@ public class EventDatabaseConnectorTestDrive {
     public void testReadEventsByCity() {
 
         testPublicEvent1 = new PublicEvent("readByCityTestPublicEventDatabaseConnector1", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
-                "Stadtfest", false, "#####", "ReadByCity-Teststadt", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
+                "Stadtfest", false, "#####", "ReadByCity-Teststadt", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000, 0);
         testPublicEvent2 = new PublicEvent("readByCityTestPublicEventDatabaseConnector2", "Altstadtfest", "2025-07-07 12:00", "2025-07-13 12:00", 0, null,
-                "Stadtfest", false, "#####", "ReadByCity-Teststadt", "Großer Markt 1", "Innenstadt", "Traditionelles Stadtfest", 10000);
+                "Stadtfest", false, "#####", "ReadByCity-Teststadt", "Großer Markt 1", "Innenstadt", "Traditionelles Stadtfest", 10000, 0);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         EventDatabaseConnector.createNewEvent(testPublicEvent2);
@@ -242,9 +242,9 @@ public class EventDatabaseConnectorTestDrive {
     public void testUpdateAndReadPublicEvent() {
 
         testPublicEvent1 = new PublicEvent("updateTestPublicEventDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
         testPublicEventUpdated = new PublicEvent("updateTestPublicEventDatabaseConnector", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000,0);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
 
@@ -293,7 +293,7 @@ public class EventDatabaseConnectorTestDrive {
     public void testDeletePublicEvent() {
 
         testPublicEvent1 = new PublicEvent("deleteTestPublicEventDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
 
@@ -333,7 +333,7 @@ public class EventDatabaseConnectorTestDrive {
     public void testCreatePublicEventFailed() {
 
         testPublicEvent1 = new PublicEvent("createFailTestPublicEventDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testPublicEvent1);
         Optional<PublicEvent> publicEventFromDatabase = EventDatabaseConnector.readPublicEventByID("createFailTestPublicEventDatabaseConnector");
@@ -395,7 +395,7 @@ public class EventDatabaseConnectorTestDrive {
     public void testUpdatePublicEventFailed() {
 
         testPublicEventUpdated = new PublicEvent("updateFailTestPublicEventDatabaseConnector", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
-                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000);
+                "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000, 0);
 
         boolean publicEventUpdated = EventDatabaseConnector.updateEvent(testPrivateEventUpdated);
         assertFalse(publicEventUpdated, "Public event update was successful but should not.");
@@ -432,7 +432,7 @@ public class EventDatabaseConnectorTestDrive {
         PrivateEvent testPrivateEvent = new PrivateEvent("testPrivateEventID", "Private Event", "2025-11-11 12:00", "2025-11-11 12:00", 0, null,
                 "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier von meiner super tollen Test-Oma");
         PublicEvent testPublicEvent = new PublicEvent("testPublicEventID", "Public Event", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         // Insert test events
         EventDatabaseConnector.createNewEvent(testPrivateEvent);
