@@ -97,6 +97,12 @@
             <artifactId>bcpkix-jdk15on</artifactId>
             <version>1.70</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mnode.ical4j</groupId>
+            <artifactId>ical4j</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>
