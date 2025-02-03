@@ -68,6 +68,8 @@ public class EventCreationTab implements Tab {
         String description = textView.getUserInput();
         int maxCapacity = 0;
 
+        int minimumAge = 0;
+
         if (isPublicEvent) {
             textView.displayUserInputMessage("\nEnter event maximum capacity\n> ");
             maxCapacity = Integer.parseInt(textView.getUserInput());
@@ -77,7 +79,8 @@ public class EventCreationTab implements Tab {
                             "(Press Enter if there is none)\n> "
             );
             String minimumAgeString = textView.getUserInput();
-            int minimumAge = minimumAgeString.isEmpty() ? 0 : Integer.parseInt(minimumAgeString);
+
+            minimumAge = minimumAgeString.isEmpty() ? 0 : Integer.parseInt(minimumAgeString);
         }
 
         return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
