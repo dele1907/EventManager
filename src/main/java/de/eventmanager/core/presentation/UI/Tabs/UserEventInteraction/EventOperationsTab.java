@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
@@ -21,12 +22,14 @@ public class EventOperationsTab implements Tab {
         boolean eventOperationIsActive = true;
 
         while (eventOperationIsActive) {
-            textView.displayTabOrPageHeading("\n===== EventOperationsTab =====");
+            DefaultDialogHelper.getTabOrPageHeading(textView, "Event Operations");
 
             textView.displayMessage(
                     "1. Create Event" +
                     "\n2. Show Events" +
-                    "\n3. Back to main menu"
+                    "\n3. Book Event" +
+                    "\n4. Cancel Event" +
+                    "\n5. Back to main menu"
             );
             textView.displayUserInputMessage("\n\nChoose a Option\n> ");
             
@@ -40,6 +43,12 @@ public class EventOperationsTab implements Tab {
                     handleShowEvents();
                     break;
                 case "3":
+                    handleBookEvent();
+                    break;
+                case "4":
+                    handleCancelEvent();
+                    break;
+                case "5":
                     eventOperationIsActive = false;
                     break;
                 default:
@@ -50,12 +59,18 @@ public class EventOperationsTab implements Tab {
     }
 
     private void handleCreateEvent() {
-        EventCreationTab eventCreationTab = new EventCreationTab(textView, loggedInUserID, userController);
-        eventCreationTab.start();
+      new EventCreationTab(textView, loggedInUserID, userController).start();
     }
 
     private void handleShowEvents() {
-        ShowEventsTab showEventsTab = new ShowEventsTab(textView, userController, loggedInUserID);
-        showEventsTab.start();
+        new ShowEventsTab(textView, userController, loggedInUserID).start();
+    }
+
+    private void handleBookEvent() {
+        new EventBookingTab(textView, loggedInUserID, userController).start();
+    }
+
+    private void handleCancelEvent() {
+        new EventCancelParticipationTab(textView, loggedInUserID, userController).start();
     }
 }

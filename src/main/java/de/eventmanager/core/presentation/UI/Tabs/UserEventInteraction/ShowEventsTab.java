@@ -2,6 +2,7 @@ package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
@@ -23,7 +24,7 @@ public class ShowEventsTab implements Tab{
         boolean eventSearchingIsActive = true;
 
         while (eventSearchingIsActive) {
-            textView.displayTabOrPageHeading("\n===== ShowEventsTab =====");
+            DefaultDialogHelper.getTabOrPageHeading(textView, "Show Events");
             textView.displayMessage(
                     "1. Search by Name " +
                     "\n2. Search by Location " +

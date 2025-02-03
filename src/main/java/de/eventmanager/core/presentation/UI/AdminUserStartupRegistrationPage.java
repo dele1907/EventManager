@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
@@ -17,7 +18,8 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
     @Override
     public void start() {
-        textView.displayTabOrPageHeading("\n===== Admin User Startup Registration Page ======");
+        DefaultDialogHelper.getTabOrPageHeading(textView, "Admin User Registration");
+
         textView.displayMessage(
                 "There is no admin user present for your system." +
                 "\nWould you like to create one?"

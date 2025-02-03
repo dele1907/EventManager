@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminCreateUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminDeleteUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUserTab;
@@ -23,12 +24,14 @@ public class AdminOperationsTab implements Tab {
         boolean adminIsActive = true;
         
         while (adminIsActive) {
-            //Review @Dennis: Create on call for choices
-            textView.displayTabOrPageHeading("\n====== Admin Operations ======");
-            textView.displayMessage("1. Edit user");
-            textView.displayMessage("\n2. Delete user");
-            textView.displayMessage("\n3. Create new user");
-            textView.displayMessage("\n4. Back to main menu");
+            DefaultDialogHelper.getTabOrPageHeading(textView, "Admin Operations");
+
+            textView.displayMessage(
+                    "1. Edit user" +
+                    "\n2. Delete user" +
+                    "\n3. Create new user" +
+                    "\n4. Back to main menu"
+            );
             textView.displayUserInputMessage("\n\nChoose an option\n> ");
             String choice = textView.getUserInput();
 

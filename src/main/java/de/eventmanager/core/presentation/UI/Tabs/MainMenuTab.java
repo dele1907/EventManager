@@ -3,6 +3,7 @@ package de.eventmanager.core.presentation.UI.Tabs;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.roles.Role;
@@ -51,9 +52,15 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
-        textView.displayTabOrPageHeading("\n===== Main Menu =====");
+        DefaultDialogHelper.getTabOrPageHeading(textView, "Main Menu");
+
         textView.displaySuccessMessage("Welcome " + userController.getLoggedInUserName(loggedInUserID) + "!\n");
-        textView.displayMessage("1. Settings\n2. Event Operations\n3. Logout\n4. Logout and Exit Program");
+        textView.displayMessage(
+                "1. Settings" +
+                "\n2. Event Operations" +
+                "\n3. Logout" +
+                "\n4. Logout and Exit Program"
+        );
 
         if (menuType == MenuType.ADMIN) {
             textView.displayMessage("\n5. Admin Operations");

@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
 import de.eventmanager.core.presentation.Controller.UserController;
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
@@ -18,10 +19,12 @@ public class EventCreationTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayTabOrPageHeading("\n===== Event Creation ======");
-        textView.displayMessage("1. Create new public event");
-        textView.displayMessage("\n2. Create new private event");
-        textView.displayMessage("\n3. Back to Event Operations");
+        DefaultDialogHelper.getTabOrPageHeading(textView, "Event Creation");
+        textView.displayMessage(
+                "1. Create new public event" +
+                "\n2. Create new private event" +
+                "\n3. Back to Event Operations"
+        );
         textView.displayUserInputMessage("\n\nPlease enter your choice\n> ");
 
         String choice = textView.getUserInput();

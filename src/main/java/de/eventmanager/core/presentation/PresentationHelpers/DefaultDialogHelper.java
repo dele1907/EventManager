@@ -7,6 +7,10 @@ public class DefaultDialogHelper {
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
     public final static String BLANK_TO_KEEP = "Leave blank to keep current";
 
+    public static void getTabOrPageHeading(View view, String heading) {
+        view.displayTabOrPageHeading("\n===== " + heading + " =====");
+    }
+
     public static  UserRegistrationData createNewUserDefaultDialog(View view) {
         view.displayUserInputMessage("Enter first name\n> ");
         var firstName = view.getUserInput();
