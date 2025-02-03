@@ -141,6 +141,18 @@ public class UserManagerImpl implements UserManager {
     //#endregion User related CRUD-Operations
 
     //#region Event related CRUD-Operations
+    @Override
+    public String getEventInformationByEventID(String eventID) {
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+
+        if (optionalEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+
+            return null;
+        }
+
+        return optionalEvent.get().toString();
+    }
 
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,

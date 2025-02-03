@@ -34,6 +34,7 @@ public interface UserManager {
     //#endregion User related Crud-Operations
 
     //#region Event related CRUD-Operations
+    String getEventInformationByEventID(String eventID);
     boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
                            String postalCode, String city, String address, String eventLocation,
                            String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID);

@@ -35,5 +35,38 @@ public class EventEditTab implements Tab {
 
         view.displayUnderlinedSubheading("\nYour Created Events, you can edit:\n");
         createdEvents.forEach(view::displayMessage);
+
+        showEventInformationByEventIDDialog();
+    }
+
+    private void showEventInformationByEventIDDialog() {
+        view.displayUserInputMessage("\nEnter the event ID of the event you want to edit\n> ");
+        String eventID = view.getUserInput();
+
+        if (eventID.isEmpty()) {
+            view.displayErrorMessage("\nInvalid event ID. Pleas try again.\n");
+
+            return;
+        }
+
+        String eventInformation = userController.getEventInformationByID(eventID);
+
+        if (eventInformation.isEmpty()) {
+            view.displayErrorMessage("\nNo event found with the given event ID. Please try again.\n");
+
+            return;
+        }
+
+        showConfirmEventEditingDialog(eventInformation);
+    }
+
+    private void showConfirmEventEditingDialog(String eventInformation) {
+        view.displayMessage(eventInformation);
+        view.displayUserInputMessage("\nDo you want to edit this event? (yes/no)\n> ");
+        String choice = view.getUserInput();
+
+        if (!choice.equalsIgnoreCase("yes")) {
+            return;
+        }
     }
 }
