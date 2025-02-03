@@ -261,13 +261,13 @@ public class UserManagerImpl implements UserManager {
     ) {
         Optional<? extends EventModel> optionalEvent = getEventByID(eventID);
 
-        if (!optionalEvent.isPresent()) {
+        if (optionalEvent.isEmpty()) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
 
             return false;
         }
 
-        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
+        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -323,7 +323,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
+        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -470,7 +470,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
+        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -516,7 +516,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
+        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -574,8 +574,8 @@ public class UserManagerImpl implements UserManager {
     }
 
     private boolean checkPermissionForEventOperations(String loggedUserID, String eventID) {
-        return getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
-                CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID);
+        return !(getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
+                CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID));
     }
 
     //#endregion Permission-Operations
