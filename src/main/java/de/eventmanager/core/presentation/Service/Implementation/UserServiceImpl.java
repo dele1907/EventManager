@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(String userToDeleteEmail, String loggedInUserEmail) {
+    public boolean deleteUser(String userToDeleteEmail, String loggedInUserID) {
         var userToDelete = userManagerImpl.getUserByEmail(userToDeleteEmail);
 
         if (userToDelete.isEmpty()) {
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-       return userManagerImpl.deleteUser(userToDeleteEmail, loggedInUserEmail);
+       return userManagerImpl.deleteUser(userToDeleteEmail, loggedInUserID);
     }
 
     @Override
