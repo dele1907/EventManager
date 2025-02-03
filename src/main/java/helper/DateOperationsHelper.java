@@ -8,6 +8,7 @@ import java.sql.Connection;
 
 import org.jooq.*;
 import org.jooq.impl.SQLDataType;
+import org.jooq.meta.derby.sys.Sys;
 import org.jooq.types.DayToSecond;
 import org.jooq.types.YearToMonth;
 
@@ -149,13 +150,152 @@ public class DateOperationsHelper {
 /*
     public static void main(String[] args) {
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
-        dateOperationsHelper.checkIsAEventOver();
+        //dateOperationsHelper.checkIsAEventOver();
         //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
+        System.out.println(dateOperationsHelper.getEventStartMinute("Finch Tour 2025"));
     }
-
 */
 
-    public void whichWeekIsTheEvent(String eventName) {
+    public String getEventStartYear(String eventName) {
+        String year = "";
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record1<String>> result = create.select(DSL.field("(strftime('%G', eventStart))", String.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<String> record : result) {
+                    year = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+        return year;
+    }
+
+    public String getEventStartMonth(String eventName) {
+            String month = "";
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record1<String>> result = create.select(DSL.field("(strftime('%m', eventStart))", String.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<String> record : result) {
+                    month = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+        return month;
+    }
+
+    public String getEventStartDay(String eventName) {
+        String day = "";
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record1<String>> result = create.select(DSL.field("(strftime('%d', eventStart))", String.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<String> record : result) {
+                    day = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+        return day;
+    }
+
+    public String getEventStartHour(String eventName) {
+        String hour = "";
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record1<String>> result = create.select(DSL.field("(strftime('%H', eventStart))", String.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<String> record : result) {
+                    hour = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+        return hour;
+    }
+
+    public String getEventStartMinute(String eventName) {
+        String minute = "";
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record1<String>> result = create.select(DSL.field("(strftime('%M', eventStart))", String.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<String> record : result) {
+                    minute = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+        return minute;
+    }
+
+
+}
+
+/*
+Is in the comment because we will decide later whether we use the Method
+
+* public void whichWeekIsTheEvent(String eventName) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -178,5 +318,4 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
-    }
-}
+    }*/
