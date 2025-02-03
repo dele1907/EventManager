@@ -6,6 +6,8 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
+import java.util.List;
+
 public class EventCreationTab implements Tab {
     private View textView;
     private String loggedInUserID;
@@ -20,13 +22,14 @@ public class EventCreationTab implements Tab {
     @Override
     public void start() {
         DefaultDialogHelper.getTabOrPageHeading(textView, "Event Creation");
-        textView.displayMessage(
-                "1. Create new public event" +
-                "\n2. Create new private event" +
-                "\n3. Back to Event Operations"
-        );
-        textView.displayUserInputMessage("\n\nPlease enter your choice\n> ");
 
+        DefaultDialogHelper.generateMenu(textView,
+            List.of(
+                "Create new public event",
+                "Create new private event",
+                "Back to Event Operations"
+            )
+        );
         String choice = textView.getUserInput();
 
         switch (choice) {

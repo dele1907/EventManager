@@ -20,7 +20,7 @@ public class AdminCreateUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayTabOrPageHeading("\n===== Create User Tab ======");
+        DefaultDialogHelper.getTabOrPageHeading(textView, "Create User");
         showCreateUserDialog();
     }
 

@@ -9,6 +9,7 @@ import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 
+import java.util.List;
 import java.util.Optional;
 
 public class LoginRegistrationPage implements Tab {
@@ -31,13 +32,7 @@ public class LoginRegistrationPage implements Tab {
 
         while (programIsRunning) {
             DefaultDialogHelper.getTabOrPageHeading(textView, "Login / Registration");
-
-            textView.displayMessage(
-                    "1. Register" +
-                    "\n2. Login" +
-                    "\n3. Exit Program"
-            );
-            textView.displayUserInputMessage("\n\nChoose an option\n> ");
+            DefaultDialogHelper.generateMenu(textView, List.of("Register", "Login", "Exit Program"));
             String choice = textView.getUserInput();
 
             switch (choice) {

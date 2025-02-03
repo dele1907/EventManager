@@ -27,7 +27,7 @@ public class AdminEditUserTab implements Tab {
 
     @Override
     public void start() {
-        textView.displayTabOrPageHeading("\n===== Edit User Tab =====");
+        DefaultDialogHelper.getTabOrPageHeading(textView, "Edit User");
 
         if (!showFindUser()) {
             textView.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);

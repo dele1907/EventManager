@@ -2,6 +2,8 @@ package de.eventmanager.core.presentation.PresentationHelpers;
 
 import de.eventmanager.core.presentation.UI.View;
 
+import java.util.List;
+
 public class DefaultDialogHelper {
     public final static String WARNING_MESSAGE = "\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757";
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
@@ -9,6 +11,17 @@ public class DefaultDialogHelper {
 
     public static void getTabOrPageHeading(View view, String heading) {
         view.displayTabOrPageHeading("\n===== " + heading + " =====");
+    }
+
+    public static void generateMenu(View view, List<String> menuOptions) {
+        StringBuilder menu = new StringBuilder();
+
+        for (int i = 0; i < menuOptions.size(); i++) {
+            menu.append(i + 1).append(". ").append(menuOptions.get(i)).append("\n");
+        }
+
+        view.displayMessage(menu.toString());
+        view.displayUserInputMessage("\nChoose an option\n> ");
     }
 
     public static  UserRegistrationData createNewUserDefaultDialog(View view) {

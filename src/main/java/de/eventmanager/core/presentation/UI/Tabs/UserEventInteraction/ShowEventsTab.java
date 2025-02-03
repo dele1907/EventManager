@@ -25,13 +25,13 @@ public class ShowEventsTab implements Tab{
 
         while (eventSearchingIsActive) {
             DefaultDialogHelper.getTabOrPageHeading(textView, "Show Events");
-            textView.displayMessage(
-                    "1. Search by Name " +
-                    "\n2. Search by Location " +
-                    "\n3. Search by City " +
-                    "\n4. Back to Event Operations"
-            );
-            textView.displayUserInputMessage("\n\nChoose an option\n> ");
+
+            DefaultDialogHelper.generateMenu(textView, List.of(
+                    "Search Event by Name",
+                    "Search Event by Location",
+                    "Search Event by City",
+                    "Back to Event Operations"
+            ));
             String choice = textView.getUserInput();
 
             switch (choice) {

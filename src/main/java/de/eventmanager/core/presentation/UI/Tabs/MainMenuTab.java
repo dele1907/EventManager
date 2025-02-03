@@ -10,6 +10,8 @@ import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 
+import java.util.List;
+
 public class MainMenuTab implements Tab {
     private View textView;
     private String loggedInUserID;
@@ -52,20 +54,13 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
+        List<String> menu = menuType.equals(MenuType.ADMIN) ?
+                List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program", "Admin Operations") :
+                List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program");
+
         DefaultDialogHelper.getTabOrPageHeading(textView, "Main Menu");
-
         textView.displaySuccessMessage("Welcome " + userController.getLoggedInUserName(loggedInUserID) + "!\n");
-        textView.displayMessage(
-                "1. Settings" +
-                "\n2. Event Operations" +
-                "\n3. Logout" +
-                "\n4. Logout and Exit Program"
-        );
-
-        if (menuType == MenuType.ADMIN) {
-            textView.displayMessage("\n5. Admin Operations");
-        }
-        textView.displayUserInputMessage("\n\nChoose an option\n> ");
+        DefaultDialogHelper.generateMenu(textView, menu);
     }
 
     private boolean handleMenuChoice(MenuType menuType, String choice) {

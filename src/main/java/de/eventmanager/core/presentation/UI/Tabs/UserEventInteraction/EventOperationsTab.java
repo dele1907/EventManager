@@ -6,6 +6,8 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 
+import java.util.List;
+
 public class EventOperationsTab implements Tab {
     private View textView;
     private String loggedInUserID;
@@ -23,16 +25,17 @@ public class EventOperationsTab implements Tab {
 
         while (eventOperationIsActive) {
             DefaultDialogHelper.getTabOrPageHeading(textView, "Event Operations");
-
-            textView.displayMessage(
-                    "1. Create Event" +
-                    "\n2. Show Events" +
-                    "\n3. Book Event" +
-                    "\n4. Cancel Event" +
-                    "\n5. Back to main menu"
+            DefaultDialogHelper.generateMenu(
+                textView,
+                List.of(
+                    "Create new Event",
+                    "Show Events",
+                    "Book Event",
+                    "Cancel Event",
+                    "Edit Event's information",
+                    "Back to main menu"
+                )
             );
-            textView.displayUserInputMessage("\n\nChoose a Option\n> ");
-            
             String choice = textView.getUserInput();
 
             switch (choice) {
@@ -49,6 +52,9 @@ public class EventOperationsTab implements Tab {
                     handleCancelEvent();
                     break;
                 case "5":
+                    handleEditEvent();
+                    break;
+                case "6":
                     eventOperationIsActive = false;
                     break;
                 default:
@@ -72,5 +78,9 @@ public class EventOperationsTab implements Tab {
 
     private void handleCancelEvent() {
         new EventCancelParticipationTab(textView, loggedInUserID, userController).start();
+    }
+
+    private void handleEditEvent() {
+        new EventEditTab(textView, loggedInUserID, userController).start();
     }
 }

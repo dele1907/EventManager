@@ -8,6 +8,8 @@ import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.users.User;
 import de.eventmanager.core.presentation.Controller.UserController;
 
+import java.util.List;
+
 public class AdminOperationsTab implements Tab {
     private View textView;
     private String loggedInUserID;
@@ -25,14 +27,10 @@ public class AdminOperationsTab implements Tab {
         
         while (adminIsActive) {
             DefaultDialogHelper.getTabOrPageHeading(textView, "Admin Operations");
-
-            textView.displayMessage(
-                    "1. Edit user" +
-                    "\n2. Delete user" +
-                    "\n3. Create new user" +
-                    "\n4. Back to main menu"
+            DefaultDialogHelper.generateMenu(
+                textView,
+                List.of("Edit user", "Delete user", "Create new user", "Back to main menu")
             );
-            textView.displayUserInputMessage("\n\nChoose an option\n> ");
             String choice = textView.getUserInput();
 
             switch (choice) {
