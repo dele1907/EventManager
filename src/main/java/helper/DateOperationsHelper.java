@@ -9,6 +9,7 @@ import java.sql.Connection;
 import org.jooq.*;
 import org.jooq.impl.SQLDataType;
 import org.jooq.types.DayToSecond;
+import org.jooq.types.YearToMonth;
 
 public class DateOperationsHelper {
 
@@ -34,7 +35,16 @@ public class DateOperationsHelper {
             if(result.isNotEmpty()) {
 
                 for (Record1<DayToSecond> record : result) {
+
+                    String test = record.value1().toString();
+
+                    if (test.startsWith("-")) {
+                        LoggerHelper.logErrorMessage(DateOperationsHelper.class, "Das eingegebene Alter liegt in der Zukunft, bitte gib ein richtigs Geburtsdatum an!");
+                        return 0;
+                    }
+
                     years = record.value1().getDays() / 365;
+
                 }
 
             } else {
@@ -122,7 +132,7 @@ public class DateOperationsHelper {
                 for (Record1<DayToSecond> record : result) {
                     days = record.value1().getDays();
                     System.out.println(record.value1());
-                    //System.out.println(days);
+                    System.out.println(days);
                 }
 
             } else {
@@ -136,13 +146,14 @@ public class DateOperationsHelper {
         return days;
     }
 
-    /*
+/*
     public static void main(String[] args) {
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
         dateOperationsHelper.checkIsAEventOver();
+        //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
     }
 
-     */
+*/
 
     public void whichWeekIsTheEvent(String eventName) {
 
