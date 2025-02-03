@@ -70,24 +70,44 @@ public class AdminUserStartupRegistrationPage implements Tab {
     private boolean isValidInput(int index, String input) {
         switch (index) {
             case 2:
-                if (!ValidationHelper.validateDateInput(input)) {
-                    textView.displayErrorMessage("\nInvalid birth date format. Please try again.\n");
+                if (!isValidBirthDate(input)) {
                     return false;
                 }
                 break;
             case 3:
                 if (!ValidationHelper.validateEmailInput(input)) {
                     textView.displayErrorMessage("\nInvalid email format. Please try again.\n");
+
                     return false;
                 }
                 break;
             case 4:
                 if (!ValidationHelper.validatePhoneNumberInput(input)) {
                     textView.displayErrorMessage("\nInvalid phone number format. Please try again.\n");
+
                     return false;
                 }
                 break;
         }
+        return true;
+    }
+
+    private boolean isValidBirthDate(String birthDate) {
+        if (!ValidationHelper.validateDateInput(birthDate)) {
+            textView.displayErrorMessage("Invalid date format. Please try again.\n");
+
+            return false;
+        }
+
+        if (!ValidationHelper.validateAge(birthDate)) {
+            textView.displayErrorMessage("" +
+                    "Invalid age!\n" +
+                    "Your age must be between 12 and 130 years.\n"
+            );
+
+            return false;
+        }
+
         return true;
     }
 
@@ -100,7 +120,7 @@ public class AdminUserStartupRegistrationPage implements Tab {
         return new String[]{
                 "\nEnter first name (leave blank to cancel Account creation)\n> ",
                 "Enter last name (leave blank to cancel Account creation)\n> ",
-                "Enter date of birth (leave blank to cancel Account creation)\n> ",
+                "Enter date of birth (provide format yyyy-mm-dd OR leave blank to cancel Account creation)\n> ",
                 "Enter email (leave blank to cancel Account creation)\n> ",
                 "Enter phone number (leave blank to cancel Account creation)\n> ",
                 "Enter password (leave blank to cancel Account creation)\n> ",

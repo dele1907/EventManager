@@ -61,6 +61,16 @@ public class DefaultDialogHelper {
 
         if (!ValidationHelper.validateDateInput(dateOfBirth)) {
             view.displayErrorMessage("Invalid date of birth\n");
+
+            return showDateOfBirthDialog(view);
+        }
+
+        if (!ValidationHelper.validateAge(dateOfBirth)) {
+            view.displayErrorMessage(
+                    "Invalid age!\n" +
+                    "Your age must be between 12 and 130 to register for the event manager!\n"
+            );
+
             return showDateOfBirthDialog(view);
         }
 
