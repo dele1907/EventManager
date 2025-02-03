@@ -3,11 +3,12 @@ package de.eventmanager.core.presentation.PresentationHelpers;
 import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DefaultDialogHelper {
     public final static String WARNING_MESSAGE = "\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757";
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
-    public final static String BLANK_TO_KEEP = "Leave blank to keep current";
+    public final static String BLANK_TO_KEEP = "(Leave blank to keep current)";
 
     public static void getTabOrPageHeading(View view, String heading) {
         view.displayTabOrPageHeading("\n===== " + heading + " =====");
@@ -92,5 +93,17 @@ public class DefaultDialogHelper {
         }
 
         return dateOfBirth;
+    }
+
+    //TODO @Dennis: This method should be uses in AdminEditUserTab & EventEditTab
+    public static Optional<String> showEditAttributeDialog(View view, String prompt) {
+        view.displayUserInputMessage("\nEnter new " + prompt + "\n" + BLANK_TO_KEEP + "\n> ");
+        var userAttribute = view.getUserInput();
+
+        if (userAttribute.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(userAttribute);
     }
 }

@@ -34,7 +34,10 @@ public class AdminEditUserTab implements Tab {
 
             return;
         }
+
+        displayUserDetails();
         showEditUserDialog();
+
         userController.editUser(
                 userToEditEmail, loggedInUserID,
                 editedFirstName, editedLastName,
@@ -63,71 +66,39 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void showEditUserDialog() {
-        displayUserDetails();
-        showEditFirstname();
-        showEditLastname();
-        showEditEmailAddress();
-        handleEditPhoneNumber();
+        showEditUserAttributeDialog("first name").ifPresent(value -> editedFirstName = value);
+        showEditUserAttributeDialog("last name").ifPresent(value -> editedLastName = value);
+        showEditUserAttributeDialog("email address").ifPresent(value -> editedEmail = value);
+        handleEditPhoneNumber().ifPresent(value -> editedPhoneNumber = value);
     }
 
-    private void showEditFirstname() {
-        textView.displayUserInputMessage(
-                "\nEnter new first name " +
-                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
-        );
-        String newFirstName = textView.getUserInput();
+    private Optional<String> showEditUserAttributeDialog(String prompt) {
+        textView.displayUserInputMessage("\nEnter new " + prompt +
+                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
+                "\n> ");
+        var userAttribute = textView.getUserInput();
 
-        if (newFirstName.isEmpty()) {
-            return;
+        if (userAttribute.isEmpty()) {
+            return Optional.empty();
         }
 
-        editedFirstName = newFirstName;
+        return Optional.of(userAttribute);
     }
 
-    private void showEditLastname() {
-        textView.displayUserInputMessage(
-                "\nEnter new last name " +
-                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
-        );
-
-        String newLastName = textView.getUserInput();
-
-        if (newLastName.isEmpty()) {
-            return;
-        }
-
-        editedLastName = newLastName;
-    }
-
-    private void showEditEmailAddress() {
-        textView.displayUserInputMessage(
-                "\nEnter new email address " +
-                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
-        );
-
-        String newEmail = textView.getUserInput();
-
-        if (newEmail.isEmpty()) {
-            return;
-        }
-
-        editedEmail = newEmail;
-    }
-
-    private void handleEditPhoneNumber() {
+    private Optional<String> handleEditPhoneNumber() {
         var newPhoneNumber = showPhoneNumberDialog();
 
         if (newPhoneNumber.isEmpty()) {
-            return;
+            return Optional.empty();
         }
 
-        editedPhoneNumber = newPhoneNumber;
+        return Optional.of(newPhoneNumber);
     }
 
     private String showPhoneNumberDialog() {
         textView.displayUserInputMessage(
                 "\nEnter new phone number " +
-                "(" + DefaultDialogHelper.BLANK_TO_KEEP + ")\n> "
+                DefaultDialogHelper.BLANK_TO_KEEP + "\n> "
         );
         var phoneNumber = textView.getUserInput();
 
@@ -142,7 +113,7 @@ public class AdminEditUserTab implements Tab {
 
     private boolean showEditPhoneNumberAgainDialog() {
         textView.displayUserInputMessage("\nDo you want to edit the phone number again? (yes/any key)\n> ");
-        String userChoice = textView.getUserInput();
+        var userChoice = textView.getUserInput();
 
         if (userChoice.equalsIgnoreCase("yes")) {
             return true;
