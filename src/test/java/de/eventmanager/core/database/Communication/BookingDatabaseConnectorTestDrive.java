@@ -46,7 +46,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testAddBooking() {
 
         testEventForBooking = new PublicEvent("testEventToBook", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking);
 
@@ -66,7 +66,7 @@ public class BookingDatabaseConnectorTestDrive {
         testUserForBooking1 = new User("userTestBookingDatabaseConnector1", "Uwe", "Buchungstester", "1970-02-02","uwe.bookingtest@testmail.com","Password123", "0815", false);
         testUserForBooking2 = new User("userTestBookingDatabaseConnector2", "Manfred", "Buchungstester", "1960-08-08", "manfred.bookingtest@testmail.com","Password456", "4711", true);
         testEventForBooking = new PublicEvent("eventTestBookingDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         UserDatabaseConnector.createNewUser(testUserForBooking1);
         UserDatabaseConnector.createNewUser(testUserForBooking2);
@@ -108,7 +108,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testRemoveBooking() {
 
         testEventForBooking = new PublicEvent("testEventToCancel", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking);
 
@@ -131,7 +131,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testAddBookingFailed() {
 
         testEventForBooking = new PublicEvent("testEventToFailBooking", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000);
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking);
         BookingDatabaseConnector.addBooking("testEventToFailBooking", "testUserWhoBooksWrong");
