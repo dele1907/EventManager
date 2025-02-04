@@ -1,12 +1,18 @@
 package de.eventmanager.core.export;
 
+import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.users.User;
+import helper.DateOperationsHelper;
 import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
-import net.fortuna.ical4j.model.property.CalScale;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.model.parameter.Cn;
+import net.fortuna.ical4j.model.parameter.Role;
+import net.fortuna.ical4j.model.property.*;
+
+
+import java.net.URI;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
@@ -15,38 +21,69 @@ public class ExportManager {
     private static final ProdId STANDARD_PROD = new ProdId("-//Ben Fortuna//iCal4j 1.0//EN");
     private static final Version CURRENT_VERSION = Version.VERSION_2_0;
     private final TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-    private final TimeZone timezone = registry.getTimeZone("Germany/Berlin");
+    private final TimeZone timezone = registry.getTimeZone("Europe/Berlin");
     private final VTimeZone vTimeZone = timezone.getVTimeZone();
 
+    /**
+    Method at the moment unclean, because of experimenting for functionality
+     */
 
-    public void createCalendar() {
+
+    public void createCalendar(VEvent event) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
         calendar.getProperties().add(CURRENT_VERSION);
         calendar.getProperties().add(STANDARD_SCALE);
+        //calendar.getComponents().add(event);
 
+        System.out.println(calendar);
     }
 
-    public void convertEventToCalendarEvent(Optional<EventModel> event) {
-
-        if (event.isEmpty()) {
-            return;
+    public VEvent convertEventToCalendarEvent(Optional<? extends EventModel> optionalEvent) {
+        if (optionalEvent.isEmpty()) {
+            return null;
         }
-
+        EventModel event = optionalEvent.get();
+        String eventID = event.getEventID();
+        Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
+        if (eventCreator.isEmpty()) {
+            return null;
+        }
         java.util.Calendar startDate = new GregorianCalendar();
-        setDateAndTimeForCalendarEvent(startDate, 2025, 1,1,12,0);
+        int startYear = DateOperationsHelper.getEventStartYear(eventID);
+        int startMonth = DateOperationsHelper.getEventStartMonth(eventID);
+        int startDay = DateOperationsHelper.getEventStartDay(eventID);
+        int startHour = DateOperationsHelper.getEventStartHour(eventID);
+        int startMinute = DateOperationsHelper.getEventStartMinute(eventID);
+
+        setDateAndTimeForCalendarEvent(startDate, startYear, startMonth, startDay, startHour+1, startMinute);
 
         java.util.Calendar endDate = new GregorianCalendar();
-        setDateAndTimeForCalendarEvent(endDate, 2025, 1,1,13,30);
+        /*
+        int endYear = DateOperationsHelper.getEventEndYear(eventID);
+        int endMonth = DateOperationsHelper.getEventEndMonth(eventID);
+        int endDay = DateOperationsHelper.getEventEndDay(eventID);
+        int endHour = DateOperationsHelper.getEventEndHour(eventID);
+        int endMinute = DateOperationsHelper.getEventEndMinute(eventID);
 
+
+         */
+        //Todo: Change to endYear, endMonth,... if its implemented in DateOperationsHelper
+        setDateAndTimeForCalendarEvent(startDate, startYear, startMonth, startDay, startHour, startMinute);
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
-        VEvent calenderEvent = new VEvent(start, end,event.get().getEventName());
+        VEvent calenderEvent = new VEvent(start, end,event.getEventName());
         calenderEvent.getProperties().add(vTimeZone.getTimeZoneId());
-        calenderEvent.getProperties().add(event.get().getEventID());
+
+        Uid uid = new Uid(eventID);
+        calenderEvent.getProperties().add(uid);
 
 
 
+        Attendee creator = createEventCreatorAttendee(eventCreator);
+        calenderEvent.getProperties().add(creator);
+
+        return calenderEvent;
     }
 
     private void setDateAndTimeForCalendarEvent(java.util.Calendar calendar, int year, int month, int day, int hour, int minute) {
@@ -57,6 +94,18 @@ public class ExportManager {
         calendar.set(java.util.Calendar.HOUR_OF_DAY, hour);
         calendar.set(java.util.Calendar.MINUTE, minute);
     }
+
+    private Attendee createEventCreatorAttendee(Optional<User> eventCreator) {
+        String eventCreatorEmail = eventCreator.get().getEMailAddress();
+
+        Attendee creator = new Attendee(URI.create(eventCreatorEmail));
+        creator.getParameters().add(Role.CHAIR); //Role of Event-Creator
+        creator.getParameters().add(new Cn(eventCreator.get().getFirstName()));
+
+        return creator;
+    }
+
+
 
 
 }
