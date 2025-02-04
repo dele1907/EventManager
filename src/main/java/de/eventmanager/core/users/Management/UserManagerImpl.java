@@ -192,115 +192,6 @@ public class UserManagerImpl implements UserManager {
         return Optional.of(event);
     }
 
-    /**
-     * <h3>Edit Event</h3>
-     * {@code editEvent()} edit an Event by eventID.
-     * Only Admins or the EventCreator can edit the Event
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
-    @Override
-    public boolean editEvent(String eventID, String eventName,
-                             String eventStart, String eventEnd,
-                             String category, String postalCode,
-                             String city, String address,
-                             String eventLocation, String description,
-                             String loggedUserID
-    ) {
-        Optional<? extends EventModel> optionalEvent = getEventByID(eventID);
-
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return false;
-        }
-
-        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
-
-            return false;
-        }
-
-        EventModel eventToEdit = optionalEvent.get();
-
-        eventToEdit.setEventName(eventName);
-        eventToEdit.setEventStart(eventStart);
-        eventToEdit.setEventEnd(eventEnd);
-        eventToEdit.setCategory(category);
-        eventToEdit.setPostalCode(postalCode);
-        eventToEdit.setCity(city);
-        eventToEdit.setAddress(address);
-        eventToEdit.setEventLocation(eventLocation);
-        eventToEdit.setDescription(description);
-
-        EventDatabaseConnector.updateEvent(eventToEdit);
-        eventNotificator.notifyObservers(eventToEdit);
-        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
-
-        return true;
-    }
-
-    /**
-     * <h3>Delete Event</h3>
-     * {@code deleteEvent()} delete an Event by eventID.
-     * Only Admins or the EventCreator can delete the Event!
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
-    @Override
-    public boolean deleteEvent(String eventID, String loggedUserID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        Optional<User> optionalEventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
-        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
-        String userIDofUserCreatedEvent = "";
-
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return false;
-        }
-
-        if (loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
-
-            return false;
-        }
-
-        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
-
-            return false;
-        }
-
-        if (optionalEventCreator.isPresent()) {
-            userIDofUserCreatedEvent = optionalEventCreator.get().getUserID();
-        }
-
-        CreatorDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
-
-        return EventDatabaseConnector.deleteEventByID(eventID);
-    }
-
-    /**
-     * <h3>Show EventParticipant-List</h3>
-     * {@code showEventParticipantList()} returns an ArrayList<String>
-     * with all Participants of an Event.
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
-    @Override
-    public ArrayList<String> showEventParticipantList(String eventID) {
-        Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return null;
-        }
-
-        return optionalEvent.get().getBookedUsersOnEvent();
-    }
-
     @Override
     public Optional<? extends EventModel> getEventByID(String eventID) {
         return EventDatabaseConnector.readEventByID(eventID);
@@ -353,6 +244,115 @@ public class UserManagerImpl implements UserManager {
         });
 
         return createdEvents;
+    }
+
+    /**
+     * <h3>Edit Event</h3>
+     * {@code editEvent()} edit an Event by eventID.
+     * Only Admins or the EventCreator can edit the Event
+     * @see EventDatabaseConnector EventDatabaseConnector
+     */
+
+    @Override
+    public boolean editEvent(String eventID, String eventName,
+                             String eventStart, String eventEnd,
+                             String category, String postalCode,
+                             String city, String address,
+                             String eventLocation, String description,
+                             String loggedUserID
+    ) {
+        Optional<? extends EventModel> optionalEvent = getEventByID(eventID);
+
+        if (optionalEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+
+            return false;
+        }
+
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
+
+            return false;
+        }
+
+        EventModel eventToEdit = optionalEvent.get();
+
+        eventToEdit.setEventName(eventName);
+        eventToEdit.setEventStart(eventStart);
+        eventToEdit.setEventEnd(eventEnd);
+        eventToEdit.setCategory(category);
+        eventToEdit.setPostalCode(postalCode);
+        eventToEdit.setCity(city);
+        eventToEdit.setAddress(address);
+        eventToEdit.setEventLocation(eventLocation);
+        eventToEdit.setDescription(description);
+
+        EventDatabaseConnector.updateEvent(eventToEdit);
+        eventNotificator.notifyObservers(eventToEdit);
+        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
+
+        return true;
+    }
+
+    /**
+     * <h3>Delete Event</h3>
+     * {@code deleteEvent()} delete an Event by eventID.
+     * Only Admins or the EventCreator can delete the Event!
+     * @see EventDatabaseConnector EventDatabaseConnector
+     */
+
+    @Override
+    public boolean deleteEvent(String eventID, String loggedUserID) {
+        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        Optional<User> optionalEventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
+        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+        String userIDofUserCreatedEvent = "";
+
+        if (optionalEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+
+            return false;
+        }
+
+        if (loggedUser.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
+
+            return false;
+        }
+
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
+
+            return false;
+        }
+
+        if (optionalEventCreator.isPresent()) {
+            userIDofUserCreatedEvent = optionalEventCreator.get().getUserID();
+        }
+
+        CreatorDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
+
+        return EventDatabaseConnector.deleteEventByID(eventID);
+    }
+
+    /**
+     * <h3>Show EventParticipant-List</h3>
+     * {@code showEventParticipantList()} returns an ArrayList<String>
+     * with all Participants of an Event.
+     * @see EventDatabaseConnector EventDatabaseConnector
+     */
+
+    @Override
+    public ArrayList<String> showEventParticipantList(String eventID) {
+        Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+
+        if (optionalEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+
+            return null;
+        }
+
+        return optionalEvent.get().getBookedUsersOnEvent();
     }
     //#endregion Event related CRUD-Operations
 
@@ -464,7 +464,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -510,7 +510,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (checkPermissionForEventOperations(loggedUserID, eventID)) {
+        if (!checkPermissionForEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -566,8 +566,8 @@ public class UserManagerImpl implements UserManager {
     }
 
     private boolean checkPermissionForEventOperations(String loggedUserID, String eventID) {
-        return !(getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
-                CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID));
+        return getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
+                CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID);
     }
     //#endregion Permission-Operations
 
