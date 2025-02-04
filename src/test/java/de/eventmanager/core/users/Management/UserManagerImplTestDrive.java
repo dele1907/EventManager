@@ -179,6 +179,8 @@ public class UserManagerImplTestDrive {
         assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
         assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID));
         assertFalse(userManagerImpl.bookEvent(TEST_PRIVATE_EVENT_ID, TEST_USER_ID));
+
+        System.out.println(userManagerImpl.showEventParticipantList(TEST_PUBLIC_EVENT_ID));
     }
 
     @Test
