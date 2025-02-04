@@ -43,20 +43,22 @@ public class ExportManager {
         if (optionalEvent.isEmpty()) {
             return null;
         }
+
         EventModel event = optionalEvent.get();
         String eventID = event.getEventID();
         Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
+
         if (eventCreator.isEmpty()) {
             return null;
         }
-        java.util.Calendar startDate = new GregorianCalendar();
+
         int startYear = DateOperationsHelper.getEventStartYear(eventID);
         int startMonth = DateOperationsHelper.getEventStartMonth(eventID);
         int startDay = DateOperationsHelper.getEventStartDay(eventID);
         int startHour = DateOperationsHelper.getEventStartHour(eventID);
         int startMinute = DateOperationsHelper.getEventStartMinute(eventID);
 
-        setDateAndTimeForCalendarEvent(startDate, startYear, startMonth, startDay, startHour+1, startMinute);
+        java.util.Calendar startDate = setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
 
         java.util.Calendar endDate = new GregorianCalendar();
         /*
@@ -65,11 +67,10 @@ public class ExportManager {
         int endDay = DateOperationsHelper.getEventEndDay(eventID);
         int endHour = DateOperationsHelper.getEventEndHour(eventID);
         int endMinute = DateOperationsHelper.getEventEndMinute(eventID);
-
-
          */
         //Todo: Change to endYear, endMonth,... if its implemented in DateOperationsHelper
-        setDateAndTimeForCalendarEvent(startDate, startYear, startMonth, startDay, startHour, startMinute);
+        setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
+
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
         VEvent calenderEvent = new VEvent(start, end,event.getEventName());
@@ -78,21 +79,17 @@ public class ExportManager {
         Uid uid = new Uid(eventID);
         calenderEvent.getProperties().add(uid);
 
-
-
         Attendee creator = createEventCreatorAttendee(eventCreator);
         calenderEvent.getProperties().add(creator);
 
         return calenderEvent;
     }
 
-    private void setDateAndTimeForCalendarEvent(java.util.Calendar calendar, int year, int month, int day, int hour, int minute) {
+    private java.util.Calendar setDateAndTimeForCalendarEvent(int year, int month, int day, int hour, int minute) {
+        java.util.Calendar calendar = new GregorianCalendar(year, (month-1), day, hour, minute);
         calendar.setTimeZone(timezone);
-        calendar.set(java.util.Calendar.YEAR, year);
-        calendar.set(java.util.Calendar.MONTH, month - 1);
-        calendar.set(java.util.Calendar.DAY_OF_MONTH, day);
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, hour);
-        calendar.set(java.util.Calendar.MINUTE, minute);
+
+        return calendar;
     }
 
     private Attendee createEventCreatorAttendee(Optional<User> eventCreator) {
