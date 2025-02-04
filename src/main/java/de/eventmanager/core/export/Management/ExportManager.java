@@ -41,6 +41,7 @@ public class ExportManager {
         return Exporter.exportEvent(calendar);
     }
 
+    //#region Event-Compatibility
     private Optional<Calendar> createCalendar(EventModel event) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
@@ -70,9 +71,8 @@ public class ExportManager {
     }
 
     private Optional<VEvent> convertEventToCalendarEvent(EventModel event) {
-        String eventID = event.getEventID();
         String eventName = event.getEventName();
-        Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
+        Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(event.getEventID());
 
         if (eventCreator.isEmpty()) {
             System.out.println("Event creator not found");
@@ -87,17 +87,15 @@ public class ExportManager {
         DateTime end = new DateTime(endDate.getTime());
         VEvent calenderEvent = new VEvent(start, end, event.getEventName());
 
-        calenderEvent.getProperties().add(new Uid(eventID));
-        calenderEvent.getProperties().add(new Description(addDescriptionToVEvent(event)));
-        calenderEvent.getProperties().add(new Location(addLocationToVEvent(event)));
-        calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator).get());
+        addProperties(calenderEvent, event, eventCreator);
 
         calenderEvent = addAllParticipantAttendees(event, calenderEvent).get();
 
         return Optional.of(calenderEvent);
     }
+    //#endregion Event-Compatibility
 
-    //#region helper-methods
+    //#region Attendees
     private Optional<Attendee> createEventCreatorAttendee(Optional<User> eventCreator) {
         String eventCreatorEmail = eventCreator.get().getEMailAddress();
 
@@ -134,6 +132,17 @@ public class ExportManager {
 
         return Optional.of(vEvent);
     }
+    //#endregion Attendees
+
+    //#region Properties
+    private void addProperties(VEvent calenderEvent, EventModel event, Optional<User> eventCreator) {
+        String eventID = event.getEventID();
+
+        calenderEvent.getProperties().add(new Uid(eventID));
+        calenderEvent.getProperties().add(new Description(addDescriptionToVEvent(event)));
+        calenderEvent.getProperties().add(new Location(addLocationToVEvent(event)));
+        calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator).get());
+    }
 
     private String addLocationToVEvent(EventModel eventModel) {
         String postalCode = eventModel.getPostalCode();
@@ -151,7 +160,9 @@ public class ExportManager {
 
         return "Contact:\n" + phoneNumber + "\n" + eventCreatorEmail + "\n" + description + "\n";
     }
+    //#endregion Properties
 
+    //#region Time-Settings
     private Optional<java.util.Calendar> setEventStartTime(String eventName) {
         int startYear = DateOperationsHelper.getEventStartYear(eventName);
         int startMonth = DateOperationsHelper.getEventStartMonth(eventName);
@@ -178,5 +189,6 @@ public class ExportManager {
 
         return Optional.of(calendar);
     }
-    //#endregion helper-methods
+    //#endregion Time-Settings
+
 }
