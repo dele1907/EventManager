@@ -24,7 +24,7 @@ public class ExportManager {
     private static final Version CURRENT_VERSION = Version.VERSION_2_0;
     private final TimeZoneRegistry TIMEZONE_REGISTRY = TimeZoneRegistryFactory.getInstance().createRegistry();
     private final TimeZone TIMEZONE_GERMANY = TIMEZONE_REGISTRY.getTimeZone("Europe/Berlin");
-    private final VTimeZone V_TIMEZONE = TIMEZONE_GERMANY.getVTimeZone();
+    private final VTimeZone V_TIMEZONE_GERMANY = TIMEZONE_GERMANY.getVTimeZone();
     //#endregion constants
 
     /**
@@ -56,7 +56,7 @@ public class ExportManager {
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
         VEvent calenderEvent = new VEvent(start, end,event.getEventName());
-        calenderEvent.getProperties().add(V_TIMEZONE.getTimeZoneId());
+        calenderEvent.getProperties().add(V_TIMEZONE_GERMANY.getTimeZoneId());
 
         Uid uid = new Uid(eventID);
         calenderEvent.getProperties().add(uid);
@@ -82,6 +82,16 @@ public class ExportManager {
         creator.getParameters().add(new Cn(eventCreator.get().getFirstName()));
 
         return creator;
+    }
+
+    private Attendee createEventParticipantAttendee(Optional<User> eventParticipant) {
+        String participantEmail = eventParticipant.get().getEMailAddress();
+
+        Attendee participant = new Attendee(URI.create(participantEmail));
+        participant.getParameters().add(Role.OPT_PARTICIPANT);
+        participant.getParameters().add(new Cn(eventParticipant.get().getFirstName()));
+
+        return participant;
     }
 
     private java.util.Calendar setEventStartTime(String eventID) {
