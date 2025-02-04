@@ -48,8 +48,13 @@ public class EventEditTab implements Tab {
             return;
         }
 
-        view.displayUnderlinedSubheading("\nYour Created Events, you can edit:\n");
-        createdEvents.forEach(view::displayMessage);
+        view.displayUnderlinedSubheading("\nYour Created Events, you can edit:");
+
+        createdEvents.forEach(eventInformation -> {
+            view.displayMessage(eventInformation);
+            DefaultDialogHelper.showItemSeparator(view, 55);
+            }
+        );
 
         showEventInformationByEventIDDialog();
     }

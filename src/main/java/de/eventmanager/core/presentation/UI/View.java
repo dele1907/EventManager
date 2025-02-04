@@ -8,5 +8,6 @@ public interface View {
     void displayTabOrPageHeading(String message);
     void displayUnderlinedSubheading(String message);
     void displayUserInputMessage(String message);
+    void displayItemSeparatorMessage(String message);
     String getUserInput();
 }

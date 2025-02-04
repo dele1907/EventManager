@@ -105,4 +105,10 @@ public class DefaultDialogHelper {
 
         return Optional.of(userAttribute);
     }
+
+    public static void showItemSeparator(View view, int lengthOfSeparator) {
+        for (int i = 0; i < lengthOfSeparator; i++) {
+            view.displayItemSeparatorMessage("=");
+        }
+    }
 }

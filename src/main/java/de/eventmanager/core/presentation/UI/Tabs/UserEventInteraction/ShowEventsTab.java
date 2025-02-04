@@ -103,6 +103,7 @@ public class ShowEventsTab implements Tab{
         for (var event : listFoundEvents) {
             addDelay(1);
             view.displayMessage(event);
+            DefaultDialogHelper.showItemSeparator(view, 55);
         }
     }
 

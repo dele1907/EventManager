@@ -1,7 +1,5 @@
 package de.eventmanager.core.presentation.UI;
 
-import de.eventmanager.core.users.User;
-
 import java.util.Scanner;
 
 public class TextView implements View{
@@ -12,7 +10,8 @@ public class TextView implements View{
     private final String FONT_COLOR_GREEN = "\u001B[32m";
     private final String FONT_COLOR_NEON_RED = "\u001B[91m";
     private final String FONT_COLOR_NEON_BLUE = "\u001B[94m";
-    private final String FONT_CYAN = "\u001B[36m";
+    private final String FONT_COLOR_CYAN = "\u001B[36m";
+    private final String FONT_COLOR_DARK_GRAY = "\u001B[90m";
 
     private final String FONT_UNDERLINED = "\n\u001B[4m";
     private final String FONT_BOLD = "\u001B[1m";
@@ -49,7 +48,12 @@ public class TextView implements View{
 
     @Override
     public void displayUserInputMessage(String message) {
-        System.out.print(FONT_CYAN + FONT_BOLD + message + FONT_COLOR_RESET);
+        System.out.print(FONT_COLOR_CYAN + FONT_BOLD + message + FONT_COLOR_RESET);
+    }
+
+    @Override
+    public void displayItemSeparatorMessage(String message) {
+        System.out.print(FONT_COLOR_DARK_GRAY + message + FONT_COLOR_RESET);
     }
 
     @Override
