@@ -1,6 +1,7 @@
 package de.eventmanager.core.users.Management;
 
 
+import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
@@ -56,16 +57,21 @@ public class UserManagerImplTestDrive {
         UserDatabaseConnector.createNewUser(testAdminUser);
         EventDatabaseConnector.createNewEvent(publicEvent);
         EventDatabaseConnector.createNewEvent(privateEvent);
+        CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
+        CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
 
     }
 
     @AfterEach
     void cleanup() {
 
+        CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+        CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByEmail(TEST_ADMIN_EMAIL_ADDRESS);
         UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS);
         EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
         EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID);
+
 
         if (userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).isPresent()) {
                 UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED);
