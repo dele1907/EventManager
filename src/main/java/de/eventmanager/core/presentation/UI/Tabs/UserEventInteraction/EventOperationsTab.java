@@ -2,15 +2,40 @@ package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class EventOperationsTab implements Tab {
     private View view;
     private String loggedInUserID;
     private UserController userController;
+
+    private enum EventOperationsChoice {
+        CREATE_NEW_EVENT,
+        SHOW_EVENTS,
+        BOOK_EVENT,
+        CANCEL_EVENT,
+        EDIT_EVENT,
+        BACK_TO_MAIN_MENU;
+
+        public static Optional<EventOperationsChoice> fromUserInput(String userInput) {
+            return EnumHelper.fromUserInput(userInput, EventOperationsChoice.class,
+                Map.of(
+                "1", CREATE_NEW_EVENT,
+                "2", SHOW_EVENTS,
+                "3", BOOK_EVENT,
+                "4", CANCEL_EVENT,
+                "5", EDIT_EVENT,
+                "6", BACK_TO_MAIN_MENU
+                )
+            );
+        }
+    }
 
     public EventOperationsTab(View view, String loggedInUserID, UserController userController) {
         this.view = view;
@@ -24,41 +49,21 @@ public class EventOperationsTab implements Tab {
 
         while (eventOperationIsActive) {
             DefaultDialogHelper.getTabOrPageHeading(view, "Event Operations");
-            DefaultDialogHelper.generateMenu(
-                    view,
-                List.of(
-                    "Create new Event",
-                    "Show Events",
-                    "Book Event",
-                    "Cancel Event",
-                    "Edit Event's information",
-                    "Back to main menu"
-                )
-            );
-            String choice = view.getUserInput();
+            handleMenuGeneration();
+            var eventOperationsChoice = EventOperationsChoice.fromUserInput(view.getUserInput());
 
-            switch (choice) {
-                case "1":
-                    handleCreateEvent();
-                    break;
-                case "2":
-                    handleShowEvents();
-                    break;
-                case "3":
-                    handleBookEvent();
-                    break;
-                case "4":
-                    handleCancelEvent();
-                    break;
-                case "5":
-                    handleEditEvent();
-                    break;
-                case "6":
-                    eventOperationIsActive = false;
-                    break;
-                default:
-                    view.displayErrorMessage("\nInvalid choice");
-                    break;
+            if (eventOperationsChoice.isEmpty()) {
+                DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
+                continue;
+            }
+
+            switch (eventOperationsChoice.get()) {
+                case CREATE_NEW_EVENT -> handleCreateEvent();
+                case SHOW_EVENTS -> handleShowEvents();
+                case BOOK_EVENT -> handleBookEvent();
+                case CANCEL_EVENT -> handleCancelEvent();
+                case EDIT_EVENT -> handleEditEvent();
+                case BACK_TO_MAIN_MENU -> eventOperationIsActive = false;
             }
         }
     }
@@ -81,5 +86,19 @@ public class EventOperationsTab implements Tab {
 
     private void handleEditEvent() {
         new EventEditTab(view, loggedInUserID, userController).start();
+    }
+
+    private void handleMenuGeneration() {
+        DefaultDialogHelper.generateMenu(
+                view,
+                List.of(
+                        "Create new Event",
+                        "Show Events",
+                        "Book Event",
+                        "Cancel Event",
+                        "Edit Event's information",
+                        "Back to main menu"
+                )
+        );
     }
 }

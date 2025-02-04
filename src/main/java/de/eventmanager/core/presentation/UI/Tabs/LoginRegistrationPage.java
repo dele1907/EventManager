@@ -4,11 +4,15 @@ import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.Data
 import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
+import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.ShowEventsTab;
 import de.eventmanager.core.presentation.UI.View;
 import helper.ConfigurationDataSupplierHelper;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class LoginRegistrationPage implements Tab {
     private View view;
@@ -16,6 +20,22 @@ public class LoginRegistrationPage implements Tab {
     //@TODO: remove flush before release
     private boolean flushTestDatabase;
     private String loggedInUserID;
+
+    private enum LoginRegistrationMenuChoice {
+        REGISTER,
+        LOGIN,
+        EXIT_PROGRAM;
+
+        public static Optional<LoginRegistrationMenuChoice> fromUserInput(String userInput) {
+            return EnumHelper.fromUserInput(userInput, LoginRegistrationMenuChoice.class,
+                Map.of(
+                "1", REGISTER,
+                "2", LOGIN,
+                "3", EXIT_PROGRAM
+                )
+            );
+        }
+    }
 
     public LoginRegistrationPage(View view, UserController userController, boolean flushTestDatabase) {
         this.view = view;
@@ -31,19 +51,22 @@ public class LoginRegistrationPage implements Tab {
         while (programIsRunning) {
             DefaultDialogHelper.getTabOrPageHeading(view, "Login / Registration");
             DefaultDialogHelper.generateMenu(view, List.of("Register", "Login", "Exit Program"));
-            String choice = view.getUserInput();
+            var menuChoice = LoginRegistrationMenuChoice.fromUserInput(view.getUserInput());
 
-            switch (choice) {
-                case "1":
-                    showRegisterUserDialog();
-                    break;
-                case "2":
+            if (menuChoice.isEmpty()) {
+                DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
+                continue;
+            }
+
+            switch (menuChoice.get()) {
+                case REGISTER -> showRegisterUserDialog();
+                case LOGIN -> {
                     loggedInUserID = showLoginUserDialog();
                     if (!loggedInUserID.isEmpty()) {
                         programIsRunning = false;
-                    }
-                    break;
-                case "3":
+                    };
+                }
+                case EXIT_PROGRAM -> {
                     view.displayMessage("\nExit Program...");
                     programIsRunning = false;
 
@@ -52,10 +75,7 @@ public class LoginRegistrationPage implements Tab {
                     //TODO @Dennis: remove following line before release
                     DatabaseInitializer.deInit(ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE);
                     System.exit(0);
-                    break;
-                default:
-                    DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
-                    break;
+                }
             }
         }
     }

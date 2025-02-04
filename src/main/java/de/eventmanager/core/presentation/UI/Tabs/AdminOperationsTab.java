@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminCreateUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminDeleteUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUserTab;
@@ -8,6 +9,7 @@ import de.eventmanager.core.presentation.UI.View;
 import de.eventmanager.core.presentation.Controller.UserController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class AdminOperationsTab implements Tab {
@@ -22,13 +24,14 @@ public class AdminOperationsTab implements Tab {
         BACK_TO_MAIN_MENU;
 
         public static Optional<AdminMenuChoice> fromUserInput(String userInput) {
-            return switch (userInput) {
-                case "1" -> Optional.of(EDIT_USER);
-                case "2" -> Optional.of(DELETE_USER);
-                case "3" -> Optional.of(CREATE_USER);
-                case "4" -> Optional.of(BACK_TO_MAIN_MENU);
-                default -> Optional.empty();
-            };
+            return EnumHelper.fromUserInput(userInput, AdminMenuChoice.class,
+                Map.of(
+                "1", EDIT_USER,
+                "2", DELETE_USER,
+                "3", CREATE_USER,
+                "4", BACK_TO_MAIN_MENU
+                )
+            );
         }
     }
 
@@ -48,8 +51,7 @@ public class AdminOperationsTab implements Tab {
                     view,
                     List.of("Edit user", "Delete user", "Create new user", "Back to main menu")
             );
-            String choice = view.getUserInput();
-            Optional<AdminMenuChoice> adminMenuChoice = AdminMenuChoice.fromUserInput(choice);
+            var adminMenuChoice = AdminMenuChoice.fromUserInput(view.getUserInput());
 
             if (adminMenuChoice.isEmpty()) {
                 DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
