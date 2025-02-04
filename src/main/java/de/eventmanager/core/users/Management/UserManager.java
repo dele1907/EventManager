@@ -36,17 +36,6 @@ public interface UserManager {
                            String description, int maxParticipants,
                            boolean isPrivateEvent, String loggedUserID);
 
-    boolean editEvent(String eventID, String eventName,
-                      String eventStart, String eventEnd,
-                      String category, String postalCode,
-                      String city, String address,
-                      String eventLocation, String description,
-                      String loggedUserID);
-
-    boolean deleteEvent(String eventID, String loggedUserID);
-
-    ArrayList<String> showEventParticipantList(String eventID);
-
     Optional<? extends EventModel> getEventByID(String eventID);
 
     String getEventInformationByEventID(String eventID);
@@ -58,6 +47,17 @@ public interface UserManager {
     List<String> readPublicEventByCity(String city);
 
     List<String> readCreatedEventsByUserID(String userID);
+
+    boolean editEvent(String eventID, String eventName,
+                      String eventStart, String eventEnd,
+                      String category, String postalCode,
+                      String city, String address,
+                      String eventLocation, String description,
+                      String loggedUserID);
+
+    boolean deleteEvent(String eventID, String loggedUserID);
+
+    ArrayList<String> showEventParticipantList(String eventID);
     //#endregion Event related CRUD-Operations
 
     //#region Event-Operations
