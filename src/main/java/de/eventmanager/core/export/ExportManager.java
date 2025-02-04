@@ -52,24 +52,8 @@ public class ExportManager {
             return null;
         }
 
-        int startYear = DateOperationsHelper.getEventStartYear(eventID);
-        int startMonth = DateOperationsHelper.getEventStartMonth(eventID);
-        int startDay = DateOperationsHelper.getEventStartDay(eventID);
-        int startHour = DateOperationsHelper.getEventStartHour(eventID);
-        int startMinute = DateOperationsHelper.getEventStartMinute(eventID);
-
-        java.util.Calendar startDate = setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
-
-        java.util.Calendar endDate = new GregorianCalendar();
-        /*
-        int endYear = DateOperationsHelper.getEventEndYear(eventID);
-        int endMonth = DateOperationsHelper.getEventEndMonth(eventID);
-        int endDay = DateOperationsHelper.getEventEndDay(eventID);
-        int endHour = DateOperationsHelper.getEventEndHour(eventID);
-        int endMinute = DateOperationsHelper.getEventEndMinute(eventID);
-         */
-        //Todo: Change to endYear, endMonth,... if its implemented in DateOperationsHelper
-        setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
+        java.util.Calendar startDate = setEventStartTime(eventID);
+        java.util.Calendar endDate = setEventEndTime(eventID);
 
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
@@ -102,7 +86,26 @@ public class ExportManager {
         return creator;
     }
 
+    private java.util.Calendar setEventStartTime(String eventID) {
+        int startYear = DateOperationsHelper.getEventStartYear(eventID);
+        int startMonth = DateOperationsHelper.getEventStartMonth(eventID);
+        int startDay = DateOperationsHelper.getEventStartDay(eventID);
+        int startHour = DateOperationsHelper.getEventStartHour(eventID);
+        int startMinute = DateOperationsHelper.getEventStartMinute(eventID);
 
+        return setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
+    }
+
+    private java.util.Calendar setEventEndTime(String eventID) {
+        //Todo: Change to .getEventEndYear(...), ... if its implemented in DateOperationsHelper
+        int endYear = DateOperationsHelper.getEventStartYear(eventID);
+        int endMonth = DateOperationsHelper.getEventStartMonth(eventID);
+        int endDay = DateOperationsHelper.getEventStartDay(eventID);
+        int endHour = DateOperationsHelper.getEventStartHour(eventID);
+        int endMinute = DateOperationsHelper.getEventStartMinute(eventID);
+
+        return setDateAndTimeForCalendarEvent(endYear, endMonth, endDay, endHour, endMinute);
+    }
 
 
 }
