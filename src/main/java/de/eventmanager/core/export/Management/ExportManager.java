@@ -80,8 +80,8 @@ public class ExportManager {
             return Optional.empty();
         }
 
-        java.util.Calendar startDate = setEventStartTime(eventName);
-        java.util.Calendar endDate = setEventEndTime(eventName);
+        java.util.Calendar startDate = setEventStartTime(eventName).get();
+        java.util.Calendar endDate = setEventEndTime(eventName).get();
 
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
@@ -90,45 +90,49 @@ public class ExportManager {
         calenderEvent.getProperties().add(new Uid(eventID));
         calenderEvent.getProperties().add(new Description(addDescriptionToVEvent(event)));
         calenderEvent.getProperties().add(new Location(addLocationToVEvent(event)));
-        calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator));
+        calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator).get());
 
-        calenderEvent = addAllParticipantAttendees(event, calenderEvent);
+        calenderEvent = addAllParticipantAttendees(event, calenderEvent).get();
 
         return Optional.of(calenderEvent);
     }
 
     //#region helper-methods
-
-    private Attendee createEventCreatorAttendee(Optional<User> eventCreator) {
+    private Optional<Attendee> createEventCreatorAttendee(Optional<User> eventCreator) {
         String eventCreatorEmail = eventCreator.get().getEMailAddress();
 
         Attendee creator = new Attendee(URI.create(eventCreatorEmail));
         creator.getParameters().add(Role.CHAIR); //Role of Event-Creator
         creator.getParameters().add(new Cn(eventCreator.get().getFirstName()));
 
-        return creator;
+        return Optional.of(creator);
     }
 
-    private Attendee createEventParticipantAttendee(Optional<User> eventParticipant, String participantEmail) {
+    private Optional<Attendee> createEventParticipantAttendee(Optional<User> eventParticipant, String participantEmail) {
+        if (eventParticipant.isPresent()) {
+
+            return Optional.empty();
+        }
+
         Attendee participant = new Attendee(URI.create(participantEmail));
         participant.getParameters().add(Role.OPT_PARTICIPANT);
         participant.getParameters().add(new Cn(eventParticipant.get().getFirstName()));
 
-        return participant;
+        return Optional.of(participant);
     }
 
-    private VEvent addAllParticipantAttendees(EventModel event, VEvent vEvent) {
+    private Optional<VEvent> addAllParticipantAttendees(EventModel event, VEvent vEvent) {
         System.out.println("Booked Users: " + event.getBookedUsersOnEvent());
         for (String participantEmail : event.getBookedUsersOnEvent()) {
             System.out.println("Participant email: " + participantEmail);
             Optional<User> eventParticipant = UserDatabaseConnector.readUserByEMail(participantEmail);
             if (eventParticipant.isPresent()) {
-                Attendee participant = createEventParticipantAttendee(eventParticipant, participantEmail);
+                Attendee participant = createEventParticipantAttendee(eventParticipant, participantEmail).get();
                 vEvent.getProperties().add(participant);
             }
         }
 
-        return vEvent;
+        return Optional.of(vEvent);
     }
 
     private String addLocationToVEvent(EventModel eventModel) {
@@ -148,7 +152,7 @@ public class ExportManager {
         return "Contact:\n" + phoneNumber + "\n" + eventCreatorEmail + "\n" + description + "\n";
     }
 
-    private java.util.Calendar setEventStartTime(String eventName) {
+    private Optional<java.util.Calendar> setEventStartTime(String eventName) {
         int startYear = DateOperationsHelper.getEventStartYear(eventName);
         int startMonth = DateOperationsHelper.getEventStartMonth(eventName);
         int startDay = DateOperationsHelper.getEventStartDay(eventName);
@@ -158,7 +162,7 @@ public class ExportManager {
         return setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
     }
 
-    private java.util.Calendar setEventEndTime(String eventName) {
+    private Optional<java.util.Calendar> setEventEndTime(String eventName) {
         int endYear = DateOperationsHelper.getEventEndYear(eventName);
         int endMonth = DateOperationsHelper.getEventEndMonth(eventName);
         int endDay = DateOperationsHelper.getEventEndDay(eventName);
@@ -168,11 +172,11 @@ public class ExportManager {
         return setDateAndTimeForCalendarEvent(endYear, endMonth, endDay, endHour, endMinute);
     }
 
-    private java.util.Calendar setDateAndTimeForCalendarEvent(int year, int month, int day, int hour, int minute) {
+    private Optional<java.util.Calendar> setDateAndTimeForCalendarEvent(int year, int month, int day, int hour, int minute) {
         java.util.Calendar calendar = new GregorianCalendar(year, (month - 1), day, hour, minute);
         calendar.setTimeZone(TIMEZONE_GERMANY);
 
-        return calendar;
+        return Optional.of(calendar);
     }
     //#endregion helper-methods
 }
