@@ -148,8 +148,8 @@ public class UserManagerImplTestDrive {
 
         userManagerImpl.editEvent(TEST_PRIVATE_EVENT_ID, "TestEventEdited", "01-01-2021", "01/01/2021",
                 "Test1", "12345", "Teststadt","Teststraße 177", "TestLocation1", "TestDescription1", TEST_ADMIN_ID);
-        assertTrue(true);
-        //assertEquals("TestEventEdited", privateEvent.getEventName());
+
+        assertEquals("TestEventEdited", userManagerImpl.getEventByID(TEST_PRIVATE_EVENT_ID).get().getEventName());
     }
 
     @Test
