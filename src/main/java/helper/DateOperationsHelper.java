@@ -155,6 +155,7 @@ public class DateOperationsHelper {
         System.out.println(dateOperationsHelper.getEventStartHour("Finch Tour 2025"));
     }
 */
+    //Todo @Timo all methods return int = 0
 
     public static int getEventStartYear(String eventName) {
         int year = 0;
