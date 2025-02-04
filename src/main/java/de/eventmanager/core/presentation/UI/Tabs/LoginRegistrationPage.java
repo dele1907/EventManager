@@ -6,7 +6,6 @@ import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
-import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.ShowEventsTab;
 import de.eventmanager.core.presentation.UI.View;
 import helper.ConfigurationDataSupplierHelper;
 
@@ -27,7 +26,7 @@ public class LoginRegistrationPage implements Tab {
         EXIT_PROGRAM;
 
         public static Optional<LoginRegistrationMenuChoice> fromUserInput(String userInput) {
-            return EnumHelper.fromUserInput(userInput, LoginRegistrationMenuChoice.class,
+            return EnumHelper.getMapOfStringToEnumConstant(userInput, LoginRegistrationMenuChoice.class,
                 Map.of(
                 "1", REGISTER,
                 "2", LOGIN,

@@ -24,7 +24,7 @@ public class EventOperationsTab implements Tab {
         BACK_TO_MAIN_MENU;
 
         public static Optional<EventOperationsChoice> fromUserInput(String userInput) {
-            return EnumHelper.fromUserInput(userInput, EventOperationsChoice.class,
+            return EnumHelper.getMapOfStringToEnumConstant(userInput, EventOperationsChoice.class,
                 Map.of(
                 "1", CREATE_NEW_EVENT,
                 "2", SHOW_EVENTS,

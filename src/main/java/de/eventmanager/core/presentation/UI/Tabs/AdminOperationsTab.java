@@ -24,7 +24,7 @@ public class AdminOperationsTab implements Tab {
         BACK_TO_MAIN_MENU;
 
         public static Optional<AdminMenuChoice> fromUserInput(String userInput) {
-            return EnumHelper.fromUserInput(userInput, AdminMenuChoice.class,
+            return EnumHelper.getMapOfStringToEnumConstant(userInput, AdminMenuChoice.class,
                 Map.of(
                 "1", EDIT_USER,
                 "2", DELETE_USER,

@@ -22,7 +22,7 @@ public class ShowEventsTab implements Tab{
         BACK_TO_EVENT_OPERATIONS;
 
         public static Optional<ShowEventsMenuChoice> fromUserInput(String userInput) {
-            return EnumHelper.fromUserInput(userInput, ShowEventsMenuChoice.class,
+            return EnumHelper.getMapOfStringToEnumConstant(userInput, ShowEventsMenuChoice.class,
                 Map.of(
                 "1", SEARCH_EVENT_BY_NAME,
                 "2", SEARCH_EVENT_BY_LOCATION,
