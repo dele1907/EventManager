@@ -13,13 +13,17 @@ import java.io.IOException;
 
 public class Exporter {
 
-    public static void exportEvent(Calendar calendar) {
+    public static boolean exportEvent(Calendar calendar) {
         try {
-            FileOutputStream fout = new FileOutputStream("mycalendar.ics");
+            FileOutputStream fout = new FileOutputStream("src/main/resources/mycalendar.ics");
             CalendarOutputter outputter = new CalendarOutputter();
             outputter.output(calendar, fout);
         } catch (IOException | ValidationException e) {
             LoggerHelper.logErrorMessage(Exporter.class, e.getMessage());
+
+            return false;
         }
+
+        return true;
     }
 }
