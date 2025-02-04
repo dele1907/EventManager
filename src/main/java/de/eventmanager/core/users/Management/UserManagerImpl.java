@@ -269,7 +269,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkCanUseEventOperations(loggedUserID, eventID)) {
+        if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -320,7 +320,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkCanUseEventOperations(loggedUserID, eventID)) {
+        if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -464,7 +464,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkCanUseEventOperations(loggedUserID, eventID)) {
+        if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -510,7 +510,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        if (!checkCanUseEventOperations(loggedUserID, eventID)) {
+        if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
 
             return false;
@@ -565,7 +565,7 @@ public class UserManagerImpl implements UserManager {
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
 
-    private boolean checkCanUseEventOperations(String loggedUserID, String eventID) {
+    private boolean checkCanUserPerformEventOperations(String loggedUserID, String eventID) {
         return getUserByID(loggedUserID).get().getRole().equals(Role.ADMIN) ||
                 CreatorDatabaseConnector.checkIfUserIsEventCreator(eventID, loggedUserID);
     }
