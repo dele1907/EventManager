@@ -26,8 +26,8 @@ public class ExportManagerTestDrive {
         testAdminUser = new User(TEST_ADMIN_ID,"firstNameExport","Admin","1999-04-05",
                 TEST_ADMIN_EMAIL_ADDRESS,"AdminPassword", "+497733686", true);
         testAdminUser.setRoleAdmin(true);
-        event = new PublicEvent(TEST_PUBLIC_EVENT_ID,"TestPublicEvent", "2000-01-05-12-30",
-                "2000-01-05-14-30", 0, testArrayList, "TestCategory",
+        event = new PublicEvent(TEST_PUBLIC_EVENT_ID,"TestPublicEvent", "2000-01-05 12:30",
+                "2000-01-05 14:30", 0, testArrayList, "TestCategory",
                 false,"66115","Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event", 20, 0);
         UserDatabaseConnector.createNewUser(testAdminUser);

@@ -214,8 +214,8 @@ public class DateOperationsHelper {
     }
 
     public static int getEventStartDay(String eventName) {
-        int
-                day = 0;
+        int day = 0;
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
