@@ -3,6 +3,7 @@ package de.eventmanager.core.export.Management;
 import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.export.Exporter;
 import de.eventmanager.core.users.User;
 import helper.DateOperationsHelper;
 import helper.LoggerHelper;
@@ -12,7 +13,7 @@ import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.parameter.Cn;
 import net.fortuna.ical4j.model.parameter.Role;
 import net.fortuna.ical4j.model.property.*;
-
+import net.fortuna.ical4j.model.property.Contact;
 
 import java.net.URI;
 import java.util.GregorianCalendar;
@@ -33,7 +34,7 @@ public class ExportManager {
      * Method at the moment unclean, because of experimenting for functionality
      */
 
-    public boolean createCalendar(EventModel event) {
+    public Optional<Calendar> createCalendar(EventModel event) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
         calendar.getProperties().add(CURRENT_VERSION);
@@ -45,7 +46,7 @@ public class ExportManager {
             LoggerHelper.logErrorMessage(ExportManager.class, "VEvent is null");
             System.out.println("VEvent is null");
 
-            return false;
+            return Optional.empty();
         }
 
         VEvent vEvent = optionalVEvent.get();
@@ -55,13 +56,14 @@ public class ExportManager {
         if (!calendar.getComponents().contains(vEvent)) {
             LoggerHelper.logErrorMessage(ExportManager.class, "Event are not in the calendar");
 
-            return false;
+            return Optional.empty();
         }
 
-        LoggerHelper.logInfoMessage(ExportManager.class, vEvent.toString());
-        System.out.println(calendar);
+        return Optional.of(calendar);
+    }
 
-        return true;
+    public boolean exportEvents(Calendar calendar) {
+        return Exporter.exportEvent(calendar);
     }
 
     public Optional<VEvent> convertEventToCalendarEvent(EventModel event) {
@@ -88,9 +90,10 @@ public class ExportManager {
         Attendee creator = createEventCreatorAttendee(eventCreator);
         calenderEvent.getProperties().add(creator);
 
-        addAllParticipantAttendees(event, calenderEvent);
+        calenderEvent = addAllParticipantAttendees(event, calenderEvent);
 
-
+        calenderEvent.getProperties().add(new Location(addLocationToVEvent(event, calenderEvent)));
+        //calenderEvent.getProperties().add(new Telephone)
 
         return Optional.of(calenderEvent);
     }
@@ -127,6 +130,17 @@ public class ExportManager {
 
         return vEvent;
     }
+
+    private String addLocationToVEvent(EventModel eventModel, VEvent vEvent) {
+        String postalCode = eventModel.getPostalCode();
+        String city = eventModel.getCity();
+        String address = eventModel.getAddress();
+        String location = eventModel.getEventLocation();
+
+        return location + " - " + address + ", " + postalCode + ", " + city + ", " + address;
+    }
+
+
 
     private java.util.Calendar setEventStartTime(String eventName) {
         int startYear = DateOperationsHelper.getEventStartYear(eventName);
