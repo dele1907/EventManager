@@ -23,7 +23,9 @@ public class MainMenuTab implements Tab {
         NON_ADMIN
     }
 
-    public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage, UserController userController, boolean flushTestDatabase) {
+    public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage,
+                       UserController userController, boolean flushTestDatabase) {
+
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.loginRegistrationPage = loginRegistrationPage;
@@ -78,7 +80,7 @@ public class MainMenuTab implements Tab {
                 doShowAdminOperations(menuType);
                 break;
             default:
-                view.displayErrorMessage("\nInvalid choice!\n");
+                DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
                 break;
         }
 
@@ -116,16 +118,16 @@ public class MainMenuTab implements Tab {
 
     private void doShowAdminOperations(MenuType menuType) {
 
-        if (menuType == MenuType.ADMIN) {
-            AdminOperationsTab adminOperationsTab = new AdminOperationsTab(view, loggedInUserID, userController);
-            adminOperationsTab.start();
-        } else {
-            view.displayErrorMessage("\nInvalid choice!\n");
+        if (!(menuType == MenuType.ADMIN)) {
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
+
+            return;
         }
+
+        new AdminOperationsTab(view, loggedInUserID, userController).start();
     }
 
     private void doShowEventOperationTab() {
-        EventOperationsTab eventOperationsTab = new EventOperationsTab(view, loggedInUserID, userController);
-        eventOperationsTab.start();
+        new EventOperationsTab(view, loggedInUserID, userController).start();
     }
 }

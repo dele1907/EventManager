@@ -38,18 +38,4 @@ public class AdminCreateUserTab implements Tab {
 
         view.displaySuccessMessage("\nUser created successfully.\n");
     }
-
-    private String showPhoneNumberDialog() {
-        String phoneNumber = "";
-
-        view.displayUserInputMessage("Enter phone number\n> ");
-        phoneNumber = view.getUserInput();
-
-        if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
-            view.displayErrorMessage("\nInvalid phone number\n");
-            return showPhoneNumberDialog();
-        }
-
-        return phoneNumber;
-    }
 }

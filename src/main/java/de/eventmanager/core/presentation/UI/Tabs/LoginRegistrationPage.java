@@ -54,7 +54,7 @@ public class LoginRegistrationPage implements Tab {
                     System.exit(0);
                     break;
                 default:
-                    view.displayErrorMessage("\nInvalid choice");
+                    DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
                     break;
             }
         }

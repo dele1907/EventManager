@@ -8,29 +8,29 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import helper.ConfigurationDataSupplierHelper;
 
 public class AdminUserStartupRegistrationPage implements Tab {
-    private View textView;
+    private View view;
     private UserController userController;
 
-    public AdminUserStartupRegistrationPage(View textView, UserController userController) {
-        this.textView = textView;
+    public AdminUserStartupRegistrationPage(View view, UserController userController) {
+        this.view = view;
         this.userController = userController;
     }
 
     @Override
     public void start() {
-        DefaultDialogHelper.getTabOrPageHeading(textView, "Admin User Registration");
+        DefaultDialogHelper.getTabOrPageHeading(view, "Admin User Registration");
 
-        textView.displayMessage(
+        view.displayMessage(
                 "There is no admin user present for your system." +
                 "\nWould you like to create one?"
         );
-        textView.displayUserInputMessage("\n\nType 'yes' to create an admin user or 'no' to exit\n> ");
-        String choice = textView.getUserInput();
+        view.displayUserInputMessage("\n\nType 'yes' to create an admin user or 'no' to exit\n> ");
+        String choice = view.getUserInput();
 
         if ("yes".equals(choice.toLowerCase())) {
             showCreateAdminUserDialog();
         } else {
-            textView.displayErrorMessage("\nChanging to login and registration page...");
+            view.displayErrorMessage("\nChanging to login and registration page...");
         }
     }
 
@@ -42,7 +42,7 @@ public class AdminUserStartupRegistrationPage implements Tab {
             userInputs[i] = getUserInputWithValidation(prompts[i], i);
 
             if (userInputs[i].isEmpty()) {
-                textView.displayErrorMessage("\n Aborting user creation\n Changing to login and registration page...");
+                view.displayErrorMessage("\n Aborting user creation\n Changing to login and registration page...");
                 return;
             }
         }
@@ -78,14 +78,14 @@ public class AdminUserStartupRegistrationPage implements Tab {
                 break;
             case 3:
                 if (!ValidationHelper.validateEmailInput(input)) {
-                    textView.displayErrorMessage("\nInvalid email format. Please try again.\n");
+                    DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "email format");
 
                     return false;
                 }
                 break;
             case 4:
                 if (!ValidationHelper.validatePhoneNumberInput(input)) {
-                    textView.displayErrorMessage("\nInvalid phone number format. Please try again.\n");
+                    DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "phone number format");
 
                     return false;
                 }
@@ -96,15 +96,15 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
     private boolean isValidBirthDate(String birthDate) {
         if (!ValidationHelper.validateDateInput(birthDate)) {
-            textView.displayErrorMessage("Invalid date format. Please try again.\n");
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "date format");
 
             return false;
         }
 
         if (!ValidationHelper.validateAge(birthDate)) {
-            textView.displayErrorMessage("" +
-                    "Invalid age!\n" +
-                    "Your age must be between 12 and 130 years.\n"
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(
+                    view,
+                    "age." + "\nYour age must be between 12 and 130 years."
             );
 
             return false;
@@ -114,8 +114,8 @@ public class AdminUserStartupRegistrationPage implements Tab {
     }
 
     private String getUserInput(String prompt) {
-        textView.displayUserInputMessage(prompt);
-        return textView.getUserInput();
+        view.displayUserInputMessage(prompt);
+        return view.getUserInput();
     }
 
     private String[] getPromptsForDialogs() {

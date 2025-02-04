@@ -50,7 +50,7 @@ public class DefaultDialogHelper {
         phoneNumber = view.getUserInput();
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
-            view.displayErrorMessage("Invalid phone number\n");
+            showInvalidInputMessageByAttribute(view, "phone number format");
             return showPhoneNumberDialog(view);
         }
 
@@ -64,7 +64,7 @@ public class DefaultDialogHelper {
         email = view.getUserInput();
 
         if (!ValidationHelper.validateEmailInput(email)) {
-            view.displayErrorMessage("Invalid email\n");
+            showInvalidInputMessageByAttribute(view, "email format");
             return showEmailAddressDialog(view);
         }
 
@@ -78,15 +78,15 @@ public class DefaultDialogHelper {
         dateOfBirth = view.getUserInput();
 
         if (!ValidationHelper.validateDateInput(dateOfBirth)) {
-            view.displayErrorMessage("Invalid date of birth\n");
+            showInvalidInputMessageByAttribute(view, "date format");
 
             return showDateOfBirthDialog(view);
         }
 
         if (!ValidationHelper.validateAge(dateOfBirth)) {
-            view.displayErrorMessage(
-                    "Invalid age!\n" +
-                    "Your age must be between 12 and 130 to register for the event manager!\n"
+            showInvalidInputMessageByAttribute(
+                    view,
+                    "age.\nYour age must be between 12 and 130 years."
             );
 
             return showDateOfBirthDialog(view);
@@ -110,5 +110,9 @@ public class DefaultDialogHelper {
         for (int i = 0; i < lengthOfSeparator; i++) {
             view.displayItemSeparatorMessage("=");
         }
+    }
+
+    public static void showInvalidInputMessageByAttribute(View view, String attribute) {
+        view.displayErrorMessage("\nInvalid " + attribute + ". Please try again.\n");
     }
 }

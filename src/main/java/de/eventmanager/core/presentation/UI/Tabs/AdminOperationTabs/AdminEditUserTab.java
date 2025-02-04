@@ -74,19 +74,6 @@ public class AdminEditUserTab implements Tab {
         handleEditPhoneNumber().ifPresent(attribute -> editedPhoneNumber = attribute);
     }
 
-    private Optional<String> showEditUserAttributeDialog(String prompt) {
-        view.displayUserInputMessage("\nEnter new " + prompt +
-                "\n" + DefaultDialogHelper.BLANK_TO_KEEP +
-                "\n> ");
-        var userAttribute = view.getUserInput();
-
-        if (userAttribute.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(userAttribute);
-    }
-
     private Optional<String> handleEditPhoneNumber() {
         var newPhoneNumber = showPhoneNumberDialog();
 
@@ -105,7 +92,7 @@ public class AdminEditUserTab implements Tab {
         var phoneNumber = view.getUserInput();
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
-            view.displayErrorMessage("\nInvalid phone number\n");
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "phone number format");
             var tryAgainChangeNumber = showEditPhoneNumberAgainDialog();
             return tryAgainChangeNumber ? showPhoneNumberDialog() : "";
         }
