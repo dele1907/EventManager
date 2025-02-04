@@ -159,6 +159,7 @@ public class DateOperationsHelper {
 
     public static int getEventStartYear(String eventName) {
         int year = 0;
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -180,11 +181,12 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return year;
     }
 
     public static int getEventStartMonth(String eventName) {
-            int month = 0;
+        int month = 0;
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -207,11 +209,13 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return month;
     }
 
     public static int getEventStartDay(String eventName) {
-        Integer day = 0;
+        int
+                day = 0;
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -233,6 +237,7 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return day;
     }
 
@@ -260,6 +265,7 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return hour;
     }
 
@@ -287,6 +293,7 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return minute;
     }
 
