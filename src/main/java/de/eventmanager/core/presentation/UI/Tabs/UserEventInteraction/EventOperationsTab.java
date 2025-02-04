@@ -4,17 +4,16 @@ import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.users.User;
 
 import java.util.List;
 
 public class EventOperationsTab implements Tab {
-    private View textView;
+    private View view;
     private String loggedInUserID;
     private UserController userController;
 
-    public EventOperationsTab(View textView, String loggedInUserID, UserController userController) {
-        this.textView = textView;
+    public EventOperationsTab(View view, String loggedInUserID, UserController userController) {
+        this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.userController = userController;
     }
@@ -24,9 +23,9 @@ public class EventOperationsTab implements Tab {
         boolean eventOperationIsActive = true;
 
         while (eventOperationIsActive) {
-            DefaultDialogHelper.getTabOrPageHeading(textView, "Event Operations");
+            DefaultDialogHelper.getTabOrPageHeading(view, "Event Operations");
             DefaultDialogHelper.generateMenu(
-                textView,
+                    view,
                 List.of(
                     "Create new Event",
                     "Show Events",
@@ -36,7 +35,7 @@ public class EventOperationsTab implements Tab {
                     "Back to main menu"
                 )
             );
-            String choice = textView.getUserInput();
+            String choice = view.getUserInput();
 
             switch (choice) {
                 case "1":
@@ -58,29 +57,29 @@ public class EventOperationsTab implements Tab {
                     eventOperationIsActive = false;
                     break;
                 default:
-                    textView.displayErrorMessage("\nInvalid choice");
+                    view.displayErrorMessage("\nInvalid choice");
                     break;
             }
         }
     }
 
     private void handleCreateEvent() {
-      new EventCreationTab(textView, loggedInUserID, userController).start();
+      new EventCreationTab(view, loggedInUserID, userController).start();
     }
 
     private void handleShowEvents() {
-        new ShowEventsTab(textView, userController, loggedInUserID).start();
+        new ShowEventsTab(view, userController, loggedInUserID).start();
     }
 
     private void handleBookEvent() {
-        new EventBookingTab(textView, loggedInUserID, userController).start();
+        new EventBookingTab(view, loggedInUserID, userController).start();
     }
 
     private void handleCancelEvent() {
-        new EventCancelParticipationTab(textView, loggedInUserID, userController).start();
+        new EventCancelParticipationTab(view, loggedInUserID, userController).start();
     }
 
     private void handleEditEvent() {
-        new EventEditTab(textView, loggedInUserID, userController).start();
+        new EventEditTab(view, loggedInUserID, userController).start();
     }
 }

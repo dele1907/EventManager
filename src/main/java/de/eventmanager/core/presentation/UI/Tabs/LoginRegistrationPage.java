@@ -6,21 +6,19 @@ import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 
 import java.util.List;
-import java.util.Optional;
 
 public class LoginRegistrationPage implements Tab {
-    private View textView;
+    private View view;
     private UserController userController;
     //@TODO: remove flush before release
     private boolean flushTestDatabase;
     private String loggedInUserID;
 
-    public LoginRegistrationPage(View textView, UserController userController, boolean flushTestDatabase) {
-        this.textView = textView;
+    public LoginRegistrationPage(View view, UserController userController, boolean flushTestDatabase) {
+        this.view = view;
         this.userController = userController;
         //@TODO: remove flush before release
         this.flushTestDatabase = flushTestDatabase;
@@ -31,9 +29,9 @@ public class LoginRegistrationPage implements Tab {
         boolean programIsRunning = true;
 
         while (programIsRunning) {
-            DefaultDialogHelper.getTabOrPageHeading(textView, "Login / Registration");
-            DefaultDialogHelper.generateMenu(textView, List.of("Register", "Login", "Exit Program"));
-            String choice = textView.getUserInput();
+            DefaultDialogHelper.getTabOrPageHeading(view, "Login / Registration");
+            DefaultDialogHelper.generateMenu(view, List.of("Register", "Login", "Exit Program"));
+            String choice = view.getUserInput();
 
             switch (choice) {
                 case "1":
@@ -46,7 +44,7 @@ public class LoginRegistrationPage implements Tab {
                     }
                     break;
                 case "3":
-                    textView.displayMessage("\nExit Program...");
+                    view.displayMessage("\nExit Program...");
                     programIsRunning = false;
 
                     //TODO @Dennis: remove flush before release
@@ -56,7 +54,7 @@ public class LoginRegistrationPage implements Tab {
                     System.exit(0);
                     break;
                 default:
-                    textView.displayErrorMessage("\nInvalid choice");
+                    view.displayErrorMessage("\nInvalid choice");
                     break;
             }
         }
@@ -71,8 +69,8 @@ public class LoginRegistrationPage implements Tab {
     }
 
     public void showRegisterUserDialog() {
-        textView.displayTabOrPageHeading("\n===== Registration =====");
-        validateRegisterUser(DefaultDialogHelper.createNewUserDefaultDialog(textView));
+        view.displayTabOrPageHeading("\n===== Registration =====");
+        validateRegisterUser(DefaultDialogHelper.createNewUserDefaultDialog(view));
     }
 
     private void validateRegisterUser(UserRegistrationData userRegistrationData) {
@@ -81,24 +79,24 @@ public class LoginRegistrationPage implements Tab {
                 ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID);
 
         if (!registrationSuccess) {
-            textView.displayErrorMessage("\nUser registration failed\n");
+            view.displayErrorMessage("\nUser registration failed\n");
 
             return;
         }
 
-        textView.displaySuccessMessage("\nUser registered successfully\n");
+        view.displaySuccessMessage("\nUser registered successfully\n");
     }
 
     public String showLoginUserDialog() {
-        textView.displayTabOrPageHeading("\n===== Login ======");
-        textView.displayUserInputMessage("Enter eMail\n> ");
-        String eMail = textView.getUserInput();
+        view.displayTabOrPageHeading("\n===== Login ======");
+        view.displayUserInputMessage("Enter eMail\n> ");
+        String eMail = view.getUserInput();
 
-        textView.displayUserInputMessage("\nEnter password\n> ");
-        String password = textView.getUserInput();
+        view.displayUserInputMessage("\nEnter password\n> ");
+        String password = view.getUserInput();
 
         if (eMail.isEmpty() || password.isEmpty()) {
-            textView.displayErrorMessage("\nYou must enter eMail or password");
+            view.displayErrorMessage("\nYou must enter eMail or password");
 
             return "";
         }
@@ -110,12 +108,12 @@ public class LoginRegistrationPage implements Tab {
 
     private String validateLoginUser(String loginUserID) {
         if (loginUserID.isEmpty()) {
-            textView.displayErrorMessage("\nWrong eMail or password! \nPlease try again.\n");
+            view.displayErrorMessage("\nWrong eMail or password! \nPlease try again.\n");
 
             return "";
         }
 
-        textView.displayMessage("\nLogin successful\n");
+        view.displayMessage("\nLogin successful\n");
 
         return loginUserID;
     }

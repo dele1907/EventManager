@@ -8,45 +8,45 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 public class AdminCreateUserTab implements Tab {
-    private View textView;
+    private View view;
     private UserController userController;
     private String loggedInUserUserID;
 
-    public AdminCreateUserTab(View textView, UserController userController, String loggedInUserUserID) {
-        this.textView = textView;
+    public AdminCreateUserTab(View view, UserController userController, String loggedInUserUserID) {
+        this.view = view;
         this.userController = userController;
         this.loggedInUserUserID = loggedInUserUserID;
     }
 
     @Override
     public void start() {
-        DefaultDialogHelper.getTabOrPageHeading(textView, "Create User");
+        DefaultDialogHelper.getTabOrPageHeading(view, "Create User");
         showCreateUserDialog();
     }
 
     public void showCreateUserDialog() {
-        validateCreateUser(DefaultDialogHelper.createNewUserDefaultDialog(textView));
+        validateCreateUser(DefaultDialogHelper.createNewUserDefaultDialog(view));
     }
 
     private void validateCreateUser(UserRegistrationData userRegistrationData) {
 
         if (!userController.createNewUser(userRegistrationData, loggedInUserUserID)) {
-            textView.displayErrorMessage("\nFailed to create user.\n");
+            view.displayErrorMessage("\nFailed to create user.\n");
 
             return;
         }
 
-        textView.displaySuccessMessage("\nUser created successfully.\n");
+        view.displaySuccessMessage("\nUser created successfully.\n");
     }
 
     private String showPhoneNumberDialog() {
         String phoneNumber = "";
 
-        textView.displayUserInputMessage("Enter phone number\n> ");
-        phoneNumber = textView.getUserInput();
+        view.displayUserInputMessage("Enter phone number\n> ");
+        phoneNumber = view.getUserInput();
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
-            textView.displayErrorMessage("\nInvalid phone number\n");
+            view.displayErrorMessage("\nInvalid phone number\n");
             return showPhoneNumberDialog();
         }
 

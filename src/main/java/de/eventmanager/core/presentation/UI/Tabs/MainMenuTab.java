@@ -6,14 +6,12 @@ import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.roles.Role;
-import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 
 import java.util.List;
 
 public class MainMenuTab implements Tab {
-    private View textView;
+    private View view;
     private String loggedInUserID;
     private LoginRegistrationPage loginRegistrationPage;
     private UserController userController;
@@ -25,8 +23,8 @@ public class MainMenuTab implements Tab {
         NON_ADMIN
     }
 
-    public MainMenuTab(View textView, String loggedInUserID, LoginRegistrationPage loginRegistrationPage, UserController userController, boolean flushTestDatabase) {
-        this.textView = textView;
+    public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage, UserController userController, boolean flushTestDatabase) {
+        this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.loginRegistrationPage = loginRegistrationPage;
         this.userController = userController;
@@ -48,7 +46,7 @@ public class MainMenuTab implements Tab {
 
         while (userIsLoggedIn) {
             displayMainMenu(menuType);
-            String choice = textView.getUserInput();
+            String choice = view.getUserInput();
             userIsLoggedIn = handleMenuChoice(menuType, choice);
         }
     }
@@ -58,15 +56,15 @@ public class MainMenuTab implements Tab {
                 List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program", "Admin Operations") :
                 List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program");
 
-        DefaultDialogHelper.getTabOrPageHeading(textView, "Main Menu");
-        textView.displaySuccessMessage("Welcome " + userController.getLoggedInUserName(loggedInUserID) + "!\n");
-        DefaultDialogHelper.generateMenu(textView, menu);
+        DefaultDialogHelper.getTabOrPageHeading(view, "Main Menu");
+        view.displaySuccessMessage("Welcome " + userController.getLoggedInUserName(loggedInUserID) + "!\n");
+        DefaultDialogHelper.generateMenu(view, menu);
     }
 
     private boolean handleMenuChoice(MenuType menuType, String choice) {
         switch (choice) {
             case "1":
-                textView.displayErrorMessage("\nSettings page (not implemented yet)\n");
+                view.displayErrorMessage("\nSettings page (not implemented yet)\n");
                 break;
             case "2":
                 doShowEventOperationTab();
@@ -80,7 +78,7 @@ public class MainMenuTab implements Tab {
                 doShowAdminOperations(menuType);
                 break;
             default:
-                textView.displayErrorMessage("\nInvalid choice!\n");
+                view.displayErrorMessage("\nInvalid choice!\n");
                 break;
         }
 
@@ -98,17 +96,17 @@ public class MainMenuTab implements Tab {
     }
 
     private void doLogout() {
-        textView.displayMessage("\nLogging out...\n");
+        view.displayMessage("\nLogging out...\n");
         loginRegistrationPage.resetLoggedInUser();
     }
 
     private void doLogoutAndExitProgram() {
-        textView.displayMessage("\nLogging out...\n");
+        view.displayMessage("\nLogging out...\n");
         loginRegistrationPage.resetLoggedInUser();
 
         addDelay(2);
 
-        textView.displayMessage("\nExiting Program...\n");
+        view.displayMessage("\nExiting Program...\n");
         //TODO @Dennis: remove flush before release
         DatabasePathManager.flushDatabasePath(flushTestDatabase);
         //TODO @Dennis: remove following line before release
@@ -119,15 +117,15 @@ public class MainMenuTab implements Tab {
     private void doShowAdminOperations(MenuType menuType) {
 
         if (menuType == MenuType.ADMIN) {
-            AdminOperationsTab adminOperationsTab = new AdminOperationsTab(textView, loggedInUserID, userController);
+            AdminOperationsTab adminOperationsTab = new AdminOperationsTab(view, loggedInUserID, userController);
             adminOperationsTab.start();
         } else {
-            textView.displayErrorMessage("\nInvalid choice!\n");
+            view.displayErrorMessage("\nInvalid choice!\n");
         }
     }
 
     private void doShowEventOperationTab() {
-        EventOperationsTab eventOperationsTab = new EventOperationsTab(textView, loggedInUserID, userController);
+        EventOperationsTab eventOperationsTab = new EventOperationsTab(view, loggedInUserID, userController);
         eventOperationsTab.start();
     }
 }

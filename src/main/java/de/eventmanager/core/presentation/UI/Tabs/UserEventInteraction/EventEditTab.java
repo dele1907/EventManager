@@ -6,7 +6,6 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
-import java.util.Optional;
 
 public class EventEditTab implements Tab {
     private View view;

@@ -6,32 +6,32 @@ import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 public class AdminDeleteUserTab implements Tab {
-    private View textView;
+    private View view;
     private UserController userController;
     private String loggedInUserUserID;
 
-    public AdminDeleteUserTab(View textView, UserController userController, String loggedInUserUserID) {
-        this.textView = textView;
+    public AdminDeleteUserTab(View view, UserController userController, String loggedInUserUserID) {
+        this.view = view;
         this.userController = userController;
         this.loggedInUserUserID = loggedInUserUserID;
     }
 
     @Override
     public void start() {
-        DefaultDialogHelper.getTabOrPageHeading(textView, "Delete User");
-        textView.displayUserInputMessage("Enter the email of the user to delete\n> ");
-        String email = textView.getUserInput();
+        DefaultDialogHelper.getTabOrPageHeading(view, "Delete User");
+        view.displayUserInputMessage("Enter the email of the user to delete\n> ");
+        String email = view.getUserInput();
 
         String userInformationUserToDelete = userController.getUserInformationByEmail(email);
 
         if (userInformationUserToDelete.isEmpty()) {
-            textView.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
+            view.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
 
             return;
         }
 
         if (!showConfirmationDialog(userInformationUserToDelete).equalsIgnoreCase("yes")) {
-            textView.displayErrorMessage("\nUser deletion canceled.\n");
+            view.displayErrorMessage("\nUser deletion canceled.\n");
 
             return;
         }
@@ -40,22 +40,22 @@ public class AdminDeleteUserTab implements Tab {
     }
 
     private String showConfirmationDialog(String userInformationUserToDelete) {
-        textView.displayWarningMessage(DefaultDialogHelper.WARNING_MESSAGE);
-        textView.displayWarningMessage("\nAre you sure you want to delete: " );
-        textView.displayUnderlinedSubheading("User Information: \n");
-        textView.displayMessage(userInformationUserToDelete);
-        textView.displayUserInputMessage("\n\nType 'yes'> ");
+        view.displayWarningMessage(DefaultDialogHelper.WARNING_MESSAGE);
+        view.displayWarningMessage("\nAre you sure you want to delete: " );
+        view.displayUnderlinedSubheading("User Information: \n");
+        view.displayMessage(userInformationUserToDelete);
+        view.displayUserInputMessage("\n\nType 'yes'> ");
 
-        return textView.getUserInput();
+        return view.getUserInput();
     }
 
     private void showUserDeletionSuccess(String emailUserToDelete) {
         boolean success = userController.deleteUser(emailUserToDelete, loggedInUserUserID);
 
         if (success) {
-            textView.displaySuccessMessage("\nUser deleted successfully.\n");
+            view.displaySuccessMessage("\nUser deleted successfully.\n");
         } else {
-            textView.displayErrorMessage("\nFailed to delete user. User may not exist.\n");
+            view.displayErrorMessage("\nFailed to delete user. User may not exist.\n");
         }
     }
 }

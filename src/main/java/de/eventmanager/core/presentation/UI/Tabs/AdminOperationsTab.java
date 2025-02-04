@@ -5,18 +5,17 @@ import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminCreateU
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminDeleteUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUserTab;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.users.User;
 import de.eventmanager.core.presentation.Controller.UserController;
 
 import java.util.List;
 
 public class AdminOperationsTab implements Tab {
-    private View textView;
+    private View view;
     private String loggedInUserID;
     private UserController userController;
 
-    public AdminOperationsTab(View textView, String loggedInUserID, UserController userController) {
-        this.textView = textView;
+    public AdminOperationsTab(View view, String loggedInUserID, UserController userController) {
+        this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.userController = userController;
     }
@@ -26,12 +25,12 @@ public class AdminOperationsTab implements Tab {
         boolean adminIsActive = true;
         
         while (adminIsActive) {
-            DefaultDialogHelper.getTabOrPageHeading(textView, "Admin Operations");
+            DefaultDialogHelper.getTabOrPageHeading(view, "Admin Operations");
             DefaultDialogHelper.generateMenu(
-                textView,
+                    view,
                 List.of("Edit user", "Delete user", "Create new user", "Back to main menu")
             );
-            String choice = textView.getUserInput();
+            String choice = view.getUserInput();
 
             switch (choice) {
                 case "1":
@@ -47,24 +46,24 @@ public class AdminOperationsTab implements Tab {
                     adminIsActive = false;
                     break;
                 default:
-                    textView.displayErrorMessage("\nInvalid choice");
+                    view.displayErrorMessage("\nInvalid choice");
                     break;
             }
         }
     }
 
     private void handleCreateUser() {
-        AdminCreateUserTab createUserTab = new AdminCreateUserTab(textView, userController, loggedInUserID);
+        AdminCreateUserTab createUserTab = new AdminCreateUserTab(view, userController, loggedInUserID);
         createUserTab.start();
     }
 
     private void handleDeleteUser() {
-        AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(textView, userController, loggedInUserID);
+        AdminDeleteUserTab deleteUserTab = new AdminDeleteUserTab(view, userController, loggedInUserID);
         deleteUserTab.start();
     }
 
     private void handleEditUser() {
-        AdminEditUserTab editUserTab = new AdminEditUserTab(textView, userController, loggedInUserID);
+        AdminEditUserTab editUserTab = new AdminEditUserTab(view, userController, loggedInUserID);
         editUserTab.start();
     }
 
