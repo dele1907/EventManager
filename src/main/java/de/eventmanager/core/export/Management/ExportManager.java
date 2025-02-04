@@ -13,7 +13,6 @@ import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.parameter.Cn;
 import net.fortuna.ical4j.model.parameter.Role;
 import net.fortuna.ical4j.model.property.*;
-import net.fortuna.ical4j.model.property.Contact;
 
 import java.net.URI;
 import java.util.GregorianCalendar;
@@ -34,7 +33,15 @@ public class ExportManager {
      * Method at the moment unclean, because of experimenting for functionality
      */
 
-    public Optional<Calendar> createCalendar(EventModel event) {
+    public boolean exportEvents(Calendar calendar, EventModel event) {
+        if (createCalendar(event).isPresent()) {
+            calendar = createCalendar(event).get();
+        }
+
+        return Exporter.exportEvent(calendar);
+    }
+
+    private Optional<Calendar> createCalendar(EventModel event) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
         calendar.getProperties().add(CURRENT_VERSION);
@@ -62,11 +69,7 @@ public class ExportManager {
         return Optional.of(calendar);
     }
 
-    public boolean exportEvents(Calendar calendar) {
-        return Exporter.exportEvent(calendar);
-    }
-
-    public Optional<VEvent> convertEventToCalendarEvent(EventModel event) {
+    private Optional<VEvent> convertEventToCalendarEvent(EventModel event) {
         String eventID = event.getEventID();
         String eventName = event.getEventName();
         Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
@@ -85,20 +88,17 @@ public class ExportManager {
         VEvent calenderEvent = new VEvent(start, end, event.getEventName());
 
         calenderEvent.getProperties().add(new Uid(eventID));
-        calenderEvent.getProperties().add(new Description(event.getDescription()));
-
-        Attendee creator = createEventCreatorAttendee(eventCreator);
-        calenderEvent.getProperties().add(creator);
+        calenderEvent.getProperties().add(new Description(addDescriptionToVEvent(event)));
+        calenderEvent.getProperties().add(new Location(addLocationToVEvent(event)));
+        calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator));
 
         calenderEvent = addAllParticipantAttendees(event, calenderEvent);
-
-        calenderEvent.getProperties().add(new Location(addLocationToVEvent(event, calenderEvent)));
-        //calenderEvent.getProperties().add(new Telephone)
 
         return Optional.of(calenderEvent);
     }
 
     //#region helper-methods
+
     private Attendee createEventCreatorAttendee(Optional<User> eventCreator) {
         String eventCreatorEmail = eventCreator.get().getEMailAddress();
 
@@ -131,7 +131,7 @@ public class ExportManager {
         return vEvent;
     }
 
-    private String addLocationToVEvent(EventModel eventModel, VEvent vEvent) {
+    private String addLocationToVEvent(EventModel eventModel) {
         String postalCode = eventModel.getPostalCode();
         String city = eventModel.getCity();
         String address = eventModel.getAddress();
@@ -140,7 +140,13 @@ public class ExportManager {
         return location + " - " + address + ", " + postalCode + ", " + city + ", " + address;
     }
 
+    private String addDescriptionToVEvent(EventModel eventModel) {
+        String phoneNumber = "Phone Number: " + CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()).get().getPhoneNumber();
+        String eventCreatorEmail = "Email: " + CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()).get().getEMailAddress();
+        String description = eventModel.getDescription();
 
+        return "Contact:\n" + phoneNumber + "\n" + eventCreatorEmail + "\n" + description + "\n";
+    }
 
     private java.util.Calendar setEventStartTime(String eventName) {
         int startYear = DateOperationsHelper.getEventStartYear(eventName);

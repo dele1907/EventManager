@@ -42,14 +42,11 @@ public class ExportManagerTestDrive {
                 false,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",
                 "This is a cool event", 20, 0);
 
-
-
         UserDatabaseConnector.createNewUser(testAdminUser);
         UserDatabaseConnector.createNewUser(testUser);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
         BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
-
     }
 
     @AfterEach
@@ -62,19 +59,9 @@ public class ExportManagerTestDrive {
     }
 
     @Test
-    @DisplayName("Create Calender Test")
-    void createCalenderTest() {
-        assertTrue(exportManager.createCalendar(event).isPresent());
-    }
-
-    @Test
-    @DisplayName("Export Calender Test")
-    void exportCalenderTest() {
-        if (exportManager.createCalendar(event).isPresent()) {
-            testCalendar = exportManager.createCalendar(event).get();
-        }
-
-        assertTrue(exportManager.exportEvents(testCalendar));
+    @DisplayName("Export Events Test")
+    void exportEventsTest() {
+        assertTrue(exportManager.exportEvents(testCalendar, event));
     }
 
 }
