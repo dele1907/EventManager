@@ -64,11 +64,11 @@ public class EventEditTab implements Tab {
         String userInputEventID = view.getUserInput();
 
         if (userInputEventID.isEmpty()) {
-            view.displayErrorMessage("\nInvalid event ID. Pleas try again.\n");
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "event ID");
 
             return;
         }
-        eventID = userInputEventID.trim();
+        eventID = userInputEventID;
         String eventInformation = userController.getEventInformationByEventID(userInputEventID);
 
         if (eventInformation.isEmpty()) {
