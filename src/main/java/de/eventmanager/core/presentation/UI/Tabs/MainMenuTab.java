@@ -9,6 +9,7 @@ import de.eventmanager.core.presentation.UI.View;
 import helper.ConfigurationDataSupplierHelper;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MainMenuTab implements Tab {
     private View view;
@@ -21,6 +22,24 @@ public class MainMenuTab implements Tab {
     private enum MenuType {
         ADMIN,
         NON_ADMIN
+    }
+    private enum MainMenuChoice {
+        SETTINGS,
+        EVENT_OPERATIONS,
+        LOGOUT,
+        LOGOUT_AND_EXIT_PROGRAM,
+        ADMIN_OPERATIONS;
+
+        public static Optional<MainMenuChoice> fromUserInput(String choice) {
+            return switch (choice) {
+                case "1" -> Optional.of(SETTINGS);
+                case "2" -> Optional.of(EVENT_OPERATIONS);
+                case "3" -> Optional.of(LOGOUT);
+                case "4" -> Optional.of(LOGOUT_AND_EXIT_PROGRAM);
+                case "5" -> Optional.of(ADMIN_OPERATIONS);
+                default -> Optional.empty();
+            };
+        }
     }
 
     public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage,
@@ -64,24 +83,23 @@ public class MainMenuTab implements Tab {
     }
 
     private boolean handleMenuChoice(MenuType menuType, String choice) {
-        switch (choice) {
-            case "1":
-                view.displayErrorMessage("\nSettings page (not implemented yet)\n");
-                break;
-            case "2":
-                doShowEventOperationTab();
-                break;
-            case "3":
+        var mainMenuChoice = MainMenuChoice.fromUserInput(choice);
+
+        if (mainMenuChoice.isEmpty()) {
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
+
+            return true;
+        }
+
+        switch (mainMenuChoice.get()) {
+            case SETTINGS -> view.displayErrorMessage("\nSettings page (not implemented yet)\n");
+            case EVENT_OPERATIONS -> doShowEventOperationTab();
+            case LOGOUT -> {
                 doLogout();
                 return false;
-            case "4":
-                doLogoutAndExitProgram();
-            case "5":
-                doShowAdminOperations(menuType);
-                break;
-            default:
-                DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
-                break;
+            }
+            case LOGOUT_AND_EXIT_PROGRAM -> doLogoutAndExitProgram();
+            case ADMIN_OPERATIONS -> doShowAdminOperations(menuType);
         }
 
         return true;

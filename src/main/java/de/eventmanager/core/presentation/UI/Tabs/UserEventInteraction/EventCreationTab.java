@@ -2,15 +2,34 @@ package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class EventCreationTab implements Tab {
     private View view;
     private String loggedInUserID;
     private UserController userController;
+
+    private enum EventCreationMenuChoice {
+        CREATE_PUBLIC_EVENT,
+        CREATE_PRIVATE_EVENT,
+        BACK_TO_EVENT_OPERATIONS;
+
+        public static Optional<EventCreationMenuChoice> fromUserInput(String userInput) {
+            return EnumHelper.getMapOfStringToEnumConstant(userInput, EventCreationMenuChoice.class,
+                Map.of(
+                "1", CREATE_PUBLIC_EVENT,
+                "2", CREATE_PRIVATE_EVENT,
+                "3", BACK_TO_EVENT_OPERATIONS
+                )
+            );
+        }
+    }
 
     public EventCreationTab(View view, String loggedInUserID, UserController userController) {
         this.view = view;
@@ -29,20 +48,17 @@ public class EventCreationTab implements Tab {
                 "Back to Event Operations"
             )
         );
-        String choice = view.getUserInput();
+        var eventCreationMenuChoice = EventCreationMenuChoice.fromUserInput(view.getUserInput());
 
-        switch (choice) {
-            case "1":
-                createNewEvent(false);
-                break;
-            case "2":
-                createNewEvent(true);
-                break;
-            case "3":
-                break;
-            default:
-                view.displayErrorMessage("\nInvalid choice. Please try again.");
-                start();
+        if (eventCreationMenuChoice.isEmpty()) {
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
+            start();
+        }
+
+        switch (eventCreationMenuChoice.get()) {
+            case CREATE_PUBLIC_EVENT -> createNewEvent(false);
+            case CREATE_PRIVATE_EVENT -> createNewEvent(true);
+            case BACK_TO_EVENT_OPERATIONS -> view.displayMessage("Returning to Event Operations...");
         }
     }
 
