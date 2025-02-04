@@ -4,6 +4,7 @@ import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.users.User;
 import helper.DateOperationsHelper;
+import helper.LoggerHelper;
 import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
@@ -31,15 +32,31 @@ public class ExportManager {
     Method at the moment unclean, because of experimenting for functionality
      */
 
-
-    public void createCalendar(VEvent event) {
+    public boolean createCalendar(EventModel event) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
         calendar.getProperties().add(CURRENT_VERSION);
         calendar.getProperties().add(STANDARD_SCALE);
-        //calendar.getComponents().add(event);
 
+        VEvent vEvent = convertEventToCalendarEvent(event);
+        if (vEvent == null) {
+            LoggerHelper.logErrorMessage(ExportManager.class, "VEvent is null");
+            System.out.println("VEvent is null");
+
+            return false;
+        }
+        calendar.getComponents().add(vEvent);
+
+        if (!calendar.getComponents().contains(vEvent)) {
+            LoggerHelper.logErrorMessage(ExportManager.class, "Event are not in the calendar");
+
+            return false;
+        }
+
+        LoggerHelper.logInfoMessage(ExportManager.class, vEvent.toString());
         System.out.println(calendar);
+
+        return true;
     }
 
     public VEvent convertEventToCalendarEvent(EventModel event) {
@@ -47,31 +64,36 @@ public class ExportManager {
         Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
 
         if (eventCreator.isEmpty()) {
+            System.out.println("Event creator not found");
+
             return null;
         }
 
         java.util.Calendar startDate = setEventStartTime(eventID);
         java.util.Calendar endDate = setEventEndTime(eventID);
 
+        if (startDate == null || endDate == null) {
+            System.out.println("Start or End Date is null for eventID " + eventID);
+            return null;
+        }
+
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
         VEvent calenderEvent = new VEvent(start, end,event.getEventName());
-        calenderEvent.getProperties().add(V_TIMEZONE_GERMANY.getTimeZoneId());
 
-        Uid uid = new Uid(eventID);
-        calenderEvent.getProperties().add(uid);
+        if (V_TIMEZONE_GERMANY != null) {
+            calenderEvent.getProperties().add(V_TIMEZONE_GERMANY.getTimeZoneId());
+        } else {
+            System.out.println("Time zone is null");
+            return null;
+        }
+
+        calenderEvent.getProperties().add(new Uid(eventID));
 
         Attendee creator = createEventCreatorAttendee(eventCreator);
         calenderEvent.getProperties().add(creator);
 
         return calenderEvent;
-    }
-
-    private java.util.Calendar setDateAndTimeForCalendarEvent(int year, int month, int day, int hour, int minute) {
-        java.util.Calendar calendar = new GregorianCalendar(year, (month-1), day, hour, minute);
-        calendar.setTimeZone(TIMEZONE_GERMANY);
-
-        return calendar;
     }
 
     private Attendee createEventCreatorAttendee(Optional<User> eventCreator) {
@@ -101,7 +123,7 @@ public class ExportManager {
         int startHour = DateOperationsHelper.getEventStartHour(eventID);
         int startMinute = DateOperationsHelper.getEventStartMinute(eventID);
 
-        return setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
+        return setDateAndTimeForCalendarEvent(2000, 1, 5, 12, 30);
     }
 
     private java.util.Calendar setEventEndTime(String eventID) {
@@ -112,8 +134,14 @@ public class ExportManager {
         int endHour = DateOperationsHelper.getEventStartHour(eventID);
         int endMinute = DateOperationsHelper.getEventStartMinute(eventID);
 
-        return setDateAndTimeForCalendarEvent(endYear, endMonth, endDay, endHour, endMinute);
+        return setDateAndTimeForCalendarEvent(2000, 1, 5, 14, 30);
     }
 
+    private java.util.Calendar setDateAndTimeForCalendarEvent(int year, int month, int day, int hour, int minute) {
+        java.util.Calendar calendar = new GregorianCalendar(year, (month-1), day, hour, minute);
+        calendar.setTimeZone(TIMEZONE_GERMANY);
+
+        return calendar;
+    }
 
 }
