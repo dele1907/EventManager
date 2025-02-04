@@ -36,21 +36,23 @@ public class UserManagerImplTestDrive {
     final static String TEST_ADMIN_ID = "124";
     final static String TEST_PUBLIC_EVENT_ID = "123";
     final static String TEST_PRIVATE_EVENT_ID = "124";
-    //#region CRUD-Operation-Tests
+
     @BeforeEach
     void setup() {
 
-        testUser = new User(TEST_USER_ID, "testLastName", "testFirstName", "2000-04-20",TEST_USER_EMAIL_ADDRESS,
-                "password", "+497788866", false);
-        testAdminUser = new User(TEST_ADMIN_ID,"firstAdmin","Admin","1999-04-05", TEST_ADMIN_EMAIL_ADDRESS,
-                "AdminPassword", "+497733686", true);
+        testUser = new User(TEST_USER_ID, "testLastName", "testFirstName", "2000-04-20",
+                TEST_USER_EMAIL_ADDRESS, "password", "+497788866", false);
+        testAdminUser = new User(TEST_ADMIN_ID,"firstAdmin","Admin","1999-04-05",
+                TEST_ADMIN_EMAIL_ADDRESS,"AdminPassword", "+497733686", true);
         testAdminUser.setRoleAdmin(true);
 
-        publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID,"TestPublicEvent", "2000-01-01", "2000-01-02", 0,
-                testArrayList, "TestCategory", false,"66115","Saarbrücken", "TestStraße 6", "Turmschule",
+        publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID,"TestPublicEvent", "2000-01-01",
+                "2000-01-02", 0, testArrayList, "TestCategory",
+                false,"66115","Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event", 20, 0);
-        privateEvent = new PrivateEvent(TEST_PRIVATE_EVENT_ID,"TestPrivateEvent", "2000-01-01", "2000-01-02", 0,
-                testArrayList,"TestCategory", true, "66115","Saarbrücken", "TestStraße 6", "Turmschule",
+        privateEvent = new PrivateEvent(TEST_PRIVATE_EVENT_ID,"TestPrivateEvent", "2000-01-01",
+                "2000-01-02", 0, testArrayList,"TestCategory",
+                true, "66115","Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event");
 
         UserDatabaseConnector.createNewUser(testUser);
@@ -59,7 +61,6 @@ public class UserManagerImplTestDrive {
         EventDatabaseConnector.createNewEvent(privateEvent);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-
     }
 
     @AfterEach
@@ -81,13 +82,13 @@ public class UserManagerImplTestDrive {
         }
     }
 
+    //#region CRUD-Operation-Tests for User
     @Test
     @DisplayName("UserCreateUser Test")
     void userWithoutPermissionCreateNewUserTest() {
 
         assertFalse(userManagerImpl.createNewUser("test", "User", "dateOfBirth", CREATE_TEST_USER_EMAIL_ADDRESS,
                 "eventManager123", "11223344", false, TEST_USER_ID));
-
     }
 
     @Test
@@ -98,7 +99,6 @@ public class UserManagerImplTestDrive {
 
         assertTrue(userManagerImpl.createNewUser("new", "User", "dateOfBirth", CREATE_TEST_USER_EMAIL_ADDRESS,
                 "eventManager123", "11223344", false, TEST_ADMIN_ID));
-
     }
 
     @Test
@@ -121,43 +121,58 @@ public class UserManagerImplTestDrive {
         userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, email, password, phoneNumber, TEST_ADMIN_ID);
 
         assertEquals(email, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
-
     }
 
     @Test
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
-
         assertTrue(userManagerImpl.deleteUser(TEST_USER_EMAIL_ADDRESS, TEST_ADMIN_ID));
-
     }
-    //#endregion CRUD-Operation-Tests
+    //#endregion CRUD-Operation-Tests for User
 
-    //#region Permission Tests
+    //#region Crud-Operation-Tests for Event
     @Test
-    @DisplayName("Add&Remove AdminStatus Test")
+    @DisplayName("Create Public-Event Test")
     @Disabled
-    void addAndRemoveAdminStatusToUserTest() {
+    void createPublicEventTest() {
 
-        userManagerImpl.addAdminStatusToUserByUserID(TEST_USER_ID, testAdminUser);
-        assertEquals(Role.ADMIN, testUser.getRole());
-
-        userManagerImpl.removeAdminStatusFromUserByUserID(TEST_USER_ID, testAdminUser);
-        assertNotEquals(Role.ADMIN, testUser.getRole());
+        assertTrue(userManagerImpl.createNewEvent("TestPublicEventIntern", "2000-01-01",
+                "2000-01-02", "TestCategory", "66115","Saarbrücken",
+                "TestStraße 6", "Turmschule", "This is a cool event", 20,
+                false, TEST_ADMIN_ID));
     }
 
-    //#endregion Permission Tests
+    @Test
+    @DisplayName("Create Private Event Test")
+    @Disabled
+    void createPrivateEventTest() {
+
+        assertTrue(userManagerImpl.createNewEvent("TestPrivateEventIntern", "2000-01-01",
+                "2000-01-02", "TestCategory", "66115","Saarbrücken",
+                "TestStraße 6", "Turmschule", "This is a cool event", 20,
+                true, TEST_ADMIN_ID));
+    }
 
     @Test
     @DisplayName("Edit Event Test")
     void editEventTest() {
 
-        userManagerImpl.editEvent(TEST_PRIVATE_EVENT_ID, "TestEventEdited", "01-01-2021", "01/01/2021",
-                "Test1", "12345", "Teststadt","Teststraße 177", "TestLocation1", "TestDescription1", TEST_ADMIN_ID);
+        userManagerImpl.editEvent(TEST_PRIVATE_EVENT_ID, "TestEventEdited", "01-01-2021",
+                "01/01/2021", "Test1", "12345", "Teststadt","Teststraße 177",
+                "TestLocation1", "TestDescription1", TEST_ADMIN_ID);
 
         assertEquals("TestEventEdited", userManagerImpl.getEventByID(TEST_PRIVATE_EVENT_ID).get().getEventName());
     }
 
+    @Test
+    @DisplayName("Delete Event Test")
+    @Disabled
+    void deleteEventTest() {
+        //Todo: if unique event-parameter excepting the id exist
+    }
+    //#endregion Crud-Operation-Tests for Event
+
+    //#region Event-Operations
     @Test
     @DisplayName("Book Event Test")
     void bookEventTest() {
@@ -174,7 +189,6 @@ public class UserManagerImplTestDrive {
         assertFalse(userManagerImpl.cancelEvent(notExistingEventID, TEST_USER_ID));
         assertTrue(userManagerImpl.cancelEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID));
         assertTrue(userManagerImpl.cancelEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
-
     }
 
     @Test
@@ -186,6 +200,22 @@ public class UserManagerImplTestDrive {
         assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,testUser.getEMailAddress(),TEST_ADMIN_ID));
         assertTrue(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,testUser.getEMailAddress(), TEST_ADMIN_ID));
     }
+    //#endregion Event-Operations
+
+    //#region Permission Tests
+    @Test
+    @DisplayName("Add&Remove AdminStatus Test")
+    @Disabled
+    void addAndRemoveAdminStatusToUserTest() {
+
+        userManagerImpl.addAdminStatusToUserByUserID(TEST_USER_ID, testAdminUser);
+        assertEquals(Role.ADMIN, testUser.getRole());
+
+        userManagerImpl.removeAdminStatusFromUserByUserID(TEST_USER_ID, testAdminUser);
+        assertNotEquals(Role.ADMIN, testUser.getRole());
+    }
+
+    //#endregion Permission Tests
 
     //#region Registration and Authentication Tests
     @Test
