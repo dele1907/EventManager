@@ -17,12 +17,15 @@ import java.util.GregorianCalendar;
 import java.util.Optional;
 
 public class ExportManager {
+
+    //#region constants
     private static final CalScale STANDARD_SCALE = CalScale.GREGORIAN;
     private static final ProdId STANDARD_PROD = new ProdId("-//Ben Fortuna//iCal4j 1.0//EN");
     private static final Version CURRENT_VERSION = Version.VERSION_2_0;
-    private final TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-    private final TimeZone timezone = registry.getTimeZone("Europe/Berlin");
-    private final VTimeZone vTimeZone = timezone.getVTimeZone();
+    private final TimeZoneRegistry TIMEZONE_REGISTRY = TimeZoneRegistryFactory.getInstance().createRegistry();
+    private final TimeZone TIMEZONE_GERMANY = TIMEZONE_REGISTRY.getTimeZone("Europe/Berlin");
+    private final VTimeZone V_TIMEZONE = TIMEZONE_GERMANY.getVTimeZone();
+    //#endregion constants
 
     /**
     Method at the moment unclean, because of experimenting for functionality
@@ -39,12 +42,7 @@ public class ExportManager {
         System.out.println(calendar);
     }
 
-    public VEvent convertEventToCalendarEvent(Optional<? extends EventModel> optionalEvent) {
-        if (optionalEvent.isEmpty()) {
-            return null;
-        }
-
-        EventModel event = optionalEvent.get();
+    public VEvent convertEventToCalendarEvent(EventModel event) {
         String eventID = event.getEventID();
         Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
 
@@ -58,7 +56,7 @@ public class ExportManager {
         DateTime start = new DateTime(startDate.getTime());
         DateTime end = new DateTime(endDate.getTime());
         VEvent calenderEvent = new VEvent(start, end,event.getEventName());
-        calenderEvent.getProperties().add(vTimeZone.getTimeZoneId());
+        calenderEvent.getProperties().add(V_TIMEZONE.getTimeZoneId());
 
         Uid uid = new Uid(eventID);
         calenderEvent.getProperties().add(uid);
@@ -71,7 +69,7 @@ public class ExportManager {
 
     private java.util.Calendar setDateAndTimeForCalendarEvent(int year, int month, int day, int hour, int minute) {
         java.util.Calendar calendar = new GregorianCalendar(year, (month-1), day, hour, minute);
-        calendar.setTimeZone(timezone);
+        calendar.setTimeZone(TIMEZONE_GERMANY);
 
         return calendar;
     }
