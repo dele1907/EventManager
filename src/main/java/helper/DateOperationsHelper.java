@@ -3,8 +3,13 @@ package helper;
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
+
+import java.sql.Array;
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.jooq.*;
 import org.jooq.impl.SQLDataType;
@@ -27,8 +32,8 @@ public class DateOperationsHelper {
             DSLContext create = DSL.using(connection);
 
             Result<Record1<DayToSecond>> result = create.select(
-                            DSL.timestampDiff(DSL.currentTimestamp(),
-                                    DSL.field("birthDate", SQLDataType.TIMESTAMP)))
+                            DSL.timestampDiff(DSL.field("birthDate", SQLDataType.TIMESTAMP),
+                                    DSL.currentTimestamp()))
                                     .from("user")
                                     .where(DSL.field("eMail").eq(eMailAddresse))
                                     .fetch();
@@ -39,7 +44,7 @@ public class DateOperationsHelper {
 
                     String test = record.value1().toString();
 
-                    if (test.startsWith("-")) {
+                    if (test.startsWith("+")) {
                         LoggerHelper.logErrorMessage(DateOperationsHelper.class, "Das eingegebene Alter liegt in der Zukunft, bitte gib ein richtigs Geburtsdatum an!");
                         return 0;
                     }
@@ -68,10 +73,11 @@ public class DateOperationsHelper {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.currentTimestamp(), DSL.field("eventStart", SQLDataType.TIMESTAMP)))
-                    .from("events")
-                    .where(DSL.field("eventName").eq(eventName))
-                    .fetch();
+            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.currentTimestamp(), DSL.field("eventStart",
+                            SQLDataType.TIMESTAMP)))
+                            .from("events")
+                            .where(DSL.field("eventName").eq(eventName))
+                            .fetch();
 
             if(result.isNotEmpty()) {
 
@@ -117,23 +123,25 @@ public class DateOperationsHelper {
         }
     }
 
-    public static int checkIsAEventOver() {
-        int days = 0;
+    public static ArrayList<String> checkIsAEventOver() {
+        ArrayList<String> eventsToDelete = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.field("eventEnd", SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
+            Field<Timestamp> fourteenDaysAgo = DSL.field("datetime('now', '-14 days')", SQLDataType.TIMESTAMP);
+
+            Result<Record1<Object>> result = create.select(DSL.field("eventName"))
                     .from("events")
+                    .where(DSL.field("eventEnd", SQLDataType.TIMESTAMP).lt(fourteenDaysAgo))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<DayToSecond> record : result) {
-                    days = record.value1().getDays();
-                    System.out.println(record.value1());
-                    System.out.println(days);
+                for (Record1<Object> record : result) {
+                    String eventName = record.value1().toString();
+                    eventsToDelete.add(eventName);
                 }
 
             } else {
@@ -143,16 +151,16 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
-
-        return days;
+        return eventsToDelete;
     }
 
 /*
     public static void main(String[] args) {
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
-        //dateOperationsHelper.checkIsAEventOver();
+        dateOperationsHelper.checkIsAEventOver();
+        System.out.println(dateOperationsHelper.checkIsAEventOver());
         //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
-        System.out.println(dateOperationsHelper.getEventStartHour("Finch Tour 2025"));
+        //System.out.println(dateOperationsHelper.getEventStartHour("Finch Tour 2025"));
     }
 */
 
