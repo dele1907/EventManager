@@ -43,6 +43,7 @@ public class ExportManager {
 
             return false;
         }
+
         Calendar calendar = createCalendar(event).get();
 
         return Exporter.exportEvent(calendar);
@@ -95,7 +96,7 @@ public class ExportManager {
 
         addProperties(calenderEvent, event, eventCreator);
 
-        calenderEvent = addAllParticipantAttendees(event, calenderEvent).get();
+        //calenderEvent = addAllParticipantAttendees(event, calenderEvent).get();
 
         return Optional.of(calenderEvent);
     }
@@ -125,19 +126,21 @@ public class ExportManager {
         return Optional.of(participant);
     }
 
-    private Optional<VEvent> addAllParticipantAttendees(EventModel event, VEvent vEvent) {
-        System.out.println("Booked Users: " + event.getBookedUsersOnEvent());
-        for (String participantEmail : event.getBookedUsersOnEvent()) {
-            Optional<User> eventParticipant = UserDatabaseConnector.readUserByEMail(participantEmail);
+    /**
+     private Optional<VEvent> addAllParticipantAttendees(EventModel event, VEvent vEvent) {
+     System.out.println("Booked Users: " + event.getBookedUsersOnEvent());
+     for (String participantEmail : event.getBookedUsersOnEvent()) {
+     Optional<User> eventParticipant = UserDatabaseConnector.readUserByEMail(participantEmail);
 
-            if (eventParticipant.isPresent()) {
-                Attendee participant = createEventParticipantAttendee(eventParticipant, participantEmail).get();
-                vEvent.getProperties().add(participant);
-            }
-        }
+     if (eventParticipant.isPresent()) {
+     Attendee participant = createEventParticipantAttendee(eventParticipant, participantEmail).get();
+     vEvent.getProperties().add(participant);
+     }
+     }
 
-        return Optional.of(vEvent);
-    }
+     return Optional.of(vEvent);
+     }
+     */
     //#endregion Attendees
 
     //#region Properties
@@ -151,12 +154,7 @@ public class ExportManager {
     }
 
     private String addLocationToVEvent(EventModel eventModel) {
-        String postalCode = eventModel.getPostalCode();
-        String city = eventModel.getCity();
-        String address = eventModel.getAddress();
-        String location = eventModel.getEventLocation();
-
-        return location + " - " + address + ", " + postalCode + ", " + city + ", " + address;
+        return eventModel.getEventLocation() + " - " + eventModel.getAddress() + ", " + eventModel.getPostalCode() + ", " + eventModel.getCity();
     }
 
     private String addDescriptionToVEvent(EventModel eventModel) {
