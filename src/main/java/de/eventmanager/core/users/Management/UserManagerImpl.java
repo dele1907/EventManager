@@ -61,8 +61,11 @@ public class UserManagerImpl implements UserManager {
      */
 
     @Override
-    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                         String password, String phoneNumber, String loggedUserByID) {
+    public void editUser(String userID, String firstName,
+                         String lastName, String dateOfBirth,
+                         String eMailAddress, String password,
+                         String phoneNumber, String loggedUserByID
+    ) {
         var user = UserDatabaseConnector.readUserByID(userID);
         var loggedUser = getUserByID(loggedUserByID);
 
@@ -74,7 +77,16 @@ public class UserManagerImpl implements UserManager {
             return;
         }
 
-        User userToEdit = user.get();
+        User userToEdit = setEditedValuesForUser(user, firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber);
+        UserDatabaseConnector.updateUser(userToEdit);
+
+        LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
+    }
+
+    private User setEditedValuesForUser(Optional<User> optionalUser,String firstName, String lastName, String dateOfBirth, String eMailAddress,
+                                        String password, String phoneNumber) {
+        var userToEdit = optionalUser.get();
+
         userToEdit.setFirstName(firstName);
         userToEdit.setLastName(lastName);
         userToEdit.setDateOfBirth(dateOfBirth);
@@ -82,9 +94,7 @@ public class UserManagerImpl implements UserManager {
         userToEdit.setPassword(password);
         userToEdit.setPhoneNumber(phoneNumber);
 
-        UserDatabaseConnector.updateUser(userToEdit);
-
-        LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
+        return userToEdit;
     }
 
     /**
@@ -267,6 +277,21 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
+        EventModel eventToEdit = setEditedValuesForEvent(optionalEvent, eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description);
+
+        EventDatabaseConnector.updateEvent(eventToEdit);
+        eventNotificator.notifyObservers(eventToEdit);
+        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
+
+        return true;
+    }
+
+    private EventModel setEditedValuesForEvent(Optional<? extends EventModel> optionalEvent,
+                                               String eventName, String eventStart,
+                                               String eventEnd, String category,
+                                               String postalCode, String city, String address,
+                                               String eventLocation, String description
+    ) {
         EventModel eventToEdit = optionalEvent.get();
 
         eventToEdit.setEventName(eventName);
@@ -279,11 +304,7 @@ public class UserManagerImpl implements UserManager {
         eventToEdit.setEventLocation(eventLocation);
         eventToEdit.setDescription(description);
 
-        EventDatabaseConnector.updateEvent(eventToEdit);
-        eventNotificator.notifyObservers(eventToEdit);
-        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
-
-        return true;
+        return eventToEdit;
     }
 
     /**
