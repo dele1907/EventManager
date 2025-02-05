@@ -39,3 +39,6 @@ app.log
 
 ### Ignore all .sqlite files ###
 *.sqlite
+
+### Ignore all .ics files ###
+*.ics
