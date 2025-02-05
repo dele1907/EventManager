@@ -14,7 +14,6 @@ import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 import helper.LoggerHelper;
 import helper.PasswordHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
