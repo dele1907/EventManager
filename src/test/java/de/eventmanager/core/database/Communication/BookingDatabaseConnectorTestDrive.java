@@ -140,7 +140,7 @@ public class BookingDatabaseConnectorTestDrive {
         assertFalse(userBookedEvent, "Booking an event was successful but should not.");
 
         BookingDatabaseConnector.removeBooking("testEventToFailBooking", "testUserWhoBooksWrong");
-        EventDatabaseConnector.deleteEventByID("testUserWhoBooksWrong");
+        EventDatabaseConnector.deleteEventByID("testEventToFailBooking");
     }
 
     /**
