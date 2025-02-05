@@ -67,7 +67,7 @@ public class UserManagerImpl implements UserManager {
     ) {
         var user = UserDatabaseConnector.readUserByID(userID);
         var loggedUser = getUserByID(loggedUserByID);
-
+        //TODO review @ Finn, curly braces in whole document
         if (!isUserPresent(user) || !isUserPresent(loggedUser)) return;
 
         if (!loggedUser.get().getRole().equals(Role.ADMIN)){
@@ -76,6 +76,7 @@ public class UserManagerImpl implements UserManager {
             return;
         }
 
+        //TODO review @ Finn, remove local variable, use method directly as argument
         User userToEdit = setEditedValuesForUser(user, firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber);
         UserDatabaseConnector.updateUser(userToEdit);
 
@@ -138,13 +139,16 @@ public class UserManagerImpl implements UserManager {
 
     private boolean isUserPresent(Optional<User> optionalUser) {
         if (optionalUser.isEmpty()) {
+            //TODO review @ Finn, no logger needed, database connection manages this
             LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND_MESSAGE);
 
             return false;
         }
-
+        //TODO review @ Finn, return optionalUser.isPresent();
         return true;
     }
+
+    //TODO review @ Finn, areMultipleUsersPresent for more than one user
     //#endregion User related CRUD-Operations
 
     //#region Event related CRUD-Operations
@@ -193,7 +197,8 @@ public class UserManagerImpl implements UserManager {
             maxParticipants = -1;
         }
 
-        PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description, maxParticipants);
+        PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
+                eventLocation, description, maxParticipants);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUserID);
 
@@ -275,7 +280,8 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        EventModel eventToEdit = setEditedValuesForEvent(optionalEvent, eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description);
+        EventModel eventToEdit = setEditedValuesForEvent(optionalEvent, eventName, eventStart, eventEnd, category,
+                postalCode, city, address, eventLocation, description);
 
         EventDatabaseConnector.updateEvent(eventToEdit);
         eventNotificator.notifyObservers(eventToEdit);
@@ -399,7 +405,7 @@ public class UserManagerImpl implements UserManager {
 
         if (!isEventPresent(optionalEvent)) return false;
         if (!isUserPresent(loggedUser)) return false;
-
+        //TODO review @ Finn, use use directly as argument
         String loggedUserEmail = loggedUser.get().getEMailAddress();
         boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(loggedUserEmail);
 
@@ -496,11 +502,12 @@ public class UserManagerImpl implements UserManager {
 
     private boolean isEventPresent(Optional<? extends EventModel> optionalEvent) {
         if (optionalEvent.isEmpty()) {
+            //TODO review @ Finn, no logger needed, database connection manages this
             LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE);
 
             return false;
         }
-
+        //TODO review @ Finn, return optionalEvent.isPresent();
         return true;
     }
     //#endregion Event-Operations
@@ -519,6 +526,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void addAdminStatusToUserByUserID(String userID, User loggedUser) {
         if (!loggedUser.getRole().equals(Role.ADMIN)) {
+            //TODO review @ Finn, no logger needed, database connection manages this
             LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return;
