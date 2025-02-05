@@ -164,11 +164,9 @@ public class ExportManager {
     }
 
     private String addDescriptionToVEvent(EventModel eventModel) {
-        String phoneNumber = "Phone Number: " + CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()).get().getPhoneNumber();
-        String eventCreatorEmail = "Email: " + CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()).get().getEMailAddress();
         String description = eventModel.getDescription();
 
-        return "Contact:\n" + phoneNumber + "\n" + eventCreatorEmail + "\n" + description + "\n";
+        return "Event-Creator: " + CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()) + "\n" + description;
     }
     //#endregion Properties
 
