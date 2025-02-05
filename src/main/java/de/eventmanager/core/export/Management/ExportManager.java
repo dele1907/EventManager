@@ -32,7 +32,7 @@ public class ExportManager {
     //#endregion constants
 
     /**
-     * Method at the moment unclean, because of experimenting for functionality
+     * Method at the moment unclean, because Beta-Function
      */
 
     public boolean exportEvents(EventModel event) {
@@ -58,7 +58,6 @@ public class ExportManager {
 
         Optional<VEvent> optionalVEvent = convertEventToCalendarEvent(event);
         if (optionalVEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(ExportManager.class, "VEvent is null");
             System.out.println("VEvent is null");
 
             return Optional.empty();
@@ -115,10 +114,7 @@ public class ExportManager {
     }
 
     private Optional<Attendee> createEventParticipantAttendee(Optional<User> eventParticipant, String participantEmail) {
-        if (eventParticipant.isPresent()) {
-
-            return Optional.empty();
-        }
+        if (eventParticipant.isPresent()) {return Optional.empty();}
 
         Attendee participant = new Attendee(URI.create(participantEmail));
         participant.getParameters().add(Role.OPT_PARTICIPANT); //Role of optional Participant
@@ -165,8 +161,10 @@ public class ExportManager {
 
     private String addDescriptionToVEvent(EventModel eventModel) {
         String description = eventModel.getDescription();
+        String lastName = CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()).get().getLastName();
+        String firstName = CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()).get().getFirstName();
 
-        return "Event-Creator: " + CreatorDatabaseConnector.getEventCreator(eventModel.getEventID()) + "\n" + description;
+        return "Event-Creator: " + lastName + ", " + firstName + "\n" + description;
     }
     //#endregion Properties
 

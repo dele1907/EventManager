@@ -14,7 +14,8 @@ public class Exporter {
     public static boolean exportEvent(Calendar calendar) {
         try {
             String userHome = System.getProperty("user.home");
-            String downloadsPath = Paths.get(userHome, "Downloads", "mycalendar.ics").toString();
+            String downloadsPath = Paths.get(System.getProperty("java.io.tmpdir"), "mycalendar.ics").toString();
+            //String downloadsPath = Paths.get(userHome, "Downloads", "mycalendar.ics").toString();
             FileOutputStream fout = new FileOutputStream(downloadsPath);
             CalendarOutputter outputter = new CalendarOutputter();
             outputter.output(calendar, fout);
