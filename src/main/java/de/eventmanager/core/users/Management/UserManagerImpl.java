@@ -14,8 +14,6 @@ import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 import helper.LoggerHelper;
 import helper.PasswordHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +22,13 @@ import java.util.function.Function;
 
 public class UserManagerImpl implements UserManager {
 
-    private final Logger logger = LogManager.getLogger(UserManagerImpl.class);
     private final EventNotificator eventNotificator = EventNotificator.getInstance();
 
     //#region Constant variables
-    private final String GENERAL_MISSING_PERMISSION = "Permission denied!";
-    private final String NOT_EVENT_CREATOR_OR_ADMIN = "Only the Event-Creator or Admins can do this!";
-    private final String EVENT_NOT_FOUND = "Event not found!";
-    private final String USER_NOT_FOUND = "User not found!";
+    private final String MISSING_PERMISSION_MESSAGE = "Permission denied!";
+    private final String NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE = "Only the Event-Creator or Admins can do this!";
+    private final String EVENT_NOT_FOUND_MESSAGE = "Event not found!";
+    private final String USER_NOT_FOUND_MESSAGE = "User not found!";
     //#endregion Constant variables
 
     //#region User related CRUD-Operations
@@ -47,7 +44,7 @@ public class UserManagerImpl implements UserManager {
                                  String password, String phoneNumber, boolean isAdmin, String loggedUserByID) {
 
         if (checkUserSelfRegisterOrCreated(loggedUserByID)) {
-            LoggerHelper.logErrorMessage(User.class, GENERAL_MISSING_PERMISSION);
+            LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return false;
         }
@@ -66,16 +63,13 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
                          String password, String phoneNumber, String loggedUserByID) {
-        Optional<User> user = UserDatabaseConnector.readUserByID(userID);
+        var user = UserDatabaseConnector.readUserByID(userID);
+        var loggedUser = getUserByID(loggedUserByID);
 
-        if (user.isEmpty() || getUserByID(loggedUserByID).isEmpty()) {
-            LoggerHelper.logErrorMessage(User.class, USER_NOT_FOUND);
+        if (!isUserPresent(user) || !isUserPresent(loggedUser)) return;
 
-            return;
-        }
-
-        if (!getUserByID(loggedUserByID).get().getRole().equals(Role.ADMIN)){
-            logger.error(GENERAL_MISSING_PERMISSION);
+        if (!loggedUser.get().getRole().equals(Role.ADMIN)){
+            LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return;
         }
@@ -103,16 +97,12 @@ public class UserManagerImpl implements UserManager {
     public boolean deleteUser(String eMailUserToDelete, String loggedUserByID) {
         var loggedUserOptional = UserDatabaseConnector.readUserByID(loggedUserByID);
 
-        if (loggedUserOptional.isEmpty()) {
-            LoggerHelper.logErrorMessage(User.class, USER_NOT_FOUND);
-
-            return false;
-        }
+        if (!isUserPresent(loggedUserOptional)) return false;
 
         var loggedUser = loggedUserOptional.get();
 
         if (!loggedUser.getRole().equals(Role.ADMIN)){
-            LoggerHelper.logErrorMessage(User.class, GENERAL_MISSING_PERMISSION);
+            LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return false;
         }
@@ -135,6 +125,16 @@ public class UserManagerImpl implements UserManager {
                 !UserDatabaseConnector.readUserByID(loggedUserByID)
                         .map(user -> user.getRole().equals(Role.ADMIN))
                         .orElse(false);
+    }
+
+    private boolean isUserPresent(Optional<User> optionalUser) {
+        if (optionalUser.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND_MESSAGE);
+
+            return false;
+        }
+
+        return true;
     }
     //#endregion User related CRUD-Operations
 
@@ -199,13 +199,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public String getEventInformationByEventID(String eventID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return null;
-        }
+        if (!isEventPresent(optionalEvent)) return null;
 
         return optionalEvent.get().toString();
     }
@@ -261,16 +257,12 @@ public class UserManagerImpl implements UserManager {
                              String eventLocation, String description,
                              String loggedUserID
     ) {
-        Optional<? extends EventModel> optionalEvent = getEventByID(eventID);
+        var optionalEvent = getEventByID(eventID);
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return false;
-        }
+        if (!isEventPresent(optionalEvent)) return false;
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
 
             return false;
         }
@@ -303,25 +295,19 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public boolean deleteEvent(String eventID, String loggedUserID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        Optional<User> optionalEventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
-        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+        var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        var optionalEventCreator = CreatorDatabaseConnector.getEventCreator(eventID);
+        var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
         String userIDofUserCreatedEvent = "";
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return false;
-        }
-
-        if (loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
+        if (optionalEvent.isEmpty() || loggedUser.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE + " or " + USER_NOT_FOUND_MESSAGE);
 
             return false;
         }
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN);
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
 
             return false;
         }
@@ -344,10 +330,10 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public ArrayList<String> showEventParticipantList(String eventID) {
-        Optional<?extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
         if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE);
 
             return null;
         }
@@ -366,22 +352,16 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public boolean bookEvent(String eventID, String loggedUserID) {
-        Optional<PublicEvent> publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
-        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+        var publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
+        var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (publicEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+        if (publicEvent.isEmpty() || loggedUser.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE + " or " + USER_NOT_FOUND_MESSAGE);
 
             return false;
         }
 
         if (publicEvent.get().isPrivateEvent()){
-
-            return false;
-        }
-
-        if (loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
 
             return false;
         }
@@ -409,17 +389,11 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public boolean cancelEvent(String eventID, String loggedUserID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+        var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return false;
-        }
-
-        if (loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
+        if (optionalEvent.isEmpty() || loggedUser.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE + " or " + USER_NOT_FOUND_MESSAGE);
 
             return false;
         }
@@ -448,24 +422,24 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public boolean addUserToEvent(String eventID, String userEmail, String loggedUserID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        Optional<User> userToAdd = UserDatabaseConnector.readUserByEMail(userEmail);
-        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+        var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        var userToAdd = UserDatabaseConnector.readUserByEMail(userEmail);
+        var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
         if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE);
 
             return false;
         }
 
         if (loggedUser.isEmpty() || userToAdd.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND_MESSAGE);
 
             return false;
         }
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
-            LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
+            LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
 
             return false;
         }
@@ -494,24 +468,16 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public boolean removeUserFromEvent(String eventID, String userEmail, String loggedUserID) {
-        Optional<? extends EventModel> optionalEvent = EventDatabaseConnector.readEventByID(eventID);
-        Optional<User> userToRemove = UserDatabaseConnector.readUserByEMail(userEmail);
-        Optional<User> loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
+        var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
+        var userToRemove = UserDatabaseConnector.readUserByEMail(userEmail);
+        var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND);
-
-            return false;
-        }
-
-        if (loggedUser.isEmpty() || userToRemove.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND);
-
-            return false;
-        }
+        if (!isEventPresent(optionalEvent)) return false;
+        if (!isUserPresent(loggedUser)) return false;
+        if (!isUserPresent(userToRemove)) return false;
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
-            LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN);
+            LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
 
             return false;
         }
@@ -527,6 +493,16 @@ public class UserManagerImpl implements UserManager {
         BookingDatabaseConnector.removeBooking(eventID,userToRemove.get().getUserID());
         eventNotificator.addObserver(new UserObserver(userToRemove.get(), optionalEvent.get()));
         LoggerHelper.logInfoMessage(User.class, "User removed from event successfully!");
+
+        return true;
+    }
+
+    private boolean isEventPresent(Optional<? extends EventModel> optionalEvent) {
+        if (optionalEvent.isEmpty()) {
+            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE);
+
+            return false;
+        }
 
         return true;
     }
@@ -546,7 +522,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void addAdminStatusToUserByUserID(String userID, User loggedUser) {
         if (!loggedUser.getRole().equals(Role.ADMIN)) {
-            LoggerHelper.logErrorMessage(User.class, GENERAL_MISSING_PERMISSION);
+            LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return;
         }
@@ -557,7 +533,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void removeAdminStatusFromUserByUserID(String userID, User loggedUser) {
         if (!loggedUser.getRole().equals(Role.ADMIN)) {
-            LoggerHelper.logErrorMessage(User.class, GENERAL_MISSING_PERMISSION);
+            LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return;
         }
@@ -614,7 +590,7 @@ public class UserManagerImpl implements UserManager {
      */
     @Override
     public boolean authenticationUserLogin(String email, String password) {
-        Optional<User> userOptional = getUserByEmail(email);
+        var userOptional = getUserByEmail(email);
 
         if (userOptional.isEmpty()) {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, "Email address not found");
