@@ -26,8 +26,7 @@ public class ExportManagerTestDrive {
     final String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@userExportTestmail.com";
     EventModel event;
     User testAdminUser;
-    User testUser;
-    Calendar testCalendar;
+    User testUser;;
 
     @BeforeEach
     void setUp() {
@@ -42,11 +41,13 @@ public class ExportManagerTestDrive {
                 false,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",
                 "This is a cool event", 20, 0);
 
+
         UserDatabaseConnector.createNewUser(testAdminUser);
         UserDatabaseConnector.createNewUser(testUser);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
         BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
+
     }
 
     @AfterEach
@@ -61,7 +62,7 @@ public class ExportManagerTestDrive {
     @Test
     @DisplayName("Export Events Test")
     void exportEventsTest() {
-        assertTrue(exportManager.exportEvents(testCalendar, event));
+        assertTrue(exportManager.exportEvents(event));
     }
 
 }

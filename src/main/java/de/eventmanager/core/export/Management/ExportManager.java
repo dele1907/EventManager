@@ -11,7 +11,9 @@ import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.parameter.Cn;
+import net.fortuna.ical4j.model.parameter.CuType;
 import net.fortuna.ical4j.model.parameter.Role;
+import net.fortuna.ical4j.model.parameter.Rsvp;
 import net.fortuna.ical4j.model.property.*;
 
 import java.net.URI;
@@ -33,10 +35,15 @@ public class ExportManager {
      * Method at the moment unclean, because of experimenting for functionality
      */
 
-    public boolean exportEvents(Calendar calendar, EventModel event) {
-        if (createCalendar(event).isPresent()) {
-            calendar = createCalendar(event).get();
+    public boolean exportEvents(EventModel event) {
+       var optionalCalendar = createCalendar(event);
+
+        if (optionalCalendar.isEmpty()) {
+            System.out.println("No Calendar found");
+
+            return false;
         }
+        Calendar calendar = createCalendar(event).get();
 
         return Exporter.exportEvent(calendar);
     }
@@ -102,6 +109,7 @@ public class ExportManager {
         Attendee creator = new Attendee(URI.create(eventCreatorEmail));
         creator.getParameters().add(Role.CHAIR); //Role of Event-Creator
         creator.getParameters().add(new Cn(eventCreator.get().getFirstName()));
+        creator.getParameters().add(CuType.INDIVIDUAL);
 
         return Optional.of(creator);
     }
@@ -113,8 +121,10 @@ public class ExportManager {
         }
 
         Attendee participant = new Attendee(URI.create(participantEmail));
-        participant.getParameters().add(Role.OPT_PARTICIPANT);
+        participant.getParameters().add(Role.OPT_PARTICIPANT); //Role of optional Participant
         participant.getParameters().add(new Cn(eventParticipant.get().getFirstName()));
+        participant.getParameters().add(CuType.INDIVIDUAL);
+        participant.getParameters().add(Rsvp.TRUE);
 
         return Optional.of(participant);
     }

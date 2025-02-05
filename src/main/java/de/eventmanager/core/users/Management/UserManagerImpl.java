@@ -14,7 +14,6 @@ import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
 import helper.LoggerHelper;
 import helper.PasswordHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,8 +60,11 @@ public class UserManagerImpl implements UserManager {
      */
 
     @Override
-    public void editUser(String userID, String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                         String password, String phoneNumber, String loggedUserByID) {
+    public void editUser(String userID, String firstName,
+                         String lastName, String dateOfBirth,
+                         String eMailAddress, String password,
+                         String phoneNumber, String loggedUserByID
+    ) {
         var user = UserDatabaseConnector.readUserByID(userID);
         var loggedUser = getUserByID(loggedUserByID);
 
@@ -74,7 +76,16 @@ public class UserManagerImpl implements UserManager {
             return;
         }
 
-        User userToEdit = user.get();
+        User userToEdit = setEditedValuesForUser(user, firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber);
+        UserDatabaseConnector.updateUser(userToEdit);
+
+        LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
+    }
+
+    private User setEditedValuesForUser(Optional<User> optionalUser,String firstName, String lastName, String dateOfBirth, String eMailAddress,
+                                        String password, String phoneNumber) {
+        var userToEdit = optionalUser.get();
+
         userToEdit.setFirstName(firstName);
         userToEdit.setLastName(lastName);
         userToEdit.setDateOfBirth(dateOfBirth);
@@ -82,9 +93,7 @@ public class UserManagerImpl implements UserManager {
         userToEdit.setPassword(password);
         userToEdit.setPhoneNumber(phoneNumber);
 
-        UserDatabaseConnector.updateUser(userToEdit);
-
-        LoggerHelper.logInfoMessage(User.class, "User after Editing: " + userToEdit);
+        return userToEdit;
     }
 
     /**
@@ -143,7 +152,6 @@ public class UserManagerImpl implements UserManager {
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
                                   String postalCode, String city, String address, String eventLocation,
                                   String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
-
         return isPrivateEvent ?
                 createPrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
                         description, loggedUserID).isPresent() :
@@ -255,8 +263,8 @@ public class UserManagerImpl implements UserManager {
                              String category, String postalCode,
                              String city, String address,
                              String eventLocation, String description,
-                             String loggedUserID
-    ) {
+                             String loggedUserID) {
+
         var optionalEvent = getEventByID(eventID);
 
         if (!isEventPresent(optionalEvent)) return false;
@@ -267,6 +275,20 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
+        EventModel eventToEdit = setEditedValuesForEvent(optionalEvent, eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description);
+
+        EventDatabaseConnector.updateEvent(eventToEdit);
+        eventNotificator.notifyObservers(eventToEdit);
+        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
+
+        return true;
+    }
+
+    private EventModel setEditedValuesForEvent(Optional<? extends EventModel> optionalEvent,
+                                               String eventName, String eventStart,
+                                               String eventEnd, String category,
+                                               String postalCode, String city, String address,
+                                               String eventLocation, String description) {
         EventModel eventToEdit = optionalEvent.get();
 
         eventToEdit.setEventName(eventName);
@@ -279,11 +301,7 @@ public class UserManagerImpl implements UserManager {
         eventToEdit.setEventLocation(eventLocation);
         eventToEdit.setDescription(description);
 
-        EventDatabaseConnector.updateEvent(eventToEdit);
-        eventNotificator.notifyObservers(eventToEdit);
-        LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
-
-        return true;
+        return eventToEdit;
     }
 
     /**
@@ -300,11 +318,8 @@ public class UserManagerImpl implements UserManager {
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
         String userIDofUserCreatedEvent = "";
 
-        if (optionalEvent.isEmpty() || loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE + " or " + USER_NOT_FOUND_MESSAGE);
-
-            return false;
-        }
+        if (!isEventPresent(optionalEvent)) return false;
+        if (!isUserPresent(loggedUser)) return false;
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
@@ -332,11 +347,7 @@ public class UserManagerImpl implements UserManager {
     public ArrayList<String> showEventParticipantList(String eventID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE);
-
-            return null;
-        }
+        if (!isEventPresent(optionalEvent)) return null;
 
         return optionalEvent.get().getBookedUsersOnEvent();
     }
@@ -355,18 +366,12 @@ public class UserManagerImpl implements UserManager {
         var publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (publicEvent.isEmpty() || loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE + " or " + USER_NOT_FOUND_MESSAGE);
+        if (!isEventPresent(publicEvent)) return false;
+        if (!isUserPresent(loggedUser)) return false;
+        if (publicEvent.get().isPrivateEvent()) return false;
 
-            return false;
-        }
-
-        if (publicEvent.get().isPrivateEvent()){
-
-            return false;
-        }
-
-        boolean hasUserBookedTheEvent = publicEvent.get().getBookedUsersOnEvent().contains(loggedUser.get().getEMailAddress());
+        String loggedUserEmail = loggedUser.get().getEMailAddress();
+        boolean hasUserBookedTheEvent = publicEvent.get().getBookedUsersOnEvent().contains(loggedUserEmail);
 
         if (hasUserBookedTheEvent){
             LoggerHelper.logErrorMessage(User.class, "Event already booked!");
@@ -392,13 +397,11 @@ public class UserManagerImpl implements UserManager {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (optionalEvent.isEmpty() || loggedUser.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE + " or " + USER_NOT_FOUND_MESSAGE);
+        if (!isEventPresent(optionalEvent)) return false;
+        if (!isUserPresent(loggedUser)) return false;
 
-            return false;
-        }
-
-        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(loggedUser.get().getEMailAddress());
+        String loggedUserEmail = loggedUser.get().getEMailAddress();
+        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(loggedUserEmail);
 
         if (!hasUserBookedTheEvent) {
             LoggerHelper.logErrorMessage(User.class, "You can only cancel events for which you are registered!");
@@ -426,17 +429,9 @@ public class UserManagerImpl implements UserManager {
         var userToAdd = UserDatabaseConnector.readUserByEMail(userEmail);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (optionalEvent.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, EVENT_NOT_FOUND_MESSAGE);
-
-            return false;
-        }
-
-        if (loggedUser.isEmpty() || userToAdd.isEmpty()) {
-            LoggerHelper.logErrorMessage(UserManagerImpl.class, USER_NOT_FOUND_MESSAGE);
-
-            return false;
-        }
+        if (!isUserPresent(loggedUser)) return false;
+        if (!isUserPresent(userToAdd)) return false;
+        if (!isEventPresent(optionalEvent)) return false;
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
@@ -444,7 +439,8 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToAdd.get().getEMailAddress());
+        String userToAddEmail = userToAdd.get().getEMailAddress();
+        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToAddEmail);
 
         if (hasUserBookedTheEvent){
             LoggerHelper.logErrorMessage(User.class, "User is already booked for this event!");
@@ -482,7 +478,8 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToRemove.get().getEMailAddress());
+        String userToRemoveEmail = userToRemove.get().getEMailAddress();
+        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToRemoveEmail);
 
         if (!hasUserBookedTheEvent) {
             LoggerHelper.logErrorMessage(User.class, "You can only cancel events for which you are registered!");
