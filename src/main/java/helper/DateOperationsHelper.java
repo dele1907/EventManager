@@ -130,11 +130,11 @@ public class DateOperationsHelper {
 
             DSLContext create = DSL.using(connection);
 
-            Field<Timestamp> fourteenDaysAgo = DSL.field("datetime('now', '-14 days')", SQLDataType.TIMESTAMP);
+            Field<Timestamp> fourteenDaysOrMoreAgo = DSL.field("datetime('now', '-14 days')", SQLDataType.TIMESTAMP);
 
             Result<Record1<Object>> result = create.select(DSL.field("eventName"))
                     .from("events")
-                    .where(DSL.field("eventEnd", SQLDataType.TIMESTAMP).lt(fourteenDaysAgo))
+                    .where(DSL.field("eventEnd", SQLDataType.TIMESTAMP).lt(fourteenDaysOrMoreAgo))
                     .fetch();
 
             if(result.isNotEmpty()) {
