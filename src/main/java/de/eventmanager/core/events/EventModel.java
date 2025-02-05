@@ -18,7 +18,6 @@ public abstract class EventModel {
     String address;
     String eventLocation;
     String description;
-    int minimuAge;
 
 
     //#region getter
@@ -75,9 +74,6 @@ public abstract class EventModel {
         return description;
     }
 
-    public int getMinimuAge() {
-        return minimuAge;
-    }
 
     //#endregion getter
 
@@ -127,9 +123,6 @@ public abstract class EventModel {
         this.description = description;
     }
 
-    public void setMinimuAge(int minimuAge) {
-        this.minimuAge = minimuAge;
-    }
 
     //#endregion setter
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class PublicEvent extends EventModel {
 
     private int maximumCapacity = -1;
+    private int minimumAge;
 
     //#region constructors
 
@@ -25,7 +26,7 @@ public class PublicEvent extends EventModel {
         this.address = address;
         this.eventLocation = eventLocation;
         this.description = description;
-        this.minimuAge = minimuAge;
+        this.minimumAge = minimumAge;
     }
 
     /**
@@ -45,7 +46,7 @@ public class PublicEvent extends EventModel {
         this.eventLocation = eventLocation;
         this.description = description;
         this.maximumCapacity = maximumCapacity;
-        this.minimuAge = minimumAge;
+        this.minimumAge = minimumAge;
 
     }
 
@@ -68,7 +69,7 @@ public class PublicEvent extends EventModel {
         this.eventLocation = eventLocation;
         this.description = description;
         this.maximumCapacity = maximumCapacity;
-        this.minimuAge = minimuAge;
+        this.minimumAge = minimumAge;
     }
 
     //#endregion constructors
@@ -79,12 +80,20 @@ public class PublicEvent extends EventModel {
         return maximumCapacity;
     }
 
+    public int getMinimumAge() {
+        return minimumAge;
+    }
+
     // #endregion Getter
 
     //#region setter
 
     public void setMaximumCapacity(int maximumCapacity) {
         this.maximumCapacity = maximumCapacity;
+    }
+
+    public void setMinimumAge(int minimumAge) {
+        this.minimumAge = minimumAge;
     }
 
     // #endregion setter
@@ -105,7 +114,7 @@ public class PublicEvent extends EventModel {
                 "\nAddress: " + address +
                 "\nEvent location: " + eventLocation +
                 "\nDescription: " + description +
-                "\nMinimum age: " + minimuAge + "\n";
+                "\nMinimum age: " + minimumAge + "\n";
     }
 
     //#endregion toString
