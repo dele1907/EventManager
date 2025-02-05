@@ -3,19 +3,13 @@ package helper;
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.impl.DSL;
-
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import org.jooq.*;
 import org.jooq.impl.SQLDataType;
-import org.jooq.meta.derby.sys.Sys;
 import org.jooq.types.DayToSecond;
-import org.jooq.types.YearToMonth;
 
 public class DateOperationsHelper {
 
@@ -154,15 +148,51 @@ public class DateOperationsHelper {
         return eventsToDelete;
     }
 
-/*
+
     public static void main(String[] args) {
         DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
-        dateOperationsHelper.checkIsAEventOver();
-        System.out.println(dateOperationsHelper.checkIsAEventOver());
+        //dateOperationsHelper.checkIfEventIsOver();
+        //System.out.println(dateOperationsHelper.checkIfEventIsOver());
         //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
         //System.out.println(dateOperationsHelper.getEventStartHour("Finch Tour 2025"));
+        //dateOperationsHelper.getEventStartYear("Finch Tour 2025", "M");
     }
-*/
+
+
+    public static int getEventStartValue(String eventName, String formatSpecifier) {
+        int value = 0;
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+            String expression = String.format("strftime('%%%s', eventStart)", formatSpecifier);
+
+            Result<Record1<Integer>> result = create.select(DSL.field(expression, Integer.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<Integer> record : result) {
+                    value = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+
+        return value;
+    }
+    //Anfragen für die Neue getEventStartValue Klasse für den ExportManager.java
+    //int year = getEventStartValue("MeinEvent", "G");
+    //int month = getEventStartValue("MeinEvent", "m");
+    //int day = getEventStartValue("MeinEvent", "d");
+    //int hour = getEventStartValue("MeinEvent", "H");
+    //int minute = getEventStartValue("MeinEvent", "M");
 
     public static int getEventStartYear(String eventName) {
         int year = 0;
@@ -302,6 +332,35 @@ public class DateOperationsHelper {
         }
 
         return minute;
+    }
+
+    public static int getEventEndValue(String eventName, String formatSpecifier) {
+        int value = 0;
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+            String expression = String.format("strftime('%%%s', eventEnd)", formatSpecifier);
+
+            Result<Record1<Integer>> result = create.select(DSL.field(expression, Integer.class))
+                    .from("events")
+                    .where(DSL.field("eventName").eq(eventName))
+                    .fetch();
+
+            if(result.isNotEmpty()) {
+
+                for (Record1<Integer> record : result) {
+                    value = record.value1();
+                }
+
+            } else {
+                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+        }
+
+        return value;
     }
 
     public static int getEventEndYear(String eventName) {
