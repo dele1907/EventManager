@@ -26,9 +26,8 @@ public class ExportManagerTestDrive {
     final String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@userExportTestmail.com";
     EventModel event;
     User testAdminUser;
-    User testUser;
-    Calendar testCalendar;
-    EventModel testEvent;
+    User testUser;;
+
     @BeforeEach
     void setUp() {
         testAdminUser = new User(TEST_ADMIN_ID,"Finn","Oettinger","2003-13-04",
@@ -41,14 +40,14 @@ public class ExportManagerTestDrive {
                 "2025-02-20 14:30", 0, testArrayList, "TestCategory",
                 false,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",
                 "This is a cool event", 20, 0);
-        testEvent = EventDatabaseConnector.readEventByID("b017d79b-14a1-4e69-bd7c-584bd3858f17").get();
+
 
         UserDatabaseConnector.createNewUser(testAdminUser);
         UserDatabaseConnector.createNewUser(testUser);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        //BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
-        BookingDatabaseConnector.addBooking(testEvent.getEventID(), TEST_USER_ID);
+        BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
+
     }
 
     @AfterEach
@@ -58,13 +57,12 @@ public class ExportManagerTestDrive {
         EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
         UserDatabaseConnector.deleteUserByID(TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByID(TEST_USER_ID);
-        BookingDatabaseConnector.addBooking(testEvent.getEventID(), TEST_USER_ID);
     }
 
     @Test
     @DisplayName("Export Events Test")
     void exportEventsTest() {
-        assertTrue(exportManager.exportEvents(testEvent));
+        assertTrue(exportManager.exportEvents(event));
     }
 
 }
