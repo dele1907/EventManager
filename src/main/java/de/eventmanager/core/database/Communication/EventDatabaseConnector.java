@@ -130,7 +130,7 @@ public class EventDatabaseConnector {
                             EVENTS.EVENTLOCATION,
                             EVENTS.DESCRIPTION,
                             EVENTS.MAXIMUMCAPACITY,
-                            EVENTS.AGERESTRICTION)
+                            EVENTS.MINIMUMAGE)
                     .values(
                             publicEvent.getEventID(),
                             publicEvent.getEventName(),
@@ -144,7 +144,7 @@ public class EventDatabaseConnector {
                             publicEvent.getEventLocation(),
                             publicEvent.getDescription(),
                             publicEvent.getMaximumCapacity(),
-                            publicEvent.getMinimuAge())
+                            publicEvent.getMinimumAge())
                     .execute();
 
             return insertedCities + insertedEvents;
@@ -187,7 +187,7 @@ public class EventDatabaseConnector {
                 record.get(EVENTS.EVENTLOCATION),
                 record.get(EVENTS.DESCRIPTION),
                 record.get(EVENTS.MAXIMUMCAPACITY),
-                record.get(EVENTS.AGERESTRICTION)
+                record.get(EVENTS.MINIMUMAGE)
         ));
     }
 
@@ -369,8 +369,8 @@ public class EventDatabaseConnector {
                     record.get(EVENTS.ADDRESS),
                     record.get(EVENTS.EVENTLOCATION),
                     record.get(EVENTS.DESCRIPTION),
-                    record.get(EVENTS.AGERESTRICTION),
-                    record.get(EVENTS.MAXIMUMCAPACITY)
+                    record.get(EVENTS.MAXIMUMCAPACITY),
+                    record.get(EVENTS.MINIMUMAGE)
             );
 
             publicEvents.add(publicEvent);

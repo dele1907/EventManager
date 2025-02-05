@@ -132,8 +132,8 @@ public class ExportManager {
     private Optional<VEvent> addAllParticipantAttendees(EventModel event, VEvent vEvent) {
         System.out.println("Booked Users: " + event.getBookedUsersOnEvent());
         for (String participantEmail : event.getBookedUsersOnEvent()) {
-            System.out.println("Participant email: " + participantEmail);
             Optional<User> eventParticipant = UserDatabaseConnector.readUserByEMail(participantEmail);
+
             if (eventParticipant.isPresent()) {
                 Attendee participant = createEventParticipantAttendee(eventParticipant, participantEmail).get();
                 vEvent.getProperties().add(participant);

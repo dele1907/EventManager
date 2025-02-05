@@ -24,7 +24,7 @@ public class DateOperationsHelper {
     private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
 
 
-    public static int getTheAgeFromDatabase(String eMailAddresse) {
+    public static int getTheAgeFromDatabase(String eMailAddress) {
         int years = 0;
 
         try (Connection connection = DatabaseConnector.connect()){
@@ -35,7 +35,7 @@ public class DateOperationsHelper {
                             DSL.timestampDiff(DSL.field("birthDate", SQLDataType.TIMESTAMP),
                                     DSL.currentTimestamp()))
                                     .from("user")
-                                    .where(DSL.field("eMail").eq(eMailAddresse))
+                                    .where(DSL.field("eMail").eq(eMailAddress))
                                     .fetch();
 
             if(result.isNotEmpty()) {
@@ -123,7 +123,7 @@ public class DateOperationsHelper {
         }
     }
 
-    public static ArrayList<String> checkIsAEventOver() {
+    public static ArrayList<String> checkIfEventIsOver() {
         ArrayList<String> eventsToDelete = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
