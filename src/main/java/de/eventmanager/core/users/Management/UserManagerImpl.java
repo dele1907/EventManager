@@ -342,7 +342,7 @@ public class UserManagerImpl implements UserManager {
     public ArrayList<String> showEventParticipantList(String eventID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
-        if (!isEventPresent(optionalEvent)) return null;
+        if (!isEventPresent(optionalEvent)) {return null;}
 
         return optionalEvent.get().getBookedUsersOnEvent();
     }
