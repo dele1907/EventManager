@@ -8,7 +8,6 @@ import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.export.Management.ExportManager;
 import de.eventmanager.core.users.User;
-import net.fortuna.ical4j.model.Calendar;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -22,8 +21,9 @@ public class ExportManagerTestDrive {
     final String TEST_PUBLIC_EVENT_ID = "ExportTestID";
     final String TEST_ADMIN_ID = "AdminID_ExportTest";
     final String TEST_USER_ID = "UserID_ExportTest";
-    final String TEST_ADMIN_EMAIL_ADDRESS = "finnoettinger@gmail.com";
+    final String TEST_ADMIN_EMAIL_ADDRESS = "firstName.lastName@adminExportTestmail.com";
     final String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@userExportTestmail.com";
+    //final String TEST_USER_EMAIL_ADDRESS = "finnoettinger@gmail.com";
     EventModel event;
     User testAdminUser;
     User testUser;;
@@ -36,17 +36,25 @@ public class ExportManagerTestDrive {
         testUser = new User(TEST_USER_ID, "firstNameExport", "User", "2000-04-20",
                 TEST_USER_EMAIL_ADDRESS, "password", "+497788866", false);
 
+
         event = new PublicEvent(TEST_PUBLIC_EVENT_ID,"Valentinstag-Party", "2025-02-20 12:30",
-                "2025-02-20 14:30", 0, testArrayList, "TestCategory",
+                "2025-02-20 14:30", 1, testArrayList, "TestCategory",
                 false,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",
                 "This is a cool event", 20, 0);
+
+
+
+        //event = EventDatabaseConnector.readEventByID("b017d79b-14a1-4e69-bd7c-584bd3858f17").get();
 
 
         UserDatabaseConnector.createNewUser(testAdminUser);
         UserDatabaseConnector.createNewUser(testUser);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+        //CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), TEST_ADMIN_ID);
         BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
+        //BookingDatabaseConnector.addBooking(event.getEventID(),TEST_USER_ID);
+
 
     }
 
