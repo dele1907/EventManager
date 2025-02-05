@@ -26,8 +26,6 @@ public class UserManagerImpl implements UserManager {
     //#region Constant variables
     private final String MISSING_PERMISSION_MESSAGE = "Permission denied!";
     private final String NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE = "Only the Event-Creator or Admins can do this!";
-    private final String EVENT_NOT_FOUND_MESSAGE = "Event not found!";
-    private final String USER_NOT_FOUND_MESSAGE = "User not found!";
     //#endregion Constant variables
 
     //#region User related CRUD-Operations
