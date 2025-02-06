@@ -1,11 +1,37 @@
 package de.eventmanager.core.notifications;
 
+import helper.IDGenerationHelper;
+
 public class Notification {
 
     private String notificationID;
     private String userID;
     private String message;
     private boolean markedAsRead;
+
+    //#region constructors
+
+    /**
+     * Regular constructor for initialising a notification
+     * */
+    public Notification(String userID, String message) {
+        this.notificationID = IDGenerationHelper.generateRandomUUID();
+        this.userID = userID;
+        this.message = message;
+        this.markedAsRead = false;
+    }
+
+    /**
+     * Constructor for initialising a notification from database
+     * */
+    public Notification(String notificationID, String userID, String message, boolean markedAsRead) {
+        this.notificationID = notificationID;
+        this.userID = userID;
+        this.message = message;
+        this.markedAsRead = markedAsRead;
+    }
+
+    //#endregion constructors
 
     //#region getter
 
