@@ -69,6 +69,7 @@ public class DatabaseInitializer {
             + " notificationID TEXT PRIMARY KEY,"
             + " userID TEXT NOT NULL,"
             + " message TEXT NOT NULL,"
+            + " markedAsRead BOOLEAN NOT NULL, "
             + " FOREIGN KEY (userID) REFERENCES user(userID)"
             +");";
 

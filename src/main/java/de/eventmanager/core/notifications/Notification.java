@@ -5,6 +5,7 @@ public class Notification {
     private String notificationID;
     private String userID;
     private String message;
+    private boolean markedAsRead;
 
     //#region getter
 
@@ -18,6 +19,10 @@ public class Notification {
 
     public String getMessage() {
         return message;
+    }
+
+    public boolean isMarkedAsRead() {
+        return markedAsRead;
     }
 
     //#endregion getter
@@ -34,6 +39,10 @@ public class Notification {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setMarkedAsRead(boolean markedAsRead) {
+        this.markedAsRead = markedAsRead;
     }
 
     //#endregion setter
