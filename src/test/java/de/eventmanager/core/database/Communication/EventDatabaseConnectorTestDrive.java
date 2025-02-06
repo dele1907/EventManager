@@ -203,6 +203,43 @@ public class EventDatabaseConnectorTestDrive {
     }
 
     /**
+     * Test reading events by creator ID
+     */
+    @Test
+    public void testGetEventsByCreatorID() {
+
+        String creatorID = "testCreatorToGetEventsFrom";
+
+        // Create test events
+        PrivateEvent testPrivateEvent = new PrivateEvent("getByCreatorTestPrivateEvent", "Private Event", "2025-11-11 12:00", "2025-11-11 12:00", 0, null,
+                "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier von meiner super tollen Test-Oma");
+        PublicEvent testPublicEvent = new PublicEvent("getByCreatorTestPublicEvent", "Public Event", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
+                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+
+        // Insert test events
+        EventDatabaseConnector.createNewEvent(testPrivateEvent);
+        EventDatabaseConnector.createNewEvent(testPublicEvent);
+
+        // Link events to creator
+        CreatorDatabaseConnector.assignUserAsEventCreator("getByCreatorTestPrivateEvent", creatorID);
+        CreatorDatabaseConnector.assignUserAsEventCreator("getByCreatorTestPublicEvent", creatorID);
+
+        // Retrieve events by creator ID
+        List<EventModel> events = EventDatabaseConnector.getEventsByCreatorID(creatorID);
+
+        // Verify the events
+        assertEquals(2, events.size(), "Number of events retrieved by creator ID is incorrect.");
+        assertTrue(events.stream().anyMatch(event -> event.getEventID().equals("getByCreatorTestPrivateEvent")), "Private event not found.");
+        assertTrue(events.stream().anyMatch(event -> event.getEventID().equals("getByCreatorTestPublicEvent")), "Public event not found.");
+
+        // Clean up
+        EventDatabaseConnector.deleteEventByID("getByCreatorTestPrivateEvent");
+        EventDatabaseConnector.deleteEventByID("getByCreatorTestPublicEvent");
+        CreatorDatabaseConnector.removeUserAsEventCreator("getByCreatorTestPrivateEvent", "testCreatorToGetEventsFrom");
+        CreatorDatabaseConnector.removeUserAsEventCreator("getByCreatorTestPublicEvent", "testCreatorToGetEventsFrom");
+    }
+
+    /**
      * Test updating and reading a private event
      * */
     @Test
@@ -421,38 +458,6 @@ public class EventDatabaseConnectorTestDrive {
         assertFalse(publicEventDeleted, "Public event deletion was successful but should not.");
     }
 
-    /**
-     * Test reading events by creator ID
-     */
-    @Test
-    public void testGetEventsByCreatorID() {
-        String creatorID = "testCreatorID";
-
-        // Create test events
-        PrivateEvent testPrivateEvent = new PrivateEvent("testPrivateEventID", "Private Event", "2025-11-11 12:00", "2025-11-11 12:00", 0, null,
-                "private Feier", true, "66119", "Saarbrücken", "Gutenbergstraße 2", "Omas Haus", "Geburtstagsfeier von meiner super tollen Test-Oma");
-        PublicEvent testPublicEvent = new PublicEvent("testPublicEventID", "Public Event", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
-
-        // Insert test events
-        EventDatabaseConnector.createNewEvent(testPrivateEvent);
-        EventDatabaseConnector.createNewEvent(testPublicEvent);
-
-        // Link events to creator
-        CreatorDatabaseConnector.assignUserAsEventCreator("testPrivateEventID", creatorID);
-        CreatorDatabaseConnector.assignUserAsEventCreator("testPublicEventID", creatorID);
-
-        // Retrieve events by creator ID
-        List<EventModel> events = EventDatabaseConnector.getEventsByCreatorID(creatorID);
-
-        // Verify the events
-        assertEquals(2, events.size(), "Number of events retrieved by creator ID is incorrect.");
-        assertTrue(events.stream().anyMatch(event -> event.getEventID().equals("testPrivateEventID")), "Private event not found.");
-        assertTrue(events.stream().anyMatch(event -> event.getEventID().equals("testPublicEventID")), "Public event not found.");
-
-        // Clean up
-        EventDatabaseConnector.deleteEventByID("testPrivateEventID");
-        EventDatabaseConnector.deleteEventByID("testPublicEventID");
-    }
     //#endregion failed CRUD operations
+
 }
