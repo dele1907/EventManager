@@ -12,6 +12,11 @@ import org.jooq.impl.SQLDataType;
 import org.jooq.types.DayToSecond;
 
 public class DateOperationsHelper {
+    public static final String FORMAT_SPECIFIER_YEAR = "G";
+    public static final String FORMAT_SPECIFIER_MONTH = "m";
+    public static final String FORMAT_SPECIFIER_DAY = "d";
+    public static final String FORMAT_SPECIFIER_HOUR = "H";
+    public static final String FORMAT_SPECIFIER_MINUTE = "M";
 
     private static final String CONNECTION_FAIL = "The Database-Connection failed!";
     private static final String NO_BIRTHDAY_FOUND = "Wrong eMail Address or no Birthday found!";
@@ -187,8 +192,9 @@ public class DateOperationsHelper {
 
         return value;
     }
+
     //Anfragen für die Neue getEventStartValue Klasse für den ExportManager.java
-    //int year = getEventStartValue("MeinEvent", "G");
+    //int year = getEventStartValue("MeinEvent", FORMAT_SPECIFIER_YEAR);
     //int month = getEventStartValue("MeinEvent", "m");
     //int day = getEventStartValue("MeinEvent", "d");
     //int hour = getEventStartValue("MeinEvent", "H");
