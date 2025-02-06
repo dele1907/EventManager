@@ -38,9 +38,9 @@ public class UserObserver implements Observer {
         String updateMessage = null;
 
         if (event instanceof PrivateEvent privateEvent) {
-            updateMessage = "-- UPDATE INFORMATION --" + privateEvent.toString();
+            updateMessage = "-- UPDATE INFORMATION --" + privateEvent;
         } else if (event instanceof PublicEvent publicEvent) {
-            updateMessage = "-- UPDATE INFORMATION --" + publicEvent.toString();
+            updateMessage = "-- UPDATE INFORMATION --" + publicEvent;
         }
 
         Notification notification = new Notification(this.user.getUserID(), updateMessage);
