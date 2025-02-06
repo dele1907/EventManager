@@ -273,7 +273,7 @@ public class EventDatabaseConnector {
     //# region eventSearch
 
     /**
-     * READ a public event by name
+     * READ a list of public events by name
      * */
     public static ArrayList<PublicEvent> readPublicEventsByName(String eventName) {
         ArrayList <PublicEvent> publicEvents = new ArrayList<>();
@@ -299,7 +299,7 @@ public class EventDatabaseConnector {
     }
 
     /**
-    * READ a public event by location
+    * READ a list of public events by location
     * */
     public static ArrayList<PublicEvent> readPublicEventsByLocation(String eventLocation) {
         ArrayList<PublicEvent> publicEvents = new ArrayList<>();
@@ -325,7 +325,7 @@ public class EventDatabaseConnector {
     }
 
     /**
-     * READ a public event by city
+     * READ a list of public events by city
      * */
     public static ArrayList<PublicEvent>readPublicEventByCity(String eventCity) {
         ArrayList<PublicEvent> publicEvents = new ArrayList<>();
