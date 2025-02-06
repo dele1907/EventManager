@@ -1,4 +1,4 @@
-package de.eventmanager.core.database.Communication.notifications;
+package de.eventmanager.core.notifications;
 
 public class Notification {
 
