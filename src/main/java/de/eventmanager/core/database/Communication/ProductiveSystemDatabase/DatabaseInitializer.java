@@ -77,7 +77,8 @@ public class DatabaseInitializer {
             EVENTS_TABLE_MODEL,
             CREATED_TABLE_MODEL,
             BOOKED_TABLE_MODEL,
-            CITIES_POSTAL_CODE_TABLE_MODEL);
+            CITIES_POSTAL_CODE_TABLE_MODEL,
+            NOTIFICATIONS_TABLE_MODEL);
 
     //#endregion SQL statements
 
