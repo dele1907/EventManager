@@ -15,6 +15,8 @@ import java.util.List;
 
 public class DatabaseInitializer {
 
+    //#region SQL statements
+
     private final static String USER_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS user ("
             + " userID TEXT PRIMARY KEY,"
             + " firstName TEXT NOT NULL,"
@@ -63,6 +65,13 @@ public class DatabaseInitializer {
             + " cityName TEXT NOT NULL"
             + ");";
 
+    private final static String NOTIFICATIONS_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS cities ("
+            + " notificationID TEXT PRIMARY KEY,"
+            + " userID TEXT NOT NULL,"
+            + " message TEXT NOT NULL,"
+            + " FOREIGN KEY (userID) REFERENCES user(userID)"
+            +");";
+
     private static List<String> tableModels = List.of(
             USER_TABLE_MODEL,
             EVENTS_TABLE_MODEL,
@@ -70,7 +79,9 @@ public class DatabaseInitializer {
             BOOKED_TABLE_MODEL,
             CITIES_POSTAL_CODE_TABLE_MODEL);
 
+    //#endregion SQL statements
 
+    //#region methods
 
     public static void initialize() {
         Connection connection = DatabaseConnector.connect();
@@ -129,5 +140,8 @@ public class DatabaseInitializer {
             LoggerHelper.logInfoMessage(DatabaseInitializer.class, "Database file does not exist.");
         }
     }
+
+    //#endregion methods
+
 }
 
