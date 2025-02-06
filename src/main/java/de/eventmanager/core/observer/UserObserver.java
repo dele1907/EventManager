@@ -1,8 +1,10 @@
 package de.eventmanager.core.observer;
 
+import de.eventmanager.core.database.Communication.NotificationDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.notifications.Notification;
 import de.eventmanager.core.users.User;
 
 import java.util.Objects;
@@ -22,6 +24,9 @@ public class UserObserver implements Observer {
 
     //#region observer
 
+    /**
+     * Adding a user notification if an event was updated
+     * */
     @Override
     public void update(EventModel event) {
 
@@ -30,17 +35,18 @@ public class UserObserver implements Observer {
             return;
         }
 
-        String updateMessage;
+        String updateMessage = null;
 
         if (event instanceof PrivateEvent) {
             PrivateEvent privateEvent = (PrivateEvent) event;
-            updateMessage = "-- UPDATE INFORMATION -- " + privateEvent.toString();
+            updateMessage = "-- UPDATE INFORMATION --" + privateEvent.toString();
         } else if (event instanceof PublicEvent) {
             PublicEvent publicEvent = (PublicEvent) event;
-            updateMessage = "-- UPDATE INFORMATION -- " + publicEvent.toString();
+            updateMessage = "-- UPDATE INFORMATION --" + publicEvent.toString();
         }
 
-        // TODO: send updateMessage to user
+        Notification notification = new Notification(this.user.getUserID(), updateMessage);
+        NotificationDatabaseConnector.addNotification(notification);
     }
 
     //#endregion observer
