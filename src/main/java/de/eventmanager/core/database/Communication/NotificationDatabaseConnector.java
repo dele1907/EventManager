@@ -9,10 +9,8 @@ import org.jooq.impl.DSL;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import static org.jooq.generated.tables.Notifications.NOTIFICATIONS;
-import static org.jooq.generated.tables.User.USER;
 
 public class NotificationDatabaseConnector {
 
