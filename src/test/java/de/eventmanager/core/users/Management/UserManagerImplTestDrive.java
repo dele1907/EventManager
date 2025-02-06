@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserManagerImplTestDrive {
 
     UserManagerImpl userManagerImpl = new UserManagerImpl();
@@ -180,6 +180,7 @@ public class UserManagerImplTestDrive {
 
     //#region Event-Operations
     @Test
+    @Order(0)
     @DisplayName("Book Event Test")
     void bookEventTest() {
         assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
@@ -190,6 +191,7 @@ public class UserManagerImplTestDrive {
     }
 
     @Test
+    @Order(1)
     @DisplayName("Cancel Event Test")
     void cancelEventTest() {
         String notExistingEventID = "1234";
