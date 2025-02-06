@@ -9,27 +9,25 @@ import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.export.Management.ExportManager;
 import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
-
 import java.util.ArrayList;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ExportManagerTestDrive {
     final ExportManager exportManager = new ExportManager();
-    ArrayList<String> testArrayList = new ArrayList<>();
-    final String TEST_PUBLIC_EVENT_ID = "ExportTestID";
-    final String TEST_ADMIN_ID = "AdminID_ExportTest";
-    final String TEST_USER_ID = "UserID_ExportTest";
-    final String TEST_ADMIN_EMAIL_ADDRESS = "firstName.lastName@adminExportTestmail.com";
-    final String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@userExportTestmail.com";
+    static ArrayList<String> testArrayList = new ArrayList<>();
+    static final String TEST_PUBLIC_EVENT_ID = "ExportTestID";
+    static final String TEST_ADMIN_ID = "AdminID_ExportTest";
+    static final String TEST_USER_ID = "UserID_ExportTest";
+    static final String TEST_ADMIN_EMAIL_ADDRESS = "firstName.lastName@adminExportTestmail.com";
+    static final String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@userExportTestmail.com";
     //final String TEST_USER_EMAIL_ADDRESS = "finnoettinger@gmail.com";
-    EventModel event;
-    User testAdminUser;
-    User testUser;;
+    static EventModel event;
+    static User testAdminUser;
+    static User testUser;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void globalSetUp() {
         testAdminUser = new User(TEST_ADMIN_ID,"Finn","Oettinger","2003-13-04",
                 TEST_ADMIN_EMAIL_ADDRESS,"AdminPassword", "+497733686", true);
         testAdminUser.setRoleAdmin(true);
@@ -42,29 +40,21 @@ public class ExportManagerTestDrive {
                 false,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",
                 "This is a cool event", 20, 0);
 
-
-
-        //event = EventDatabaseConnector.readEventByID("b017d79b-14a1-4e69-bd7c-584bd3858f17").get();
-
-
         UserDatabaseConnector.createNewUser(testAdminUser);
         UserDatabaseConnector.createNewUser(testUser);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        //CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), TEST_ADMIN_ID);
         BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
-        //BookingDatabaseConnector.addBooking(event.getEventID(),TEST_USER_ID);
-
-
     }
 
-    @AfterEach
-    void cleanUp() {
+    @AfterAll
+    static void globalCleanUp() {
         BookingDatabaseConnector.removeBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
         CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
         EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
         UserDatabaseConnector.deleteUserByID(TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByID(TEST_USER_ID);
+
     }
 
     @Test
