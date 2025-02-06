@@ -37,11 +37,9 @@ public class UserObserver implements Observer {
 
         String updateMessage = null;
 
-        if (event instanceof PrivateEvent) {
-            PrivateEvent privateEvent = (PrivateEvent) event;
+        if (event instanceof PrivateEvent privateEvent) {
             updateMessage = "-- UPDATE INFORMATION --" + privateEvent.toString();
-        } else if (event instanceof PublicEvent) {
-            PublicEvent publicEvent = (PublicEvent) event;
+        } else if (event instanceof PublicEvent publicEvent) {
             updateMessage = "-- UPDATE INFORMATION --" + publicEvent.toString();
         }
 
