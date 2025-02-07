@@ -14,8 +14,7 @@ import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
 
-import static org.jooq.generated.Tables.CITIES;
-import static org.jooq.generated.Tables.CREATED;
+import static org.jooq.generated.Tables.*;
 import static org.jooq.generated.tables.Events.EVENTS;
 
 public class EventDatabaseConnector {
@@ -350,30 +349,45 @@ public class EventDatabaseConnector {
         return publicEvents;
     }
 
+    public static List<EventModel> getUsersBookedEventsByUserID(String userID) {
+        var events = new ArrayList<EventModel>();
+
+        try (var connection = DatabaseConnector.connect()) {
+            var create = DSL.using(connection);
+
+            var records = create.select()
+                    .from(EVENTS)
+                    .join(BOOKED).on(EVENTS.EVENTID.eq(BOOKED.EVENTID))
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
+                    .where(BOOKED.USERID.eq(userID))
+                    .fetch();
+
+            for (var record : records) {
+                var event = record.get(EVENTS.PRIVATEEVENT) ?
+                        getPrivateEventFromRecord(record).orElse(null) :
+                        getPublicEventFromRecord(record).orElse(null);
+
+                if (event != null) {
+                    events.add(event);
+                }
+            }
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return events;
+    }
+
     /**
      * READ a list of public events
      * */
     private static void readPublicEventsFromDatabase(ArrayList<PublicEvent> publicEvents, Result<Record> records) {
         for (var record : records) {
-            PublicEvent publicEvent = new PublicEvent(
-                    record.get(EVENTS.EVENTID),
-                    record.get(EVENTS.EVENTNAME),
-                    record.get(EVENTS.EVENTSTART),
-                    record.get(EVENTS.EVENTEND),
-                    record.get((EVENTS.NUMBEROFBOOKEDUSERSONEVENT)),
-                    BookingDatabaseConnector.getBookedUsersOnEvent(record.get(EVENTS.EVENTID)),
-                    record.get(EVENTS.CATEGORY),
-                    record.get(EVENTS.PRIVATEEVENT),
-                    record.get(EVENTS.POSTALCODE),
-                    record.get(CITIES.CITYNAME),
-                    record.get(EVENTS.ADDRESS),
-                    record.get(EVENTS.EVENTLOCATION),
-                    record.get(EVENTS.DESCRIPTION),
-                    record.get(EVENTS.MAXIMUMCAPACITY),
-                    record.get(EVENTS.MINIMUMAGE)
-            );
+            var publicEvent = getPublicEventFromRecord(record);
 
-            publicEvents.add(publicEvent);
+            if (publicEvent.isPresent()) {
+                publicEvents.add(publicEvent.get());
+            }
         }
     }
 

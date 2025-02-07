@@ -223,8 +223,25 @@ public class UserManagerImpl implements UserManager {
         return getEventsQueryAsArrayList(EventDatabaseConnector::readPublicEventByCity, city);
     }
 
+    @Override
+    public List<String> getUsersBookedEventsInformation(String userID) {
+        var usersBookedEvents = new ArrayList<String>();
+
+        EventDatabaseConnector.getUsersBookedEventsByUserID(userID).forEach(event -> {
+            usersBookedEvents.add(event.toString());
+        });
+
+        return usersBookedEvents;
+    }
+
+    public boolean getUserHasAlreadyBookedEvent(String userID, String eventID) {
+        return EventDatabaseConnector.getUsersBookedEventsByUserID(userID)
+                .stream()
+                .anyMatch(event -> event.getEventID().equals(eventID));
+    }
+
     private List<String> getEventsQueryAsArrayList(Function<String, List<PublicEvent>> queryFunction, String queryParam) {
-        List<String> events = new ArrayList<>();
+        var events = new ArrayList<String>();
 
         queryFunction.apply(queryParam).forEach(event -> {
             events.add(event.toString());
@@ -235,7 +252,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public List<String> readCreatedEventsByUserID(String userID) {
-        List<String> createdEvents = new ArrayList<>();
+        var createdEvents = new ArrayList<String>();
 
         EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
             createdEvents.add(event.toString());

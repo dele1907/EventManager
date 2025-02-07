@@ -46,6 +46,10 @@ public interface UserManager {
 
     List<String> readPublicEventByCity(String city);
 
+    List<String> getUsersBookedEventsInformation(String userID);
+
+    boolean getUserHasAlreadyBookedEvent(String userID, String eventID);
+
     List<String> readCreatedEventsByUserID(String userID);
 
     boolean editEvent(String eventID, String eventName,
