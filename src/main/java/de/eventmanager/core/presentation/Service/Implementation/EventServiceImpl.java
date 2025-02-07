@@ -72,8 +72,20 @@ public class EventServiceImpl implements EventService {
         return userManager.bookEvent(eventID, userID);
     }
 
+    @Override
     public boolean userCancelParticipationForEvent(String eventID, String userID) {
         return userManager.cancelEvent(eventID, userID);
+    }
+
+    @Override
+    public boolean addUserToEventByUserEmail(String eventID, String userEmail, String loggedInUserID) {
+        if (!userManager.getUserByEmail(userEmail).isPresent()) {
+            return false;
+        }
+
+        userManager.addUserToEvent(eventID, userEmail, loggedInUserID);
+
+        return true;
     }
 
     @Override

@@ -20,6 +20,7 @@ public interface EventService {
                   String loggedUserID);
     boolean userBookEvent(String eventID, String userID);
     boolean userCancelParticipationForEvent(String eventID, String userID);
+    boolean addUserToEventByUserEmail(String eventID, String userEmail, String loggedInUserID);
     List<String> getUsersBookedEventsInformation(String userID);
     boolean getUserHasAlreadyBookedEvent(String userID, String eventID);
 }

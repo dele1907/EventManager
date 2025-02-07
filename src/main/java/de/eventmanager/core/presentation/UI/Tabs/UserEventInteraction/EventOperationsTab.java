@@ -20,6 +20,7 @@ public class EventOperationsTab implements Tab {
         SHOW_EVENTS,
         BOOK_EVENT,
         CANCEL_EVENT,
+        ADD_USER_TO_EVENT,
         EDIT_EVENT,
         BACK_TO_MAIN_MENU;
 
@@ -30,8 +31,9 @@ public class EventOperationsTab implements Tab {
                 "2", SHOW_EVENTS,
                 "3", BOOK_EVENT,
                 "4", CANCEL_EVENT,
-                "5", EDIT_EVENT,
-                "6", BACK_TO_MAIN_MENU
+                "5", ADD_USER_TO_EVENT,
+                "6", EDIT_EVENT,
+                "7", BACK_TO_MAIN_MENU
                 )
             );
         }
@@ -62,6 +64,7 @@ public class EventOperationsTab implements Tab {
                 case SHOW_EVENTS -> handleShowEvents();
                 case BOOK_EVENT -> handleBookEvent();
                 case CANCEL_EVENT -> handleCancelEvent();
+                case ADD_USER_TO_EVENT -> handleAddUserToEvent();
                 case EDIT_EVENT -> handleEditEvent();
                 case BACK_TO_MAIN_MENU -> eventOperationIsActive = false;
             }
@@ -84,6 +87,10 @@ public class EventOperationsTab implements Tab {
         new EventCancelParticipationTab(view, loggedInUserID, userController).start();
     }
 
+    private void handleAddUserToEvent() {
+        new EventCreatorAddUserToEventTab(view, loggedInUserID).start();
+    }
+
     private void handleEditEvent() {
         new EventEditTab(view, loggedInUserID, userController).start();
     }
@@ -92,11 +99,12 @@ public class EventOperationsTab implements Tab {
         DefaultDialogHelper.generateMenu(
                 view,
                 List.of(
-                        "Create new Event",
-                        "Show Events",
-                        "Book Event",
-                        "Cancel Participation on Event",
-                        "Edit Event's information",
+                        "Create new event",
+                        "Show events",
+                        "Book event",
+                        "Cancel participation in event",
+                        "Add a user to an event",
+                        "Edit event's information",
                         "Back to main menu"
                 )
         );
