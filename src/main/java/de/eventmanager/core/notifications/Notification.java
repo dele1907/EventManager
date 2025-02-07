@@ -1,6 +1,9 @@
 package de.eventmanager.core.notifications;
 
+import de.eventmanager.core.events.EventModel;
 import helper.IDGenerationHelper;
+
+import java.util.Objects;
 
 public class Notification {
 
@@ -72,5 +75,28 @@ public class Notification {
     }
 
     //#endregion setter
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) {
+
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+
+            return false;
+        }
+
+        Notification other = (Notification) object;
+
+        return notificationID.equals(other.notificationID);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(notificationID);
+    }
 
 }
