@@ -18,4 +18,7 @@ public interface EventService {
     void editEvent(String eventID, String eventName, String eventStart, String eventEnd, String category,
                   String postalCode, String city, String address, String eventLocation, String description,
                   String loggedUserID);
+    boolean userBookEvent(String eventID, String userID);
+    List<String> getUsersBookedEventsInformation(String userID);
+    boolean getUserHasAlreadyBookedEvent(String userID, String eventID);
 }

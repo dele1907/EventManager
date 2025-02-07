@@ -46,6 +46,7 @@ public class EventServiceImpl implements EventService {
         return userManager.readCreatedEventsByUserID(userID);
     }
 
+    @Override
     public void editEvent(String eventID, String newEventName, String newEventStart, String newEventEnd,
                           String newCategory, String newPostalCode, String newCity, String newAddress,
                           String newEventLocation, String newDescription, String loggedUserID) {
@@ -64,6 +65,21 @@ public class EventServiceImpl implements EventService {
             userManager.editEvent(event.getEventID(), eventName, eventStart, eventEnd, category, postalCode, city,
                     address, eventLocation, description, loggedUserID);
         });
+    }
+
+    @Override
+    public boolean userBookEvent(String eventID, String userID) {
+        return userManager.bookEvent(eventID, userID);
+    }
+
+    @Override
+    public List<String> getUsersBookedEventsInformation(String userID) {
+        return userManager.getUsersBookedEventsInformation(userID);
+    }
+
+    @Override
+    public boolean getUserHasAlreadyBookedEvent(String userID, String eventID) {
+        return userManager.getUserHasAlreadyBookedEvent(userID, eventID);
     }
     //#endregion event operations
 }

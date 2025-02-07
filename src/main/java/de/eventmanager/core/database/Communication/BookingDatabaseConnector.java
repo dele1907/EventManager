@@ -132,7 +132,6 @@ public class BookingDatabaseConnector {
 
         return bookedUsers;
     }
-
     //#endregion booking methods
 
 }
