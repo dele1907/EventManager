@@ -12,8 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.jooq.generated.tables.Notifications.NOTIFICATIONS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NotificationDatabaseConnectorTestDrive {
 
@@ -107,7 +106,53 @@ public class NotificationDatabaseConnectorTestDrive {
 
     //#region failed CRUD operations
 
-    // TODO: adding tests for failed methods
+    /**
+     * Test that notifications are unique
+     * */
+    @Test
+    public void testAddNotificationFailed() {
+
+        testNotification1 = new Notification("testNotificationToFailAdding", "testUserWhoAddsNotificationsWrong", "This is a test notification!", false);
+
+        NotificationDatabaseConnector.addNotification(testNotification1);
+
+        boolean notificationToAdd = NotificationDatabaseConnector.addNotification(testNotification1);
+        assertFalse(notificationToAdd, "Notification adding was successful but should not.");
+
+        NotificationDatabaseConnector.deleteNotification("testNotificationToFailAdding");
+    }
+
+    /**
+     * Test getting a notification list for a nonexistent user
+     * */
+    @Test
+    public void testReadingNotificationsFailed() {
+
+        ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID("userWithoutNotifications");
+        assertTrue(notificationList.isEmpty(), "Getting a notification list successful but should not.");
+    }
+
+    /**
+     * Test that updating a notification is only possible if there is an entry in the database
+     * */
+    @Test
+    public void testUpdateNotificationFailed() {
+
+        testNotificationUpdated = new Notification("testNotificationToFailUpdating", "testUserWhoUpdatesWrong", "This is a test notification!", true);
+
+        boolean notificationToUpdate = NotificationDatabaseConnector.updateNotification(testNotificationUpdated);
+        assertFalse(notificationToUpdate, "Notification update was successful but should not.");
+    }
+
+    /**
+     * Test deleting a notification with invalid ID
+     * */
+    @Test
+    public void testDeleteNotificationFailed() {
+
+        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification("invalidNotificationIDToDelete");
+        assertFalse(notificationToDelete, "Notification deletion was successful but should not.");
+    }
 
     //#endregion failed CRUD operations
 
