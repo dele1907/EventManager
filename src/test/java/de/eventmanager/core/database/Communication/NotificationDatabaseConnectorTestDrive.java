@@ -99,9 +99,8 @@ public class NotificationDatabaseConnectorTestDrive {
 
         NotificationDatabaseConnector.addNotification(testNotification1);
 
-        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification("testNotificationToAdd");
-        //TODO @Laura: This test is failing because the notification is not deleted
-        //assertTrue(notificationToDelete, "Deleting a notification failed but should not.");
+        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification("testNotificationToDelete");
+        assertTrue(notificationToDelete, "Deleting a notification failed but should not.");
     }
 
     //#endregion successful CRUD operations
