@@ -64,7 +64,7 @@ public class EventOperationsTab implements Tab {
                 case SHOW_EVENTS -> handleShowEvents();
                 case BOOK_EVENT -> handleBookEvent();
                 case CANCEL_EVENT -> handleCancelEvent();
-                case ADD_USER_TO_EVENT -> view.displayErrorMessage("Not implemented yet.");
+                case ADD_USER_TO_EVENT -> handleAddUserToEvent();
                 case EDIT_EVENT -> handleEditEvent();
                 case BACK_TO_MAIN_MENU -> eventOperationIsActive = false;
             }
@@ -85,6 +85,10 @@ public class EventOperationsTab implements Tab {
 
     private void handleCancelEvent() {
         new EventCancelParticipationTab(view, loggedInUserID, userController).start();
+    }
+
+    private void handleAddUserToEvent() {
+        new EventCreatorAddUserToEventTab(view, loggedInUserID).start();
     }
 
     private void handleEditEvent() {
