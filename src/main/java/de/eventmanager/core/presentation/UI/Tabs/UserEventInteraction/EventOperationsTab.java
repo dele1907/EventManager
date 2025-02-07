@@ -95,7 +95,7 @@ public class EventOperationsTab implements Tab {
                         "Create new Event",
                         "Show Events",
                         "Book Event",
-                        "Cancel Event",
+                        "Cancel Participation on Event",
                         "Edit Event's information",
                         "Back to main menu"
                 )

@@ -19,6 +19,7 @@ public interface EventService {
                   String postalCode, String city, String address, String eventLocation, String description,
                   String loggedUserID);
     boolean userBookEvent(String eventID, String userID);
+    boolean userCancelParticipationForEvent(String eventID, String userID);
     List<String> getUsersBookedEventsInformation(String userID);
     boolean getUserHasAlreadyBookedEvent(String userID, String eventID);
 }
