@@ -1,6 +1,6 @@
 package de.eventmanager.core.presentation.Controller;
 
-import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
+import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.UserService;
 
@@ -16,16 +16,16 @@ public class UserController {
     }
 
     //#region Login & Authentication
-    public boolean createNewUser(UserRegistrationData userRegistrationData, String loggedInUserUserID) {
+    public boolean createNewUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedInUserUserID) {
 
         boolean successfullyRegistered = userService.registerUser(
-                userRegistrationData.getFirstName(),
-                userRegistrationData.getLastName(),
-                userRegistrationData.getDateOfBirth(),
-                userRegistrationData.getEmail(),
-                userRegistrationData.getPhoneNumber(),
-                userRegistrationData.getPassword(),
-                userRegistrationData.getConfirmPassword(),
+                userRegistrationDataPayload.firstName(),
+                userRegistrationDataPayload.lastName(),
+                userRegistrationDataPayload.dateOfBirth(),
+                userRegistrationDataPayload.email(),
+                userRegistrationDataPayload.phoneNumber(),
+                userRegistrationDataPayload.password(),
+                userRegistrationDataPayload.confirmPassword(),
                 loggedInUserUserID
         );
 
@@ -36,16 +36,16 @@ public class UserController {
         return true;
     }
 
-    public boolean createNewAdminUser(UserRegistrationData userRegistrationData, String loggedInUserUserID) {
+    public boolean createNewAdminUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedInUserUserID) {
 
         boolean successfullyRegistered = userService.registerAdminUser(
-                userRegistrationData.getFirstName(),
-                userRegistrationData.getLastName(),
-                userRegistrationData.getDateOfBirth(),
-                userRegistrationData.getEmail(),
-                userRegistrationData.getPhoneNumber(),
-                userRegistrationData.getPassword(),
-                userRegistrationData.getConfirmPassword(),
+                userRegistrationDataPayload.firstName(),
+                userRegistrationDataPayload.lastName(),
+                userRegistrationDataPayload.dateOfBirth(),
+                userRegistrationDataPayload.email(),
+                userRegistrationDataPayload.phoneNumber(),
+                userRegistrationDataPayload.password(),
+                userRegistrationDataPayload.confirmPassword(),
                 loggedInUserUserID
         );
 

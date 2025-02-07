@@ -2,8 +2,7 @@ package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
-import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
-import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
+import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
@@ -28,9 +27,9 @@ public class AdminCreateUserTab implements Tab {
         validateCreateUser(DefaultDialogHelper.createNewUserDefaultDialog(view));
     }
 
-    private void validateCreateUser(UserRegistrationData userRegistrationData) {
+    private void validateCreateUser(UserRegistrationDataPayload userRegistrationDataPayload) {
 
-        if (!userController.createNewUser(userRegistrationData, loggedInUserUserID)) {
+        if (!userController.createNewUser(userRegistrationDataPayload, loggedInUserUserID)) {
             view.displayErrorMessage("\nFailed to create user.\n");
 
             return;

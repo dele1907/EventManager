@@ -5,7 +5,7 @@ import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.Data
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
-import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationData;
+import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.presentation.UI.View;
 import helper.ConfigurationDataSupplierHelper;
 
@@ -92,9 +92,9 @@ public class LoginRegistrationPage implements Tab {
         validateRegisterUser(DefaultDialogHelper.createNewUserDefaultDialog(view));
     }
 
-    private void validateRegisterUser(UserRegistrationData userRegistrationData) {
+    private void validateRegisterUser(UserRegistrationDataPayload userRegistrationDataPayload) {
 
-        boolean registrationSuccess = userController.createNewUser(userRegistrationData,
+        boolean registrationSuccess = userController.createNewUser(userRegistrationDataPayload,
                 ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID);
 
         if (!registrationSuccess) {

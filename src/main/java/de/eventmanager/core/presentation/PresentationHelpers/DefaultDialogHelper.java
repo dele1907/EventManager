@@ -25,7 +25,7 @@ public class DefaultDialogHelper {
         view.displayUserInputMessage("\nChoose an option\n> ");
     }
 
-    public static  UserRegistrationData createNewUserDefaultDialog(View view) {
+    public static UserRegistrationDataPayload createNewUserDefaultDialog(View view) {
         view.displayUserInputMessage("Enter first name\n> ");
         var firstName = view.getUserInput();
         view.displayUserInputMessage("Enter last name\n> ");
@@ -38,7 +38,7 @@ public class DefaultDialogHelper {
         view.displayUserInputMessage("Confirm password\n> ");
         var confirmPassword = view.getUserInput();
 
-        return new UserRegistrationData(firstName, lastName, dateOfBirth,
+        return new UserRegistrationDataPayload(firstName, lastName, dateOfBirth,
                 email, phoneNumber, password, confirmPassword
         );
     }
