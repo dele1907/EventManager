@@ -44,7 +44,7 @@ public class EventOperationsTab implements Tab {
 
     @Override
     public void start() {
-        boolean eventOperationIsActive = true;
+        var eventOperationIsActive = true;
 
         while (eventOperationIsActive) {
             DefaultDialogHelper.getTabOrPageHeading(view, "Event Operations");

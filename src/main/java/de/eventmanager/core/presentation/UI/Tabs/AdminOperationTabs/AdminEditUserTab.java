@@ -78,11 +78,7 @@ public class AdminEditUserTab implements Tab {
     private Optional<String> handleEditPhoneNumber() {
         var newPhoneNumber = showPhoneNumberDialog();
 
-        if (newPhoneNumber.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(newPhoneNumber);
+        return newPhoneNumber.isEmpty() ? Optional.empty() : Optional.of(newPhoneNumber);
     }
 
     private String showPhoneNumberDialog() {
@@ -94,8 +90,8 @@ public class AdminEditUserTab implements Tab {
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
             DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "phone number format");
-            var tryAgainChangeNumber = showEditPhoneNumberAgainDialog();
-            return tryAgainChangeNumber ? showPhoneNumberDialog() : "";
+
+            return showEditPhoneNumberAgainDialog() ? showPhoneNumberDialog() : "";
         }
 
         return phoneNumber;
@@ -103,9 +99,8 @@ public class AdminEditUserTab implements Tab {
 
     private boolean showEditPhoneNumberAgainDialog() {
         view.displayUserInputMessage("\nDo you want to edit the phone number again? (yes/any key)\n> ");
-        var userChoice = view.getUserInput();
 
-        if (userChoice.equalsIgnoreCase("yes")) {
+        if ( view.getUserInput().equalsIgnoreCase("yes")) {
             return true;
         }
 

@@ -144,10 +144,8 @@ public class ShowEventsTab implements Tab{
     }
 
     private void addDelay(int seconds) {
-        int delay = seconds * 1000;
-
         try{
-            Thread.sleep(delay);
+            Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

@@ -50,9 +50,8 @@ public class EventBookingTab implements Tab {
         view.displayWarningMessage("Are you sure you want to book following event:\n");
         view.displayMessage(eventService.getEventInformationByID(eventID));
         view.displayUserInputMessage("\n(yes/press any key)\n> ");
-        String userInput = view.getUserInput();
 
-        if (!userInput.equalsIgnoreCase("yes")) {
+        if (!view.getUserInput().equalsIgnoreCase("yes")) {
             view.displayErrorMessage("\nBooking canceled.\n");
 
             return false;

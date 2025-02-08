@@ -108,9 +108,8 @@ public class DatabaseInitializer {
 
     private static boolean getDataBaseAlreadyInitialized() {
         var dataBasePath = DatabaseConnector.getDatabasePath();
-        var dataBaseFile = new File(dataBasePath);
 
-        return dataBaseFile.exists();
+        return new File(dataBasePath).exists();
     }
 
     private static void initDataBaseTables(Connection connection) throws SQLException {

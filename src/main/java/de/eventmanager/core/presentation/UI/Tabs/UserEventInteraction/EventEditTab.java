@@ -83,9 +83,8 @@ public class EventEditTab implements Tab {
     private void showConfirmEventEditingDialog(String eventInformation) {
         view.displayMessage(eventInformation);
         view.displayUserInputMessage("\nDo you want to edit this event? (yes/no)\n> ");
-        String choice = view.getUserInput();
 
-        if (!choice.equalsIgnoreCase("yes")) {
+        if (!view.getUserInput().equalsIgnoreCase("yes")) {
             return;
         }
 

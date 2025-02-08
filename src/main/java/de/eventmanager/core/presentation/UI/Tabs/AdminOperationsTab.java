@@ -40,7 +40,7 @@ public class AdminOperationsTab implements Tab {
 
     @Override
     public void start() {
-        boolean adminIsActive = true;
+        var adminIsActive = true;
 
         while (adminIsActive) {
             DefaultDialogHelper.getTabOrPageHeading(view, "Admin Operations");

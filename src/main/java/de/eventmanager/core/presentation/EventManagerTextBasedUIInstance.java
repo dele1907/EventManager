@@ -43,8 +43,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
                 loggedInUserID = loginRegistrationPage.getLoggedInUser();
 
                 if (!loggedInUserID.isEmpty()) {
-                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUserID, loginRegistrationPage);
-                    mainMenuTab.start();
+                    new MainMenuTab(textView, loggedInUserID, loginRegistrationPage).start();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

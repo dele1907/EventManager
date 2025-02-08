@@ -66,7 +66,7 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
-        List<String> menu = menuType.equals(MenuType.ADMIN) ?
+        var menu = menuType.equals(MenuType.ADMIN) ?
                 List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program", "Admin Operations") :
                 List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program");
 
@@ -99,10 +99,8 @@ public class MainMenuTab implements Tab {
     }
 
     private void addDelay(int seconds) {
-        int delay = seconds * 1000;
-
         try {
-            Thread.sleep(delay);
+            Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
