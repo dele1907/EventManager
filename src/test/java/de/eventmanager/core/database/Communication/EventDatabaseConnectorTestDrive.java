@@ -434,7 +434,7 @@ public class EventDatabaseConnectorTestDrive {
         testPublicEventUpdated = new PublicEvent("updateFailTestPublicEventDatabaseConnector", "Emmes", "2025-06-06 12:00", "2025-06-12 12:00", 0, null,
                 "Stadtfest", false, "66740", "Saarlouis", "Großer Markt 1", "Innenstadt", "Essen, Getränke und Musik", 10000, 0);
 
-        boolean publicEventUpdated = EventDatabaseConnector.updateEvent(testPrivateEventUpdated);
+        boolean publicEventUpdated = EventDatabaseConnector.updateEvent(testPublicEventUpdated);
         assertFalse(publicEventUpdated, "Public event update was successful but should not.");
     }
 
