@@ -48,7 +48,7 @@ public class EventEditTab implements Tab {
             return;
         }
 
-        view.displayUnderlinedSubheading("\nYour Created Events, you can edit:");
+        view.displayUnderlinedSubheading("Your Created Events, you can edit:");
 
         createdEvents.forEach(eventInformation -> {
             view.displayMessage(eventInformation);

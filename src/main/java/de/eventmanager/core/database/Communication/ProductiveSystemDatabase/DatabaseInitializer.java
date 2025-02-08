@@ -38,8 +38,8 @@ public class DatabaseInitializer {
             + " postalCode TEXT NOT NULL,"
             + " address TEXT NOT NULL,"
             + " description TEXT NULL,"
-            + " maxParticipants INTEGER NULL,"
-            + " privateEvent BOOLEAN NOT NULL"
+            + " privateEvent BOOLEAN NOT NULL,"
+            +  "minimumAge TEXT NOT NULL"
             + ");";
 
     private final static String CREATED_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS created ("
@@ -63,7 +63,7 @@ public class DatabaseInitializer {
             + " cityName TEXT NOT NULL"
             + ");";
 
-    private final static String NOTIFICATIONS_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS cities ("
+    private final static String NOTIFICATIONS_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS notifications ("
             + " notificationID TEXT PRIMARY KEY,"
             + " userID TEXT NOT NULL,"
             + " message TEXT NOT NULL,"
@@ -77,7 +77,8 @@ public class DatabaseInitializer {
             CREATED_TABLE_MODEL,
             BOOKED_TABLE_MODEL,
             CITIES_POSTAL_CODE_TABLE_MODEL,
-            NOTIFICATIONS_TABLE_MODEL);
+            NOTIFICATIONS_TABLE_MODEL
+    );
     //#endregion SQL statements
 
     //#region methods
