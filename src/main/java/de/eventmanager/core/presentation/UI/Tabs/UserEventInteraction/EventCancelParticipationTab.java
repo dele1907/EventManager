@@ -33,7 +33,7 @@ public class EventCancelParticipationTab implements Tab {
             return;
         }
 
-        if (!userIsSureToCancelParticipationDialog()) {
+        if (!userIsSureToCancelParticipationDialog(eventID)) {
             return;
         }
 
@@ -46,11 +46,10 @@ public class EventCancelParticipationTab implements Tab {
         view.displaySuccessMessage("\nCancel participation successful.\n");
     }
 
-    private boolean userIsSureToCancelParticipationDialog() {
-        view.displayUserInputMessage(
-                "Are you sure you want to cancel participation for following event" +
-                "(yes/press any key)\n> "
-        );
+    private boolean userIsSureToCancelParticipationDialog(String eventID) {
+        view.displayWarningMessage("Are you sure you want to cancel participation for following event:\n");
+        view.displayMessage(eventService.getEventInformationByID(eventID));
+        view.displayUserInputMessage("\n(yes/press any key)\n> ");
         String userInput = view.getUserInput();
 
         if (!userInput.equalsIgnoreCase("yes")) {

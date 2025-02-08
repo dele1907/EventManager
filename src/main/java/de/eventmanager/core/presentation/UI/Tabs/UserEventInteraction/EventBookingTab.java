@@ -33,7 +33,7 @@ public class EventBookingTab implements Tab {
             return;
         }
 
-        if (!userIsSureToBookEventDialog()) {
+        if (!userIsSureToBookEventDialog(eventID)) {
             return;
         }
 
@@ -46,8 +46,10 @@ public class EventBookingTab implements Tab {
         view.displaySuccessMessage("\nBooking successful.\n");
     }
 
-    private boolean userIsSureToBookEventDialog() {
-        view.displayUserInputMessage("Are you sure you want to book following event(yes/press any key)\n> ");
+    private boolean userIsSureToBookEventDialog(String eventID) {
+        view.displayWarningMessage("Are you sure you want to book following event:\n");
+        view.displayMessage(eventService.getEventInformationByID(eventID));
+        view.displayUserInputMessage("\n(yes/press any key)\n> ");
         String userInput = view.getUserInput();
 
         if (!userInput.equalsIgnoreCase("yes")) {
