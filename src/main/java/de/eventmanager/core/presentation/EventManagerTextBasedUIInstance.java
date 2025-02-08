@@ -57,7 +57,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         String databasePath = DatabasePathManager.loadDatabasePath(isProductiveSystem);
         DatabaseConnector.setDatabasePath(databasePath);
         DatabaseInitializer.initialize();
-        textView.displaySuccessMessage("\nDatabase initialized at: " + databasePath + "\n");
+        textView.displaySuccessMessage("\nDatabase path: " + databasePath + "\n");
     }
 
     private void initPages() {

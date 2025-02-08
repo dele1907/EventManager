@@ -87,9 +87,17 @@ public class DatabaseInitializer {
 
     //#region methods
     public static void initialize() {
-        Connection connection = DatabaseConnector.connect();
+        var connection = DatabaseConnector.connect();
+
+        if (getDataBaseAlreadyInitialized()) {
+            LoggerHelper.logInfoMessage(DatabaseInitializer.class,
+                    "Database file already exists!" + "No need to initialize database.");
+            return;
+        }
+
        try {
-           initDataBaseTables(connection);insertCitiesFromCSV(connection, "src/main/resources/Germany_postalcode_cityname.csv");
+           initDataBaseTables(connection);
+           insertCitiesFromCSV(connection, "src/main/resources/Germany_postalcode_cityname.csv");
        } catch (SQLException e) {
            LoggerHelper.logErrorMessage(DatabaseInitializer.class,
                    "Error initializing database: " + e.getMessage());
@@ -98,8 +106,16 @@ public class DatabaseInitializer {
        }
     }
 
+    private static boolean getDataBaseAlreadyInitialized() {
+        var dataBasePath = DatabaseConnector.getDatabasePath();
+        var dataBaseFile = new File(dataBasePath);
+
+        return dataBaseFile.exists();
+    }
+
     private static void initDataBaseTables(Connection connection) throws SQLException {
-        DSLContext create = DSL.using(connection);
+        var create = DSL.using(connection);
+
         tableModels.forEach(tableModel -> {
             try {
                 create.execute(tableModel);
@@ -128,8 +144,8 @@ public class DatabaseInitializer {
             return;
         }
 
-        String databasePath = DatabaseConnector.getDatabasePath();
-        File databaseFile = new File(databasePath);
+        var databasePath = DatabaseConnector.getDatabasePath();
+        var databaseFile = new File(databasePath);
 
         if (databaseFile.exists()) {
             if (databaseFile.delete()) {
@@ -154,7 +170,7 @@ public class DatabaseInitializer {
             bufferedReader.readLine();
 
             while ((line = bufferedReader.readLine()) != null) {
-                String[] values = line.split(",");
+                var values = line.split(",");
                 records.add(new String[]{values[3], values[2]}); // plz and ort
             }
         } catch (IOException e) {
