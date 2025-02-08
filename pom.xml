@@ -153,6 +153,9 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.3.0</version>
                     <configuration>
+                        <parallel>none</parallel>  <!-- Führt Testmethoden parallel aus -->
+                        <threadCount>4</threadCount>  <!-- Anzahl paralleler Threads -->
+                        <reuseForks>true</reuseForks> <!-- Forks wiederverwenden -->
                         <includes>
                             <include>**/*TestDrive.java</include>
                         </includes>
