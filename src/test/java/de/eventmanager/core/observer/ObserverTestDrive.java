@@ -49,7 +49,9 @@ public class ObserverTestDrive {
         ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID("testObserverUser");
         assertEquals(1, notificationList.size());
         assertEquals("testObserverUser", notificationList.get(0).getUserID());
-        NotificationDatabaseConnector.deleteNotification(notificationList.get(0).getNotificationID());
+        for (Notification notification : notificationList) {
+            NotificationDatabaseConnector.deleteNotification(notification.getNotificationID());
+        }
 
         // cancel event to remove user as observer and edit event again
         userManager.cancelEvent("testEventToObserve", "testObserverUser");
