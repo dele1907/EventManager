@@ -147,7 +147,7 @@ public class UserManagerImplTestDrive {
     void createPublicEventTest() {
 
         assertTrue(userManagerImpl.createNewEvent("TestPublicEventIntern", "2000-01-01",
-                "2000-01-02", "TestCategory", "66115","Saarbrücken",
+                "2000-01-02", "TestCategory", "66115",
                 "TestStraße 6", "Turmschule", "This is a cool event", 20,
                 false, TEST_ADMIN_ID));
     }
@@ -158,7 +158,7 @@ public class UserManagerImplTestDrive {
     void createPrivateEventTest() {
 
         assertTrue(userManagerImpl.createNewEvent("TestPrivateEventIntern", "2000-01-01",
-                "2000-01-02", "TestCategory", "66115","Saarbrücken",
+                "2000-01-02", "TestCategory", "66115",
                 "TestStraße 6", "Turmschule", "This is a cool event", 20,
                 true, TEST_ADMIN_ID));
     }
@@ -168,7 +168,7 @@ public class UserManagerImplTestDrive {
     void editEventTest() {
 
         userManagerImpl.editEvent(TEST_PRIVATE_EVENT_ID, "TestEventEdited", "01-01-2021",
-                "01/01/2021", "Test1", "12345", "Teststadt","Teststraße 177",
+                "01/01/2021", "Test1", "66578","Teststraße 177",
                 "TestLocation1", "TestDescription1", TEST_ADMIN_ID);
 
         assertEquals("TestEventEdited", userManagerImpl.getEventByID(TEST_PRIVATE_EVENT_ID).get().getEventName());

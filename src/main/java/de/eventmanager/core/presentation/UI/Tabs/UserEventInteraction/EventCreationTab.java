@@ -71,8 +71,6 @@ public class EventCreationTab implements Tab {
         String category = view.getUserInput();
         view.displayUserInputMessage("\nEnter event postal code\n> ");
         String postalCode = view.getUserInput();
-        view.displayUserInputMessage("\nEnter event city\n> ");
-        String city = view.getUserInput();
         view.displayUserInputMessage("\nEnter event address\n> ");
         String address = view.getUserInput();
         view.displayUserInputMessage("\nEnter event location\n> ");
@@ -96,7 +94,7 @@ public class EventCreationTab implements Tab {
             minimumAge = minimumAgeString.isEmpty() ? 0 : Integer.parseInt(minimumAgeString);
         }
 
-        return new EventServiceImpl().createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
+        return new EventServiceImpl().createNewEvent(eventName, eventStart, eventEnd, category, postalCode, address,
                 maxCapacity, eventLocation, description, minimumAge, isPrivateEvent, loggedInUserID);
     }
 }

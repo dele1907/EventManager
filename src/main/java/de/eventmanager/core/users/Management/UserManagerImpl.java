@@ -143,12 +143,17 @@ public class UserManagerImpl implements UserManager {
     //#region Event related CRUD-Operations
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
-                                  String postalCode, String city, String address, String eventLocation,
+                                  String postalCode, String address, String eventLocation,
                                   String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
+
+        String cityNameByPostalCode = EventDatabaseConnector.getCityNameByPostalCode(postalCode);
+
         return isPrivateEvent ?
-                createPrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
+                createPrivateEvent(eventName, eventStart, eventEnd, category, postalCode, cityNameByPostalCode,
+                        address, eventLocation,
                         description, loggedUserID).isPresent() :
-                createPublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
+                createPublicEvent(eventName, eventStart, eventEnd, category, postalCode, cityNameByPostalCode,
+                        address, eventLocation,
                         description, maxParticipants, loggedUserID).isPresent();
     }
 
@@ -271,8 +276,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean editEvent(String eventID, String eventName,
                              String eventStart, String eventEnd,
-                             String category, String postalCode,
-                             String city, String address,
+                             String category, String postalCode, String address,
                              String eventLocation, String description,
                              String loggedUserID) {
 
@@ -287,7 +291,8 @@ public class UserManagerImpl implements UserManager {
         }
 
         EventModel eventToEdit = setEditedValuesForEvent(optionalEvent, eventName, eventStart, eventEnd, category,
-                postalCode, city, address, eventLocation, description);
+                postalCode, EventDatabaseConnector.getCityNameByPostalCode(postalCode), address, eventLocation,
+                description);
 
         EventDatabaseConnector.updateEvent(eventToEdit);
         eventNotificator.notifyObservers(eventToEdit);

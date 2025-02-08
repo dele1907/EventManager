@@ -43,7 +43,7 @@ public class ObserverTestDrive {
         // book event to add user as observer and edit event to notify user
         userManager.bookEvent("testEventToObserve", "testObserverUser");
         userManager.editEvent("testEventToObserve", "Wacken Open Air", "2025-07-31", "2025-08-03", "Festival",
-                "25596", "Wacken", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", "testObserverAdmin");
+                "25596", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", "testObserverAdmin");
 
         // check if notification is correct and delete it from database
         ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID("testObserverUser");
@@ -56,7 +56,7 @@ public class ObserverTestDrive {
         // cancel event to remove user as observer and edit event again
         userManager.cancelEvent("testEventToObserve", "testObserverUser");
         userManager.editEvent("testEventToObserve", "Wacken Open Air", "2025-07-30", "2025-08-02", "Festival",
-                "25596", "Wacken", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", "testObserverAdmin");
+                "25596", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", "testObserverAdmin");
 
         // check if user isn't notified anymore
         ArrayList<Notification> newNotificationList = NotificationDatabaseConnector.readNotificationsByUserID("testObserverUser");

@@ -66,6 +66,27 @@ public class EventDatabaseConnector {
         return false;
     }
 
+    public static String getCityNameByPostalCode(String postalCode) {
+        try (var connection = DatabaseConnector.connect()) {
+
+            var create = DSL.using(connection);
+
+            var record = create.select()
+                    .from(CITIES)
+                    .where(CITIES.POSTALCODE.eq(postalCode))
+                    .fetchOne();
+
+            if (record != null) {
+                return record.get(CITIES.CITYNAME);
+            }
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return "";
+    }
+
     private static int insertPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
 
         return create.transactionResult(configuration -> {

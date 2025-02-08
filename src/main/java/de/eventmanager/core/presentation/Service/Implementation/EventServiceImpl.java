@@ -33,11 +33,11 @@ public class EventServiceImpl implements EventService {
     //#region event operations
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
-                                  String category, String postalCode, String city, String address,
+                                  String category, String postalCode, String address,
                                   int maxCapacity, String eventLocation, String description, int minimumAge,
                                   boolean isPrivateEvent, String loggedUserID) {
 
-        return userManager.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation,
+        return userManager.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation,
                 description, maxCapacity, isPrivateEvent, loggedUserID);
     }
 
@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void editEvent(String eventID, String newEventName, String newEventStart, String newEventEnd,
-                          String newCategory, String newPostalCode, String newCity, String newAddress,
+                          String newCategory, String newPostalCode, String newAddress,
                           String newEventLocation, String newDescription, String loggedUserID) {
 
         userManager.getEventByID(eventID).ifPresent(event -> {
@@ -57,12 +57,11 @@ public class EventServiceImpl implements EventService {
             String eventEnd = Optional.ofNullable(newEventEnd).orElse(event.getEventEnd());
             String category = Optional.ofNullable(newCategory).orElse(event.getCategory());
             String postalCode = Optional.ofNullable(newPostalCode).orElse(event.getPostalCode());
-            String city = Optional.ofNullable(newCity).orElse(event.getCity());
             String address = Optional.ofNullable(newAddress).orElse(event.getAddress());
             String eventLocation = Optional.ofNullable(newEventLocation).orElse(event.getEventLocation());
             String description = Optional.ofNullable(newDescription).orElse(event.getDescription());
 
-            userManager.editEvent(event.getEventID(), eventName, eventStart, eventEnd, category, postalCode, city,
+            userManager.editEvent(event.getEventID(), eventName, eventStart, eventEnd, category, postalCode,
                     address, eventLocation, description, loggedUserID);
         });
     }

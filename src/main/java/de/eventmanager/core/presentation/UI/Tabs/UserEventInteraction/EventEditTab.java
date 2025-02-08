@@ -17,7 +17,6 @@ public class EventEditTab implements Tab {
     private String newEventEnd;
     private String newEventCategory;
     private String newEventPostalCode;
-    private String newEventCity;
     private String newEventAddress;
     private String newEventLocation;
     private String newEventDescription;
@@ -35,7 +34,7 @@ public class EventEditTab implements Tab {
         handleShowCreatedEventsForLoggedInUser();
         eventService.editEvent(
                 eventID, newEventName, newEventStart, newEventEnd, newEventCategory,
-                newEventPostalCode, newEventCity, newEventAddress, newEventLocation,
+                newEventPostalCode, newEventAddress, newEventLocation,
                 newEventDescription, loggedInUserID
         );
     }
@@ -104,8 +103,6 @@ public class EventEditTab implements Tab {
                 view, "event's category").ifPresent(attribute -> newEventCategory = attribute);
         DefaultDialogHelper.showEditAttributeDialog(
                 view, "event location postal code").ifPresent(attribute -> newEventPostalCode = attribute);
-        DefaultDialogHelper.showEditAttributeDialog(
-                view, "event location city").ifPresent(attribute -> newEventCity = attribute);
         DefaultDialogHelper.showEditAttributeDialog(
                 view, "event location address").ifPresent(attribute -> newEventAddress = attribute);
         DefaultDialogHelper.showEditAttributeDialog(

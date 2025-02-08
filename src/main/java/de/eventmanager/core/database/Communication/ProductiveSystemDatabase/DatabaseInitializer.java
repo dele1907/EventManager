@@ -7,9 +7,13 @@ import org.jooq.DSLContext;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseInitializer {
@@ -85,7 +89,7 @@ public class DatabaseInitializer {
     public static void initialize() {
         Connection connection = DatabaseConnector.connect();
        try {
-           initDataBaseTables(connection);
+           initDataBaseTables(connection);insertCitiesFromCSV(connection, "src/main/resources/Germany_postalcode_cityname.csv");
        } catch (SQLException e) {
            LoggerHelper.logErrorMessage(DatabaseInitializer.class,
                    "Error initializing database: " + e.getMessage());
@@ -141,5 +145,47 @@ public class DatabaseInitializer {
     }
     //#endregion methods
 
+    //#region cities/postcode init from csv
+    private static List<String[]> readCSV(String filePath) {
+        var records = new ArrayList<String[]>();
+
+        try (var bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            bufferedReader.readLine();
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] values = line.split(",");
+                records.add(new String[]{values[3], values[2]}); // plz and ort
+            }
+        } catch (IOException e) {
+            LoggerHelper.logErrorMessage(
+                    DatabaseInitializer.class,
+                    "Error reading CSV file: " +
+                    e.getMessage()
+            );
+        }
+
+        return records;
+    }
+
+    private static void insertCitiesFromCSV(Connection connection, String csvFilePath) {
+        var create = DSL.using(connection);
+        var cities = readCSV(csvFilePath);
+
+        for (var city : cities) {
+            try {
+                create.insertInto(DSL.table("cities"),
+                                DSL.field("postalCode"), DSL.field("cityName"))
+                        .values(city[0], city[1])
+                        .execute();
+            } catch (DataAccessException e) {
+                LoggerHelper.logErrorMessage(
+                        DatabaseInitializer.class,
+                        "Error inserting city: " + city[0] + ", " + city[1] + " - " + e.getMessage()
+                );
+            }
+        }
+    }
+    //#endregion cities/postcode init from csv
 }
 

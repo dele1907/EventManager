@@ -31,8 +31,7 @@ public interface UserManager {
     //#region Event related CRUD-Operations
     boolean createNewEvent(String eventName, String eventStart,
                            String eventEnd, String category,
-                           String postalCode, String city,
-                           String address, String eventLocation,
+                           String postalCode, String address, String eventLocation,
                            String description, int maxParticipants,
                            boolean isPrivateEvent, String loggedUserID);
 
@@ -54,8 +53,7 @@ public interface UserManager {
 
     boolean editEvent(String eventID, String eventName,
                       String eventStart, String eventEnd,
-                      String category, String postalCode,
-                      String city, String address,
+                      String category, String postalCode, String address,
                       String eventLocation, String description,
                       String loggedUserID);
 

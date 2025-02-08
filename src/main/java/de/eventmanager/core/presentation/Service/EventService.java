@@ -11,12 +11,12 @@ public interface EventService {
     List<String> getPublicEventsByCity(String city);
     String getEventInformationByID(String eventID);
     boolean createNewEvent(String eventName, String eventStart, String eventEnd,
-                           String category, String postalCode, String city, String address,
+                           String category, String postalCode, String address,
                            int maxCapacity, String eventLocation, String description, int minimumAge, boolean isPrivateEvent,
                            String loggedUserID);
     List<String> getCreatedEventsByUserID(String userID );
     void editEvent(String eventID, String eventName, String eventStart, String eventEnd, String category,
-                  String postalCode, String city, String address, String eventLocation, String description,
+                  String postalCode, String address, String eventLocation, String description,
                   String loggedUserID);
     boolean userBookEvent(String eventID, String userID);
     boolean userCancelParticipationForEvent(String eventID, String userID);
