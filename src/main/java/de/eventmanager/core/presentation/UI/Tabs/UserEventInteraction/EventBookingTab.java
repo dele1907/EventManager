@@ -27,7 +27,7 @@ public class EventBookingTab implements Tab {
         view.displayUserInputMessage("Enter the event ID you want to book\n> ");
         String eventID = view.getUserInput();
 
-        if (eventService.getUserHasAlreadyBookedEvent(loggedInUserID, eventID)) {
+        if (eventService.getUserHasAlreadyBookedEventByID(loggedInUserID, eventID)) {
             view.displayErrorMessage("You have already booked this event.");
 
             return;

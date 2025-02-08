@@ -93,8 +93,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean getUserHasAlreadyBookedEvent(String userID, String eventID) {
+    public boolean getUserHasAlreadyBookedEventByID(String userID, String eventID) {
         return userManager.getUserHasAlreadyBookedEvent(userID, eventID);
+    }
+
+    @Override
+    public boolean getUserHasAlreadyBookedEventByEMail(String userEMail, String eventID) {
+        return userManager.getUserHasAlreadyBookedEvent(userManager.getUserByEmail(userEMail).get().getUserID(), eventID);
     }
     //#endregion event operations
 }

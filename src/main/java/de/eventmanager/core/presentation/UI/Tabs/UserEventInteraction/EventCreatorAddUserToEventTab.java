@@ -49,6 +49,12 @@ public class EventCreatorAddUserToEventTab implements Tab {
             return;
         }
 
+        if (eventService.getUserHasAlreadyBookedEventByEMail(userEmail, eventID)) {
+            view.displayErrorMessage("\nUser is already booked for this event.\n");
+
+            return;
+        }
+
         eventService.addUserToEventByUserEmail(eventID, userEmail, loggedInUserID);
 
         view.displaySuccessMessage("\nUser added to event successfully.\n");

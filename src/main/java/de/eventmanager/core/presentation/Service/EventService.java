@@ -22,5 +22,6 @@ public interface EventService {
     boolean userCancelParticipationForEvent(String eventID, String userID);
     boolean addUserToEventByUserEmail(String eventID, String userEmail, String loggedInUserID);
     List<String> getUsersBookedEventsInformation(String userID);
-    boolean getUserHasAlreadyBookedEvent(String userID, String eventID);
+    boolean getUserHasAlreadyBookedEventByID(String userID, String eventID);
+    boolean getUserHasAlreadyBookedEventByEMail(String userEMail, String eventID);
 }

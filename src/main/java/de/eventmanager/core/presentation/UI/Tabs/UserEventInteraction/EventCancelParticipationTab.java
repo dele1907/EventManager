@@ -27,7 +27,7 @@ public class EventCancelParticipationTab implements Tab {
         view.displayUserInputMessage("Enter the event ID you want to cancel participation\n> ");
         String eventID = view.getUserInput();
 
-        if (!eventService.getUserHasAlreadyBookedEvent(loggedInUserID, eventID)) {
+        if (!eventService.getUserHasAlreadyBookedEventByID(loggedInUserID, eventID)) {
             view.displayErrorMessage("You have not booked this event.");
 
             return;
