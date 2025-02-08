@@ -3,8 +3,10 @@ package de.eventmanager.core.users.Management;
 
 import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
+import de.eventmanager.core.database.Communication.NotificationDatabaseConnector;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.notifications.Notification;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.users.User;
@@ -75,6 +77,10 @@ public class UserManagerImplTestDrive {
         EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
         EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID);
 
+        ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID(TEST_USER_ID);
+        for (Notification notification : notificationList) {
+            NotificationDatabaseConnector.deleteNotification(notification.getNotificationID());
+        }
 
         if (userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).isPresent()) {
                 UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED);
