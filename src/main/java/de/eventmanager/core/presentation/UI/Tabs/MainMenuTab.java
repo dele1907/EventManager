@@ -16,8 +16,6 @@ public class MainMenuTab implements Tab {
     private String loggedInUserID;
     private LoginRegistrationPage loginRegistrationPage;
     private UserController userController;
-    //@TODO: remove flush before release
-    private  boolean flushTestDatabase;
 
     private enum MenuType {
         ADMIN,
@@ -43,14 +41,12 @@ public class MainMenuTab implements Tab {
     }
 
     public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage,
-                       UserController userController, boolean flushTestDatabase) {
+                       UserController userController) {
 
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.loginRegistrationPage = loginRegistrationPage;
         this.userController = userController;
-        //@TODO: remove flush before release
-        this.flushTestDatabase = flushTestDatabase;
     }
 
     @Override
@@ -127,10 +123,6 @@ public class MainMenuTab implements Tab {
         addDelay(2);
 
         view.displayMessage("\nExiting Program...\n");
-        //TODO @Dennis: remove flush before release
-        DatabasePathManager.flushDatabasePath(flushTestDatabase);
-        //TODO @Dennis: remove following line before release
-        DatabaseInitializer.deInit(ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE);
         System.exit(0);
     }
 

@@ -16,8 +16,6 @@ import java.util.Optional;
 public class LoginRegistrationPage implements Tab {
     private View view;
     private UserController userController;
-    //@TODO: remove flush before release
-    private boolean flushTestDatabase;
     private String loggedInUserID;
 
     private enum LoginRegistrationMenuChoice {
@@ -36,11 +34,9 @@ public class LoginRegistrationPage implements Tab {
         }
     }
 
-    public LoginRegistrationPage(View view, UserController userController, boolean flushTestDatabase) {
+    public LoginRegistrationPage(View view, UserController userController) {
         this.view = view;
         this.userController = userController;
-        //@TODO: remove flush before release
-        this.flushTestDatabase = flushTestDatabase;
     }
 
     @Override
@@ -69,10 +65,6 @@ public class LoginRegistrationPage implements Tab {
                     view.displayMessage("\nExit Program...");
                     programIsRunning = false;
 
-                    //TODO @Dennis: remove flush before release
-                    DatabasePathManager.flushDatabasePath(flushTestDatabase);
-                    //TODO @Dennis: remove following line before release
-                    DatabaseInitializer.deInit(ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE);
                     System.exit(0);
                 }
             }

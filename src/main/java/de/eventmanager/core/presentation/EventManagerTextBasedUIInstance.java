@@ -36,10 +36,8 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         productionModePage.start();
 
         boolean isProductiveSystem = ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE;
-        //@TODO: remove flush before release
-        boolean flushDatabasePathAfterTest = true && isProductiveSystem;
 
-        initPages(flushDatabasePathAfterTest);
+        initPages();
 
         initDatabase(isProductiveSystem);
 
@@ -56,7 +54,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
                 loggedInUserID = loginRegistrationPage.getLoggedInUser();
 
                 if (!loggedInUserID.isEmpty()) {
-                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUserID, loginRegistrationPage, userController, flushDatabasePathAfterTest);
+                    MainMenuTab mainMenuTab = new MainMenuTab(textView, loggedInUserID, loginRegistrationPage, userController);
                     mainMenuTab.start();
                 }
             } catch (Exception e) {
@@ -68,19 +66,13 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     @Override
     public void initDatabase(boolean isProductiveSystem) {
         String databasePath = DatabasePathManager.loadDatabasePath(isProductiveSystem);
-        if (databasePath.isEmpty() || !DatabasePathManager.isValidPath(databasePath, isProductiveSystem)) {
-            textView.displayUserInputMessage("\nPlease provide a valid database path\n> ");
-            databasePath = new Scanner(System.in).nextLine();
-            DatabasePathManager.saveDatabasePath(databasePath, isProductiveSystem);
-        }
-
         DatabaseConnector.setDatabasePath(databasePath);
         DatabaseInitializer.initialize();
         textView.displaySuccessMessage("\nDatabase initialized at: " + databasePath + "\n");
     }
 
-    private void initPages(boolean flushDatabasePathAfterTest) {
-        loginRegistrationPage = new LoginRegistrationPage(textView, userController, flushDatabasePathAfterTest);
+    private void initPages() {
+        loginRegistrationPage = new LoginRegistrationPage(textView, userController);
         adminUserStartupRegistrationPage = new AdminUserStartupRegistrationPage(textView, userController);
     }
 }
