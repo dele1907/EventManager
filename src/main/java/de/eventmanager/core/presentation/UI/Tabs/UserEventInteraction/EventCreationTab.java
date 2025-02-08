@@ -1,8 +1,8 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
+import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
@@ -13,7 +13,6 @@ import java.util.Optional;
 public class EventCreationTab implements Tab {
     private View view;
     private String loggedInUserID;
-    private UserController userController;
 
     private enum EventCreationMenuChoice {
         CREATE_PUBLIC_EVENT,
@@ -31,10 +30,9 @@ public class EventCreationTab implements Tab {
         }
     }
 
-    public EventCreationTab(View view, String loggedInUserID, UserController userController) {
+    public EventCreationTab(View view, String loggedInUserID) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
-        this.userController = userController;
     }
 
     @Override
@@ -98,7 +96,7 @@ public class EventCreationTab implements Tab {
             minimumAge = minimumAgeString.isEmpty() ? 0 : Integer.parseInt(minimumAgeString);
         }
 
-        return userController.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
+        return new EventServiceImpl().createNewEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
                 maxCapacity, eventLocation, description, minimumAge, isPrivateEvent, loggedInUserID);
     }
 }

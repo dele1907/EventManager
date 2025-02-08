@@ -1,7 +1,8 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
+import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
 
@@ -12,7 +13,7 @@ public class MainMenuTab implements Tab {
     private View view;
     private String loggedInUserID;
     private LoginRegistrationPage loginRegistrationPage;
-    private UserController userController;
+    private UserService userService;
 
     private enum MenuType {
         ADMIN,
@@ -37,18 +38,17 @@ public class MainMenuTab implements Tab {
         }
     }
 
-    public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage,
-                       UserController userController) {
+    public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage) {
 
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.loginRegistrationPage = loginRegistrationPage;
-        this.userController = userController;
+        this.userService = new UserServiceImpl();
     }
 
     @Override
     public void start() {
-        if (userController.getUserIsAdminUser(loggedInUserID)) {
+        if (userService.getUserIsAdminUser(loggedInUserID)) {
             showMainMenu(MenuType.ADMIN);
         } else {
             showMainMenu(MenuType.NON_ADMIN);
@@ -71,7 +71,7 @@ public class MainMenuTab implements Tab {
                 List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program");
 
         DefaultDialogHelper.getTabOrPageHeading(view, "Main Menu");
-        view.displaySuccessMessage("Welcome " + userController.getLoggedInUserName(loggedInUserID) + "!\n");
+        view.displaySuccessMessage("Welcome " + userService.getLoggedInUserName(loggedInUserID) + "!\n");
         DefaultDialogHelper.generateMenu(view, menu);
     }
 
@@ -131,10 +131,10 @@ public class MainMenuTab implements Tab {
             return;
         }
 
-        new AdminOperationsTab(view, loggedInUserID, userController).start();
+        new AdminOperationsTab(view, loggedInUserID).start();
     }
 
     private void doShowEventOperationTab() {
-        new EventOperationsTab(view, loggedInUserID, userController).start();
+        new EventOperationsTab(view, loggedInUserID).start();
     }
 }

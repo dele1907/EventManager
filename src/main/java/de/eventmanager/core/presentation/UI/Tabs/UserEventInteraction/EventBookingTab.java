@@ -1,6 +1,5 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
@@ -12,7 +11,7 @@ public class EventBookingTab implements Tab {
     private String loggedInUserID;
     private EventService eventService;
 
-    public EventBookingTab(View view, String loggedInUserID, UserController userController) {
+    public EventBookingTab(View view, String loggedInUserID) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         eventService = new EventServiceImpl();

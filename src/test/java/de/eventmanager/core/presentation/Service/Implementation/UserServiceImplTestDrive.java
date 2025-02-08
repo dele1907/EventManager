@@ -1,6 +1,7 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
+import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -16,14 +17,16 @@ public class UserServiceImplTestDrive {
         UserServiceImpl userServiceImpl = new UserServiceImpl();
 
         boolean isRegistered = userServiceImpl.registerUser(
+                new UserRegistrationDataPayload(
                 "Dis",
                 "Appear",
                 "01.01.2000",
                 "disappear@muster.com",
                 "12345678",
                 "123456",
-                "123456",
-                "iwbLeZWwmrg5E0oC8KIs"
+                "123456"
+                ), "iwbLeZWwmrg5E0oC8KIs"
+
         );
         System.out.println("User registered: " + isRegistered);
         assertTrue(isRegistered);

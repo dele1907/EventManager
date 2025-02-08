@@ -1,19 +1,20 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
+import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 public class AdminDeleteUserTab implements Tab {
     private View view;
-    private UserController userController;
     private String loggedInUserUserID;
+    private UserService userService;
 
-    public AdminDeleteUserTab(View view, UserController userController, String loggedInUserUserID) {
+    public AdminDeleteUserTab(View view, String loggedInUserUserID) {
         this.view = view;
-        this.userController = userController;
         this.loggedInUserUserID = loggedInUserUserID;
+        this.userService = new UserServiceImpl();
     }
 
     @Override
@@ -22,7 +23,8 @@ public class AdminDeleteUserTab implements Tab {
         view.displayUserInputMessage("Enter the email of the user to delete\n> ");
         String email = view.getUserInput();
 
-        String userInformationUserToDelete = userController.getUserInformationByEmail(email);
+        String userInformationUserToDelete = userService.getUserInformationByEmail(email);
+
 
         if (userInformationUserToDelete.isEmpty()) {
             view.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
@@ -50,9 +52,8 @@ public class AdminDeleteUserTab implements Tab {
     }
 
     private void showUserDeletionSuccess(String emailUserToDelete) {
-        boolean success = userController.deleteUser(emailUserToDelete, loggedInUserUserID);
 
-        if (success) {
+        if (userService.deleteUser(emailUserToDelete, loggedInUserUserID)) {
             view.displaySuccessMessage("\nUser deleted successfully.\n");
         } else {
             view.displayErrorMessage("\nFailed to delete user. User may not exist.\n");

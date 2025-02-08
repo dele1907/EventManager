@@ -1,19 +1,17 @@
 package de.eventmanager.core.presentation.UI;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
+import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import helper.ConfigurationDataSupplierHelper;
 
 public class AdminUserStartupRegistrationPage implements Tab {
     private View view;
-    private UserController userController;
 
-    public AdminUserStartupRegistrationPage(View view, UserController userController) {
+    public AdminUserStartupRegistrationPage(View view) {
         this.view = view;
-        this.userController = userController;
     }
 
     @Override
@@ -52,7 +50,10 @@ public class AdminUserStartupRegistrationPage implements Tab {
                 userInputs[3], userInputs[4], userInputs[5], userInputs[6]
         );
 
-        userController.createNewAdminUser(userRegistrationDataPayload, ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID);
+        new UserServiceImpl().registerAdminUser(
+                userRegistrationDataPayload,
+                ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID
+        );
     }
 
     private String getUserInputWithValidation(String prompt, int index) {

@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
+import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.roles.Role;
@@ -13,29 +14,45 @@ public class UserServiceImpl implements UserService {
     UserManager userManagerImpl = new UserManagerImpl();
 
     @Override
-    public boolean registerUser(String firstName, String lastName, String dateOfBirth,
-            String email, String phoneNumber, String password,
-            String passwordConfirmation, String loggedInUserUserID) {
+    public boolean registerUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedInUserUserID) {
 
-        if (!userManagerImpl.isValidRegistrationPassword(password, passwordConfirmation)) {
+        if (!userManagerImpl.isValidRegistrationPassword(
+                userRegistrationDataPayload.password(),
+                userRegistrationDataPayload.confirmPassword())) {
             return false;
         }
 
-        return userManagerImpl.createNewUser(firstName, lastName, dateOfBirth, email, password, phoneNumber,
-                false, loggedInUserUserID);
+        return createNewUserFromPayload(userRegistrationDataPayload, false, loggedInUserUserID);
+
+    }
+
+    private boolean createNewUserFromPayload(UserRegistrationDataPayload userRegistrationDataPayload,
+                                             boolean isAdminUser, String loggedInUserUserID) {
+
+        return userManagerImpl.createNewUser(
+                userRegistrationDataPayload.firstName(),
+                userRegistrationDataPayload.lastName(),
+                userRegistrationDataPayload.dateOfBirth(),
+                userRegistrationDataPayload.email(),
+                userRegistrationDataPayload.password(),
+                userRegistrationDataPayload.phoneNumber(),
+                isAdminUser,
+                loggedInUserUserID
+        );
 
     }
 
     @Override
-    public boolean registerAdminUser(String firstName, String lastName, String dateOfBirth, String email,
-            String phoneNumber, String password, String passwordConfirmation, String loggedUserID) {
+    public boolean registerAdminUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedUserID) {
 
-        if (!userManagerImpl.isValidRegistrationPassword(password, passwordConfirmation)) {
+        if (!userManagerImpl.isValidRegistrationPassword(
+                userRegistrationDataPayload.password(),
+                userRegistrationDataPayload.confirmPassword()
+        )) {
             return false;
         }
 
-        return userManagerImpl.createNewUser(firstName, lastName, dateOfBirth, email, password, phoneNumber,
-                true, loggedUserID);
+        return createNewUserFromPayload(userRegistrationDataPayload, true, loggedUserID);
     }
 
     @Override

@@ -1,14 +1,13 @@
 package de.eventmanager.core.presentation.Service;
 
+import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.users.User;
 
 import java.util.Optional;
 
 public interface UserService {
-    boolean registerUser(String firstName, String lastName, String dateOfBirth, String email,  String phoneNumber,
-                         String password, String passwordConfirmation, String LoggedInUserUserID);
-    boolean registerAdminUser(String firstName, String lastName, String dateOfBirth, String email,
-                              String phoneNumber, String password, String passwordConfirmation, String loggedUserID);
+    boolean registerUser(UserRegistrationDataPayload userRegistrationDataPayload, String LoggedInUserUserID);
+    boolean registerAdminUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedUserID);
     String loginUser(String email, String password);
     boolean deleteUser(String userToDeleteEmail, String loggedInUserEmail);
     void editUser(String userEmailAddress, String loggedInUserID, String newFirstName, String newLastName,

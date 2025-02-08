@@ -6,7 +6,6 @@ import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminCreateU
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminDeleteUserTab;
 import de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs.AdminEditUserTab;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.presentation.Controller.UserController;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import java.util.Optional;
 public class AdminOperationsTab implements Tab {
     private View view;
     private String loggedInUserID;
-    private UserController userController;
 
     private enum AdminMenuChoice {
         EDIT_USER,
@@ -35,10 +33,9 @@ public class AdminOperationsTab implements Tab {
         }
     }
 
-    public AdminOperationsTab(View view, String loggedInUserID, UserController userController) {
+    public AdminOperationsTab(View view, String loggedInUserID) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
-        this.userController = userController;
     }
 
     @Override
@@ -68,14 +65,14 @@ public class AdminOperationsTab implements Tab {
     }
 
     private void handleCreateUser() {
-        new AdminCreateUserTab(view, userController, loggedInUserID).start();
+        new AdminCreateUserTab(view, loggedInUserID).start();
     }
 
     private void handleDeleteUser() {
-        new AdminDeleteUserTab(view, userController, loggedInUserID).start();
+        new AdminDeleteUserTab(view, loggedInUserID).start();
     }
 
     private void handleEditUser() {
-        new AdminEditUserTab(view, userController, loggedInUserID).start();
+        new AdminEditUserTab(view, loggedInUserID).start();
     }
 }

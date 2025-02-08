@@ -1,7 +1,8 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.Service.EventService;
+import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
@@ -10,7 +11,6 @@ import java.util.List;
 public class EventEditTab implements Tab {
     private View view;
     private String loggedInUserID;
-    private UserController userController;
     private String eventID;
     private String newEventName;
     private String newEventStart;
@@ -21,18 +21,19 @@ public class EventEditTab implements Tab {
     private String newEventAddress;
     private String newEventLocation;
     private String newEventDescription;
+    private EventService eventService;
 
-    public EventEditTab(View view, String loggedInUserID, UserController userController) {
+    public EventEditTab(View view, String loggedInUserID) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
-        this.userController = userController;
+        this.eventService = new EventServiceImpl();
     }
 
     @Override
     public void start() {
         DefaultDialogHelper.getTabOrPageHeading(view, "Edit Event");
         handleShowCreatedEventsForLoggedInUser();
-        userController.editEvent(
+        eventService.editEvent(
                 eventID, newEventName, newEventStart, newEventEnd, newEventCategory,
                 newEventPostalCode, newEventCity, newEventAddress, newEventLocation,
                 newEventDescription, loggedInUserID
@@ -40,7 +41,7 @@ public class EventEditTab implements Tab {
     }
 
     private void handleShowCreatedEventsForLoggedInUser() {
-        List<String > createdEvents = userController.getCreatedEventsForLoggedInUser(loggedInUserID);
+        List<String > createdEvents = eventService.getCreatedEventsByUserID(loggedInUserID);
 
         if (createdEvents.isEmpty()) {
             view.displayWarningMessage("\nYou have not created any events yet.\n");
@@ -69,7 +70,7 @@ public class EventEditTab implements Tab {
             return;
         }
         eventID = userInputEventID;
-        String eventInformation = userController.getEventInformationByEventID(userInputEventID);
+        String eventInformation = eventService.getEventInformationByID(userInputEventID);
 
         if (eventInformation.isEmpty()) {
             view.displayErrorMessage("\nNo event found with the given event ID. Please try again.\n");

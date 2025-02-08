@@ -1,6 +1,5 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
@@ -13,7 +12,6 @@ import java.util.Optional;
 public class EventOperationsTab implements Tab {
     private View view;
     private String loggedInUserID;
-    private UserController userController;
 
     private enum EventOperationsChoice {
         CREATE_NEW_EVENT,
@@ -39,10 +37,9 @@ public class EventOperationsTab implements Tab {
         }
     }
 
-    public EventOperationsTab(View view, String loggedInUserID, UserController userController) {
+    public EventOperationsTab(View view, String loggedInUserID) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
-        this.userController = userController;
     }
 
     @Override
@@ -72,19 +69,19 @@ public class EventOperationsTab implements Tab {
     }
 
     private void handleCreateEvent() {
-      new EventCreationTab(view, loggedInUserID, userController).start();
+      new EventCreationTab(view, loggedInUserID).start();
     }
 
     private void handleShowEvents() {
-        new ShowEventsTab(view, userController, loggedInUserID).start();
+        new ShowEventsTab(view, loggedInUserID).start();
     }
 
     private void handleBookEvent() {
-        new EventBookingTab(view, loggedInUserID, userController).start();
+        new EventBookingTab(view, loggedInUserID).start();
     }
 
     private void handleCancelEvent() {
-        new EventCancelParticipationTab(view, loggedInUserID, userController).start();
+        new EventCancelParticipationTab(view, loggedInUserID).start();
     }
 
     private void handleAddUserToEvent() {
@@ -92,7 +89,7 @@ public class EventOperationsTab implements Tab {
     }
 
     private void handleEditEvent() {
-        new EventEditTab(view, loggedInUserID, userController).start();
+        new EventEditTab(view, loggedInUserID).start();
     }
 
     private void handleMenuGeneration() {

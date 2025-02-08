@@ -1,6 +1,5 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
@@ -10,13 +9,11 @@ import de.eventmanager.core.presentation.UI.View;
 public class EventCancelParticipationTab implements Tab {
     private View view;
     private String loggedInUserID;
-    private UserController userController;
     private EventService eventService;
 
-    public EventCancelParticipationTab(View view, String loggedInUserID, UserController userController) {
+    public EventCancelParticipationTab(View view, String loggedInUserID) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
-        this.userController = userController;
         eventService = new EventServiceImpl();
     }
 

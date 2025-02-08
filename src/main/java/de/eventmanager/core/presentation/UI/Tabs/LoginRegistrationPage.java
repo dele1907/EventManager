@@ -1,9 +1,10 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
+import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
+import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.View;
 import helper.ConfigurationDataSupplierHelper;
 
@@ -13,8 +14,8 @@ import java.util.Optional;
 
 public class LoginRegistrationPage implements Tab {
     private View view;
-    private UserController userController;
     private String loggedInUserID;
+    private UserService userService;
 
     private enum LoginRegistrationMenuChoice {
         REGISTER,
@@ -32,9 +33,9 @@ public class LoginRegistrationPage implements Tab {
         }
     }
 
-    public LoginRegistrationPage(View view, UserController userController) {
+    public LoginRegistrationPage(View view) {
         this.view = view;
-        this.userController = userController;
+        this.userService = new UserServiceImpl();
     }
 
     @Override
@@ -84,10 +85,9 @@ public class LoginRegistrationPage implements Tab {
 
     private void validateRegisterUser(UserRegistrationDataPayload userRegistrationDataPayload) {
 
-        boolean registrationSuccess = userController.createNewUser(userRegistrationDataPayload,
-                ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID);
+        if (!(new UserServiceImpl().registerUser(userRegistrationDataPayload,
+                ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID))) {
 
-        if (!registrationSuccess) {
             view.displayErrorMessage("\nUser registration failed\n");
 
             return;
@@ -110,9 +110,7 @@ public class LoginRegistrationPage implements Tab {
             return "";
         }
 
-        String loginUserID = userController.loginUser(eMail, password);
-
-        return validateLoginUser(loginUserID);
+        return validateLoginUser(userService.loginUser(eMail, password));
     }
 
     private String validateLoginUser(String loginUserID) {

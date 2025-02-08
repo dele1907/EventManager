@@ -1,6 +1,5 @@
 package de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.Service.EventService;
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 public class ShowEventsTab implements Tab{
     private View view;
-    private UserController userController;
     private String loggedInUserID;
     private EventService eventService;
 
@@ -38,9 +36,8 @@ public class ShowEventsTab implements Tab{
         }
     }
 
-    public ShowEventsTab(View view, UserController userController, String loggedInUserID) {
+    public ShowEventsTab(View view, String loggedInUserID) {
         this.view = view;
-        this.userController = userController;
         this.loggedInUserID = loggedInUserID;
         eventService = new EventServiceImpl();
     }
@@ -72,7 +69,7 @@ public class ShowEventsTab implements Tab{
         view.displayUserInputMessage("\nWhats the Name of the Event you looking for?\n> ");
         String eventName = view.getUserInput();
 
-        List<String> listFoundEvents = userController.getPublicEventsByName(eventName);
+        List<String> listFoundEvents = eventService.getPublicEventsByName(eventName);
 
         if (listFoundEvents.isEmpty()) {
             view.displayErrorMessage("\nNo Event found with the name: " + eventName);
@@ -92,7 +89,7 @@ public class ShowEventsTab implements Tab{
         view.displayUserInputMessage("\nWhats the Location of the Event you looking for?\n> ");
         String eventLocation = view.getUserInput();
 
-        List<String> listFoundEvents = userController.getPublicEventsByLocation(eventLocation);
+        List<String> listFoundEvents = eventService.getPublicEventsByLocation(eventLocation);
 
         if (listFoundEvents.isEmpty()) {
             view.displayErrorMessage("\nNo Event found for provided location: " + eventLocation);
@@ -112,7 +109,7 @@ public class ShowEventsTab implements Tab{
         view.displayUserInputMessage("\nWhats the City of the Event you looking for?\n> ");
         String eventCity = view.getUserInput();
 
-        List<String> listFoundEvents = userController.getPublicEventsByCity(eventCity);
+        List<String> listFoundEvents = eventService.getPublicEventsByCity(eventCity);
 
         if (listFoundEvents.isEmpty()) {
             view.displayErrorMessage("\nNo Event for following city: " + eventCity);
@@ -173,6 +170,6 @@ public class ShowEventsTab implements Tab{
             return;
         }
 
-        new EventBookingTab(view, loggedInUserID, userController).start();
+        new EventBookingTab(view, loggedInUserID).start();
     }
 }

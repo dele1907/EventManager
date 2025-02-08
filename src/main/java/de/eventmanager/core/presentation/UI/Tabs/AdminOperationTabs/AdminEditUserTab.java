@@ -1,8 +1,9 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
-import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.ValidationHelper;
+import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
+import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
@@ -10,18 +11,18 @@ import java.util.Optional;
 
 public class AdminEditUserTab implements Tab {
     private View view;
-    private UserController userController;
     private String userToEditEmail;
     private String loggedInUserID;
     private String editedFirstName;
     private String editedLastName;
     private String editedEmail;
     private String editedPhoneNumber;
+    private UserService userService;
 
-    public AdminEditUserTab(View view, UserController userController, String loggedInUserID) {
+    public AdminEditUserTab(View view, String loggedInUserID) {
         this.view = view;
-        this.userController = userController;
         this.loggedInUserID = loggedInUserID;
+        this. userService = new UserServiceImpl();
     }
 
     @Override
@@ -37,7 +38,7 @@ public class AdminEditUserTab implements Tab {
         displayUserDetails();
         showEditUserDialog();
 
-        userController.editUser(
+        userService.editUser(
                 userToEditEmail, loggedInUserID,
                 editedFirstName, editedLastName,
                 editedEmail, editedPhoneNumber
@@ -47,21 +48,21 @@ public class AdminEditUserTab implements Tab {
     }
 
     private void displayUserDetails() {
-        if (!userController.getUserIsPresentInDatabaseByEmail(userToEditEmail)) {
+        if (!userService.getUserIsPresentInDatabaseByEmail(userToEditEmail)) {
             view.displayErrorMessage(DefaultDialogHelper.USER_NOT_FOUND);
 
             return;
         }
 
         view.displayUnderlinedSubheading("\n\u001B[4mCurrent user details:\u001B[0m");
-        view.displayMessage(userController.getUserInformationByEmail(userToEditEmail));
+        view.displayMessage(userService.getUserInformationByEmail(userToEditEmail));
     }
 
     private boolean showFindUser() {
         view.displayUserInputMessage("Enter the email of the user to edit\n> ");
         userToEditEmail = view.getUserInput();
 
-        return userController.getUserIsPresentInDatabaseByEmail(userToEditEmail);
+        return userService.getUserIsPresentInDatabaseByEmail(userToEditEmail);
     }
 
     private void showEditUserDialog() {
