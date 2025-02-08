@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
-@Tag("parallelDatabaseTests")
 public class UserDatabaseConnectorTestDrive {
 
     User testUser;
@@ -38,6 +37,8 @@ public class UserDatabaseConnectorTestDrive {
         assertEquals("1234567890", userFromDatabase.get().getPhoneNumber());
 
         UserDatabaseConnector.deleteUserByID("createTestUserDatabaseConnector");
+
+        System.out.println("Running DatabaseTest on thread: " + Thread.currentThread().getName());
     }
 
     /**

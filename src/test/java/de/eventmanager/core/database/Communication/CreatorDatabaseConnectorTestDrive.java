@@ -20,19 +20,6 @@ public class CreatorDatabaseConnectorTestDrive {
 
     User testUser;
 
-    /**
-     * Clean up the database after testing
-     * */
-    /*@AfterAll
-    static void cleanUp() throws SQLException {
-
-        try (Connection cleanupConnection = DatabaseConnector.connect()) {
-           DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
-            cleanupDsl.deleteFrom(USER).execute();
-            cleanupDsl.deleteFrom(CREATED).execute();
-        }
-    }*/
-
     //#region successful CRUD operations
 
     /**

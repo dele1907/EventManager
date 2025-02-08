@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Tag("parallelDatabaseTests")
 public class EventDatabaseConnectorTestDrive {
 
     private PrivateEvent testPrivateEvent;
@@ -50,6 +49,8 @@ public class EventDatabaseConnectorTestDrive {
         assertEquals("Geburtstagsfeier von meiner super tollen Test-Oma", privateEventFromDatabase.get().getDescription());
 
         EventDatabaseConnector.deleteEventByID("createTestPrivateEventDatabaseConnector");
+
+        System.out.println("Running DatabaseTest on thread: " + Thread.currentThread().getName());
     }
 
     /**

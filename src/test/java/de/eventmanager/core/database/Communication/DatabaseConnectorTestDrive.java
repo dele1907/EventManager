@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@Tag("parallelDatabaseTests")
 public class DatabaseConnectorTestDrive {
 
     /**

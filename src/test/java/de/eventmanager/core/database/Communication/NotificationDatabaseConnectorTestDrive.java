@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-@Tag("parallelDatabaseTests")
 public class NotificationDatabaseConnectorTestDrive {
 
     Notification testNotification1;

@@ -32,6 +32,8 @@ public class BookingDatabaseConnectorTestDrive {
 
         BookingDatabaseConnector.removeBooking("testEventToBook", "testUserWhoBooks");
         EventDatabaseConnector.deleteEventByID("testEventToBook");
+
+        System.out.println("Running DatabaseTest on thread: " + Thread.currentThread().getName());
     }
 
     /**
