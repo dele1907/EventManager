@@ -36,10 +36,10 @@ public class DatabaseInitializer {
             + " category TEXT NOT NULL,"
             + " eventLocation TEXT NOT NULL,"
             + " postalCode TEXT NOT NULL,"
-            + " address TEXT NOT NULL,"
+            + " address TEXT NULL,"
             + " description TEXT NULL,"
             + " privateEvent BOOLEAN NOT NULL,"
-            +  "minimumAge TEXT NOT NULL"
+            +  "minimumAge TEXT NULL"
             + ");";
 
     private final static String CREATED_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS created ("
