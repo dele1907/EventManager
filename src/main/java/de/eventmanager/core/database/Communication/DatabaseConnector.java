@@ -8,9 +8,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnector {
+
+    private static final String JDBC_URL_PREFIX = "jdbc:sqlite:";
     private static String databasePath = ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE ?
             "" :
             "src/main/resources/eventmanager.sqlite";
+
+    private DatabaseConnector() {}
 
     public static void setDatabasePath(String path) {
         databasePath = path;
@@ -22,9 +26,15 @@ public class DatabaseConnector {
 
     public static Connection connect() {
         try {
-            return DriverManager.getConnection("jdbc:sqlite:" + databasePath);
+            Connection connection = DriverManager.getConnection(JDBC_URL_PREFIX + databasePath);
+
+            if (connection == null) {
+                LoggerHelper.logErrorMessage(DatabaseConnector.class, "Database connection is null!");
+            }
+
+            return connection;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerHelper.logErrorMessage(DatabaseConnector.class, "Error connecting to database: " + e.getMessage());
 
             return null;
         }
