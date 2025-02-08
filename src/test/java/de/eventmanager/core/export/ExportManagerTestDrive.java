@@ -59,7 +59,6 @@ public class ExportManagerTestDrive {
 
     @Test
     @DisplayName("Export Events Test")
-    @Disabled
     void exportEventsTest() {
         assertTrue(exportManager.exportEvents(event));
     }
