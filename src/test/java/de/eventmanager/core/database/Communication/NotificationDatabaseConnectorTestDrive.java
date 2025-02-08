@@ -1,36 +1,19 @@
 package de.eventmanager.core.database.Communication;
 
 import de.eventmanager.core.notifications.Notification;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
-import org.junit.jupiter.api.AfterAll;
+
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import static org.jooq.generated.tables.Notifications.NOTIFICATIONS;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
+@Tag("parallelDatabaseTests")
 public class NotificationDatabaseConnectorTestDrive {
 
     Notification testNotification1;
     Notification testNotification2;
     Notification testNotificationUpdated;
-
-    /**
-     * Clean up the database after testing
-     * */
-    /*@AfterAll
-    static void cleanUp() throws SQLException {
-
-        try (Connection cleanupConnection = DatabaseConnector.connect()) {
-           DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
-            cleanupDsl.deleteFrom(NOTIFICATIONS).execute();
-        }
-    }*/
 
     //#region successful CRUD operations
 

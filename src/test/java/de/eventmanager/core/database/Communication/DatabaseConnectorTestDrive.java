@@ -1,11 +1,13 @@
 package de.eventmanager.core.database.Communication;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@Tag("parallelDatabaseTests")
 public class DatabaseConnectorTestDrive {
 
     /**

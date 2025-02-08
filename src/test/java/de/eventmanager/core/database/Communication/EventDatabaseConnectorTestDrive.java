@@ -3,22 +3,16 @@ package de.eventmanager.core.database.Communication;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.generated.tables.Events;
-import org.jooq.impl.DSL;
-import org.junit.jupiter.api.*;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.jooq.generated.tables.Events.EVENTS;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@Tag("parallelDatabaseTests")
 public class EventDatabaseConnectorTestDrive {
 
     private PrivateEvent testPrivateEvent;
@@ -26,18 +20,6 @@ public class EventDatabaseConnectorTestDrive {
     private PublicEvent testPublicEvent1;
     private PublicEvent testPublicEvent2;
     private PublicEvent testPublicEventUpdated;
-
-    /**
-     * Clean up the database after testing
-     * */
-    /*@AfterAll
-    static void cleanUp() throws SQLException {
-
-        try (Connection cleanupConnection = DatabaseConnector.connect()) {
-            DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
-            cleanupDsl.deleteFrom(EVENTS).execute();
-        }
-    }*/
 
     //#region successful CRUD operations
 

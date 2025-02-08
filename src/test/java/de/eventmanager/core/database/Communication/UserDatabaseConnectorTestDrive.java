@@ -2,34 +2,16 @@ package de.eventmanager.core.database.Communication;
 
 import de.eventmanager.core.users.User;
 
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 import org.junit.jupiter.api.*;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Optional;
-
-import static org.jooq.generated.tables.User.USER;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Optional;
+
+@Tag("parallelDatabaseTests")
 public class UserDatabaseConnectorTestDrive {
 
     User testUser;
     User testUserUpdated;
-
-    /**
-     * Clean up the database after testing
-     * */
-    /*@AfterAll
-    static void cleanUp() throws SQLException {
-
-        try (Connection cleanupConnection = DatabaseConnector.connect()) {
-           DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
-            cleanupDsl.deleteFrom(USER).execute();
-        }
-    }*/
 
     //#region successful CRUD operations
 

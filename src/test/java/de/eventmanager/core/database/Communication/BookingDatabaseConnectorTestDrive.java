@@ -2,40 +2,17 @@ package de.eventmanager.core.database.Communication;
 
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
-import org.junit.jupiter.api.AfterAll;
+
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import static org.jooq.generated.tables.Booked.BOOKED;
-import static org.jooq.generated.tables.Events.EVENTS;
-import static org.jooq.generated.tables.User.USER;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
 
 public class BookingDatabaseConnectorTestDrive {
 
     User testUserForBooking1;
     User testUserForBooking2;
     PublicEvent testEventForBooking;
-
-    /**
-     * Clean up the database after testing
-     * */
-    /*@AfterAll
-    static void cleanUp() throws SQLException {
-
-        try (Connection cleanupConnection = DatabaseConnector.connect()) {
-           DSLContext cleanupDsl = DSL.using(cleanupConnection, SQLDialect.SQLITE);
-            cleanupDsl.deleteFrom(USER).execute();
-            cleanupDsl.deleteFrom(EVENTS).execute();
-            cleanupDsl.deleteFrom(BOOKED).execute();
-        }
-    }*/
 
     //#region successful CRUD operations
 
