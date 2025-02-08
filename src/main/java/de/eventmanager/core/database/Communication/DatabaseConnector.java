@@ -1,6 +1,5 @@
 package de.eventmanager.core.database.Communication;
 
-import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import helper.ConfigurationDataSupplierHelper;
 import helper.LoggerHelper;
 

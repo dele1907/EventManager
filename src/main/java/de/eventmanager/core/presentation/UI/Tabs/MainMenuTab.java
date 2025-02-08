@@ -1,12 +1,9 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
-import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabaseInitializer;
-import de.eventmanager.core.database.Communication.ProductiveSystemDatabase.DatabasePathManager;
 import de.eventmanager.core.presentation.Controller.UserController;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
-import helper.ConfigurationDataSupplierHelper;
 
 import java.util.List;
 import java.util.Optional;

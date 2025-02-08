@@ -10,13 +10,11 @@ import org.jooq.impl.DSL;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class DatabaseInitializer {
 
     //#region SQL statements
-
     private final static String USER_TABLE_MODEL = "CREATE TABLE IF NOT EXISTS user ("
             + " userID TEXT PRIMARY KEY,"
             + " firstName TEXT NOT NULL,"
@@ -80,11 +78,9 @@ public class DatabaseInitializer {
             BOOKED_TABLE_MODEL,
             CITIES_POSTAL_CODE_TABLE_MODEL,
             NOTIFICATIONS_TABLE_MODEL);
-
     //#endregion SQL statements
 
     //#region methods
-
     public static void initialize() {
         Connection connection = DatabaseConnector.connect();
        try {
@@ -142,7 +138,6 @@ public class DatabaseInitializer {
             LoggerHelper.logInfoMessage(DatabaseInitializer.class, "Database file does not exist.");
         }
     }
-
     //#endregion methods
 
 }

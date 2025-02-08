@@ -14,13 +14,7 @@ import de.eventmanager.core.presentation.UI.Tabs.LoginRegistrationPage;
 import de.eventmanager.core.presentation.UI.Tabs.MainMenuTab;
 import de.eventmanager.core.presentation.UI.TextView;
 import de.eventmanager.core.presentation.UI.View;
-import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static View textView = new TextView();
