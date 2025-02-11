@@ -107,9 +107,22 @@ public class DatabaseInitializer {
     }
 
     private static boolean getDataBaseAlreadyInitialized() {
-        var dataBasePath = DatabaseConnector.getDatabasePath();
+        var connection = DatabaseConnector.connect();
 
-        return new File(dataBasePath).exists();
+        try {
+            var result = DSL.using(connection)
+                    .fetch("SELECT name FROM sqlite_master WHERE type='table' AND name='user'");
+
+            return !result.isEmpty();
+        } catch (DataAccessException e) {
+            LoggerHelper.logErrorMessage(DatabaseInitializer.class,
+                    "Error checking database initialization: " +
+                            e.getMessage());
+
+            return false;
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     private static void initDataBaseTables(Connection connection) throws SQLException {
