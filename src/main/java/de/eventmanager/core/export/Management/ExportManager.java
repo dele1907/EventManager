@@ -168,21 +168,21 @@ public class ExportManager {
 
     //#region Time-Settings
     private Optional<java.util.Calendar> setEventStartTime(String eventName) {
-        int startYear = DateOperationsHelper.getEventStartYear(eventName);
-        int startMonth = DateOperationsHelper.getEventStartMonth(eventName);
-        int startDay = DateOperationsHelper.getEventStartDay(eventName);
-        int startHour = DateOperationsHelper.getEventStartHour(eventName);
-        int startMinute = DateOperationsHelper.getEventStartMinute(eventName);
+        int startYear = DateOperationsHelper.getEventStartValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_YEAR);
+        int startMonth = DateOperationsHelper.getEventStartValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_MONTH);
+        int startDay = DateOperationsHelper.getEventStartValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_DAY);
+        int startHour = DateOperationsHelper.getEventStartValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_HOUR);
+        int startMinute = DateOperationsHelper.getEventStartValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_MINUTE);
 
         return setDateAndTimeForCalendarEvent(startYear, startMonth, startDay, startHour, startMinute);
     }
 
     private Optional<java.util.Calendar> setEventEndTime(String eventName) {
-        int endYear = DateOperationsHelper.getEventEndYear(eventName);
-        int endMonth = DateOperationsHelper.getEventEndMonth(eventName);
-        int endDay = DateOperationsHelper.getEventEndDay(eventName);
-        int endHour = DateOperationsHelper.getEventEndHour(eventName);
-        int endMinute = DateOperationsHelper.getEventEndMinute(eventName);
+        int endYear = DateOperationsHelper.getEventEndValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_YEAR);
+        int endMonth = DateOperationsHelper.getEventEndValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_MONTH);
+        int endDay = DateOperationsHelper.getEventEndValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_DAY);
+        int endHour = DateOperationsHelper.getEventEndValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_HOUR);
+        int endMinute = DateOperationsHelper.getEventEndValue(eventName, DateOperationsHelper.FORMAT_SPECIFIER_MINUTE);
 
         return setDateAndTimeForCalendarEvent(endYear, endMonth, endDay, endHour, endMinute);
     }

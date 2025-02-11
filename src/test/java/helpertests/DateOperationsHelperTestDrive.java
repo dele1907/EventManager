@@ -3,8 +3,6 @@ package helpertests;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.users.User;
 import helper.DateOperationsHelper;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +21,7 @@ public class DateOperationsHelperTestDrive {
     }
 
     @Test
-    void testAgeLogicNew() {
+    void testAgeLogic() {
 
         testUser = new User("createTestUserDatabaseConnector", "Max", "Mustermann", "1999-01-10",
                 "max.create@testmail.com", "Password123", "1234567890", false);
