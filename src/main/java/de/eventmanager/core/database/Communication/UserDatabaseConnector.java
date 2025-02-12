@@ -160,6 +160,7 @@ public class UserDatabaseConnector {
                     .set(USER.EMAIL, user.getEMailAddress())
                     .set(USER.PASSWORD, user.getPassword())
                     .set(USER.PHONENUMBER, user.getPhoneNumber())
+                    .set(USER.ISADMIN, user.getRole().equals(Role.ADMIN) ? true : false)
                     .where(USER.USERID.eq(user.getUserID()))
                     .execute();
 

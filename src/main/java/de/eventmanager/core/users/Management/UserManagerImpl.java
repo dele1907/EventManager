@@ -445,16 +445,22 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void addAdminStatusToUser(User user){
         user.setRoleAdmin(true);
+
+        UserDatabaseConnector.updateUser(user);
     }
 
     @Override
     public void removeAdminStatusFromUser(User user) {
         user.setRoleAdmin(false);
+
+        UserDatabaseConnector.updateUser(user);
     }
 
     @Override
     public void addAdminStatusToUserByUserID(String userID, User loggedUser) {
-        if (!loggedUser.getRole().equals(Role.ADMIN)) {return;}
+        if (!loggedUser.getRole().equals(Role.ADMIN)) {
+            return;
+        }
 
         this.addAdminStatusToUser(UserDatabaseConnector.readUserByID(userID).get());
     }

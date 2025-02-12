@@ -227,10 +227,10 @@ public class UserManagerImplTestDrive {
     void addAndRemoveAdminStatusToUserTest() {
 
         userManagerImpl.addAdminStatusToUserByUserID(TEST_USER_ID, testAdminUser);
-        assertEquals(Role.ADMIN, testUser.getRole());
+        assertEquals(Role.ADMIN, userManagerImpl.getUserByID(testUser.getUserID()).get().getRole());
 
         userManagerImpl.removeAdminStatusFromUserByUserID(TEST_USER_ID, testAdminUser);
-        assertNotEquals(Role.ADMIN, testUser.getRole());
+        assertNotEquals(Role.ADMIN, userManagerImpl.getUserByID(testUser.getUserID()).get().getRole());
     }
 
     //#endregion Permission Tests
