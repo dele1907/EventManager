@@ -13,12 +13,10 @@ import net.fortuna.ical4j.model.parameter.Cn;
 import net.fortuna.ical4j.model.parameter.CuType;
 import net.fortuna.ical4j.model.parameter.Role;
 import net.fortuna.ical4j.model.property.*;
-
 import java.net.URI;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ExportManager {
 
@@ -36,18 +34,17 @@ public class ExportManager {
      */
 
     public boolean exportEvents(List<? extends EventModel> eventList) {
-
         var optionalCalendar = createCalendar(eventList);
 
         if (optionalCalendar.isEmpty()) {
-            System.out.println("No Calendar found");
+            LoggerHelper.logInfoMessage(ExportManager.class, "No Calendar found");
 
             return false;
         }
 
         Calendar calendar = optionalCalendar.get();
 
-        return Exporter.exportEvent(calendar);
+        return Exporter.exportEventToICSFile(calendar);
     }
 
     //#region Create Calendar

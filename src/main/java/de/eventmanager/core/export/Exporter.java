@@ -1,6 +1,5 @@
 package de.eventmanager.core.export;
 
-
 import helper.LoggerHelper;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
@@ -11,7 +10,7 @@ import java.nio.file.Paths;
 
 public class Exporter {
 
-    public static boolean exportEvent(Calendar calendar) {
+    public static boolean exportEventToICSFile(Calendar calendar) {
         try {
             String path;
             if (System.getenv("CI") != null) {
@@ -23,11 +22,12 @@ public class Exporter {
                 path = Paths.get(userHome, "Downloads", "mycalendar.ics").toString();
             }
 
-            FileOutputStream fout = new FileOutputStream(path);
-            CalendarOutputter outputter = new CalendarOutputter();
-            outputter.output(calendar, fout);
+            FileOutputStream fileOutputStream = new FileOutputStream(path);
+            CalendarOutputter calendarOutputter = new CalendarOutputter();
+            calendarOutputter.output(calendar, fileOutputStream);
         } catch (IOException | ValidationException e) {
             LoggerHelper.logErrorMessage(Exporter.class, e.getMessage());
+
             return false;
         }
 
