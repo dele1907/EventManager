@@ -617,7 +617,6 @@ public class UserManagerImpl implements UserManager {
         List <Optional<? extends EventModel>> optionalEventList = BookingDatabaseConnector.getEventsBookedByUser(loggedUserID);
         List <EventModel> eventList = optionalEventList.stream().filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 
-        System.out.println("BookedEvents for Export: " + optionalEventList.size());
         return exportManager.exportEvents(eventList);
     }
     //#endregion Export-Events

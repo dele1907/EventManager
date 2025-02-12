@@ -14,10 +14,10 @@ public class Exporter {
         try {
             String path;
             if (System.getenv("CI") != null) {
-                // GitHub Actions: Safe in /tmp
+                // GitHub Actions: Save in /tmp
                 path = Paths.get(System.getProperty("java.io.tmpdir"), "mycalendar.ics").toString();
             } else {
-                // Locale Device: Safe in Downloads
+                // Locale Device: Save in Downloads
                 String userHome = System.getProperty("user.home");
                 path = Paths.get(userHome, "Downloads", "mycalendar.ics").toString();
             }
