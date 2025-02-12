@@ -103,10 +103,9 @@ public class NotificationDatabaseConnector {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
-            //TODO: Review @Laura set markedAsRead to true
             DSLContext create = DSL.using(connection);
             int rowsUpdated = create.update(NOTIFICATIONS)
-                    .set(NOTIFICATIONS.MARKEDASREAD, notification.isMarkedAsRead())
+                    .set(NOTIFICATIONS.MARKEDASREAD, true)
                     .where(NOTIFICATIONS.NOTIFICATIONID.eq(notification.getNotificationID()))
                     .execute();
 
