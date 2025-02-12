@@ -71,6 +71,7 @@ public class ExportManagerTestDrive {
         EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
         UserDatabaseConnector.deleteUserByID(TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByID(TEST_USER_ID);
+        eventList.clear();
     }
 
     @Test
