@@ -6,6 +6,7 @@ import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class MainMenuTab implements Tab {
     }
     private enum MainMenuChoice {
         SETTINGS,
+        INBOX,
         EVENT_OPERATIONS,
         LOGOUT,
         LOGOUT_AND_EXIT_PROGRAM,
@@ -29,10 +31,11 @@ public class MainMenuTab implements Tab {
         public static Optional<MainMenuChoice> fromUserInput(String choice) {
             return switch (choice) {
                 case "1" -> Optional.of(SETTINGS);
-                case "2" -> Optional.of(EVENT_OPERATIONS);
-                case "3" -> Optional.of(LOGOUT);
-                case "4" -> Optional.of(LOGOUT_AND_EXIT_PROGRAM);
-                case "5" -> Optional.of(ADMIN_OPERATIONS);
+                case "2" -> Optional.of(INBOX);
+                case "3" -> Optional.of(EVENT_OPERATIONS);
+                case "4" -> Optional.of(LOGOUT);
+                case "5" -> Optional.of(LOGOUT_AND_EXIT_PROGRAM);
+                case "6" -> Optional.of(ADMIN_OPERATIONS);
                 default -> Optional.empty();
             };
         }
@@ -66,9 +69,12 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
-        var menu = menuType.equals(MenuType.ADMIN) ?
-                List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program", "Admin Operations") :
-                List.of("Settings", "Event Operations", "Logout", "Logout and Exit Program");
+        var menu = List.of("Settings", "Inbox", "Event Operations", "Logout", "Logout and Exit Program");
+
+        if (menuType.equals(MenuType.ADMIN)) {
+            menu = new ArrayList<>(menu);
+            menu.add("Admin Operations");
+        }
 
         DefaultDialogHelper.getTabOrPageHeading(view, "Main Menu");
         view.displaySuccessMessage("Welcome " + userService.getLoggedInUserName(loggedInUserID) + "!\n");
@@ -86,6 +92,7 @@ public class MainMenuTab implements Tab {
 
         switch (mainMenuChoice.get()) {
             case SETTINGS -> view.displayErrorMessage("\nSettings page (not implemented yet)\n");
+            case INBOX -> doShowInboxTab();
             case EVENT_OPERATIONS -> doShowEventOperationTab();
             case LOGOUT -> {
                 doLogout();
@@ -134,5 +141,9 @@ public class MainMenuTab implements Tab {
 
     private void doShowEventOperationTab() {
         new EventOperationsTab(view, loggedInUserID).start();
+    }
+
+    private void doShowInboxTab() {
+        new UsersInboxTab(view, loggedInUserID).start();
     }
 }
