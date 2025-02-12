@@ -1,5 +1,6 @@
 package de.eventmanager.core.database.Communication;
 
+import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
 
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class BookingDatabaseConnectorTestDrive {
 
@@ -40,7 +42,7 @@ public class BookingDatabaseConnectorTestDrive {
      * Test getting a booking list of an event
      * */
     @Test
-    public void testGetBookedUsersOnEvent() {
+    public void testGetBooking() {
 
         testUserForBooking1 = new User("userTestBookingDatabaseConnector1", "Uwe", "Buchungstester", "1970-02-02","uwe.bookingtest@testmail.com","Password123", "0815", false);
         testUserForBooking2 = new User("userTestBookingDatabaseConnector2", "Manfred", "Buchungstester", "1960-08-08", "manfred.bookingtest@testmail.com","Password456", "4711", true);
@@ -53,6 +55,13 @@ public class BookingDatabaseConnectorTestDrive {
 
         BookingDatabaseConnector.addBooking("eventTestBookingDatabaseConnector", "userTestBookingDatabaseConnector1");
         BookingDatabaseConnector.addBooking("eventTestBookingDatabaseConnector", "userTestBookingDatabaseConnector2");
+
+        ArrayList<Optional<? extends EventModel>> bookedTestEvents = BookingDatabaseConnector.getEventsBookedByUser("userTestBookingDatabaseConnector1");
+        ArrayList<Optional<? extends EventModel>> expectedBookedTestEvents = new ArrayList<>();
+        expectedBookedTestEvents.add(Optional.ofNullable(testEventForBooking));
+
+        // test of event list for user 1
+        assertEquals(expectedBookedTestEvents, bookedTestEvents);
 
         ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersOnEvent("eventTestBookingDatabaseConnector");
         ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
@@ -123,13 +132,23 @@ public class BookingDatabaseConnectorTestDrive {
     }
 
     /**
-     * Test getting a booking list of a nonexistent event
+     * Test getting a user list of a nonexistent event
      * */
     @Test
     public void testGettingBookedUsersOnEventFailed() {
 
         ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersOnEvent("invalidEventIDToGetBookedUsers");
         assertTrue(bookedTestUsers.isEmpty(), "Getting a list of booked users was successful but should not.");
+    }
+
+    /**
+     * Test getting an event list of a nonexistent user
+     * */
+    @Test
+    public void testGettingEventsBookedByUserFailed() {
+
+        ArrayList<Optional<? extends EventModel>> bookedTestEvents = BookingDatabaseConnector.getEventsBookedByUser("invalidUserIDToGetBookedEvents");
+        assertTrue(bookedTestEvents.isEmpty(), "Getting a list of booked events was successful but should not.");
     }
 
     /**

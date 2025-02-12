@@ -2,8 +2,10 @@ package de.eventmanager.core.database.Communication;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import de.eventmanager.core.events.EventModel;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -23,6 +25,7 @@ public class BookingDatabaseConnector {
     private static final String BOOKING_REMOVED = "Booking removed successfully";
     private static final String BOOKING_NOT_REMOVED = "Error removing booking: ";
     private static final String NO_USER_LIST_AVAILABLE = "Error getting a list of booked users: ";
+    private static final String NO_EVENT_LIST_AVAILABLE = "Error getting a list of booked events: ";
 
     //#endregion constants
 
@@ -132,6 +135,39 @@ public class BookingDatabaseConnector {
 
         return bookedUsers;
     }
+
+    /**
+     * Return a list of event IDs
+     * */
+    public static ArrayList<Optional<? extends EventModel>> getEventsBookedByUser(String userID) {
+        ArrayList<String> bookedEventIDs = new ArrayList<>();
+        ArrayList<Optional<? extends EventModel>> bookedEvents = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record> records = create.select()
+                    .from(EVENTS)
+                    .join(BOOKED).on(EVENTS.EVENTID.eq(BOOKED.EVENTID))
+                    .where(BOOKED.USERID.eq(userID))
+                    .fetch();
+
+            bookedEventIDs.addAll(records.stream()
+                    .map(record -> record.get(EVENTS.EVENTID))
+                    .collect(Collectors.toList()));
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_EVENT_LIST_AVAILABLE + exception.getMessage());
+        }
+
+        for (String eventID : bookedEventIDs) {
+            bookedEvents.add(EventDatabaseConnector.readEventByID(eventID));
+        }
+
+        return bookedEvents;
+    }
+
     //#endregion booking methods
 
 }
