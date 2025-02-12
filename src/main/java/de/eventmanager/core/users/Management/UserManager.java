@@ -47,6 +47,8 @@ public interface UserManager {
 
     List<String> getUsersBookedEventsInformation(String userID);
 
+    List<EventModel> getUsersBookedEvents(String userID);
+
     boolean getUserHasAlreadyBookedEvent(String userID, String eventID);
 
     List<String> readCreatedEventsByUserID(String userID);

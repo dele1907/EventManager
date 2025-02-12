@@ -204,11 +204,16 @@ public class UserManagerImpl implements UserManager {
     public List<String> getUsersBookedEventsInformation(String userID) {
         var usersBookedEvents = new ArrayList<String>();
 
-        EventDatabaseConnector.getUsersBookedEventsByUserID(userID).forEach(event -> {
+        getUsersBookedEvents(userID).forEach(event -> {
             usersBookedEvents.add(event.toString());
         });
 
         return usersBookedEvents;
+    }
+
+    @Override
+    public List<EventModel> getUsersBookedEvents(String userID) {
+        return EventDatabaseConnector.getUsersBookedEventsByUserID(userID);
     }
 
     public boolean getUserHasAlreadyBookedEvent(String userID, String eventID) {
