@@ -89,6 +89,6 @@ public interface UserManager {
     //#endregion Registration & Authentication
 
     //#region Export-Events
-    boolean exportEvents();
+    boolean exportEvents(String loggedUserID);
     //#endregion Export-Events
 }

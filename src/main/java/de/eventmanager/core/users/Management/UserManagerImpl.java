@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class UserManagerImpl implements UserManager {
 
@@ -612,9 +613,11 @@ public class UserManagerImpl implements UserManager {
      * @see ExportManager ExportManager
      */
     @Override
-    public boolean exportEvents() {
-        //Todo: if Method in EventDatabaseConnector exist for getting all events booked by User as ArrayList, add it
-        List<? extends EventModel> eventList = new ArrayList<>();
+    public boolean exportEvents(String loggedUserID) {
+        List <Optional<? extends EventModel>> optionalEventList = BookingDatabaseConnector.getEventsBookedByUser(loggedUserID);
+        List <EventModel> eventList = optionalEventList.stream().filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+
+        System.out.println("BookedEvents for Export: " + optionalEventList.size());
         return exportManager.exportEvents(eventList);
     }
     //#endregion Export-Events

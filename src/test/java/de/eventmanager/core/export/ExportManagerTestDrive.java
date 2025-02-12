@@ -26,7 +26,6 @@ public class ExportManagerTestDrive {
     static final String TEST_USER_ID = "UserID_ExportTest";
     static final String TEST_ADMIN_EMAIL_ADDRESS = "firstName.lastName@adminExportTestmail.com";
     static final String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@userExportTestmail.com";
-    //final String TEST_USER_EMAIL_ADDRESS = "finnoettinger@gmail.com";
     static PublicEvent publicEvent;
     static PrivateEvent privateEvent;
     static User testAdminUser;
@@ -41,14 +40,10 @@ public class ExportManagerTestDrive {
         testUser = new User(TEST_USER_ID, "firstNameExport", "User", "2000-04-20",
                 TEST_USER_EMAIL_ADDRESS, "password", "+497788866", false);
 
-
         publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID,"Valentinstag-Party", "2025-02-20 12:30",
                 "2025-02-20 14:30", 1, testArrayList, "TestCategory",
                 false,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",
                 "This is a cool publicEvent", 20, 0);
-        //String eventID, String eventName, String eventStart, String eventEnd, int numberOfBookedUsersOnEvent, ArrayList<String> bookedUsersOnEvent,
-        //                        String category, boolean privateEvent, String postalCode, String city, String address, String eventLocation, String description
-
         privateEvent = new PrivateEvent(TEST_PRIVATE_EVENT_ID, "Geburtstag-Party", "2025-02-25 12:30",
                 "2025-02-25 14:30", 1, testArrayList, "TestCategory",
                 true,"66123","Saarbrücken", "Dudweiler Landstraße 7", "Kulturfabrik",

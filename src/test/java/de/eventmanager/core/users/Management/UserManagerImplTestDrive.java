@@ -1,20 +1,21 @@
 package de.eventmanager.core.users.Management;
 
 
-import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
-import de.eventmanager.core.database.Communication.EventDatabaseConnector;
-import de.eventmanager.core.database.Communication.NotificationDatabaseConnector;
+import de.eventmanager.core.database.Communication.*;
+import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.notifications.Notification;
 import de.eventmanager.core.roles.Role;
-import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.users.User;
+import helper.LoggerHelper;
 import org.junit.jupiter.api.*;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,8 +27,8 @@ public class UserManagerImplTestDrive {
 
     static User testUser;
     static User testAdminUser;
-    static PublicEvent publicEvent;
-    static PrivateEvent privateEvent;
+    static EventModel publicEvent;
+    static EventModel privateEvent;
     static ArrayList<String> testArrayList = new ArrayList<>();
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
@@ -47,12 +48,12 @@ public class UserManagerImplTestDrive {
                 TEST_ADMIN_EMAIL_ADDRESS, "AdminPassword", "+497733686", true);
         testAdminUser.setRoleAdmin(true);
 
-        publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID, "TestPublicEvent", "2000-01-01",
-                "2000-01-02", 0, testArrayList, "TestCategory",
+        publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID, "TestPublicEvent", "2025-01-01 12:30:00",
+                "2025-01-02 12:30:00", 0, testArrayList, "TestCategory",
                 false, "66115", "Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event", 20, 0);
-        privateEvent = new PrivateEvent(TEST_PRIVATE_EVENT_ID, "TestPrivateEvent", "2000-01-01",
-                "2000-01-02", 0, testArrayList, "TestCategory",
+        privateEvent = new PrivateEvent(TEST_PRIVATE_EVENT_ID, "TestPrivateEvent", "2025-01-01 12:30:00",
+                "2025-01-02 12:30:00", 0, testArrayList, "TestCategory",
                 true, "66115", "Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event");
 
@@ -63,6 +64,7 @@ public class UserManagerImplTestDrive {
         EventDatabaseConnector.createNewEvent(privateEvent);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+
 
     }
 
@@ -197,7 +199,7 @@ public class UserManagerImplTestDrive {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     @DisplayName("Cancel Event Test")
     void cancelEventTest() {
         String notExistingEventID = "1234";
@@ -255,10 +257,10 @@ public class UserManagerImplTestDrive {
     //#endregion Registration and Authentication Tests
 
     @Test
+    @Order(1)
     @DisplayName("ExportEvents-Test")
-    @Disabled
     void exportTest() {
-        assertTrue(userManagerImpl.exportEvents());
+        assertTrue(userManagerImpl.exportEvents(TEST_USER_ID));
     }
 
 }
