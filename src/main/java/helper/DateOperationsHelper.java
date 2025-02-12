@@ -193,13 +193,6 @@ public class DateOperationsHelper {
         return value;
     }
 
-    //Anfragen für die Neue getEventStartValue Klasse für den ExportManager.java
-    //int year = getEventStartValue("MeinEvent", FORMAT_SPECIFIER_YEAR);
-    //int month = getEventStartValue("MeinEvent", "m");
-    //int day = getEventStartValue("MeinEvent", "d");
-    //int hour = getEventStartValue("MeinEvent", "H");
-    //int minute = getEventStartValue("MeinEvent", "M");
-
     public static int getEventEndValue(String eventName, String formatSpecifier) {
         int value = 0;
 
