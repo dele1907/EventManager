@@ -1,7 +1,6 @@
 package de.eventmanager.core.export.Management;
 
 import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
-import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.export.Exporter;
 import de.eventmanager.core.users.User;
@@ -13,7 +12,6 @@ import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.parameter.Cn;
 import net.fortuna.ical4j.model.parameter.CuType;
 import net.fortuna.ical4j.model.parameter.Role;
-import net.fortuna.ical4j.model.parameter.Rsvp;
 import net.fortuna.ical4j.model.property.*;
 
 import java.net.URI;
@@ -52,7 +50,7 @@ public class ExportManager {
         return Exporter.exportEvent(calendar);
     }
 
-    //#region Event-Compatibility
+    //#region Create Calendar
     private Optional<Calendar> createCalendar(List<? extends EventModel> eventList) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
@@ -60,47 +58,42 @@ public class ExportManager {
         calendar.getProperties().add(STANDARD_SCALE);
         calendar.getComponents().add(V_TIMEZONE_GERMANY);
 
-        return addAllEventsToCalendar(eventList, calendar);
+        return addAllVEventsToCalendar(eventList, calendar);
     }
 
-    private Optional<Calendar> addAllEventsToCalendar(List<? extends EventModel> eventList, Calendar calendar) {
-        AtomicBoolean hasError = new AtomicBoolean(false);
+    private Optional<Calendar> addAllVEventsToCalendar(List<? extends EventModel> eventList, Calendar calendar) {
+        boolean allEventsAdded = eventList.stream().
+                map(this::convertEventToVEvent).
+                filter(Optional::isPresent).
+                map(Optional::get).
+                allMatch(vEvent -> addVEventToCalendar(vEvent, calendar));
 
-        eventList.forEach(event -> {
-            Optional<VEvent> optionalVEvent = convertEventToCalendarEvent(event);
-
-            if (optionalVEvent.isEmpty()) {
-                System.out.println("VEvent is null");
-                hasError.set(true);
-
-                return;
-            }
-
-            VEvent vEvent = optionalVEvent.get();
-            calendar.getComponents().add(vEvent);
-
-            if (!calendar.getComponents().contains(vEvent)) {
-                LoggerHelper.logErrorMessage(ExportManager.class, "Event are not in the calendar");
-                hasError.set(true);
-            }
-        });
-
-        if (hasError.get()) {
+        if (!allEventsAdded) {
             return Optional.empty();
         }
 
         return Optional.of(calendar);
     }
 
-    private Optional<VEvent> convertEventToCalendarEvent(EventModel event) {
+    private boolean addVEventToCalendar(VEvent vEvent, Calendar calendar) {
+        calendar.getComponents().add(vEvent);
+
+        if (!calendar.getComponents().contains(vEvent)) {
+            LoggerHelper.logErrorMessage(ExportManager.class, "Event are not in the calendar");
+
+            return false;
+        }
+
+        return true;
+    }
+    //#endregion Create Calendar
+
+    //#region Event-Compatibility
+    private Optional<VEvent> convertEventToVEvent(EventModel event) {
         String eventName = event.getEventName();
         Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(event.getEventID());
 
-        if (eventCreator.isEmpty()) {
-            System.out.println("Event creator not found");
-
-            return Optional.empty();
-        }
+        if (eventCreator.isEmpty()) {return Optional.empty();}
 
         java.util.Calendar startDate = setEventStartTime(eventName).get();
         java.util.Calendar endDate = setEventEndTime(eventName).get();
@@ -110,8 +103,6 @@ public class ExportManager {
         VEvent calenderEvent = new VEvent(start, end, event.getEventName());
 
         addProperties(calenderEvent, event, eventCreator);
-
-        //calenderEvent = addAllParticipantAttendees(event, calenderEvent).get();
 
         return Optional.of(calenderEvent);
     }
@@ -127,18 +118,6 @@ public class ExportManager {
         creator.getParameters().add(CuType.INDIVIDUAL);
 
         return Optional.of(creator);
-    }
-
-    private Optional<Attendee> createEventParticipantAttendee(Optional<User> eventParticipant, String participantEmail) {
-        if (eventParticipant.isPresent()) {return Optional.empty();}
-
-        Attendee participant = new Attendee(URI.create(participantEmail));
-        participant.getParameters().add(Role.OPT_PARTICIPANT); //Role of optional Participant
-        participant.getParameters().add(new Cn(eventParticipant.get().getFirstName()));
-        participant.getParameters().add(CuType.INDIVIDUAL);
-        participant.getParameters().add(Rsvp.TRUE);
-
-        return Optional.of(participant);
     }
     //#endregion Attendees
 
