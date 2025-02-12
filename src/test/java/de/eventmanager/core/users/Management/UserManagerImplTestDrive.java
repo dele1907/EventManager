@@ -254,5 +254,12 @@ public class UserManagerImplTestDrive {
     }
     //#endregion Registration and Authentication Tests
 
+    @Test
+    @DisplayName("ExportEvents-Test")
+    @Disabled
+    void exportTest() {
+        assertTrue(userManagerImpl.exportEvents());
+    }
+
 }
 

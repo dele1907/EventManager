@@ -613,6 +613,7 @@ public class UserManagerImpl implements UserManager {
      */
     @Override
     public boolean exportEvents() {
+        //Todo: if Method in EventDatabaseConnector exist for getting all events booked by User as ArrayList, add it
         List<? extends EventModel> eventList = new ArrayList<>();
         return exportManager.exportEvents(eventList);
     }
