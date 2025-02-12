@@ -32,13 +32,6 @@ public class UserManagerImpl implements UserManager {
     //#endregion Constant variables
 
     //#region User related CRUD-Operations
-    /**
-     * <h3>Create new User</h3>
-     * {@code createNewUser()} accepts user parameters as arguments to initialize a new User object
-     * and load it into the database with {@code UserManager.createNewUser()}.
-     * @see UserDatabaseConnector UserManager
-     */
-
     @Override
     public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
                                  String password, String phoneNumber, boolean isAdmin, String loggedUserByID) {
@@ -53,12 +46,6 @@ public class UserManagerImpl implements UserManager {
 
         return true;
     }
-
-    /**
-     * <h3>Edit User</h3>
-     * {@code editUser()} accepts the userID of the user you want to edit and the parameters you want to modify.
-     * @see UserDatabaseConnector UserManager
-     */
 
     @Override
     public void editUser(String userID, String firstName,
@@ -93,12 +80,6 @@ public class UserManagerImpl implements UserManager {
 
         return userToEdit;
     }
-
-    /**
-     * <h3>Delete User</h3>
-     * {@code deleteUser()} accepts the eMail of the user you want to delete.
-     * @see UserDatabaseConnector UserManager
-     */
 
     @Override
     public boolean deleteUser(String eMailUserToDelete, String loggedUserByID) {
@@ -160,12 +141,6 @@ public class UserManagerImpl implements UserManager {
                         description, maxParticipants, loggedUserID).isPresent();
     }
 
-    /**
-     * <h3>Create Private-Event</h3>
-     * {@code createPrivateEvent()} create a new Private Event and safe the EventCreator in the Database.
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
     private Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
                                                      String eventEnd, String category,
                                                      String postalCode, String city,
@@ -177,12 +152,6 @@ public class UserManagerImpl implements UserManager {
 
         return Optional.of(event);
     }
-
-    /**
-     * <h3>Create Public-Event</h3>
-     * {@code createPublicEvent()} create a new Public Event and safe the EventCreator in the Database.
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
 
     private Optional<PublicEvent> createPublicEvent(String eventName, String eventStart,
                                                    String eventEnd, String category,
@@ -269,13 +238,6 @@ public class UserManagerImpl implements UserManager {
         return createdEvents;
     }
 
-    /**
-     * <h3>Edit Event</h3>
-     * {@code editEvent()} edit an Event by eventID.
-     * Only Admins or the EventCreator can edit the Event
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
     @Override
     public boolean editEvent(String eventID, String eventName,
                              String eventStart, String eventEnd,
@@ -324,13 +286,6 @@ public class UserManagerImpl implements UserManager {
         return eventToEdit;
     }
 
-    /**
-     * <h3>Delete Event</h3>
-     * {@code deleteEvent()} delete an Event by eventID.
-     * Only Admins or the EventCreator can delete the Event!
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
     @Override
     public boolean deleteEvent(String eventID, String loggedUserID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
@@ -356,13 +311,6 @@ public class UserManagerImpl implements UserManager {
         return EventDatabaseConnector.deleteEventByID(eventID);
     }
 
-    /**
-     * <h3>Show EventParticipant-List</h3>
-     * {@code showEventParticipantList()} returns an ArrayList<String>
-     * with all Participants of an Event.
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
     @Override
     public ArrayList<String> showEventParticipantList(String eventID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
@@ -374,13 +322,6 @@ public class UserManagerImpl implements UserManager {
     //#endregion Event related CRUD-Operations
 
     //#region Event-Operations
-    /**
-     * <h3>Book Event</h3>
-     * {@code bookEvent()} books an Event for the loggedUser by eventID.
-     * Only Public Events can be booked.
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
     @Override
     public boolean bookEvent(String eventID, String loggedUserID) {
         var publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
@@ -406,12 +347,6 @@ public class UserManagerImpl implements UserManager {
         return true;
     }
 
-    /**
-     * <h3>Cancel Event</h3>
-     * {@code cancelEvent()} cancels an Event for the loggedUser by eventID.
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
-
     @Override
     public boolean cancelEvent(String eventID, String loggedUserID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
@@ -434,13 +369,6 @@ public class UserManagerImpl implements UserManager {
 
         return true;
     }
-
-    /**
-     * <h3>Add User to Event</h3>
-     * {@code addUserToEvent()} add the user, with the provided email, to the Event, by eventID.
-     * Only Admins or the EventCreator can add Users to the Event!
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
 
     @Override
     public boolean addUserToEvent(String eventID, String userEmail, String loggedUserID) {
@@ -471,13 +399,6 @@ public class UserManagerImpl implements UserManager {
 
         return true;
     }
-
-    /**
-     * <h3>Remove User to Event</h3>
-     * {@code removeUserToEvent()} remove the User, with the provided email, from the Event, by eventID.
-     * Only Admins or the EventCreator can remove Users from the Event!
-     * @see EventDatabaseConnector EventDatabaseConnector
-     */
 
     @Override
     public boolean removeUserFromEvent(String eventID, String userEmail, String loggedUserID) {
@@ -513,7 +434,6 @@ public class UserManagerImpl implements UserManager {
     private boolean isEventPresent(Optional<? extends EventModel> optionalEvent) {
         return optionalEvent.isPresent();
     }
-
     //#endregion Event-Operations
 
     //#region Permission-Operations
@@ -553,13 +473,6 @@ public class UserManagerImpl implements UserManager {
         return isValidPassword(password) && comparingPassword(password, checkPassword);
     }
 
-    /**
-     * <h3>Validate Password</h3>
-     * <p>
-     * {@code isValidPassword()} checks whether a given password contains any restricted characters from a predefined list.
-     * If the password contains any of the restricted characters, the method returns {@code false}. If no restricted characters are found, it returns {@code true}.
-     * </p>
-     */
     private boolean isValidPassword(String password) {
         char[] restrictedCharacters = {' ', '$', '@', '§', '&', '%', 'ä', 'ö', 'ü', 'ß', 'Ä', 'Ü', 'Ö'};
 
@@ -583,11 +496,6 @@ public class UserManagerImpl implements UserManager {
         return checkPassword.equals(password);
     }
 
-     /** <h3>User Login Authentication</h3>
-     The method {@code authenticationUserLogin()} authenticates the user by checking
-      if the email exists, and verifies whether the provided password matches the one stored
-     in the DB. If both conditions are met, the user is successfully logged in.
-     */
     @Override
     public boolean authenticationUserLogin(String email, String password) {
         var userOptional = getUserByEmail(email);
@@ -604,14 +512,6 @@ public class UserManagerImpl implements UserManager {
     //#endregion Registration & Authentication
 
     //#region Export-Events
-    /**
-     * <h3>Export Events</h3>
-     * <p>
-     * {@code exportEvents()} exports all events the user booked into an ics-File.
-     * You find the ics-File in your local Download-Folder.
-     * </p>
-     * @see ExportManager ExportManager
-     */
     @Override
     public boolean exportEvents(String loggedUserID) {
         List <Optional<? extends EventModel>> optionalEventList = BookingDatabaseConnector.getEventsBookedByUser(loggedUserID);
