@@ -18,7 +18,9 @@ import net.fortuna.ical4j.model.property.*;
 
 import java.net.URI;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ExportManager {
 
@@ -35,8 +37,9 @@ public class ExportManager {
      * Method at the moment unclean, because Beta-Function
      */
 
-    public boolean exportEvents(EventModel event) {
-       var optionalCalendar = createCalendar(event);
+    public boolean exportEvents(List<? extends EventModel> eventList) {
+
+        var optionalCalendar = createCalendar(eventList);
 
         if (optionalCalendar.isEmpty()) {
             System.out.println("No Calendar found");
@@ -44,33 +47,45 @@ public class ExportManager {
             return false;
         }
 
-        Calendar calendar = createCalendar(event).get();
+        Calendar calendar = optionalCalendar.get();
 
         return Exporter.exportEvent(calendar);
     }
 
     //#region Event-Compatibility
-    private Optional<Calendar> createCalendar(EventModel event) {
+    private Optional<Calendar> createCalendar(List<? extends EventModel> eventList) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(STANDARD_PROD);
         calendar.getProperties().add(CURRENT_VERSION);
         calendar.getProperties().add(STANDARD_SCALE);
         calendar.getComponents().add(V_TIMEZONE_GERMANY);
 
-        Optional<VEvent> optionalVEvent = convertEventToCalendarEvent(event);
-        if (optionalVEvent.isEmpty()) {
-            System.out.println("VEvent is null");
+        return addAllEventsToCalendar(eventList, calendar);
+    }
 
-            return Optional.empty();
-        }
+    private Optional<Calendar> addAllEventsToCalendar(List<? extends EventModel> eventList, Calendar calendar) {
+        AtomicBoolean hasError = new AtomicBoolean(false);
 
-        VEvent vEvent = optionalVEvent.get();
+        eventList.forEach(event -> {
+            Optional<VEvent> optionalVEvent = convertEventToCalendarEvent(event);
 
-        calendar.getComponents().add(vEvent);
+            if (optionalVEvent.isEmpty()) {
+                System.out.println("VEvent is null");
+                hasError.set(true);
 
-        if (!calendar.getComponents().contains(vEvent)) {
-            LoggerHelper.logErrorMessage(ExportManager.class, "Event are not in the calendar");
+                return;
+            }
 
+            VEvent vEvent = optionalVEvent.get();
+            calendar.getComponents().add(vEvent);
+
+            if (!calendar.getComponents().contains(vEvent)) {
+                LoggerHelper.logErrorMessage(ExportManager.class, "Event are not in the calendar");
+                hasError.set(true);
+            }
+        });
+
+        if (hasError.get()) {
             return Optional.empty();
         }
 
@@ -125,22 +140,6 @@ public class ExportManager {
 
         return Optional.of(participant);
     }
-
-    /**
-     private Optional<VEvent> addAllParticipantAttendees(EventModel event, VEvent vEvent) {
-     System.out.println("Booked Users: " + event.getBookedUsersOnEvent());
-     for (String participantEmail : event.getBookedUsersOnEvent()) {
-     Optional<User> eventParticipant = UserDatabaseConnector.readUserByEMail(participantEmail);
-
-     if (eventParticipant.isPresent()) {
-     Attendee participant = createEventParticipantAttendee(eventParticipant, participantEmail).get();
-     vEvent.getProperties().add(participant);
-     }
-     }
-
-     return Optional.of(vEvent);
-     }
-     */
     //#endregion Attendees
 
     //#region Properties
