@@ -55,10 +55,10 @@ public class ExportManager {
         calendar.getProperties().add(STANDARD_SCALE);
         calendar.getComponents().add(V_TIMEZONE_GERMANY);
 
-        return addAllVEventsToCalendar(eventList, calendar);
+        return addAllBookedVEventsToCalendar(eventList, calendar);
     }
 
-    private Optional<Calendar> addAllVEventsToCalendar(List<? extends EventModel> eventList, Calendar calendar) {
+    private Optional<Calendar> addAllBookedVEventsToCalendar(List<? extends EventModel> eventList, Calendar calendar) {
         boolean allEventsAdded = eventList.stream().
                 map(this::convertEventToVEvent).
                 filter(Optional::isPresent).
