@@ -7,6 +7,7 @@ import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.export.Management.ExportManager;
 import de.eventmanager.core.observer.EventNotificator;
 import de.eventmanager.core.observer.UserObserver;
 import de.eventmanager.core.roles.Role;
@@ -22,6 +23,7 @@ import java.util.function.Function;
 public class UserManagerImpl implements UserManager {
 
     private final EventNotificator eventNotificator = EventNotificator.getInstance();
+    private final ExportManager exportManager = new ExportManager();
 
     //#region Constant variables
     private final String MISSING_PERMISSION_MESSAGE = "Permission denied!";
@@ -600,4 +602,19 @@ public class UserManagerImpl implements UserManager {
     }
     //#endregion Registration & Authentication
 
+    //#region Export-Events
+    /**
+     * <h3>Export Events</h3>
+     * <p>
+     * {@code exportEvents()} exports all events the user booked into an ics-File.
+     * You find the ics-File in your local Download-Folder.
+     * </p>
+     * @see ExportManager ExportManager
+     */
+    @Override
+    public boolean exportEvents() {
+        List<? extends EventModel> eventList = new ArrayList<>();
+        return exportManager.exportEvents(eventList);
+    }
+    //#endregion Export-Events
 }

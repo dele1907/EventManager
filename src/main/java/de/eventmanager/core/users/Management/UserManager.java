@@ -88,4 +88,7 @@ public interface UserManager {
     boolean authenticationUserLogin(String email, String password);
     //#endregion Registration & Authentication
 
+    //#region Export-Events
+    boolean exportEvents();
+    //#endregion Export-Events
 }
