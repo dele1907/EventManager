@@ -37,12 +37,14 @@ public class UserObserver implements Observer {
 
         String updateMessage = null;
 
+        //TODO: Review @Laura just call event.toString(), no need for if else
         if (event instanceof PrivateEvent privateEvent) {
             updateMessage = "-- UPDATE INFORMATION --" + privateEvent;
         } else if (event instanceof PublicEvent publicEvent) {
             updateMessage = "-- UPDATE INFORMATION --" + publicEvent;
         }
 
+        //TODO: Review @Laura remove local variable and use the constructor directly as argument
         Notification notification = new Notification(this.user.getUserID(), updateMessage);
         NotificationDatabaseConnector.addNotification(notification);
     }

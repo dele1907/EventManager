@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventNotificator implements Subject {
 
+    //TODO: Review @Laura make both static and in upper case
     private static final EventNotificator INSTANCE = new EventNotificator();
     private final List<Observer> observers = new CopyOnWriteArrayList<>();
 

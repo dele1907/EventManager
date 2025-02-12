@@ -49,6 +49,7 @@ public class EventBookingTab implements Tab {
     private boolean userIsSureToBookEventDialog(String eventID) {
         view.displayWarningMessage("Are you sure you want to book following event:\n");
         view.displayMessage(eventService.getEventInformationByID(eventID));
+        // @TODO: Dennis - evtl. aussagekräftigerer Text als "yes/press any key"
         view.displayUserInputMessage("\n(yes/press any key)\n> ");
 
         if (!view.getUserInput().equalsIgnoreCase("yes")) {

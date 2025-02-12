@@ -51,6 +51,7 @@ public class DefaultDialogHelper {
 
         if (!ValidationHelper.validatePhoneNumberInput(phoneNumber)) {
             showInvalidInputMessageByAttribute(view, "phone number format");
+
             return showPhoneNumberDialog(view);
         }
 
@@ -65,6 +66,7 @@ public class DefaultDialogHelper {
 
         if (!ValidationHelper.validateEmailInput(email)) {
             showInvalidInputMessageByAttribute(view, "email format");
+
             return showEmailAddressDialog(view);
         }
 
