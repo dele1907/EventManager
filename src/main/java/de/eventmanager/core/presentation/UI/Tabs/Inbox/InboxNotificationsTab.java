@@ -6,13 +6,13 @@ import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
-public class InboxAllNotificationsTab implements Tab {
+public class InboxNotificationsTab implements Tab {
     private View view;
     private String loggedInUserID;
     private UserService userService;
     private boolean showOnlyUnreadNotifications;
 
-    public InboxAllNotificationsTab(View view, String loggedInUserID, boolean showOnlyUnreadNotifications) {
+    public InboxNotificationsTab(View view, String loggedInUserID, boolean showOnlyUnreadNotifications) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.userService = new UserServiceImpl();

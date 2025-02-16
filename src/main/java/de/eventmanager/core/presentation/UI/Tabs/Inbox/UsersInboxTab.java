@@ -69,11 +69,11 @@ public class UsersInboxTab implements Tab {
     }
 
     private void handleShowUnreadNotifications() {
-        new InboxAllNotificationsTab(view, loggedInUserID, true).start();
+        new InboxNotificationsTab(view, loggedInUserID, true).start();
     }
 
     private void handleShowAllNotifications() {
-        new InboxAllNotificationsTab(view, loggedInUserID, false).start();
+        new InboxNotificationsTab(view, loggedInUserID, false).start();
     }
 
     private void handleEmptyInbox() {
