@@ -84,7 +84,7 @@ public class AdminEditUserTab implements Tab {
     private String showPhoneNumberDialog() {
         view.displayUserInputMessage(
                 "\nEnter new phone number " +
-                DefaultDialogHelper.BLANK_TO_KEEP + "\n> "
+                DefaultDialogHelper.BLANK_TO_KEEP_HINT + "\n> "
         );
         var phoneNumber = view.getUserInput();
 

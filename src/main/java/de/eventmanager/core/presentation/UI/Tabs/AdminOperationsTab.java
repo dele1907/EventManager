@@ -99,11 +99,11 @@ public class AdminOperationsTab implements Tab {
         var email = view.getUserInput();
 
         if (!userService.getUserIsPresentInDatabaseByEmail(email)) {
-            view.displayErrorMessage("\nUser not found!\n");
+            view.displayErrorMessage("\n" + DefaultDialogHelper.USER_NOT_FOUND + "\n");
 
             return;
         }
-        DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
+
         view.displayMessage(userService.getUserInformationByEmail(email));
         DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
     }

@@ -4,11 +4,12 @@ import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class DefaultDialogHelper {
     public final static String WARNING_MESSAGE = "\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757";
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
-    public final static String BLANK_TO_KEEP = "(Leave blank to keep current value)";
+    public final static String BLANK_TO_KEEP_HINT = "(Leave blank to keep current value)";
     public final static int DEFAULT_ITEM_SEPARATOR_LENGTH = 55;
     public final static String CONFIRM = "yes";
     public final static String ACCEPT_OR_ABORT_MESSAGE = "\n(type "+ CONFIRM +
@@ -103,34 +104,39 @@ public class DefaultDialogHelper {
         return dateOfBirth;
     }
 
-    public static Optional<String> showDateInputDialog(View view, String prompt) {
-        view.displayUserInputMessage(prompt + "\n" + DATE_FORMAT_HINT + "\n> ");
-        var date = view.getUserInput();
+   private static Optional<String> showInputDialog(View view, String prompt, boolean isEdit,
+    String formatHint, String attribute, Function<String, Boolean> validationFunction) {
 
-        if (!ValidationHelper.validateDateInput(date)) {
-            showInvalidInputMessageByAttribute(view, "date format");
+        String message = isEdit ?
+            "\nEnter new " + prompt + "\n" + formatHint + "\n" + BLANK_TO_KEEP_HINT + "\n> " :
+            prompt + "\n" + formatHint + "\n> ";
 
-            return showDateInputDialog(view, prompt);
+        view.displayUserInputMessage(message);
+        var input = view.getUserInput();
+
+        if (isEdit && input.isEmpty()) {
+            return Optional.empty();
         }
 
-        return Optional.of(date);
+        if (!validationFunction.apply(input)) {
+            showInvalidInputMessageByAttribute(view, attribute);
+
+            return showInputDialog(view, prompt, isEdit, formatHint, attribute, validationFunction);
+        }
+
+        return Optional.of(input);
     }
 
-    public static Optional<String> showTimeInputDialog(View view, String prompt) {
-        view.displayUserInputMessage(prompt + "\n" + TIME_FORMAT_HINT + "\n> ");
-        var time = view.getUserInput();
+    public static Optional<String> showDateInputDialog(View view, String prompt, boolean isEdit) {
+        return showInputDialog(view, prompt, isEdit, DATE_FORMAT_HINT, "date format", ValidationHelper::validateDateInput);
+    }
 
-        if (!ValidationHelper.validateTimeInput(time)) {
-            showInvalidInputMessageByAttribute(view, "time format");
-
-            return showTimeInputDialog(view, prompt);
-        }
-
-        return Optional.of(time);
+    public static Optional<String> showTimeInputDialog(View view, String prompt, boolean isEdit) {
+        return showInputDialog(view, prompt, isEdit, TIME_FORMAT_HINT, "time format", ValidationHelper::validateTimeInput);
     }
 
     public static Optional<String> showEditAttributeDialog(View view, String prompt) {
-        view.displayUserInputMessage("\nEnter new " + prompt + "\n" + BLANK_TO_KEEP + "\n> ");
+        view.displayUserInputMessage("\nEnter new " + prompt + "\n" + BLANK_TO_KEEP_HINT + "\n> ");
         var userAttribute = view.getUserInput();
 
         if (userAttribute.isEmpty()) {
