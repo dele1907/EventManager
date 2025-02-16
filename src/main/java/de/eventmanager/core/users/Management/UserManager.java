@@ -32,7 +32,7 @@ public interface UserManager {
     boolean createNewEvent(String eventName, String eventStart,
                            String eventEnd, String category,
                            String postalCode, String address, String eventLocation,
-                           String description, int maxParticipants,
+                           String description, int maxParticipants, int minimumAge,
                            boolean isPrivateEvent, String loggedUserID);
 
     Optional<? extends EventModel> getEventByID(String eventID);

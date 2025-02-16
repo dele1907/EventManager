@@ -38,7 +38,7 @@ public class EventServiceImpl implements EventService {
                                   boolean isPrivateEvent, String loggedUserID) {
 
         return userManager.createNewEvent(eventName, eventStart, eventEnd, category, postalCode, address, eventLocation,
-                description, maxCapacity, isPrivateEvent, loggedUserID);
+                description, maxCapacity, minimumAge, isPrivateEvent, loggedUserID);
     }
 
     @Override

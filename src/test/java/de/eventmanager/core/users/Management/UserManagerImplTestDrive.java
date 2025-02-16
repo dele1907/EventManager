@@ -152,7 +152,7 @@ public class UserManagerImplTestDrive {
         assertTrue(userManagerImpl.createNewEvent("TestPublicEventIntern", "2000-01-01",
                 "2000-01-02", "TestCategory", "66115",
                 "TestStraße 6", "Turmschule", "This is a cool event", 20,
-                false, TEST_ADMIN_ID));
+                0,false, TEST_ADMIN_ID));
         userManagerImpl.deleteEvent(EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID(), TEST_ADMIN_ID);
     }
 

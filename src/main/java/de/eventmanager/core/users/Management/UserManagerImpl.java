@@ -127,7 +127,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
                                   String postalCode, String address, String eventLocation,
-                                  String description, int maxParticipants, boolean isPrivateEvent, String loggedUserID) {
+                                  String description, int maxParticipants, int minimumAge, boolean isPrivateEvent, String loggedUserID) {
 
         String cityNameByPostalCode = EventDatabaseConnector.getCityNameByPostalCode(postalCode);
 
@@ -137,7 +137,7 @@ public class UserManagerImpl implements UserManager {
                         description, loggedUserID).isPresent() :
                 createPublicEvent(eventName, eventStart, eventEnd, category, postalCode, cityNameByPostalCode,
                         address, eventLocation,
-                        description, maxParticipants, loggedUserID).isPresent();
+                        description, maxParticipants, minimumAge, loggedUserID).isPresent();
     }
 
     private Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
@@ -156,14 +156,14 @@ public class UserManagerImpl implements UserManager {
                                                    String eventEnd, String category,
                                                    String postalCode, String city,
                                                    String address, String eventLocation,
-                                                   String description, int maxParticipants,
+                                                   String description, int maxParticipants, int minimumAge,
                                                    String loggedUserID) {
         if (maxParticipants == 0) {
             maxParticipants = -1;
         }
 
         PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
-                eventLocation, description, maxParticipants);
+                eventLocation, description, maxParticipants, minimumAge);
         EventDatabaseConnector.createNewEvent(event);
         CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUserID);
 
