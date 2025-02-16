@@ -32,9 +32,8 @@ public class EventEditTab implements Tab {
     public void start() {
         DefaultDialogHelper.getTabOrPageHeading(view, "Edit Event");
         handleShowCreatedEventsForLoggedInUser();
-        showEventInformationByEventIDDialog();
 
-        if (!showConfirmEventEditingDialog()) {
+        if (!showConfirmEventEditingDialog(showEventInformationByEventIDDialog())) {
             return;
         }
 
@@ -64,27 +63,33 @@ public class EventEditTab implements Tab {
         );
     }
 
-    private void showEventInformationByEventIDDialog() {
+    private String  showEventInformationByEventIDDialog() {
         view.displayUserInputMessage("\nEnter the event ID of the event you want to edit\n> ");
         String userInputEventID = view.getUserInput();
 
         if (userInputEventID.isEmpty()) {
             DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "event ID");
 
-            return;
+            return "";
         }
         eventID = userInputEventID;
 
         if (!eventService.getEventIsExistingByID(eventID)) {
             view.displayErrorMessage("\nNo event found with the given event ID. Please try again.\n");
 
-            return;
+            return "";
         }
 
-        view.displayMessage(eventService.getEventInformationByID(userInputEventID));
+        return eventService.getEventInformationByID(userInputEventID);
     }
 
-    private boolean showConfirmEventEditingDialog() {
+    private boolean showConfirmEventEditingDialog(String eventInformation) {
+        if (eventInformation.isEmpty()) {
+            return false;
+        }
+
+        view.displayMessage(eventInformation);
+
         view.displayUserInputMessage(
                 "\nDo you want to edit this event?"
                 + DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
