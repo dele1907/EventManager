@@ -168,29 +168,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void onOpenNotificationsMarkAsRead(String userID) {
-        NotificationDatabaseConnector.readNotificationsByUserID(userID).forEach(notification -> {
-            if (!notification.isMarkedAsRead()) {
+        NotificationDatabaseConnector.readNotificationsByUserID(userID).stream()
+            .filter(notification -> !notification.isMarkedAsRead())
+            .forEach(notification -> {
                 notification.setMarkedAsRead(true);
                 NotificationDatabaseConnector.updateNotification(notification);
-            }
-        });
+            });
     }
 
-    @Override
-    public int getNumberOfUnreadNotifications(String userID) {
-        int unreadNotifications = 0;
-        for (var notification : NotificationDatabaseConnector.readNotificationsByUserID(userID)) {
-            if (!notification.isMarkedAsRead()) {
-                unreadNotifications++;
-            }
-        }
-
-        return unreadNotifications;
-    }
+   @Override
+   public int getNumberOfUnreadNotifications(String userID) {
+       return (int) NotificationDatabaseConnector.readNotificationsByUserID(userID).stream()
+               .filter(notification -> !notification.isMarkedAsRead())
+               .count();
+   }
 
     public void emptyUsersNotifications(String userID) {
-        NotificationDatabaseConnector.readNotificationsByUserID(userID).forEach(notification -> {
-            NotificationDatabaseConnector.deleteNotification(notification.getNotificationID());
-        });
+        NotificationDatabaseConnector.readNotificationsByUserID(userID)
+                .forEach(notification -> NotificationDatabaseConnector
+                        .deleteNotification(notification.getNotificationID())
+        );
     }
 }
