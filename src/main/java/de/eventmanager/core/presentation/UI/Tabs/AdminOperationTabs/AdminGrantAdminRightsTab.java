@@ -51,6 +51,6 @@ public class AdminGrantAdminRightsTab implements Tab {
         );
         view.displayUserInputMessage(DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
-        return view.getUserInput().equalsIgnoreCase("yes");
+        return view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM);
     }
 }

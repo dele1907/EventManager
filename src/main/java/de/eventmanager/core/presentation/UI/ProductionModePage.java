@@ -23,11 +23,12 @@ public class ProductionModePage implements Tab {
         textView.displayErrorMessage(
                 "\nYou are currently in develop mode." +
                 "\n\nWould you like to switch to production mode?" +
-                "\n\nType 'yes' to switch to production mode or 'no' to stay in develop mode:\n\n> "
+                "\n"+
+                DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
         );
         String choice = textView.getUserInput();
 
-        if ("yes".equals(choice.toLowerCase())) {
+        if (choice.equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             textView.displaySuccessMessage("\nSwitching to production mode...\n");
             enableProductionMode();
         } else {

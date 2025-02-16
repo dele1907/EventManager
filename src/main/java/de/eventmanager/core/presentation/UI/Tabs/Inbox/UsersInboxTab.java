@@ -82,7 +82,7 @@ public class UsersInboxTab implements Tab {
                 DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
         );
 
-        if (!view.getUserInput().equalsIgnoreCase("yes")) {
+        if (!view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             view.displayWarningMessage("\nInbox not emptied\n");
 
             return;

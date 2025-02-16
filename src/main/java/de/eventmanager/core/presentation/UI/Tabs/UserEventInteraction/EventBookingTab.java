@@ -59,7 +59,7 @@ public class EventBookingTab implements Tab {
         view.displayMessage(eventService.getEventInformationByID(eventID));
         view.displayUserInputMessage(DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
-        if (!view.getUserInput().equalsIgnoreCase("yes")) {
+        if (!view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             view.displayErrorMessage("\nBooking canceled.\n");
 
             return false;
@@ -74,7 +74,7 @@ public class EventBookingTab implements Tab {
                 DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
         );
 
-        if (view.getUserInput().equalsIgnoreCase("yes")) {
+        if (view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             if (!eventService.exportEventToCalendarFile(eventID)) {
                 view.displayErrorMessage("\nAbort exporting event to .ics.\n");
 

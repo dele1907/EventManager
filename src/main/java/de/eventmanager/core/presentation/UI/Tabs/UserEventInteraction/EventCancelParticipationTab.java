@@ -51,7 +51,7 @@ public class EventCancelParticipationTab implements Tab {
         view.displayMessage(eventService.getEventInformationByID(eventID));
         view.displayUserInputMessage("\n" + DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
-        if (!view.getUserInput().equalsIgnoreCase("yes")) {
+        if (!view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             view.displayErrorMessage("\nAbort participation canceled.\n");
 
             return false;

@@ -188,7 +188,7 @@ public class ShowEventsTab implements Tab{
         view.displayUserInputMessage("\nDo you want to book an event? " +
                 DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
-        if (!view.getUserInput().equalsIgnoreCase("yes")) {
+        if (!view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             return;
         }
 

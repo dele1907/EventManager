@@ -22,10 +22,9 @@ public class AdminUserStartupRegistrationPage implements Tab {
                 "There is no admin user present for your system." +
                 "\nWould you like to create one?"
         );
-        view.displayUserInputMessage("\n\nType 'yes' to create an admin user or 'no' to exit\n> ");
-        String choice = view.getUserInput();
+        view.displayUserInputMessage(DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
-        if ("yes".equals(choice.toLowerCase())) {
+        if (view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
             showCreateAdminUserDialog();
         } else {
             view.displayErrorMessage("\nChanging to login and registration page...");
