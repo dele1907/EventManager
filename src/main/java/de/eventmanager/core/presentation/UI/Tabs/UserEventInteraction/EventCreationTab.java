@@ -63,10 +63,8 @@ public class EventCreationTab implements Tab {
     private boolean createNewEvent(boolean isPrivateEvent) {
         view.displayUserInputMessage("Enter event name\n> ");
         String eventName = view.getUserInput();
-        view.displayUserInputMessage("\nEnter event start date\n> ");
-        String eventStart = view.getUserInput();
-        view.displayUserInputMessage("\nEnter event end date\n> ");
-        String eventEnd = view.getUserInput();
+        String eventStart = DefaultDialogHelper.showDateInputDialog(view, "event start date").get();
+        String eventEnd = DefaultDialogHelper.showDateInputDialog(view, "event end date").get();
         view.displayUserInputMessage("\nEnter event category\n> ");
         String category = view.getUserInput();
         view.displayUserInputMessage("\nEnter event postal code\n> ");

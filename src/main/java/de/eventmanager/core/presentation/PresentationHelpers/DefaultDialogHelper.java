@@ -8,9 +8,10 @@ import java.util.Optional;
 public class DefaultDialogHelper {
     public final static String WARNING_MESSAGE = "\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757";
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
-    public final static String BLANK_TO_KEEP = "(Leave blank to keep current)";
+    public final static String BLANK_TO_KEEP = "(Leave blank to keep current value)";
     public final static int DEFAULT_ITEM_SEPARATOR_LENGTH = 55;
     public final static String ACCEPT_OR_ABORT_MESSAGE = "\n(type yes to take action OR press enter to abort)\n> ";
+    public final static String DATE_FORMAT_HINT = "(Format: YYYY-MM-DD)";
 
     public static void getTabOrPageHeading(View view, String heading) {
         view.displayTabOrPageHeading("\n===== " + heading + " =====");
@@ -78,7 +79,7 @@ public class DefaultDialogHelper {
     private static String showDateOfBirthDialog(View view) {
         String dateOfBirth = "";
 
-        view.displayUserInputMessage("Enter date of birth\n(Format: YYYY-MM-DD)\n> ");
+        view.displayUserInputMessage("Enter date of birth\n" + DATE_FORMAT_HINT + "\n> ");
         dateOfBirth = view.getUserInput();
 
         if (!ValidationHelper.validateDateInput(dateOfBirth)) {
@@ -97,6 +98,19 @@ public class DefaultDialogHelper {
         }
 
         return dateOfBirth;
+    }
+
+    public static Optional<String> showDateInputDialog(View view, String prompt) {
+        view.displayUserInputMessage(prompt + "\n" + DATE_FORMAT_HINT + "\n> ");
+        var date = view.getUserInput();
+
+        if (!ValidationHelper.validateDateInput(date)) {
+            showInvalidInputMessageByAttribute(view, "date format");
+
+            return showDateInputDialog(view, prompt);
+        }
+
+        return Optional.of(date);
     }
 
     public static Optional<String> showEditAttributeDialog(View view, String prompt) {

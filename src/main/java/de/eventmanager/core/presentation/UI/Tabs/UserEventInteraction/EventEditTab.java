@@ -102,10 +102,10 @@ public class EventEditTab implements Tab {
     private void handleEventEditing() {
         DefaultDialogHelper.showEditAttributeDialog(
                 view, "event's name").ifPresent(attribute -> newEventName = attribute);
-        DefaultDialogHelper.showEditAttributeDialog(
-                view, "event's start date").ifPresent(attribute -> newEventStart = attribute);
-        DefaultDialogHelper.showEditAttributeDialog(
-                view, "event's end date").ifPresent(attribute -> newEventEnd = attribute);
+        DefaultDialogHelper.showDateInputDialog(
+                view, "new event's start date").ifPresent(attribute -> newEventStart = attribute);
+        DefaultDialogHelper.showDateInputDialog(
+                view, "new event's end date").ifPresent(attribute -> newEventEnd = attribute);
         DefaultDialogHelper.showEditAttributeDialog(
                 view, "event's category").ifPresent(attribute -> newEventCategory = attribute);
         DefaultDialogHelper.showEditAttributeDialog(
