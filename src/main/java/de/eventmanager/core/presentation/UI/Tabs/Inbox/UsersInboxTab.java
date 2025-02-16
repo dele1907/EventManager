@@ -77,7 +77,10 @@ public class UsersInboxTab implements Tab {
     }
 
     private void handleEmptyInbox() {
-        view.displayUserInputMessage("Are you sure you want to empty your inbox? (yes/any key)\n> ");
+        view.displayUserInputMessage(
+                "Are you sure you want to empty your inbox? " +
+                DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
+        );
 
         if (!view.getUserInput().equalsIgnoreCase("yes")) {
             view.displayWarningMessage("\nInbox not emptied\n");

@@ -98,7 +98,10 @@ public class AdminEditUserTab implements Tab {
     }
 
     private boolean showEditPhoneNumberAgainDialog() {
-        view.displayUserInputMessage("\nDo you want to edit the phone number again? (yes/any key)\n> ");
+        view.displayUserInputMessage(
+                "\nDo you want to edit the phone number again? " +
+                DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
+        );
 
         if ( view.getUserInput().equalsIgnoreCase("yes")) {
             return true;

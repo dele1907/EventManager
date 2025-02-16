@@ -33,6 +33,12 @@ public class EventBookingTab implements Tab {
             return;
         }
 
+        if (!eventService.getEventIsExistingByID(eventID)) {
+            DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "event ID");
+
+            return;
+        }
+
         if (!userIsSureToBookEventDialog(eventID)) {
             return;
         }
@@ -51,8 +57,7 @@ public class EventBookingTab implements Tab {
     private boolean userIsSureToBookEventDialog(String eventID) {
         view.displayWarningMessage("Are you sure you want to book following event:\n");
         view.displayMessage(eventService.getEventInformationByID(eventID));
-        // @TODO: Dennis - evtl. aussagekräftigerer Text als "yes/press any key"
-        view.displayUserInputMessage("\n(yes/press any key)\n> ");
+        view.displayUserInputMessage(DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
         if (!view.getUserInput().equalsIgnoreCase("yes")) {
             view.displayErrorMessage("\nBooking canceled.\n");
@@ -64,7 +69,10 @@ public class EventBookingTab implements Tab {
     }
 
     private void handleEventCalendarExport(String eventID) {
-        view.displayUserInputMessage("Do you want to export as an .ics file?\n(yes/press any key)\n> ");
+        view.displayUserInputMessage(
+                "Do you want to export as an .ics file?\n" +
+                DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
+        );
 
         if (view.getUserInput().equalsIgnoreCase("yes")) {
             if (!eventService.exportEventToCalendarFile(eventID)) {
@@ -73,7 +81,10 @@ public class EventBookingTab implements Tab {
                 return;
             }
 
-            view.displaySuccessMessage("\nEvent exported to .ics successfully.\nIt is located in your Downloads folder.\n");
+            view.displaySuccessMessage(
+                    "\nEvent exported to .ics successfully." +
+                    "\nIt is located in your Downloads folder.\n"
+            );
         }
 
     }

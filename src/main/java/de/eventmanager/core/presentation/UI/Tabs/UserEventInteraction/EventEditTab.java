@@ -32,6 +32,13 @@ public class EventEditTab implements Tab {
     public void start() {
         DefaultDialogHelper.getTabOrPageHeading(view, "Edit Event");
         handleShowCreatedEventsForLoggedInUser();
+        showEventInformationByEventIDDialog();
+
+        if (!showConfirmEventEditingDialog()) {
+            return;
+        }
+
+        handleEventEditing();
         eventService.editEvent(
                 eventID, newEventName, newEventStart, newEventEnd, newEventCategory,
                 newEventPostalCode, newEventAddress, newEventLocation,
@@ -55,8 +62,6 @@ public class EventEditTab implements Tab {
             DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
             }
         );
-
-        showEventInformationByEventIDDialog();
     }
 
     private void showEventInformationByEventIDDialog() {
@@ -76,18 +81,22 @@ public class EventEditTab implements Tab {
             return;
         }
 
-        showConfirmEventEditingDialog(eventService.getEventInformationByID(userInputEventID));
+        view.displayMessage(eventService.getEventInformationByID(userInputEventID));
     }
 
-    private void showConfirmEventEditingDialog(String eventInformation) {
-        view.displayMessage(eventInformation);
-        view.displayUserInputMessage("\nDo you want to edit this event? (yes/no)\n> ");
+    private boolean showConfirmEventEditingDialog() {
+        view.displayUserInputMessage(
+                "\nDo you want to edit this event?"
+                + DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE
+        );
 
         if (!view.getUserInput().equalsIgnoreCase("yes")) {
-            return;
+            view.displayWarningMessage("\nAbort event editing.\n");
+
+            return false;
         }
 
-        handleEventEditing();
+        return true;
     }
 
     private void handleEventEditing() {

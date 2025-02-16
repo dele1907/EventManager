@@ -49,7 +49,7 @@ public class AdminGrantAdminRightsTab implements Tab {
         userService.getUserInformationByEmail(email) +
         "?"
         );
-        view.displayUserInputMessage("\n(yes/press any key)\n> ");
+        view.displayUserInputMessage(DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
         return view.getUserInput().equalsIgnoreCase("yes");
     }

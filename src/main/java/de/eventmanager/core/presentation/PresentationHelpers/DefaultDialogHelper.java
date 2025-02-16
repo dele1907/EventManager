@@ -10,6 +10,7 @@ public class DefaultDialogHelper {
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
     public final static String BLANK_TO_KEEP = "(Leave blank to keep current)";
     public final static int DEFAULT_ITEM_SEPARATOR_LENGTH = 55;
+    public final static String ACCEPT_OR_ABORT_MESSAGE = "\n(type yes to take action OR press enter to abort)\n> ";
 
     public static void getTabOrPageHeading(View view, String heading) {
         view.displayTabOrPageHeading("\n===== " + heading + " =====");

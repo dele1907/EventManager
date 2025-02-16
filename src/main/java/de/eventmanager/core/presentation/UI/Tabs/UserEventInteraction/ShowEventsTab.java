@@ -21,6 +21,7 @@ public class ShowEventsTab implements Tab{
         SEARCH_EVENT_BY_LOCATION,
         SEARCH_EVENT_BY_CITY,
         SHOW_USERS_BOOKED_EVENTS,
+        SHOW_USERS_CREATED_EVENTS,
         BACK_TO_EVENT_OPERATIONS;
 
         public static Optional<ShowEventsMenuChoice> fromUserInput(String userInput) {
@@ -30,7 +31,8 @@ public class ShowEventsTab implements Tab{
                 "2", SEARCH_EVENT_BY_LOCATION,
                 "3", SEARCH_EVENT_BY_CITY,
                 "4", SHOW_USERS_BOOKED_EVENTS,
-                "5", BACK_TO_EVENT_OPERATIONS
+                "5", SHOW_USERS_CREATED_EVENTS,
+                "6", BACK_TO_EVENT_OPERATIONS
                 )
             );
         }
@@ -56,16 +58,17 @@ public class ShowEventsTab implements Tab{
             }
 
             switch (showEventsMenuChoice.get()) {
-                case SEARCH_EVENT_BY_NAME -> getEventInformationByName();
-                case SEARCH_EVENT_BY_LOCATION -> getEventInformationByLocation();
-                case SEARCH_EVENT_BY_CITY -> getEventInformationByCity();
-                case SHOW_USERS_BOOKED_EVENTS -> getEventInformationForUsersBookedEvents();
+                case SEARCH_EVENT_BY_NAME -> showEventInformationByName();
+                case SEARCH_EVENT_BY_LOCATION -> showEventInformationByLocation();
+                case SEARCH_EVENT_BY_CITY -> showEventInformationByCity();
+                case SHOW_USERS_BOOKED_EVENTS -> showEventInformationForUsersBookedEvents();
+                case SHOW_USERS_CREATED_EVENTS -> showEventInformationForUsersCreatedEvents();
                 case BACK_TO_EVENT_OPERATIONS -> eventSearchingIsActive = false;
             }
         }
     }
 
-    public void getEventInformationByName() {
+    public void showEventInformationByName() {
         view.displayUserInputMessage("\nWhats the Name of the Event you looking for?\n> ");
         String eventName = view.getUserInput();
 
@@ -80,12 +83,13 @@ public class ShowEventsTab implements Tab{
         for(var event : listFoundEvents) {
             addDelay(1);
             view.displayMessage(event);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
         }
 
         showUserWantToBookDialog();
     }
 
-    public void getEventInformationByLocation() {
+    public void showEventInformationByLocation() {
         view.displayUserInputMessage("\nWhats the Location of the Event you looking for?\n> ");
         String eventLocation = view.getUserInput();
 
@@ -100,12 +104,13 @@ public class ShowEventsTab implements Tab{
         for (var event : listFoundEvents) {
             addDelay(1);
             view.displayMessage(event);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
         }
 
         showUserWantToBookDialog();
     }
 
-    public void getEventInformationByCity() {
+    public void showEventInformationByCity() {
         view.displayUserInputMessage("\nWhats the City of the Event you looking for?\n> ");
         String eventCity = view.getUserInput();
 
@@ -126,7 +131,7 @@ public class ShowEventsTab implements Tab{
         showUserWantToBookDialog();
     }
 
-    public void getEventInformationForUsersBookedEvents() {
+    public void showEventInformationForUsersBookedEvents() {
         List<String> listBookedEvents = eventService.getUsersBookedEventsInformation(loggedInUserID);
 
         if (listBookedEvents.isEmpty()) {
@@ -138,8 +143,25 @@ public class ShowEventsTab implements Tab{
         view.displayUnderlinedSubheading("\nYour booked events:\n");
         listBookedEvents.forEach(event -> {
             addDelay(1);
-            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
             view.displayMessage(event);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
+        });
+    }
+
+    public void showEventInformationForUsersCreatedEvents() {
+        List<String> listCreatedEvents = eventService.getCreatedEventsByUserID(loggedInUserID);
+
+        if (listCreatedEvents.isEmpty()) {
+            view.displayErrorMessage("\nYou have not created any events yet.");
+
+            return;
+        }
+
+        view.displayUnderlinedSubheading("\nYour created events:\n");
+        listCreatedEvents.forEach(event -> {
+            addDelay(1);
+            view.displayMessage(event);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
         });
     }
 
@@ -153,16 +175,18 @@ public class ShowEventsTab implements Tab{
 
     private void handleMenuGeneration() {
         DefaultDialogHelper.generateMenu(view, List.of(
-                "Search Event by Name",
-                "Search Event by Location",
-                "Search Event by City",
+                "Search event by name",
+                "Search event by location",
+                "Search event by city",
                 "Show my booked events",
-                "Back to Event Operations"
+                "Show my created events",
+                "Back to event operations"
         ));
     }
 
     private void showUserWantToBookDialog() {
-        view.displayUserInputMessage("\nDo you want to book an event? (yes/press any key)\n> ");
+        view.displayUserInputMessage("\nDo you want to book an event? " +
+                DefaultDialogHelper.ACCEPT_OR_ABORT_MESSAGE);
 
         if (!view.getUserInput().equalsIgnoreCase("yes")) {
             return;
