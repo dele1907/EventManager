@@ -17,7 +17,11 @@ public class EventNotificator implements Subject {
 
     @Override
     public void addObserver(Observer observer) {
-            OBSERVERS.add(observer);
+        if (OBSERVERS.contains(observer)) {
+            return;
+        }
+
+        OBSERVERS.add(observer);
     }
 
     @Override
