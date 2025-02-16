@@ -70,7 +70,7 @@ public class EventCreatorAddUserToEventTab implements Tab {
         }
 
         loggedInUsersCreatedEvents.forEach(event -> {
-            DefaultDialogHelper.showItemSeparator(view, 55);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
             view.displayMessage(event);
         });
 

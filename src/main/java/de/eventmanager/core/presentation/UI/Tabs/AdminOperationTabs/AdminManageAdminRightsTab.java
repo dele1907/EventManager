@@ -1,0 +1,74 @@
+package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
+
+import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
+import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
+import de.eventmanager.core.presentation.Service.UserService;
+import de.eventmanager.core.presentation.UI.Tabs.Tab;
+import de.eventmanager.core.presentation.UI.View;
+
+import java.util.Map;
+import java.util.Optional;
+
+public class AdminManageAdminRightsTab implements Tab {
+    private View view;
+    private UserService userService;
+
+    private enum AdminRightsMenuChoice {
+        GRANT_ADMIN_RIGHTS,
+        REMOVE_ADMIN_RIGHTS,
+        BACK_TO_ADMIN_OPERATIONS_MENU;
+
+        public static Optional<AdminRightsMenuChoice> fromUserInput(String userInput) {
+            return EnumHelper.getMapOfStringToEnumConstant(userInput, AdminRightsMenuChoice.class,
+                Map.of(
+                "1", GRANT_ADMIN_RIGHTS,
+                "2", REMOVE_ADMIN_RIGHTS,
+                "3", BACK_TO_ADMIN_OPERATIONS_MENU
+                )
+            );
+        }
+    }
+
+    public AdminManageAdminRightsTab(View view) {
+        this.view = view;
+        this.userService = new UserServiceImpl();
+    }
+
+
+    @Override
+    public void start() {
+
+        var adminRightsIsActive = true;
+
+        while (adminRightsIsActive) {
+            view.displayMessage("\nAdmin Rights Management\n");
+            view.displayMessage("1. Grant Admin Rights\n");
+            view.displayMessage("2. Remove Admin Rights\n");
+            view.displayMessage("3. Back to Admin Operations Menu\n");
+            view.displayUserInputMessage("\nenter choice> ");
+            var userInput = view.getUserInput();
+
+            var adminRightsMenuChoice = AdminRightsMenuChoice.fromUserInput(userInput);
+
+            if (adminRightsMenuChoice.isEmpty()) {
+                view.displayErrorMessage("\nInvalid input!\n");
+
+                continue;
+            }
+
+            switch (adminRightsMenuChoice.get()) {
+                case GRANT_ADMIN_RIGHTS -> handleGrantAdminRights();
+                case REMOVE_ADMIN_RIGHTS -> handleRemoveAdminRights();
+                case BACK_TO_ADMIN_OPERATIONS_MENU -> adminRightsIsActive = false;
+            }
+        }
+    }
+
+    private void handleGrantAdminRights() {
+        new AdminGrantAdminRightsTab(view).start();
+    }
+
+    private void handleRemoveAdminRights() {
+        new AdminRemoveAdminRightsTab(view).start();
+    }
+}

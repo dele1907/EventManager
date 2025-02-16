@@ -9,6 +9,7 @@ public class DefaultDialogHelper {
     public final static String WARNING_MESSAGE = "\n\u2757" + "\u2757" + "WARNING" + "\u2757" + "\u2757";
     public final static String USER_NOT_FOUND = "\nUser not found.\n";
     public final static String BLANK_TO_KEEP = "(Leave blank to keep current)";
+    public final static int DEFAULT_ITEM_SEPARATOR_LENGTH = 55;
 
     public static void getTabOrPageHeading(View view, String heading) {
         view.displayTabOrPageHeading("\n===== " + heading + " =====");

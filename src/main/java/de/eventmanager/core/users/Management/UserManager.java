@@ -75,9 +75,9 @@ public interface UserManager {
     //#endregion Event-Operations
 
     //#region Permission-Operations
-    void addAdminStatusToUser(User user);
+    boolean addAdminStatusToUser(User user);
 
-    void removeAdminStatusFromUser(User user);
+    boolean removeAdminStatusFromUser(User user);
 
     void addAdminStatusToUserByUserID(String userID, User loggedUser);
 

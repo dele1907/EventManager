@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class UserManagerImpl implements UserManager {
 
     private final EventNotificator eventNotificator = EventNotificator.getInstance();
-    private final ExportManager exportManager = new ExportManager();
 
     //#region Constant variables
     private final String MISSING_PERMISSION_MESSAGE = "Permission denied!";
@@ -443,17 +442,21 @@ public class UserManagerImpl implements UserManager {
 
     //#region Permission-Operations
     @Override
-    public void addAdminStatusToUser(User user){
+    public boolean addAdminStatusToUser(User user){
         user.setRoleAdmin(true);
 
         UserDatabaseConnector.updateUser(user);
+
+        return getUserByEmail(user.getEMailAddress()).get().getRole().equals(Role.ADMIN);
     }
 
     @Override
-    public void removeAdminStatusFromUser(User user) {
+    public boolean removeAdminStatusFromUser(User user) {
         user.setRoleAdmin(false);
 
         UserDatabaseConnector.updateUser(user);
+
+        return !getUserByEmail(user.getEMailAddress()).get().getRole().equals(Role.ADMIN);
     }
 
     @Override
@@ -525,9 +528,7 @@ public class UserManagerImpl implements UserManager {
     //#region Export-Events
     @Override
     public boolean exportEvents(String loggedUserID) {
-        List <EventModel> eventList = getUsersBookedEvents(loggedUserID);
-
-        return exportManager.exportEvents(eventList);
+        return new ExportManager().exportEvents(getUsersBookedEvents(loggedUserID));
     }
     //#endregion Export-Events
 }

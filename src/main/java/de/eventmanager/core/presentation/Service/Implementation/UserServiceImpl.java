@@ -111,12 +111,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean getUserIsAdminUser(String userID) {
+    public boolean getUserIsAdminUserByID(String userID) {
         return userManagerImpl.getUserByID(userID).get().getRole().equals(Role.ADMIN);
+    }
+
+    @Override
+    public boolean getUserIsAdminUserByEmail(String email) {
+        return userManagerImpl.getUserByEmail(email).get().getRole().equals(Role.ADMIN);
     }
 
     @Override
     public String getLoggedInUserName(String userID) {
         return userManagerImpl.getUserByID(userID).get().getFirstName();
+    }
+
+    @Override
+    public boolean grantAdminRightsToUser(String email) {
+        if (!getUserIsPresentInDatabaseByEmail(email)) {
+            return false;
+        }
+
+        return userManagerImpl.addAdminStatusToUser(readUserByEmail(email).get());
+    }
+
+    public boolean removeAdminRightsFromUser(String email) {
+        if (!getUserIsPresentInDatabaseByEmail(email)) {
+            return false;
+        }
+
+        return userManagerImpl.removeAdminStatusFromUser(readUserByEmail(email).get());
     }
 }

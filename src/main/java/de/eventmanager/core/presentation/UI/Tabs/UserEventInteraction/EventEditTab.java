@@ -52,7 +52,7 @@ public class EventEditTab implements Tab {
 
         createdEvents.forEach(eventInformation -> {
             view.displayMessage(eventInformation);
-            DefaultDialogHelper.showItemSeparator(view, 55);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
             }
         );
 

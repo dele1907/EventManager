@@ -120,7 +120,7 @@ public class ShowEventsTab implements Tab{
         for (var event : listFoundEvents) {
             addDelay(1);
             view.displayMessage(event);
-            DefaultDialogHelper.showItemSeparator(view, 55);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
         }
 
         showUserWantToBookDialog();
@@ -138,7 +138,7 @@ public class ShowEventsTab implements Tab{
         view.displayUnderlinedSubheading("\nYour booked events:\n");
         listBookedEvents.forEach(event -> {
             addDelay(1);
-            DefaultDialogHelper.showItemSeparator(view, 55);
+            DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
             view.displayMessage(event);
         });
     }

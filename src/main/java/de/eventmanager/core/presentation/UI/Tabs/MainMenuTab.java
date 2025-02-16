@@ -51,7 +51,7 @@ public class MainMenuTab implements Tab {
 
     @Override
     public void start() {
-        if (userService.getUserIsAdminUser(loggedInUserID)) {
+        if (userService.getUserIsAdminUserByID(loggedInUserID)) {
             showMainMenu(MenuType.ADMIN);
         } else {
             showMainMenu(MenuType.NON_ADMIN);
@@ -129,7 +129,6 @@ public class MainMenuTab implements Tab {
     }
 
     private void doShowAdminOperations(MenuType menuType) {
-
         if (!(menuType == MenuType.ADMIN)) {
             DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
 

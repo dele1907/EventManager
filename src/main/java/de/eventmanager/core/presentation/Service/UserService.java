@@ -15,8 +15,9 @@ public interface UserService {
     Optional<User> readUserByEmail(String email);
     boolean getUserIsPresentInDatabaseByEmail(String eMailAddress);
     boolean getAdminUserIsPresentInDatabase();
-    boolean getUserIsAdminUser(String userID);
+    boolean getUserIsAdminUserByID(String userID);
+    boolean getUserIsAdminUserByEmail(String email);
     String getLoggedInUserName(String userID);
     String getUserInformationByEmail(String email);
-
+    boolean grantAdminRightsToUser(String email);
 }
