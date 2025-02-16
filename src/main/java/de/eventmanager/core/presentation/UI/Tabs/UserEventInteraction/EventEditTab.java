@@ -69,15 +69,14 @@ public class EventEditTab implements Tab {
             return;
         }
         eventID = userInputEventID;
-        String eventInformation = eventService.getEventInformationByID(userInputEventID);
 
-        if (eventInformation.isEmpty()) {
+        if (!eventService.getEventIsExistingByID(eventID)) {
             view.displayErrorMessage("\nNo event found with the given event ID. Please try again.\n");
 
             return;
         }
 
-        showConfirmEventEditingDialog(eventInformation);
+        showConfirmEventEditingDialog(eventService.getEventInformationByID(userInputEventID));
     }
 
     private void showConfirmEventEditingDialog(String eventInformation) {

@@ -106,5 +106,9 @@ public class EventServiceImpl implements EventService {
     public boolean exportEventToCalendarFile(String eventID) {
         return userManager.exportEventByEventID(eventID);
     }
+
+    public boolean getEventIsExistingByID(String eventID) {
+        return userManager.getEventByID(eventID).isPresent();
+    }
     //#endregion event operations
 }

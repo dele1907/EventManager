@@ -25,4 +25,5 @@ public interface EventService {
     boolean getUserHasAlreadyBookedEventByID(String userID, String eventID);
     boolean getUserHasAlreadyBookedEventByEMail(String userEMail, String eventID);
     boolean exportEventToCalendarFile(String eventID);
+    boolean getEventIsExistingByID(String eventID);
 }
