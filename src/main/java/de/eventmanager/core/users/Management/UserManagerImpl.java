@@ -264,6 +264,9 @@ public class UserManagerImpl implements UserManager {
                 description);
 
         EventDatabaseConnector.updateEvent(eventToEdit);
+        BookingDatabaseConnector.getBookedUsersOnEvent(eventID).forEach(user -> {
+            eventNotificator.addObserver(new UserObserver(user, eventToEdit));
+        });
         eventNotificator.notifyObservers(eventToEdit);
         LoggerHelper.logInfoMessage(User.class, "Event after editing: " + eventToEdit);
 

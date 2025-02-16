@@ -69,7 +69,7 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
-        var menu = List.of("Settings", "Inbox", "Event Operations", "Logout", "Logout and Exit Program");
+        var menu = List.of("Settings", getInBoxMainMenuItem(),"Event Operations", "Logout", "Logout and Exit Program");
 
         if (menuType.equals(MenuType.ADMIN)) {
             menu = new ArrayList<>(menu);
@@ -79,6 +79,10 @@ public class MainMenuTab implements Tab {
         DefaultDialogHelper.getTabOrPageHeading(view, "Main Menu");
         view.displaySuccessMessage("Welcome " + userService.getLoggedInUserName(loggedInUserID) + "!\n");
         DefaultDialogHelper.generateMenu(view, menu);
+    }
+
+    private String getInBoxMainMenuItem() {
+        return "Inbox(" + userService.getNumberOfUnreadNotifications(loggedInUserID)+ ")";
     }
 
     private boolean handleMenuChoice(MenuType menuType, String choice) {

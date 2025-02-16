@@ -2,10 +2,12 @@ package de.eventmanager.core.database.Communication;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import de.eventmanager.core.events.EventModel;
+import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -112,7 +114,7 @@ public class BookingDatabaseConnector {
     /**
      * Return a list of user email addresses
      * */
-    public static ArrayList<String> getBookedUsersOnEvent(String eventID) {
+    public static ArrayList<String> getBookedUsersInformationOnEvent(String eventID) {
         ArrayList<String> bookedUsers = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.connect()) {
@@ -127,6 +129,39 @@ public class BookingDatabaseConnector {
 
             bookedUsers.addAll(records.stream()
                     .map(record -> record.get(USER.EMAIL))
+                    .collect(Collectors.toList()));
+
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
+        }
+
+        return bookedUsers;
+    }
+
+    public static List<User> getBookedUsersOnEvent(String eventID) {
+        List<User> bookedUsers = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            Result<Record> records = create.select()
+                    .from(USER)
+                    .join(BOOKED).on(USER.USERID.eq(BOOKED.USERID))
+                    .where(BOOKED.EVENTID.eq(eventID))
+                    .fetch();
+
+            bookedUsers.addAll(records.stream()
+                    .map(record -> new User(
+                            record.get(USER.USERID),
+                            record.get(USER.FIRSTNAME),
+                            record.get(USER.LASTNAME),
+                            record.get(USER.BIRTHDATE),
+                            record.get(USER.EMAIL),
+                            record.get(USER.PASSWORD),
+                            record.get(USER.PHONENUMBER),
+                            record.get(USER.ISADMIN)
+                    ))
                     .collect(Collectors.toList()));
 
         } catch (Exception exception) {

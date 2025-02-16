@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
+import de.eventmanager.core.database.Communication.NotificationDatabaseConnector;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.database.Communication.UserDatabaseConnector;
@@ -8,6 +9,8 @@ import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.Management.UserManagerImpl;
 import de.eventmanager.core.users.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -140,5 +143,54 @@ public class UserServiceImpl implements UserService {
         }
 
         return userManagerImpl.removeAdminStatusFromUser(readUserByEmail(email).get());
+    }
+
+    @Override
+    public List<String> getLoggedUsersNotifications(String userID) {
+        var usersNotifications = new ArrayList<String>();
+        NotificationDatabaseConnector.readNotificationsByUserID(userID).forEach(notification -> {
+            usersNotifications.add(notification.getMessage());
+        });
+
+        return usersNotifications;
+    }
+
+    public List<String> getLoggedUsersUnreadNotifications(String userID) {
+        var usersUnreadNotifications = new ArrayList<String>();
+        NotificationDatabaseConnector.readNotificationsByUserID(userID).forEach(notification -> {
+            if (!notification.isMarkedAsRead()) {
+                usersUnreadNotifications.add(notification.getMessage());
+            }
+        });
+
+        return usersUnreadNotifications;
+    }
+
+    @Override
+    public void onOpenNotificationsMarkAsRead(String userID) {
+        NotificationDatabaseConnector.readNotificationsByUserID(userID).forEach(notification -> {
+            if (!notification.isMarkedAsRead()) {
+                notification.setMarkedAsRead(true);
+                NotificationDatabaseConnector.updateNotification(notification);
+            }
+        });
+    }
+
+    @Override
+    public int getNumberOfUnreadNotifications(String userID) {
+        int unreadNotifications = 0;
+        for (var notification : NotificationDatabaseConnector.readNotificationsByUserID(userID)) {
+            if (!notification.isMarkedAsRead()) {
+                unreadNotifications++;
+            }
+        }
+
+        return unreadNotifications;
+    }
+
+    public void emptyUsersNotifications(String userID) {
+        NotificationDatabaseConnector.readNotificationsByUserID(userID).forEach(notification -> {
+            NotificationDatabaseConnector.deleteNotification(notification.getNotificationID());
+        });
     }
 }

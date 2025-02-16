@@ -1,11 +1,13 @@
 package de.eventmanager.core.presentation.UI.Tabs.AdminOperationTabs;
 
+import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,22 +39,19 @@ public class AdminManageAdminRightsTab implements Tab {
 
     @Override
     public void start() {
-
         var adminRightsIsActive = true;
 
         while (adminRightsIsActive) {
-            view.displayMessage("\nAdmin Rights Management\n");
-            view.displayMessage("1. Grant Admin Rights\n");
-            view.displayMessage("2. Remove Admin Rights\n");
-            view.displayMessage("3. Back to Admin Operations Menu\n");
-            view.displayUserInputMessage("\nenter choice> ");
-            var userInput = view.getUserInput();
-
-            var adminRightsMenuChoice = AdminRightsMenuChoice.fromUserInput(userInput);
+            DefaultDialogHelper.getTabOrPageHeading(view, "Manage Admin Rights");
+            DefaultDialogHelper.generateMenu(view, List.of(
+                "Grant Admin Rights",
+                "Remove Admin Rights",
+                "Back to Admin Operations Menu"
+            ));
+            var adminRightsMenuChoice = AdminRightsMenuChoice.fromUserInput(view.getUserInput());
 
             if (adminRightsMenuChoice.isEmpty()) {
-                view.displayErrorMessage("\nInvalid input!\n");
-
+                DefaultDialogHelper.showInvalidInputMessageByAttribute(view, "choice");
                 continue;
             }
 

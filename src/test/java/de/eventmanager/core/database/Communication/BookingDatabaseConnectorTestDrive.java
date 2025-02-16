@@ -63,7 +63,7 @@ public class BookingDatabaseConnectorTestDrive {
         // test of event list for user 1
         assertEquals(expectedBookedTestEvents, bookedTestEvents);
 
-        ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersOnEvent("eventTestBookingDatabaseConnector");
+        ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersInformationOnEvent("eventTestBookingDatabaseConnector");
         ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
         expectedBookedTestUsers.add("uwe.bookingtest@testmail.com");
         expectedBookedTestUsers.add("manfred.bookingtest@testmail.com");
@@ -137,7 +137,7 @@ public class BookingDatabaseConnectorTestDrive {
     @Test
     public void testGettingBookedUsersOnEventFailed() {
 
-        ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersOnEvent("invalidEventIDToGetBookedUsers");
+        ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersInformationOnEvent("invalidEventIDToGetBookedUsers");
         assertTrue(bookedTestUsers.isEmpty(), "Getting a list of booked users was successful but should not.");
     }
 

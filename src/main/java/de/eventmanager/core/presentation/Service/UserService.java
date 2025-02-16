@@ -3,6 +3,7 @@ package de.eventmanager.core.presentation.Service;
 import de.eventmanager.core.presentation.PresentationHelpers.UserRegistrationDataPayload;
 import de.eventmanager.core.users.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -20,4 +21,9 @@ public interface UserService {
     String getLoggedInUserName(String userID);
     String getUserInformationByEmail(String email);
     boolean grantAdminRightsToUser(String email);
+    List<String> getLoggedUsersNotifications(String userID);
+    List<String> getLoggedUsersUnreadNotifications(String userID);
+    void onOpenNotificationsMarkAsRead(String userID);
+    int getNumberOfUnreadNotifications(String userID);
+    void emptyUsersNotifications(String userID);
 }

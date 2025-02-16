@@ -31,7 +31,6 @@ public class UserObserver implements Observer {
     public void update(EventModel event) {
 
         if (!this.event.equals(event)) {
-
             return;
         }
 
