@@ -104,6 +104,10 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public boolean exportEventToCalendarFile(String eventID) {
+        if (!getEventIsExistingByID(eventID) || eventID.isEmpty()) {
+            return false;
+        }
+
         return userManager.exportEventByEventID(eventID);
     }
 

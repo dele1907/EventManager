@@ -63,8 +63,10 @@ public class EventCreationTab implements Tab {
     private boolean createNewEvent(boolean isPrivateEvent) {
         view.displayUserInputMessage("Enter event name\n> ");
         String eventName = view.getUserInput();
-        String eventStart = DefaultDialogHelper.showDateInputDialog(view, "event start date").get();
-        String eventEnd = DefaultDialogHelper.showDateInputDialog(view, "event end date").get();
+        String eventStartDate = DefaultDialogHelper.showDateInputDialog(view, "\nEnter event start date").get();
+        String eventStartTime = DefaultDialogHelper.showTimeInputDialog(view, "\nEnter event start time").get();
+        String eventEndDate = DefaultDialogHelper.showDateInputDialog(view, "\nEnter event end date").get();
+        String eventEndTime = DefaultDialogHelper.showTimeInputDialog(view, "\nEnter event end time").get();
         view.displayUserInputMessage("\nEnter event category\n> ");
         String category = view.getUserInput();
         view.displayUserInputMessage("\nEnter event postal code\n> ");
@@ -91,6 +93,9 @@ public class EventCreationTab implements Tab {
 
             minimumAge = minimumAgeString.isEmpty() ? 0 : Integer.parseInt(minimumAgeString);
         }
+
+        String eventStart = eventStartDate.concat(" ".concat(eventStartTime));
+        String eventEnd = eventEndDate.concat(" ".concat(eventEndTime));
 
         return new EventServiceImpl().createNewEvent(eventName, eventStart, eventEnd, category, postalCode, address,
                 maxCapacity, eventLocation, description, minimumAge, isPrivateEvent, loggedInUserID);

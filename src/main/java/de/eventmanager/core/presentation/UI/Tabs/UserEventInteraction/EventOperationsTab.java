@@ -20,6 +20,7 @@ public class EventOperationsTab implements Tab {
         CANCEL_EVENT,
         ADD_USER_TO_EVENT,
         EDIT_EVENT,
+        EXPORT_EVENT,
         BACK_TO_MAIN_MENU;
 
         public static Optional<EventOperationsChoice> fromUserInput(String userInput) {
@@ -31,7 +32,8 @@ public class EventOperationsTab implements Tab {
                 "4", CANCEL_EVENT,
                 "5", ADD_USER_TO_EVENT,
                 "6", EDIT_EVENT,
-                "7", BACK_TO_MAIN_MENU
+                "7", EXPORT_EVENT,
+                "8", BACK_TO_MAIN_MENU
                 )
             );
         }
@@ -63,6 +65,7 @@ public class EventOperationsTab implements Tab {
                 case CANCEL_EVENT -> handleCancelEvent();
                 case ADD_USER_TO_EVENT -> handleAddUserToEvent();
                 case EDIT_EVENT -> handleEditEvent();
+                case EXPORT_EVENT -> handleExportEvent();
                 case BACK_TO_MAIN_MENU -> eventOperationIsActive = false;
             }
         }
@@ -92,6 +95,10 @@ public class EventOperationsTab implements Tab {
         new EventEditTab(view, loggedInUserID).start();
     }
 
+    private void handleExportEvent() {
+        new EventExportTab(view, loggedInUserID).start();
+    }
+
     private void handleMenuGeneration() {
         DefaultDialogHelper.generateMenu(
                 view,
@@ -102,6 +109,7 @@ public class EventOperationsTab implements Tab {
                         "Cancel participation in event",
                         "Add a user to an event",
                         "Edit event's information",
+                        "Export event",
                         "Back to main menu"
                 )
         );

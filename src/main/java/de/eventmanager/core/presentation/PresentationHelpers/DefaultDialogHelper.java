@@ -14,6 +14,7 @@ public class DefaultDialogHelper {
     public final static String ACCEPT_OR_ABORT_MESSAGE = "\n(type "+ CONFIRM +
             " to take action OR press enter to abort)\n> ";
     public final static String DATE_FORMAT_HINT = "(Format: YYYY-MM-DD)";
+    public final static String TIME_FORMAT_HINT = "(Format: HH:MM)";
 
     public static void getTabOrPageHeading(View view, String heading) {
         view.displayTabOrPageHeading("\n===== " + heading + " =====");
@@ -115,6 +116,19 @@ public class DefaultDialogHelper {
         return Optional.of(date);
     }
 
+    public static Optional<String> showTimeInputDialog(View view, String prompt) {
+        view.displayUserInputMessage(prompt + "\n" + TIME_FORMAT_HINT + "\n> ");
+        var time = view.getUserInput();
+
+        if (!ValidationHelper.validateTimeInput(time)) {
+            showInvalidInputMessageByAttribute(view, "time format");
+
+            return showTimeInputDialog(view, prompt);
+        }
+
+        return Optional.of(time);
+    }
+
     public static Optional<String> showEditAttributeDialog(View view, String prompt) {
         view.displayUserInputMessage("\nEnter new " + prompt + "\n" + BLANK_TO_KEEP + "\n> ");
         var userAttribute = view.getUserInput();
@@ -134,5 +148,13 @@ public class DefaultDialogHelper {
 
     public static void showInvalidInputMessageByAttribute(View view, String attribute) {
         view.displayErrorMessage("\nInvalid " + attribute + ". Please try again.\n");
+    }
+
+    public static void addDelay(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
