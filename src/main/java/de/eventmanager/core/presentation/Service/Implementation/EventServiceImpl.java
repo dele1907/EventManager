@@ -1,14 +1,24 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
+import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.users.Management.UserManagerImpl;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EventServiceImpl implements EventService {
     UserManagerImpl userManager = new UserManagerImpl();
 
     //#region readEvents
+   public List<String> getPublicEventsUserCanBookByID(String loggedUserID) {
+       return EventDatabaseConnector.getAllPublicEventsUserHasNotBookedAlready(loggedUserID)
+               .stream()
+               .map(Object::toString)
+               .collect(Collectors.toList());
+   }
+
     @Override
     public List<String> getPublicEventsByName(String name) {
         return userManager.readPublicEventsByName(name);

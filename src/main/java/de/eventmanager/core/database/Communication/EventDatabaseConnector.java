@@ -171,7 +171,7 @@ public class EventDatabaseConnector {
         });
     }
 
-    public static Optional<PrivateEvent> getPrivateEventFromRecord(Record record) {
+    private static Optional<PrivateEvent> getPrivateEventFromRecord(Record record) {
 
         return Optional.of(new PrivateEvent(
                 record.get(EVENTS.EVENTID),
@@ -190,7 +190,7 @@ public class EventDatabaseConnector {
         ));
     }
 
-    public static Optional<PublicEvent> getPublicEventFromRecord(Record record) {
+    private static Optional<PublicEvent> getPublicEventFromRecord(Record record) {
 
         return Optional.of(new PublicEvent(
                 record.get(EVENTS.EVENTID),
@@ -288,6 +288,37 @@ public class EventDatabaseConnector {
         }
 
         return Optional.empty();
+    }
+
+    public static List<PublicEvent> getAllPublicEventsUserHasNotBookedAlready(String userID) {
+        var publicEvents = new ArrayList<PublicEvent>();
+
+        try (var connection = DatabaseConnector.connect()) {
+            var create = DSL.using(connection);
+
+            var records = create.select()
+                    .from(EVENTS)
+                    .join(CITIES).on(EVENTS.POSTALCODE.eq(CITIES.POSTALCODE))
+                    .where(EVENTS.PRIVATEEVENT.eq(false))
+                    .andNotExists(create.selectOne()
+                        .from(BOOKED)
+                        .where(BOOKED.EVENTID.eq(EVENTS.EVENTID))
+                        .and(BOOKED.USERID.eq(userID))
+                    )
+                    .fetch();
+
+            records.forEach(record -> {
+                PublicEvent publicEvent = getPublicEventFromRecord(record).orElse(null);
+
+                if (publicEvent != null) {
+                    publicEvents.add(publicEvent);
+                }
+            });
+        } catch (Exception exception) {
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_READ + exception.getMessage());
+        }
+
+        return publicEvents;
     }
 
     //# region eventSearch

@@ -1,8 +1,5 @@
 package de.eventmanager.core.presentation.Service;
 
-import de.eventmanager.core.events.PublicEvent;
-import jdk.jfr.Event;
-
 import java.util.List;
 
 public interface EventService {
@@ -26,4 +23,5 @@ public interface EventService {
     boolean getUserHasAlreadyBookedEventByEMail(String userEMail, String eventID);
     boolean exportEventToCalendarFile(String eventID);
     boolean getEventIsExistingByID(String eventID);
+    List<String> getPublicEventsUserCanBookByID(String loggedUserID);
 }

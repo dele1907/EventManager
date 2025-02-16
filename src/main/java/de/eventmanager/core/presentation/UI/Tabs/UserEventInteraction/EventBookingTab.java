@@ -24,7 +24,8 @@ public class EventBookingTab implements Tab {
     }
 
     private void showBookingDialog() {
-        view.displayUserInputMessage("Enter the event ID you want to book\n> ");
+        showEventsUserCanBook();
+        view.displayUserInputMessage("\nEnter the event ID you want to book\n> ");
         String eventID = view.getUserInput();
 
         if (eventService.getUserHasAlreadyBookedEventByID(loggedInUserID, eventID)) {
@@ -52,6 +53,12 @@ public class EventBookingTab implements Tab {
         handleEventCalendarExport(eventID);
 
         view.displaySuccessMessage("\nBooking successful.\n");
+    }
+
+    private void showEventsUserCanBook() {
+        view.displayUnderlinedSubheading("Events you can book:");
+        eventService.getPublicEventsUserCanBookByID(loggedInUserID)
+                .forEach(view::displayMessage);
     }
 
     private boolean userIsSureToBookEventDialog(String eventID) {
