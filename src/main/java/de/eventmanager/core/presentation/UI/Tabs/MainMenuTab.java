@@ -3,6 +3,7 @@ package de.eventmanager.core.presentation.UI.Tabs;
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
+import de.eventmanager.core.presentation.UI.Tabs.Inbox.UsersInboxTab;
 import de.eventmanager.core.presentation.UI.Tabs.UserEventInteraction.EventOperationsTab;
 import de.eventmanager.core.presentation.UI.View;
 

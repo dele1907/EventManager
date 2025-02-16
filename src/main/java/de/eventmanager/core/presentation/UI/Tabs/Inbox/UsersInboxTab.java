@@ -1,11 +1,10 @@
-package de.eventmanager.core.presentation.UI.Tabs;
+package de.eventmanager.core.presentation.UI.Tabs.Inbox;
 
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
 import de.eventmanager.core.presentation.PresentationHelpers.EnumHelper;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
-import de.eventmanager.core.presentation.UI.Tabs.Inbox.InboxAllNotificationsTab;
-import de.eventmanager.core.presentation.UI.Tabs.Inbox.InboxUnreadNotificationsTab;
+import de.eventmanager.core.presentation.UI.Tabs.Tab;
 import de.eventmanager.core.presentation.UI.View;
 
 import java.util.List;
@@ -70,11 +69,11 @@ public class UsersInboxTab implements Tab {
     }
 
     private void handleShowUnreadNotifications() {
-        new InboxUnreadNotificationsTab(view, loggedInUserID).start();
+        new InboxAllNotificationsTab(view, loggedInUserID, true).start();
     }
 
     private void handleShowAllNotifications() {
-        new InboxAllNotificationsTab(view, loggedInUserID).start();
+        new InboxAllNotificationsTab(view, loggedInUserID, false).start();
     }
 
     private void handleEmptyInbox() {

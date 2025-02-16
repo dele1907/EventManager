@@ -10,26 +10,31 @@ public class InboxAllNotificationsTab implements Tab {
     private View view;
     private String loggedInUserID;
     private UserService userService;
+    private boolean showOnlyUnreadNotifications;
 
-    public InboxAllNotificationsTab(View view, String loggedInUserID) {
+    public InboxAllNotificationsTab(View view, String loggedInUserID, boolean showOnlyUnreadNotifications) {
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.userService = new UserServiceImpl();
+        this.showOnlyUnreadNotifications = showOnlyUnreadNotifications;
     }
 
     @Override
     public void start() {
-        DefaultDialogHelper.getTabOrPageHeading(view, "All Notifications");
+        var heading = showOnlyUnreadNotifications ? "Unread Notifications" : "All Notifications";
+        DefaultDialogHelper.getTabOrPageHeading(view, heading);
 
-        var allNotifications = userService.getLoggedUsersNotifications(loggedInUserID);
+        var notifications = showOnlyUnreadNotifications ?
+                userService.getLoggedUsersUnreadNotifications(loggedInUserID) :
+                userService.getLoggedUsersNotifications(loggedInUserID);
 
-        if (allNotifications.isEmpty()) {
+        if (notifications.isEmpty()) {
             view.displayWarningMessage("No notifications found\n");
 
             return;
         }
 
-        allNotifications.forEach(notification -> {
+        notifications.forEach(notification -> {
             view.displayMessage(notification);
             DefaultDialogHelper.showItemSeparator(view, DefaultDialogHelper.DEFAULT_ITEM_SEPARATOR_LENGTH);
             view.displayMessage("\n");
