@@ -43,6 +43,8 @@ public class EventBookingTab implements Tab {
             return;
         }
 
+        handleEventCalendarExport(eventID);
+
         view.displaySuccessMessage("\nBooking successful.\n");
     }
 
@@ -59,5 +61,20 @@ public class EventBookingTab implements Tab {
         }
 
         return true;
+    }
+
+    private void handleEventCalendarExport(String eventID) {
+        view.displayUserInputMessage("Do you want to export as an .ics file?\n(yes/press any key)\n> ");
+
+        if (view.getUserInput().equalsIgnoreCase("yes")) {
+            if (!eventService.exportEventToCalendarFile(eventID)) {
+                view.displayErrorMessage("\nAbort exporting event to .ics.\n");
+
+                return;
+            }
+
+            view.displaySuccessMessage("\nEvent exported to .ics successfully.\nIt is located in your Downloads folder.\n");
+        }
+
     }
 }

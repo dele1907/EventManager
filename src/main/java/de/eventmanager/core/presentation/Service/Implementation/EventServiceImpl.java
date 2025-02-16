@@ -101,5 +101,10 @@ public class EventServiceImpl implements EventService {
     public boolean getUserHasAlreadyBookedEventByEMail(String userEMail, String eventID) {
         return userManager.getUserHasAlreadyBookedEvent(userManager.getUserByEmail(userEMail).get().getUserID(), eventID);
     }
+
+    @Override
+    public boolean exportEventToCalendarFile(String eventID) {
+        return userManager.exportEventByEventID(eventID);
+    }
     //#endregion event operations
 }
