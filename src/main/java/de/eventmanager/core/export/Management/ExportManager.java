@@ -29,10 +29,6 @@ public class ExportManager {
     private final VTimeZone V_TIMEZONE_GERMANY = TIMEZONE_GERMANY.getVTimeZone();
     //#endregion constants
 
-    /**
-     * Method at the moment unclean, because Beta-Function
-     */
-
     public boolean exportEvents(List<? extends EventModel> eventList) {
         var optionalCalendar = createCalendar(eventList);
 

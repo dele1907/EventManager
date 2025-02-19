@@ -530,7 +530,7 @@ public class UserManagerImpl implements UserManager {
 
     //#region Export-Events
     @Override
-    public boolean exportEvents(String loggedUserID) {
+    public boolean exportAllBookedEvents(String loggedUserID) {
         return new ExportManager().exportEvents(getUsersBookedEvents(loggedUserID));
     }
 

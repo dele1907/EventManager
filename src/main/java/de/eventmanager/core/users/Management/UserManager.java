@@ -91,7 +91,7 @@ public interface UserManager {
     //#endregion Registration & Authentication
 
     //#region Export-Events
-    boolean exportEvents(String loggedUserID);
+    boolean exportAllBookedEvents(String loggedUserID);
     boolean exportEventByEventID(String eventID);
     //#endregion Export-Events
 }

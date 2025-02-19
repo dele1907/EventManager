@@ -1,6 +1,5 @@
 package de.eventmanager.core.users.Management;
 
-
 import de.eventmanager.core.database.Communication.*;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
@@ -8,15 +7,9 @@ import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.notifications.Notification;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
-import helper.LoggerHelper;
 import org.junit.jupiter.api.*;
-
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -276,7 +269,7 @@ public class UserManagerImplTestDrive {
     @Order(1)
     @DisplayName("ExportEvents-Test")
     void exportTest() {
-        assertTrue(userManagerImpl.exportEvents(TEST_USER_ID));
+        assertTrue(userManagerImpl.exportAllBookedEvents(TEST_USER_ID));
     }
 
 }
