@@ -45,6 +45,7 @@ public class EventExportTab implements Tab {
             return;
         }
 
-        view.displaySuccessMessage("\nEvent exported successfully.\n");
+        view.displaySuccessMessage("\nEvent exported successfully." +
+                        "\nIt is located in your Downloads folder.\n");
     }
 }
