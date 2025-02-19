@@ -13,6 +13,8 @@ import net.fortuna.ical4j.model.parameter.Cn;
 import net.fortuna.ical4j.model.parameter.CuType;
 import net.fortuna.ical4j.model.parameter.Role;
 import net.fortuna.ical4j.model.property.*;
+import org.jooq.Log;
+
 import java.net.URI;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -122,6 +124,11 @@ public class ExportManager {
         calenderEvent.getProperties().add(new Uid(event.getEventID()));
         calenderEvent.getProperties().add(new Description(addDescriptionToVEvent(event)));
         calenderEvent.getProperties().add(new Location(addLocationToVEvent(event)));
+
+        if (createEventCreatorAttendee(eventCreator).isEmpty()) {
+            LoggerHelper.logErrorMessage(ExportManager.class, "Attendee Event-Creator could not be created");
+
+            return;}
 
         calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator).get());
     }
