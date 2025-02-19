@@ -83,17 +83,18 @@ public class ExportManager {
 
     //#region Event-Compatibility
     private Optional<VEvent> convertEventToVEvent(EventModel event) {
-        String eventName = event.getEventName();
-        Optional<User> eventCreator = CreatorDatabaseConnector.getEventCreator(event.getEventID());
+        var eventCreator = CreatorDatabaseConnector.getEventCreator(event.getEventID());
 
         if (eventCreator.isEmpty()) {return Optional.empty();}
 
-        java.util.Calendar startDate = setEventStartTime(eventName).get();
-        java.util.Calendar endDate = setEventEndTime(eventName).get();
+        var startDateOpt = setEventStartTime(event.getEventName());
+        var endDateOpt = setEventEndTime(event.getEventName());
 
-        DateTime start = new DateTime(startDate.getTime());
-        DateTime end = new DateTime(endDate.getTime());
-        VEvent calenderEvent = new VEvent(start, end, event.getEventName());
+        if (startDateOpt.isEmpty() || endDateOpt.isEmpty()) {return Optional.empty();}
+
+        DateTime startTime = new DateTime(startDateOpt.get().getTime());
+        DateTime endTime = new DateTime(endDateOpt.get().getTime());
+        VEvent calenderEvent = new VEvent(startTime, endTime, event.getEventName());
 
         addProperties(calenderEvent, event, eventCreator);
 
@@ -103,6 +104,8 @@ public class ExportManager {
 
     //#region Attendees
     private Optional<Attendee> createEventCreatorAttendee(Optional<User> eventCreator) {
+        if (eventCreator.isEmpty()) {return Optional.empty();}
+
         String eventCreatorEmail = eventCreator.get().getEMailAddress();
 
         Attendee creator = new Attendee(URI.create(eventCreatorEmail));
@@ -116,11 +119,10 @@ public class ExportManager {
 
     //#region Properties
     private void addProperties(VEvent calenderEvent, EventModel event, Optional<User> eventCreator) {
-        String eventID = event.getEventID();
-
-        calenderEvent.getProperties().add(new Uid(eventID));
+        calenderEvent.getProperties().add(new Uid(event.getEventID()));
         calenderEvent.getProperties().add(new Description(addDescriptionToVEvent(event)));
         calenderEvent.getProperties().add(new Location(addLocationToVEvent(event)));
+
         calenderEvent.getProperties().add(createEventCreatorAttendee(eventCreator).get());
     }
 
