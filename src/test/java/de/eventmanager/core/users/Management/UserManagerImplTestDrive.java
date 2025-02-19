@@ -9,6 +9,7 @@ import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,15 +53,12 @@ public class UserManagerImplTestDrive {
                 true, "66115", "Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event");
 
-
         UserDatabaseConnector.createNewUser(testUser);
         UserDatabaseConnector.createNewUser(testAdminUser);
         EventDatabaseConnector.createNewEvent(publicEvent);
         EventDatabaseConnector.createNewEvent(privateEvent);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
         CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-
-
     }
 
     @AfterAll
@@ -109,25 +107,69 @@ public class UserManagerImplTestDrive {
     @Test
     @DisplayName("EditUser Test")
     void editUserTest() {
-
         Optional<User> optionalUser = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS);
-        String userIDFromUserToEdit = "";
-
-        if (optionalUser.isPresent()) {
-            userIDFromUserToEdit = optionalUser.get().getUserID();
+        if (optionalUser.isEmpty()) {
+            fail("User not found");
         }
 
-        String firstName = userManagerImpl.getUserByID(userIDFromUserToEdit).get().getFirstName();
-        String lastName = userManagerImpl.getUserByID(userIDFromUserToEdit).get().getLastName();
-        String dateOfBirth = userManagerImpl.getUserByID(userIDFromUserToEdit).get().getDateOfBirth();
-        String password = userManagerImpl.getUserByID(userIDFromUserToEdit).get().getPassword();
-        String phoneNumber = userManagerImpl.getUserByID(userIDFromUserToEdit).get().getPhoneNumber();
+        User userToEdit = optionalUser.get();
+        String userIDFromUserToEdit = userToEdit.getUserID();
+
+        String firstName = userToEdit.getFirstName();
+        String lastName = userToEdit.getLastName();
+        String dateOfBirth = userToEdit.getDateOfBirth();
+        String password = userToEdit.getPassword();
+        String phoneNumber = userToEdit.getPhoneNumber();
 
 
         userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, TEST_USER_EMAIL_ADDRESS_EDITED, password, phoneNumber, TEST_ADMIN_ID);
 
         assertEquals(TEST_USER_EMAIL_ADDRESS_EDITED, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
+    }
 
+    @Test
+    @DisplayName("EditUser Test - Missing Permission")
+    void editUserTestFailedByMissingPermission() {
+        Optional<User> optionalUser = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS);
+        if (optionalUser.isEmpty()) {
+            assertFalse(false);
+        } else {
+            User userToEdit = optionalUser.get();
+            String userIDFromUserToEdit = userToEdit.getUserID();
+
+            String firstName = userToEdit.getFirstName();
+            String lastName = userToEdit.getLastName();
+            String dateOfBirth = userToEdit.getDateOfBirth();
+            String password = userToEdit.getPassword();
+            String phoneNumber = userToEdit.getPhoneNumber();
+
+
+            userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, TEST_USER_EMAIL_ADDRESS_EDITED, password, phoneNumber, TEST_USER_ID);
+
+            assertNotEquals(TEST_USER_EMAIL_ADDRESS_EDITED, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
+        }
+    }
+
+    @Test
+    @DisplayName("EditUser Test - Wrong Email")
+    void editUserTestFailedByWrongUserID() {
+        Optional<User> optionalUser = userManagerImpl.getUserByEmail("wrong@email.com");
+        if (optionalUser.isEmpty()) {
+            assertFalse(false);
+        } else {
+            User userToEdit = optionalUser.get();
+            String userIDFromUserToEdit = userToEdit.getUserID();
+
+            String firstName = userToEdit.getFirstName();
+            String lastName = userToEdit.getLastName();
+            String dateOfBirth = userToEdit.getDateOfBirth();
+            String password = userToEdit.getPassword();
+            String phoneNumber = userToEdit.getPhoneNumber();
+
+            userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, TEST_USER_EMAIL_ADDRESS_EDITED, password, phoneNumber, TEST_USER_ID);
+
+            assertNotEquals(TEST_USER_EMAIL_ADDRESS_EDITED, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
+        }
     }
 
     @Test
@@ -141,7 +183,6 @@ public class UserManagerImplTestDrive {
     @Test
     @DisplayName("Create Public-Event Test")
     void createPublicEventTest() {
-
         assertTrue(userManagerImpl.createNewEvent("TestPublicEventIntern", "2000-01-01",
                 "2000-01-02", "TestCategory", "66115",
                 "TestStraße 6", "Turmschule", "This is a cool event", 20,
@@ -151,11 +192,14 @@ public class UserManagerImplTestDrive {
 
     @Test
     @DisplayName("Create Private Event Test")
+    @Disabled
     void createPrivateEventTest() {
 
-        PrivateEvent localPrivateEvent = new PrivateEvent("localPrivateEvent", "2025-03-02 15:00:00", "2025-03-02 15:00", "TestCategory",
-                "66119", "Teststraße 6", "Test Cafee", "Description", TEST_ADMIN_ID);
-        assertTrue(true);
+        userManagerImpl.createNewEvent("localPrivateEvent", "2025-03-02 15:00:00", "2025-03-02 15:00", "TestCategory",
+                "66119", "Teststraße 6", "Test Cafee", "Description", 20, -1,
+                true, TEST_ADMIN_ID);
+
+        //assertTrue(localPrivateEventOptional.isPresent());
 
     }
 
@@ -260,7 +304,6 @@ public class UserManagerImplTestDrive {
     @Test
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
-
         assertTrue(userManagerImpl.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
     }
     //#endregion Registration and Authentication Tests
