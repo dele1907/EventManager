@@ -56,7 +56,7 @@ public class BookingDatabaseConnector {
                             .where(EVENTS.EVENTID.eq(eventID))
                             .execute();
 
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, BOOKING_ADDED);
+                    LoggerHelper.logInfoMessage(BookingDatabaseConnector.class, BOOKING_ADDED);
 
                     return updatedRows > 0;
                 }
@@ -65,7 +65,7 @@ public class BookingDatabaseConnector {
             });
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, BOOKING_NOT_ADDED +
+            LoggerHelper.logErrorMessage(BookingDatabaseConnector.class, BOOKING_NOT_ADDED +
                     exception.getMessage());
 
             return false;
@@ -95,7 +95,7 @@ public class BookingDatabaseConnector {
                             .where(EVENTS.EVENTID.eq(eventID))
                             .execute();
 
-                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, BOOKING_REMOVED);
+                    LoggerHelper.logInfoMessage(BookingDatabaseConnector.class, BOOKING_REMOVED);
 
                     return updatedRows > 0;
                 }
@@ -104,7 +104,7 @@ public class BookingDatabaseConnector {
             });
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, BOOKING_NOT_REMOVED +
+            LoggerHelper.logErrorMessage(BookingDatabaseConnector.class, BOOKING_NOT_REMOVED +
                     exception.getMessage());
 
             return false;
@@ -132,7 +132,7 @@ public class BookingDatabaseConnector {
                     .collect(Collectors.toList()));
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
+            LoggerHelper.logErrorMessage(BookingDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
         }
 
         return bookedUsers;
@@ -165,7 +165,7 @@ public class BookingDatabaseConnector {
                     .collect(Collectors.toList()));
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
+            LoggerHelper.logErrorMessage(BookingDatabaseConnector.class, NO_USER_LIST_AVAILABLE + exception.getMessage());
         }
 
         return bookedUsers;
@@ -193,7 +193,7 @@ public class BookingDatabaseConnector {
                     .collect(Collectors.toList()));
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NO_EVENT_LIST_AVAILABLE + exception.getMessage());
+            LoggerHelper.logErrorMessage(BookingDatabaseConnector.class, NO_EVENT_LIST_AVAILABLE + exception.getMessage());
         }
 
         for (String eventID : bookedEventIDs) {

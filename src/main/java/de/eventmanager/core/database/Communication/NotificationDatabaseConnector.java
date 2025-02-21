@@ -51,13 +51,13 @@ public class NotificationDatabaseConnector {
                     .execute();
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(UserDatabaseConnector.class, NOTIFICATION_ADDED);
+                LoggerHelper.logInfoMessage(NotificationDatabaseConnector.class, NOTIFICATION_ADDED);
 
                 return true;
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NOTIFICATION_NOT_ADDED + exception.getMessage());
+            LoggerHelper.logErrorMessage(NotificationDatabaseConnector.class, NOTIFICATION_NOT_ADDED + exception.getMessage());
         }
 
         return false;
@@ -90,7 +90,7 @@ public class NotificationDatabaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NOTIFICATION_NOT_READ + exception.getMessage());
+            LoggerHelper.logErrorMessage(NotificationDatabaseConnector.class, NOTIFICATION_NOT_READ + exception.getMessage());
         }
 
         return notifications;
@@ -110,17 +110,17 @@ public class NotificationDatabaseConnector {
                     .execute();
 
             if (rowsUpdated > 0) {
-                LoggerHelper.logInfoMessage(UserDatabaseConnector.class, NOTIFICATION_UPDATED);
+                LoggerHelper.logInfoMessage(NotificationDatabaseConnector.class, NOTIFICATION_UPDATED);
 
                 return true;
             } else {
-                LoggerHelper.logInfoMessage(UserDatabaseConnector.class, NOTIFICATION_NOT_FOUND);
+                LoggerHelper.logInfoMessage(NotificationDatabaseConnector.class, NOTIFICATION_NOT_FOUND);
 
                 return false;
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NOTIFICATION_NOT_UPDATED + exception.getMessage());
+            LoggerHelper.logErrorMessage(NotificationDatabaseConnector.class, NOTIFICATION_NOT_UPDATED + exception.getMessage());
 
             return false;
         }
@@ -140,15 +140,15 @@ public class NotificationDatabaseConnector {
                     .execute();
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(UserDatabaseConnector.class, NOTIFICATION_DELETED);
+                LoggerHelper.logInfoMessage(NotificationDatabaseConnector.class, NOTIFICATION_DELETED);
             } else {
-                LoggerHelper.logInfoMessage(UserDatabaseConnector.class, NOTIFICATION_NOT_FOUND);
+                LoggerHelper.logInfoMessage(NotificationDatabaseConnector.class, NOTIFICATION_NOT_FOUND);
             }
 
             return rowsAffected > 0;
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(UserDatabaseConnector.class, NOTIFICATION_NOT_DELETED + exception.getMessage());
+            LoggerHelper.logErrorMessage(NotificationDatabaseConnector.class, NOTIFICATION_NOT_DELETED + exception.getMessage());
 
             return false;
         }
