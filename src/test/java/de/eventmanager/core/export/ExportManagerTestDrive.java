@@ -51,10 +51,8 @@ public class ExportManagerTestDrive {
 
         UserDatabaseConnector.createNewUser(testAdminUser);
         UserDatabaseConnector.createNewUser(testUser);
-        EventDatabaseConnector.createNewEvent(publicEvent);
-        EventDatabaseConnector.createNewEvent(privateEvent);
-        CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
+        EventDatabaseConnector.createNewEvent(publicEvent, TEST_ADMIN_ID);
+        EventDatabaseConnector.createNewEvent(privateEvent, TEST_ADMIN_ID);
         BookingDatabaseConnector.addBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
         BookingDatabaseConnector.addBooking(TEST_PRIVATE_EVENT_ID, TEST_USER_ID);
         eventList.add(publicEvent);
@@ -65,10 +63,8 @@ public class ExportManagerTestDrive {
     static void globalCleanUp() {
         BookingDatabaseConnector.removeBooking(TEST_PUBLIC_EVENT_ID, TEST_USER_ID);
         BookingDatabaseConnector.removeBooking(TEST_PRIVATE_EVENT_ID, TEST_USER_ID);
-        CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
-        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID);
-        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
+        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
+        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByID(TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByID(TEST_USER_ID);
         eventList.clear();

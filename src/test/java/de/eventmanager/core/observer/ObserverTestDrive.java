@@ -38,7 +38,7 @@ public class ObserverTestDrive {
         // create admin, regular user and event
         UserDatabaseConnector.createNewUser(testAdmin);
         UserDatabaseConnector.createNewUser(testUser);
-        EventDatabaseConnector.createNewEvent(testEvent);
+        EventDatabaseConnector.createNewEvent(testEvent, testAdmin.getUserID());
 
         // book event to add user as observer and edit event to notify user
         userManager.bookEvent("testEventToObserve", "testObserverUser");
@@ -64,7 +64,7 @@ public class ObserverTestDrive {
 
         // remove test data from database
         BookingDatabaseConnector.removeBooking("testEventToObserve", "testObserverUser");
-        EventDatabaseConnector.deleteEventByID("testEventToObserve");
+        EventDatabaseConnector.deleteEventByID("testEventToObserve", testAdmin.getUserID());
         UserDatabaseConnector.deleteUserByID("testObserverAdmin");
         UserDatabaseConnector.deleteUserByID("testObserverUser");
     }

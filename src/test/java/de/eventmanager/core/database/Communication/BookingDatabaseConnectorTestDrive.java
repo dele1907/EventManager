@@ -15,6 +15,7 @@ public class BookingDatabaseConnectorTestDrive {
     User testUserForBooking1;
     User testUserForBooking2;
     PublicEvent testEventForBooking;
+    private static final String TEST_CREATOR_FOR_EVENTS = "testCreatorForEvents";
 
     //#region successful CRUD operations
 
@@ -27,15 +28,13 @@ public class BookingDatabaseConnectorTestDrive {
         testEventForBooking = new PublicEvent("testEventToBook", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
                 "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
-        EventDatabaseConnector.createNewEvent(testEventForBooking);
+        EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_FOR_EVENTS);
 
         boolean userBookedEvent = BookingDatabaseConnector.addBooking("testEventToBook", "testUserWhoBooks");
         assertTrue(userBookedEvent, "Booking failed but should not.");
 
         BookingDatabaseConnector.removeBooking("testEventToBook", "testUserWhoBooks");
-        EventDatabaseConnector.deleteEventByID("testEventToBook");
-
-        System.out.println("Running DatabaseTest on thread: " + Thread.currentThread().getName());
+        EventDatabaseConnector.deleteEventByID("testEventToBook", TEST_CREATOR_FOR_EVENTS);
     }
 
     /**
@@ -51,7 +50,7 @@ public class BookingDatabaseConnectorTestDrive {
 
         UserDatabaseConnector.createNewUser(testUserForBooking1);
         UserDatabaseConnector.createNewUser(testUserForBooking2);
-        EventDatabaseConnector.createNewEvent(testEventForBooking);
+        EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_FOR_EVENTS);
 
         BookingDatabaseConnector.addBooking("eventTestBookingDatabaseConnector", "userTestBookingDatabaseConnector1");
         BookingDatabaseConnector.addBooking("eventTestBookingDatabaseConnector", "userTestBookingDatabaseConnector2");
@@ -84,7 +83,7 @@ public class BookingDatabaseConnectorTestDrive {
         // test of user number after cancelling
         assertEquals(0, numberOfUsersAfterCancelling);
 
-        EventDatabaseConnector.deleteEventByID("eventTestBookingDatabaseConnector");
+        EventDatabaseConnector.deleteEventByID("eventTestBookingDatabaseConnector", TEST_CREATOR_FOR_EVENTS);
         UserDatabaseConnector.deleteUserByID("userTestBookingDatabaseConnector1");
         UserDatabaseConnector.deleteUserByID("userTestBookingDatabaseConnector2");
     }
@@ -98,14 +97,14 @@ public class BookingDatabaseConnectorTestDrive {
         testEventForBooking = new PublicEvent("testEventToCancel", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
                 "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
-        EventDatabaseConnector.createNewEvent(testEventForBooking);
+        EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_FOR_EVENTS);
 
         BookingDatabaseConnector.addBooking("testEventToCancel", "testUserWhoCancels");
 
         boolean userCanceledEvent = BookingDatabaseConnector.removeBooking("testEventToCancel", "testUserWhoCancels");
         assertTrue(userCanceledEvent, "Remove booking failed but should not.");
 
-        EventDatabaseConnector.deleteEventByID("testEventToCancel");
+        EventDatabaseConnector.deleteEventByID("testEventToCancel", TEST_CREATOR_FOR_EVENTS);
     }
 
     //#endregion successful CRUD operations
@@ -121,14 +120,14 @@ public class BookingDatabaseConnectorTestDrive {
         testEventForBooking = new PublicEvent("testEventToFailBooking", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
                 "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
-        EventDatabaseConnector.createNewEvent(testEventForBooking);
+        EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_FOR_EVENTS);
         BookingDatabaseConnector.addBooking("testEventToFailBooking", "testUserWhoBooksWrong");
 
         boolean userBookedEvent = BookingDatabaseConnector.addBooking("testEventToFailBooking", "testUserWhoBooksWrong");
         assertFalse(userBookedEvent, "Booking an event was successful but should not.");
 
         BookingDatabaseConnector.removeBooking("testEventToFailBooking", "testUserWhoBooksWrong");
-        EventDatabaseConnector.deleteEventByID("testEventToFailBooking");
+        EventDatabaseConnector.deleteEventByID("testEventToFailBooking", TEST_CREATOR_FOR_EVENTS);
     }
 
     /**

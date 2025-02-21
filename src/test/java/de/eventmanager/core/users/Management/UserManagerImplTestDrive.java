@@ -55,22 +55,18 @@ public class UserManagerImplTestDrive {
 
         UserDatabaseConnector.createNewUser(testUser);
         UserDatabaseConnector.createNewUser(testAdminUser);
-        EventDatabaseConnector.createNewEvent(publicEvent);
-        EventDatabaseConnector.createNewEvent(privateEvent);
-        CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
-        CreatorDatabaseConnector.assignUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+        EventDatabaseConnector.createNewEvent(publicEvent, TEST_ADMIN_ID);
+        EventDatabaseConnector.createNewEvent(privateEvent, TEST_ADMIN_ID);
     }
 
     @AfterAll
     static void globalCleanup() {
         UserManagerImpl userManagerImpl = new UserManagerImpl();
 
-        CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        CreatorDatabaseConnector.removeUserAsEventCreator(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
         UserDatabaseConnector.deleteUserByEmail(TEST_ADMIN_EMAIL_ADDRESS);
         UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS);
-        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID);
-        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID);
+        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
 
         ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID(TEST_USER_ID);
         for (Notification notification : notificationList) {
@@ -220,7 +216,7 @@ public class UserManagerImplTestDrive {
                 "2025-01-02 12:30:00", 0, testArrayList, "TestCategory",
                 true, "66115", "Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event");
-        EventDatabaseConnector.createNewEvent(eventToDelete);
+        EventDatabaseConnector.createNewEvent(eventToDelete, TEST_ADMIN_ID);
 
         assertTrue(userManagerImpl.deleteEvent(TEST_EVENT_ID_TO_DELETE, TEST_ADMIN_ID));
     }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -37,27 +38,28 @@ public class EventDatabaseConnector {
     /**
      * CREATE a new event
      * */
-    public static boolean createNewEvent(EventModel event) {
+    public static boolean createNewEvent(EventModel event, String userID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
+            assert connection != null;
             DSLContext create = DSL.using(connection);
+            connection.setAutoCommit(false);
 
-            int rowsAffected = 0;
-
-            if (event.isPrivateEvent()) {
-                PrivateEvent privateEvent = (PrivateEvent) event;
-                rowsAffected = insertPrivateEvent(create, privateEvent);
-            } else {
-                PublicEvent publicEvent = (PublicEvent) event;
-                rowsAffected = insertPublicEvent(create, publicEvent);
-            }
+            int rowsAffected = event.isPrivateEvent()
+                    ? insertPrivateEvent(create, (PrivateEvent) event)
+                    : insertPublicEvent(create, (PublicEvent) event);
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_ADDED);
+                boolean creatorAssigned = CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), userID, create);
 
-                return true;
+                if (creatorAssigned) {
+                    connection.commit();
+                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_ADDED);
+                    return true;
+                }
             }
+            connection.rollback();
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_ADDED + exception.getMessage());
@@ -215,6 +217,7 @@ public class EventDatabaseConnector {
      * READ private and public events by ID
      * */
     public static Optional<? extends EventModel> readEventByID(String eventID) {
+
         try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
@@ -576,29 +579,36 @@ public class EventDatabaseConnector {
     /**
      * DELETE an event
      * */
-    public static boolean deleteEventByID(String eventID) {
+    public static boolean deleteEventByID(String eventID, String userID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
+            assert connection != null;
             DSLContext create = DSL.using(connection);
+            connection.setAutoCommit(false);
 
             int rowsAffected = create.deleteFrom(EVENTS)
                     .where(EVENTS.EVENTID.eq(eventID))
                     .execute();
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_DELETED);
-            } else {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_NOT_FOUND);
-            }
+                boolean creatorRemoved = CreatorDatabaseConnector.removeUserAsEventCreator(eventID, userID, create);
 
-            return rowsAffected > 0;
+                if (creatorRemoved) {
+                    connection.commit();
+                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_DELETED);
+                    return true;
+                } else {
+                    LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_NOT_FOUND);
+                }
+            }
+            connection.rollback();
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_NOT_DELETED + exception.getMessage());
-
-            return false;
         }
+
+        return false;
     }
 
     //#endregion CRUD operations

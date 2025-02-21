@@ -31,27 +31,24 @@ public class CreatorDatabaseConnector {
     /**
      * Assign a user to an event as the creator
      * */
-    public static boolean assignUserAsEventCreator(String eventID, String userID) {
+    public static boolean assignUserAsEventCreator(String eventID, String userID, DSLContext create) {
 
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
+        try {
             int rowsAffected = create.insertInto(CREATED, CREATED.EVENTID, CREATED.USERID)
                     .values(eventID, userID)
                     .execute();
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_CREATOR_ASSIGNED);
+                LoggerHelper.logInfoMessage(CreatorDatabaseConnector.class, EVENT_CREATOR_ASSIGNED);
             }
             else {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
+                LoggerHelper.logInfoMessage(CreatorDatabaseConnector.class, ID_NOT_FOUND);
             }
 
             return rowsAffected > 0;
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_ASSIGNED +
+            LoggerHelper.logErrorMessage(CreatorDatabaseConnector.class, EVENT_CREATOR_NOT_ASSIGNED +
                     exception.getMessage());
 
             return false;
@@ -61,28 +58,25 @@ public class CreatorDatabaseConnector {
     /**
      * Unlink a user from an event as the creator
      * */
-    public static boolean removeUserAsEventCreator(String eventID, String userID) {
+    public static boolean removeUserAsEventCreator(String eventID, String userID, DSLContext create) {
 
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
+        try {
             int rowsAffected = create.deleteFrom(CREATED)
                     .where(CREATED.EVENTID.eq(eventID))
                     .and(CREATED.USERID.eq(userID))
                     .execute();
 
             if (rowsAffected > 0) {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, EVENT_CREATOR_REMOVED);
+                LoggerHelper.logInfoMessage(CreatorDatabaseConnector.class, EVENT_CREATOR_REMOVED);
             }
             else {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
+                LoggerHelper.logInfoMessage(CreatorDatabaseConnector.class, ID_NOT_FOUND);
             }
 
             return rowsAffected > 0;
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_REMOVED +
+            LoggerHelper.logErrorMessage(CreatorDatabaseConnector.class, EVENT_CREATOR_NOT_REMOVED +
                     exception.getMessage());
 
             return false;
@@ -105,14 +99,14 @@ public class CreatorDatabaseConnector {
                     .fetchOne();
 
             if (record == null) {
-                LoggerHelper.logInfoMessage(EventDatabaseConnector.class, ID_NOT_FOUND);
+                LoggerHelper.logInfoMessage(CreatorDatabaseConnector.class, ID_NOT_FOUND);
 
                 return false;
             }
 
             return true;
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CHECK_IF_CREATOR_FAILED);
+            LoggerHelper.logErrorMessage(CreatorDatabaseConnector.class, CHECK_IF_CREATOR_FAILED);
 
             return false;
         }
@@ -150,7 +144,7 @@ public class CreatorDatabaseConnector {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, EVENT_CREATOR_NOT_FOUND + exception.getMessage());
+            LoggerHelper.logErrorMessage(CreatorDatabaseConnector.class, EVENT_CREATOR_NOT_FOUND + exception.getMessage());
         }
 
         return Optional.empty();

@@ -146,8 +146,7 @@ public class UserManagerImpl implements UserManager {
                                                      String address, String eventLocation,
                                                      String description, String loggedUserID) {
         PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description);
-        EventDatabaseConnector.createNewEvent(event);
-        CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUserID);
+        EventDatabaseConnector.createNewEvent(event, loggedUserID);
 
         return Optional.of(event);
     }
@@ -164,8 +163,7 @@ public class UserManagerImpl implements UserManager {
 
         PublicEvent event = new PublicEvent(eventName, eventStart, eventEnd, category, postalCode, city, address,
                 eventLocation, description, maxParticipants, minimumAge);
-        EventDatabaseConnector.createNewEvent(event);
-        CreatorDatabaseConnector.assignUserAsEventCreator(event.getEventID(), loggedUserID);
+        EventDatabaseConnector.createNewEvent(event, loggedUserID);
 
         return Optional.of(event);
     }
@@ -313,9 +311,7 @@ public class UserManagerImpl implements UserManager {
             userIDofUserCreatedEvent = optionalEventCreator.get().getUserID();
         }
 
-        CreatorDatabaseConnector.removeUserAsEventCreator(eventID,userIDofUserCreatedEvent);
-
-        return EventDatabaseConnector.deleteEventByID(eventID);
+        return EventDatabaseConnector.deleteEventByID(eventID, userIDofUserCreatedEvent);
     }
 
     @Override
