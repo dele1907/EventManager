@@ -1,104 +1,67 @@
 package de.eventmanager.core.database.Communication;
 
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Optional;
 
-import static org.jooq.generated.tables.Created.CREATED;
-import static org.jooq.generated.tables.User.USER;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreatorDatabaseConnectorTestDrive {
 
-    User testUser;
+    private static final User TEST_USER = new User("testUserForCreatorDatabaseConnector", "Max", "Mustermann", "1980-01-10",
+            "max.eventcreator@testmail.com", "Password123", "1234567890", false);
+    private static final PublicEvent TEST_EVENT = new PublicEvent("testEventForCreatorDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
+            "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+
+    @BeforeAll
+    static void globalSetUp() {
+        UserDatabaseConnector.createNewUser(TEST_USER);
+        EventDatabaseConnector.createNewEvent(TEST_EVENT, TEST_USER.getUserID());
+    }
+
+    @AfterAll
+    static void globalCleanUp() {
+        EventDatabaseConnector.deleteEventByID(TEST_EVENT.getEventID(), TEST_USER.getUserID());
+        UserDatabaseConnector.deleteUserByID(TEST_USER.getUserID());
+    }
 
     //#region successful CRUD operations
 
     /**
-     * Test assigning a user as event creator
+     * Test checking that a user is the event creator
      * */
-    /*
     @Test
-    public void testAssignUserAsEventCreatorAndCheck() {
+    public void testCheckIfUserIsCreator() {
 
-        boolean creatorAssigned = CreatorDatabaseConnector.assignUserAsEventCreator("testEventToBeAssigned", "testUserToAssignAsCreator");
-        assertTrue(creatorAssigned, "Adding user to created event failed but should not.");
-
-        boolean userIsEventCreator = CreatorDatabaseConnector.checkIfUserIsEventCreator("testEventToBeAssigned", "testUserToAssignAsCreator");
-        assertTrue(userIsEventCreator, "User ist not creator but should be.");
-
-        CreatorDatabaseConnector.removeUserAsEventCreator("testEventToBeAssigned", "testUserToAssignAsCreator");
+        boolean creatorChecked = CreatorDatabaseConnector.checkIfUserIsEventCreator(TEST_EVENT.getEventID(), TEST_USER.getUserID());
+        assertTrue(creatorChecked, "User was not found as creator but should.");
     }
-    */
 
     /**
      * Test getting the event creator
      * */
-    /*
     @Test
     public void testGetEventCreator() {
 
-        testUser = new User("assignTestCreatorDatabaseConnector", "Max", "Mustermann", "1980-01-10",
-                "max.eventcreator@testmail.com", "Password123", "1234567890", false);
+        Optional<User> creatorFromDatabase = CreatorDatabaseConnector.getEventCreator(TEST_EVENT.getEventID());
+        assertTrue(creatorFromDatabase.isPresent(), "User is not present but should.");
 
-        UserDatabaseConnector.createNewUser(testUser);
-
-        Optional<User> creatorFromDatabase = CreatorDatabaseConnector.getEventCreator("assignTestEventDatabaseConnector");
-        assertTrue(creatorFromDatabase.isPresent());
-
-        assertEquals("assignTestCreatorDatabaseConnector", creatorFromDatabase.get().getUserID());
-        assertEquals("Max", creatorFromDatabase.get().getFirstName());
-        assertEquals("Mustermann", creatorFromDatabase.get().getLastName());
-        assertEquals("1980-01-10", creatorFromDatabase.get().getDateOfBirth());
-        assertEquals("max.eventcreator@testmail.com", creatorFromDatabase.get().getEMailAddress());
-        assertEquals("Password123", creatorFromDatabase.get().getPassword());
-        assertEquals("1234567890", creatorFromDatabase.get().getPhoneNumber());
-
-        UserDatabaseConnector.deleteUserByID("assignTestCreatorDatabaseConnector");
+        assertEquals(TEST_USER.getUserID(), creatorFromDatabase.get().getUserID());
+        assertEquals(TEST_USER.getFirstName(), creatorFromDatabase.get().getFirstName());
+        assertEquals(TEST_USER.getLastName(), creatorFromDatabase.get().getLastName());
+        assertEquals(TEST_USER.getDateOfBirth(), creatorFromDatabase.get().getDateOfBirth());
+        assertEquals(TEST_USER.getEMailAddress(), creatorFromDatabase.get().getEMailAddress());
+        assertEquals(TEST_USER.getPassword(), creatorFromDatabase.get().getPassword());
+        assertEquals(TEST_USER.getPhoneNumber(), creatorFromDatabase.get().getPhoneNumber());
     }
-    */
-
-    /**
-     * Test deleting the event creator
-     * */
-    /*
-    @Test
-    public void testRemoveUserAsEventCreator() {
-
-        CreatorDatabaseConnector.assignUserAsEventCreator("testEventToBeRemoved", "testUserToRemoveAsCreator");
-
-        boolean creatorToRemove = CreatorDatabaseConnector.removeUserAsEventCreator("testEventToBeRemoved", "testUserToRemoveAsCreator");
-        assertTrue(creatorToRemove, "Adding user to created event failed but should not.");
-    }
-    */
 
     //#endregion successful CRUD operations
 
     //#region failed CRUD operations
-
-    /**
-     * Test that creators are unique
-     * */
-    /*
-    @Test
-    public void testAssignUserAsCreatorFailed() {
-
-        CreatorDatabaseConnector.assignUserAsEventCreator("testEventToFailAssignment", "testUserToFailAssignment");
-
-        boolean creatorAssigned = CreatorDatabaseConnector.assignUserAsEventCreator("testEventToFailAssignment", "testUserToFailAssignment");
-        assertFalse(creatorAssigned, "Second creator assignment was successful but should not.");
-
-        CreatorDatabaseConnector.removeUserAsEventCreator("testEventToFailAssignment", "testUserToFailAssignment");
-    }
-    */
 
     /**
      * Test checking that creator and event aren't available
@@ -119,18 +82,6 @@ public class CreatorDatabaseConnectorTestDrive {
         Optional<User> creatorFromDatabase = CreatorDatabaseConnector.getEventCreator("invalidUserIDToGet");
         assertFalse(creatorFromDatabase.isPresent(), "User is present but should not.");
     }
-
-    /**
-     * Test removing a creator who doesn't exist
-     * */
-    /*
-    @Test
-    public void testRemoveUserAsEventCreatorFailed() {
-
-        boolean creatorToRemove = CreatorDatabaseConnector.removeUserAsEventCreator("invalidEventIDToRemove", "invalidUserIDToRemove");
-        assertFalse(creatorToRemove, "Creator was successfully removed but should not.");
-    }
-    */
 
     //#endregion failed CRUD operations
 
