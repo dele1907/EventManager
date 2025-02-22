@@ -16,6 +16,8 @@ public class CreatorDatabaseConnectorTestDrive {
             "max.eventcreator@testmail.com", "Password123", "1234567890", false);
     private static final PublicEvent TEST_EVENT = new PublicEvent("testEventForCreatorDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
             "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+    private static final String INVALID_USER_ID = "invalidUserIDForCreatorDatabaseConnector";
+    private static final String INVALID_EVENT_ID = "invalidEventIDForCreatorDatabaseConnector";
 
     @BeforeAll
     static void globalSetUp() {
@@ -69,7 +71,7 @@ public class CreatorDatabaseConnectorTestDrive {
     @Test
     public void testCheckIfUserIsCreatorFailed() {
 
-        boolean creatorChecked = CreatorDatabaseConnector.checkIfUserIsEventCreator("invalidEventIDToCheck", "invalidUserIDToCheck");
+        boolean creatorChecked = CreatorDatabaseConnector.checkIfUserIsEventCreator(INVALID_EVENT_ID, INVALID_USER_ID);
         assertFalse(creatorChecked, "User was found as creator but should not.");
     }
 
@@ -79,7 +81,7 @@ public class CreatorDatabaseConnectorTestDrive {
     @Test
     public void testGetEventCreatorFailed() {
 
-        Optional<User> creatorFromDatabase = CreatorDatabaseConnector.getEventCreator("invalidUserIDToGet");
+        Optional<User> creatorFromDatabase = CreatorDatabaseConnector.getEventCreator(INVALID_EVENT_ID);
         assertFalse(creatorFromDatabase.isPresent(), "User is present but should not.");
     }
 
