@@ -2,7 +2,6 @@ package de.eventmanager.core.database.Communication;
 
 import de.eventmanager.core.notifications.Notification;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,9 +9,13 @@ import java.util.ArrayList;
 
 public class NotificationDatabaseConnectorTestDrive {
 
-    Notification testNotification1;
-    Notification testNotification2;
-    Notification testNotificationUpdated;
+    private Notification testNotification1;
+    private Notification testNotification2;
+    private static final String TEST_MESSAGE = "This is a test notification!";
+    private static final String TEST_USER_ID = "testUserIDForNotificationDatabaseConnector";
+    private static final String TEST_USER_ID_FOR_READING = "testUserWhoReadsNotifications";
+    private static final String INVALID_USER_ID = "invalidUserIDForNotificationDatabaseConnector";
+    private static final String INVALID_NOTIFICATION_ID = "invalidNotificationIDForNotificationDatabaseConnector";
 
     //#region successful CRUD operations
 
@@ -22,12 +25,12 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testAddNotification() {
 
-        testNotification1 = new Notification("testNotificationToAdd", "testUserForNotificationAdding", "This is a test notification!", false);
+        testNotification1 = new Notification("testNotificationToAdd", TEST_USER_ID, TEST_MESSAGE, false);
 
         boolean notificationToAdd = NotificationDatabaseConnector.addNotification(testNotification1);
         assertTrue(notificationToAdd, "Notification adding failed but should not.");
 
-        NotificationDatabaseConnector.deleteNotification("testNotificationToAdd");
+        NotificationDatabaseConnector.deleteNotification(testNotification1.getNotificationID());
     }
 
     /**
@@ -36,21 +39,21 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testReadNotifications() {
 
-        testNotification1 = new Notification("testNotificationToRead1", "testUserWhoReadsNotifications", "This is a test notification!", false);
-        testNotification2 = new Notification("testNotificationToRead2", "testUserWhoReadsNotifications", "This is another test notification!", true);
+        testNotification1 = new Notification("testNotificationToRead1", TEST_USER_ID_FOR_READING, TEST_MESSAGE, false);
+        testNotification2 = new Notification("testNotificationToRead2", TEST_USER_ID_FOR_READING, TEST_MESSAGE, true);
 
         NotificationDatabaseConnector.addNotification(testNotification1);
         NotificationDatabaseConnector.addNotification(testNotification2);
 
-        ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID("testUserWhoReadsNotifications");
+        ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID(TEST_USER_ID_FOR_READING);
         ArrayList<Notification> expectedNotificationList = new ArrayList<>();
-        expectedNotificationList.add(new Notification("testNotificationToRead1", "testUserWhoReadsNotifications", "This is a test notification!", false));
-        expectedNotificationList.add(new Notification("testNotificationToRead2", "testUserWhoReadsNotifications", "This is another test notification!", true));
+        expectedNotificationList.add(testNotification1);
+        expectedNotificationList.add(testNotification2);
 
         assertEquals(expectedNotificationList, notificationList);
 
-        NotificationDatabaseConnector.deleteNotification("testNotificationToRead1");
-        NotificationDatabaseConnector.deleteNotification("testNotificationToRead2");
+        NotificationDatabaseConnector.deleteNotification(testNotification1.getNotificationID());
+        NotificationDatabaseConnector.deleteNotification(testNotification2.getNotificationID());
     }
 
     /**
@@ -59,15 +62,15 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testUpdateNotification() {
 
-        testNotification1 = new Notification("testNotificationToUpdate", "testUserForNotificationUpdating", "This is a test notification!", false);
-        testNotificationUpdated = new Notification("testNotificationToUpdate", "testUserForNotificationUpdating", "This is a test notification!", true);
+        testNotification1 = new Notification("testNotificationToUpdate", TEST_USER_ID, TEST_MESSAGE, false);
+        testNotification2 = new Notification("testNotificationToUpdate", TEST_USER_ID, TEST_MESSAGE, true);
 
         NotificationDatabaseConnector.addNotification(testNotification1);
 
-        boolean notificationToUpdate = NotificationDatabaseConnector.updateNotification(testNotificationUpdated);
+        boolean notificationToUpdate = NotificationDatabaseConnector.updateNotification(testNotification2);
         assertTrue(notificationToUpdate, "Notification updated failed but should not.");
 
-        NotificationDatabaseConnector.deleteNotification("testNotificationToUpdate");
+        NotificationDatabaseConnector.deleteNotification(testNotification1.getNotificationID());
     }
 
     /**
@@ -76,11 +79,11 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testDeleteNotification() {
 
-        testNotification1 = new Notification("testNotificationToDelete", "testUserForNotificationDeleting", "This is a test notification!", true);
+        testNotification1 = new Notification("testNotificationToDelete", TEST_USER_ID, TEST_MESSAGE, true);
 
         NotificationDatabaseConnector.addNotification(testNotification1);
 
-        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification("testNotificationToDelete");
+        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification(testNotification1.getNotificationID());
         assertTrue(notificationToDelete, "Deleting a notification failed but should not.");
     }
 
@@ -94,14 +97,14 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testAddNotificationFailed() {
 
-        testNotification1 = new Notification("testNotificationToFailAdding", "testUserWhoAddsNotificationsWrong", "This is a test notification!", false);
+        testNotification1 = new Notification("testNotificationToFailAdding", TEST_USER_ID, TEST_MESSAGE, false);
 
         NotificationDatabaseConnector.addNotification(testNotification1);
 
         boolean notificationToAdd = NotificationDatabaseConnector.addNotification(testNotification1);
         assertFalse(notificationToAdd, "Notification adding was successful but should not.");
 
-        NotificationDatabaseConnector.deleteNotification("testNotificationToFailAdding");
+        NotificationDatabaseConnector.deleteNotification(testNotification1.getNotificationID());
     }
 
     /**
@@ -110,7 +113,7 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testReadingNotificationsFailed() {
 
-        ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID("userWithoutNotifications");
+        ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID(INVALID_USER_ID);
         assertTrue(notificationList.isEmpty(), "Getting a notification list successful but should not.");
     }
 
@@ -120,9 +123,9 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testUpdateNotificationFailed() {
 
-        testNotificationUpdated = new Notification("testNotificationToFailUpdating", "testUserWhoUpdatesWrong", "This is a test notification!", true);
+        testNotification1 = new Notification(INVALID_NOTIFICATION_ID, INVALID_USER_ID, TEST_MESSAGE, true);
 
-        boolean notificationToUpdate = NotificationDatabaseConnector.updateNotification(testNotificationUpdated);
+        boolean notificationToUpdate = NotificationDatabaseConnector.updateNotification(testNotification1);
         assertFalse(notificationToUpdate, "Notification update was successful but should not.");
     }
 
@@ -132,7 +135,7 @@ public class NotificationDatabaseConnectorTestDrive {
     @Test
     public void testDeleteNotificationFailed() {
 
-        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification("invalidNotificationIDToDelete");
+        boolean notificationToDelete = NotificationDatabaseConnector.deleteNotification(INVALID_NOTIFICATION_ID);
         assertFalse(notificationToDelete, "Notification deletion was successful but should not.");
     }
 
