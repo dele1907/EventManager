@@ -9,8 +9,10 @@ import java.util.Optional;
 
 public class UserDatabaseConnectorTestDrive {
 
-    User testUser;
-    User testUserUpdated;
+    private User testUser;
+    private User testUserUpdated;
+    private static final String INVALID_USER_ID = "invalidUserIDForUserDatabaseConnector";
+    private static final String INVALID_USER_EMAIL = "invalidEmailForUserDatabaseConnector";
 
     //#region successful CRUD operations
 
@@ -26,19 +28,17 @@ public class UserDatabaseConnectorTestDrive {
         boolean userCreated = UserDatabaseConnector.createNewUser(testUser);
         assertTrue(userCreated, "User creation failed but should not.");
 
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("createTestUserDatabaseConnector");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID(testUser.getUserID());
         assertTrue(userFromDatabase.isPresent(), "User not found after creation.");
-        assertEquals("createTestUserDatabaseConnector", userFromDatabase.get().getUserID());
-        assertEquals("Max", userFromDatabase.get().getFirstName());
-        assertEquals("Mustermann", userFromDatabase.get().getLastName());
-        assertEquals("1980-01-10", userFromDatabase.get().getDateOfBirth());
-        assertEquals("max.create@testmail.com", userFromDatabase.get().getEMailAddress());
-        assertEquals("Password123", userFromDatabase.get().getPassword());
-        assertEquals("1234567890", userFromDatabase.get().getPhoneNumber());
+        assertEquals(testUser.getUserID(), userFromDatabase.get().getUserID());
+        assertEquals(testUser.getFirstName(), userFromDatabase.get().getFirstName());
+        assertEquals(testUser.getLastName(), userFromDatabase.get().getLastName());
+        assertEquals(testUser.getDateOfBirth(), userFromDatabase.get().getDateOfBirth());
+        assertEquals(testUser.getEMailAddress(), userFromDatabase.get().getEMailAddress());
+        assertEquals(testUser.getPassword(), userFromDatabase.get().getPassword());
+        assertEquals(testUser.getPhoneNumber(), userFromDatabase.get().getPhoneNumber());
 
-        UserDatabaseConnector.deleteUserByID("createTestUserDatabaseConnector");
-
-        System.out.println("Running DatabaseTest on thread: " + Thread.currentThread().getName());
+        UserDatabaseConnector.deleteUserByID(testUser.getUserID());
     }
 
     /**
@@ -57,17 +57,17 @@ public class UserDatabaseConnectorTestDrive {
         boolean userUpdated = UserDatabaseConnector.updateUser(testUserUpdated);
         assertTrue(userUpdated, "User update failed but should not.");
 
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail("martina.update@testmail.com");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail(testUserUpdated.getEMailAddress());
         assertTrue(userFromDatabase.isPresent(), "User not found after update.");
-        assertEquals("updateTestUserDatabaseConnector", userFromDatabase.get().getUserID());
-        assertEquals("Martina", userFromDatabase.get().getFirstName());
-        assertEquals("Musterfrau", userFromDatabase.get().getLastName());
-        assertEquals("1970-10-01", userFromDatabase.get().getDateOfBirth());
-        assertEquals("martina.update@testmail.com", userFromDatabase.get().getEMailAddress());
-        assertEquals("Password987", userFromDatabase.get().getPassword());
-        assertEquals("0987654321", userFromDatabase.get().getPhoneNumber());
+        assertEquals(testUserUpdated.getUserID(), userFromDatabase.get().getUserID());
+        assertEquals(testUserUpdated.getFirstName(), userFromDatabase.get().getFirstName());
+        assertEquals(testUserUpdated.getLastName(), userFromDatabase.get().getLastName());
+        assertEquals(testUserUpdated.getDateOfBirth(), userFromDatabase.get().getDateOfBirth());
+        assertEquals(testUserUpdated.getEMailAddress(), userFromDatabase.get().getEMailAddress());
+        assertEquals(testUserUpdated.getPassword(), userFromDatabase.get().getPassword());
+        assertEquals(testUserUpdated.getPhoneNumber(), userFromDatabase.get().getPhoneNumber());
 
-        UserDatabaseConnector.deleteUserByID("updateTestUserDatabaseConnector");
+        UserDatabaseConnector.deleteUserByID(testUser.getUserID());
     }
 
     /**
@@ -76,14 +76,14 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testDeleteUserByID() {
 
-        testUser = new User("deleteTestUserDatabaseConnector1", "Max", "Mustermann", "1980-01-10",
-                "max.delete1@testmail.com", "Password123", "1234567890", false);
+        testUser = new User("deleteByIDTestUserDatabaseConnector", "Max", "Mustermann", "1980-01-10",
+                "max.deleteID@testmail.com", "Password123", "1234567890", false);
 
         UserDatabaseConnector.createNewUser(testUser);
 
-        boolean userDeletedByID = UserDatabaseConnector.deleteUserByID("deleteTestUserDatabaseConnector1");
+        boolean userDeletedByID = UserDatabaseConnector.deleteUserByID(testUser.getUserID());
         assertTrue(userDeletedByID, "User deletion failed but should not.");
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("deleteTestUserDatabaseConnector1");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID(testUser.getUserID());
         assertFalse(userFromDatabase.isPresent(), "User was found but should not.");
     }
 
@@ -93,14 +93,14 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testDeleteUserByEmail() {
 
-        testUser = new User("deleteTestUserDatabaseConnector2", "Max", "Mustermann", "1980-01-10",
-                "max.delete2@testmail.com", "Password123", "1234567890", false);
+        testUser = new User("deleteByEmailTestUserDatabaseConnector2", "Max", "Mustermann", "1980-01-10",
+                "max.deleteEmail@testmail.com", "Password123", "1234567890", false);
 
         UserDatabaseConnector.createNewUser(testUser);
 
-        boolean userDeletedByEmail = UserDatabaseConnector.deleteUserByEmail("max.delete2@testmail.com");
+        boolean userDeletedByEmail = UserDatabaseConnector.deleteUserByEmail(testUser.getEMailAddress());
         assertTrue(userDeletedByEmail, "User deletion failed but should not.");
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail("max.delete2@testmail.com");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail(testUser.getEMailAddress());
         assertFalse(userFromDatabase.isPresent(), "User was found but should not.");
     }
 
@@ -118,13 +118,13 @@ public class UserDatabaseConnectorTestDrive {
                 "max.createfail@testmail.com", "Password123", "1234567890", false);
 
         UserDatabaseConnector.createNewUser(testUser);
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("createFailTestUserDatabaseConnector");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID(testUser.getUserID());
         assertTrue(userFromDatabase.isPresent(), "User not found after first creation.");
 
         boolean userCreated = UserDatabaseConnector.createNewUser(testUser);
         assertFalse(userCreated, "Second user creation was successful but should not.");
 
-        UserDatabaseConnector.deleteUserByID("createFailTestUserDatabaseConnector");
+        UserDatabaseConnector.deleteUserByID(testUser.getUserID());
     }
 
     /**
@@ -133,7 +133,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testReadUserByIDFailed() {
 
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID("invalidUserIDToRead");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByID(INVALID_USER_ID);
         assertFalse(userFromDatabase.isPresent(), "User was found by ID address but should not.");
     }
 
@@ -143,7 +143,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testReadUserByEMailFailed() {
 
-        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail("invalidEmailToRead@testmail.com");
+        Optional<User> userFromDatabase = UserDatabaseConnector.readUserByEMail(INVALID_USER_EMAIL);
         assertFalse(userFromDatabase.isPresent(), "User was found by eMail address but should not.");
     }
 
@@ -167,7 +167,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testDeleteUserByIDFailed() {
 
-        boolean userDeleted = UserDatabaseConnector.deleteUserByID("invalidUserIDToDelete");
+        boolean userDeleted = UserDatabaseConnector.deleteUserByID(INVALID_USER_ID);
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
@@ -177,7 +177,7 @@ public class UserDatabaseConnectorTestDrive {
     @Test
     public void testDeleteUserByEmailFailed() {
 
-        boolean userDeleted = UserDatabaseConnector.deleteUserByEmail("invalidEmailToDelete@testmail.com");
+        boolean userDeleted = UserDatabaseConnector.deleteUserByEmail(INVALID_USER_EMAIL);
         assertFalse(userDeleted, "User deletion was successful but should not.");
     }
 
