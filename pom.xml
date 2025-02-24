@@ -200,7 +200,7 @@
                         <configuration>
                             <jdbc>
                                 <driver>org.sqlite.JDBC</driver>
-                                <url>jdbc:sqlite:${project.basedir}/src/main/resources/eventmanager.sqlite</url>
+                                <url>jdbc:sqlite:${project.basedir}/src/test/resources/EventManagerTestDatabase.sqlite</url>
                             </jdbc>
                             <generator>
                                 <database>
