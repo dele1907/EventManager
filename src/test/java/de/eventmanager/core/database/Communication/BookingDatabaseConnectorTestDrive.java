@@ -14,12 +14,13 @@ import java.util.Optional;
 
 public class BookingDatabaseConnectorTestDrive {
 
+    PublicEvent testEventForBooking;
+
     private static final User TEST_USER_FOR_BOOKING_1 = new User("testUserForBookingDatabaseConnector1", "Uwe", "Buchungstester", "1970-02-02","uwe.bookingtest@testmail.com","Password123", "0815", false);
     private static final User TEST_USER_FOR_BOOKING_2 = new User("testUserForBookingDatabaseConnector2", "Manfred", "Buchungstester", "1960-08-08", "manfred.bookingtest@testmail.com","Password456", "4711", true);
     private static final String TEST_CREATOR_ID = "testCreatorIDForBookingDatabaseConnector";
     private static final String INVALID_USER_ID = "invalidUserIDForBookingDatabaseConnector";
     private static final String INVALID_EVENT_ID = "invalidEventIDForBookingDatabaseConnector";
-    PublicEvent testEventForBooking;
 
     @BeforeAll
     static void globalSetUp() {
