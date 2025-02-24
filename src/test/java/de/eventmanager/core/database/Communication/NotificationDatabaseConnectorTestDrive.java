@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class NotificationDatabaseConnectorTestDrive {
 
-    private Notification testNotification1;
-    private Notification testNotification2;
+    private Notification testNotification1, testNotification2;
+
     private static final String TEST_MESSAGE = "This is a test notification!";
     private static final String TEST_USER_ID = "testUserIDForNotificationDatabaseConnector";
     private static final String TEST_USER_ID_FOR_READING = "testUserWhoReadsNotifications";
