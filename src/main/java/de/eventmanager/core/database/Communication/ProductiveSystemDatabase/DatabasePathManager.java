@@ -11,7 +11,7 @@ public class DatabasePathManager {
 
     public static String loadDatabasePath(boolean isProductiveSystem) {
         if (!isProductiveSystem) {
-            return "src/main/resources/eventmanager.sqlite";
+            return "src/test/resources/EventManagerTestDatabase.sqlite";
         }
 
         if (!eventManagerDirectory.exists()) {
