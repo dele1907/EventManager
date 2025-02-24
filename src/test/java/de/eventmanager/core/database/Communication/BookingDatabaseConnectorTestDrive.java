@@ -4,11 +4,17 @@ import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
 
+import helper.LoggerHelper;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import static org.jooq.generated.tables.Cities.CITIES;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -32,6 +38,22 @@ public class BookingDatabaseConnectorTestDrive {
     static void globalCleanUp() {
         UserDatabaseConnector.deleteUserByID(TEST_USER_FOR_BOOKING_1.getUserID());
         UserDatabaseConnector.deleteUserByID(TEST_USER_FOR_BOOKING_2.getUserID());
+
+        testDatabaseCleanUp();
+    }
+
+    static void testDatabaseCleanUp() {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            create.deleteFrom(CITIES)
+                    .where(CITIES.POSTALCODE.eq("B-66119"))
+                    .execute();
+
+        } catch (Exception e) {
+            LoggerHelper.logErrorMessage(BookingDatabaseConnectorTestDrive.class, e.getMessage());
+        }
     }
 
     //#region successful CRUD operations
@@ -43,7 +65,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testAddBooking() {
 
         testEventForBooking = new PublicEvent("testEventToBook", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+                "Markt", false, "B-66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_ID);
 
@@ -61,7 +83,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testGetBooking() {
 
         testEventForBooking = new PublicEvent("testEventToGetBooking", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+                "Markt", false, "B-66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_ID);
 
@@ -104,7 +126,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testRemoveBooking() {
 
         testEventForBooking = new PublicEvent("testEventToCancel", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+                "Markt", false, "B-66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_ID);
 
@@ -127,7 +149,7 @@ public class BookingDatabaseConnectorTestDrive {
     public void testAddBookingFailed() {
 
         testEventForBooking = new PublicEvent("testEventToFailBooking", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-                "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+                "Markt", false, "B-66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
 
         EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_ID);
         BookingDatabaseConnector.addBooking(testEventForBooking.getEventID(), TEST_USER_FOR_BOOKING_1.getUserID());

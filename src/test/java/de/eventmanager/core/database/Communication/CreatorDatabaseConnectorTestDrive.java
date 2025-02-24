@@ -2,12 +2,17 @@ package de.eventmanager.core.database.Communication;
 
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.users.User;
+import helper.LoggerHelper;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.util.Optional;
 
+import static org.jooq.generated.tables.Cities.CITIES;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreatorDatabaseConnectorTestDrive {
@@ -15,7 +20,7 @@ public class CreatorDatabaseConnectorTestDrive {
     private static final User TEST_USER = new User("testUserForCreatorDatabaseConnector", "Max", "Mustermann", "1980-01-10",
             "max.eventcreator@testmail.com", "Password123", "1234567890", false);
     private static final PublicEvent TEST_EVENT = new PublicEvent("testEventForCreatorDatabaseConnector", "Ostermarkt", "2025-04-04 12:00", "2025-04-06 12:00", 0, null,
-            "Markt", false, "66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
+            "Markt", false, "C-66119", "Saarbrücken", "St. Johanner Markt", "Marktplatz", "Ostermarkt für tolle Menschen", 2000, 0);
     private static final String INVALID_USER_ID = "invalidUserIDForCreatorDatabaseConnector";
     private static final String INVALID_EVENT_ID = "invalidEventIDForCreatorDatabaseConnector";
 
@@ -29,6 +34,22 @@ public class CreatorDatabaseConnectorTestDrive {
     static void globalCleanUp() {
         EventDatabaseConnector.deleteEventByID(TEST_EVENT.getEventID(), TEST_USER.getUserID());
         UserDatabaseConnector.deleteUserByID(TEST_USER.getUserID());
+
+        testDatabaseCleanUp();
+    }
+
+    static void testDatabaseCleanUp() {
+        try (Connection connection = DatabaseConnector.connect()) {
+
+            DSLContext create = DSL.using(connection);
+
+            create.deleteFrom(CITIES)
+                    .where(CITIES.POSTALCODE.eq("C-66119"))
+                    .execute();
+
+        } catch (Exception e) {
+            LoggerHelper.logErrorMessage(CreatorDatabaseConnectorTestDrive.class, e.getMessage());
+        }
     }
 
     //#region successful CRUD operations
