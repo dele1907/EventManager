@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public class UserDatabaseConnectorTestDrive {
 
-    private User testUser;
-    private User testUserUpdated;
+    private User testUser, testUserUpdated;
+
     private static final String INVALID_USER_ID = "invalidUserIDForUserDatabaseConnector";
     private static final String INVALID_USER_EMAIL = "invalidEmailForUserDatabaseConnector";
 
