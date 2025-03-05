@@ -12,7 +12,7 @@ public class DatabaseConnector {
     private static final String JDBC_URL_PREFIX = "jdbc:sqlite:";
     private static String databasePath = ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE ?
             "" :
-            "src/main/resources/eventmanager.sqlite";
+            "src/test/resources/EventManagerTestDatabase.sqlite";
 
     private DatabaseConnector() {}
 
