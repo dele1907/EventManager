@@ -1,5 +1,6 @@
 package de.eventmanager.core.database.Communication;
 
+
 import de.eventmanager.core.notifications.Notification;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;

@@ -1,8 +1,10 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
+import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.users.Management.UserManagerImpl;
+import helper.DateOperationsHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +77,26 @@ public class EventServiceImpl implements EventService {
                     address, eventLocation, description, loggedUserID);
         });
     }
+
+    @Override
+    public boolean userHasEventsMinimumage(String eventId, String userID) {
+        var event = userManager.getEventByID(eventId).get();
+        int minimumAge = 0;
+
+        if (event instanceof PublicEvent) {
+            minimumAge = ((PublicEvent) event).getMinimumAge();
+        }
+
+        var loggedUsersAge = DateOperationsHelper.getTheAgeFromDatabase(userManager.getUserByID(userID).get()
+                .getEMailAddress());
+
+        if ( (event instanceof PublicEvent) && loggedUsersAge < minimumAge) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     @Override
     public boolean userBookEvent(String eventID, String userID) {

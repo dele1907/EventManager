@@ -40,6 +40,12 @@ public class EventBookingTab implements Tab {
             return;
         }
 
+        if (!eventService.userHasEventsMinimumage(eventID, loggedInUserID)) {
+            view.displayErrorMessage("You are not old enough to book this event!");
+
+            return;
+        }
+
         if (!userIsSureToBookEventDialog(eventID)) {
             return;
         }
