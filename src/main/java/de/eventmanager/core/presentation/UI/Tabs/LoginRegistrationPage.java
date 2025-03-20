@@ -97,7 +97,7 @@ public class LoginRegistrationPage implements Tab {
     }
 
     public String showLoginUserDialog() {
-        view.displayTabOrPageHeading("\n===== Login ======");
+        DefaultDialogHelper.getTabOrPageHeading(view, "Login");
         view.displayUserInputMessage("Enter eMail\n> ");
         String eMail = view.getUserInput();
 

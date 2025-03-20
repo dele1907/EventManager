@@ -63,6 +63,7 @@ public class DateOperationsHelper {
         return years;
     }
 
+    //TODO @Timo - correct the method until saturday afternoon
     public static int timeToEvent(String eventName) {
         int days = 0;
         int hours = 0;
@@ -97,31 +98,7 @@ public class DateOperationsHelper {
         return days;
     }
 
-    public static void getDayTime(String eventName) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%P', eventStart))", String.class))
-                    .from("events")
-                    .where(DSL.field("eventName").eq(eventName))
-                    .fetch();
-
-            if(result.isNotEmpty()) {
-
-                for (Record1<String> record : result) {
-                    System.out.println(record.value1());
-                }
-
-            } else {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
-            }
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
-        }
-    }
-
+    //TODO @Timo - correct the method until saturday afternoon
     public static ArrayList<String> checkIfEventIsOver() {
         ArrayList<String> eventsToDelete = new ArrayList<>();
 
@@ -150,20 +127,11 @@ public class DateOperationsHelper {
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
+
         return eventsToDelete;
     }
 
-
-    public static void main(String[] args) {
-        DateOperationsHelper dateOperationsHelper = new DateOperationsHelper();
-        //dateOperationsHelper.checkIfEventIsOver();
-        //System.out.println(dateOperationsHelper.checkIfEventIsOver());
-        //System.out.println(dateOperationsHelper.getTheAgeFromDatabase("tisc00006@htwsaar.de"));
-        //System.out.println(dateOperationsHelper.getEventStartHour("Finch Tour 2025"));
-        //dateOperationsHelper.getEventStartYear("Finch Tour 2025", "M");
-    }
-
-
+    //TODO @Timo - correct the method to use eventId
     public static int getEventStartValue(String eventName, String formatSpecifier) {
         int value = 0;
 
@@ -193,6 +161,7 @@ public class DateOperationsHelper {
         return value;
     }
 
+    //TODO @Timo - correct the method to use eventId
     public static int getEventEndValue(String eventName, String formatSpecifier) {
         int value = 0;
 
@@ -222,31 +191,3 @@ public class DateOperationsHelper {
         return value;
     }
 }
-
-/*
-Is in the comment because we will decide later whether we use the Method
-
-* public void whichWeekIsTheEvent(String eventName) {
-
-        try (Connection connection = DatabaseConnector.connect()) {
-
-            DSLContext create = DSL.using(connection);
-
-            Result<Record1<String>> result = create.select(DSL.field("(strftime('%V', eventStart))", String.class))
-                    .from("events")
-                    .where(DSL.field("eventName").eq(eventName))
-                    .fetch();
-
-            if(result.isNotEmpty()) {
-
-                for (Record1<String> record : result) {
-                    System.out.println(record.value1());
-                }
-
-            } else {
-                LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
-            }
-        } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
-        }
-    }*/

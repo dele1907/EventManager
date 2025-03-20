@@ -30,6 +30,7 @@ public class ValidationHelper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate birthDate = LocalDate.parse(birthdate, formatter);
         LocalDate currentDate = LocalDate.now();
+
         return Period.between(birthDate, currentDate).getYears();
     }
 }

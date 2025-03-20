@@ -10,8 +10,4 @@ public class IDGenerationHelper {
     public static String generateRandomUUID() {
         return UUID.randomUUID().toString();
     }
-
-    public static void main(String[] args) {
-        System.out.println(generateRandomUUID());
-    }
 }

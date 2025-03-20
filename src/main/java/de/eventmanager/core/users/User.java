@@ -23,23 +23,6 @@ public class User extends UserModel {
         this.role = isAdmin ? Role.ADMIN : Role.USER;
     }
 
-    /**
-     * TODO: maybe can remove so we use constructor provided above.
-     * */
-    //Standard-User
-    public User(String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, String phoneNumber) {
-
-        this.userID = IDGenerationHelper.generateRandomUUID();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.eMailAddress = eMailAddress;
-        this.password = PasswordHelper.hashPassword(password);
-        this.phoneNumber = phoneNumber;
-        this.role = Role.USER;
-    }
-
     //User-Object for load DB
     public User(String userID, String firstName, String lastName, String dateOfBirth,
                 String eMailAddress, String password, String phoneNumber, boolean isAdmin) {

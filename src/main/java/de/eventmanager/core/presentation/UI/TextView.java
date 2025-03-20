@@ -2,7 +2,7 @@ package de.eventmanager.core.presentation.UI;
 
 import java.util.Scanner;
 
-public class TextView implements View{
+public class TextView implements View {
     Scanner scanner = new Scanner(System.in);
 
     private final String FONT_COLOR_RED = "\u001B[31m";

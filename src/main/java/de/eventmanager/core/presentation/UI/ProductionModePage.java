@@ -35,6 +35,7 @@ public class ProductionModePage implements Tab {
             textView.displayErrorMessage("\nStaying in develop mode...\n");
         }
     }
+
     private void enableProductionMode() {
         ConfigurationDataSupplierHelper.setIsProductionMode(true);
     }

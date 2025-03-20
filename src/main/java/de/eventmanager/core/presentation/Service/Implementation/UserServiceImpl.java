@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-
        return userManagerImpl.deleteUser(userToDeleteEmail, loggedInUserID);
     }
 

@@ -11,6 +11,7 @@ public class ListFormattingHelper {
      * @see StringBuilder StringBuilder
      */
 
+    //TODO @Dennis - decide to use method
     public static String setRowFormat(int row, int eMailPosition) {
         StringBuilder sb = new StringBuilder();
 

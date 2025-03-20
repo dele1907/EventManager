@@ -55,7 +55,9 @@ public class UserManagerImpl implements UserManager {
         var user = UserDatabaseConnector.readUserByID(userID);
         var loggedUser = getUserByID(loggedUserByID);
 
-        if (!areMultipleUserPresent(user, loggedUser)) {return;}
+        if (!areMultipleUserPresent(user, loggedUser)) {
+            return;
+        }
 
         if (!loggedUser.get().getRole().equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
@@ -84,11 +86,11 @@ public class UserManagerImpl implements UserManager {
     public boolean deleteUser(String eMailUserToDelete, String loggedUserByID) {
         var loggedUserOptional = UserDatabaseConnector.readUserByID(loggedUserByID);
 
-        if (!isUserPresent(loggedUserOptional)) {return false;};
+        if (!loggedUserOptional.isPresent()) {
+            return false;
+        };
 
-        var loggedUser = loggedUserOptional.get();
-
-        if (!loggedUser.getRole().equals(Role.ADMIN)){
+        if (!loggedUserOptional.get().getRole().equals(Role.ADMIN)){
             LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
 
             return false;
@@ -112,10 +114,6 @@ public class UserManagerImpl implements UserManager {
                 !UserDatabaseConnector.readUserByID(loggedUserByID)
                         .map(user -> user.getRole().equals(Role.ADMIN))
                         .orElse(false);
-    }
-
-    private boolean isUserPresent(Optional<User> optionalUser) {
-        return optionalUser.isPresent();
     }
 
     private boolean areMultipleUserPresent(Optional<User> optionalUser, Optional<User> secondOptionalUser) {
@@ -177,7 +175,9 @@ public class UserManagerImpl implements UserManager {
     public String getEventInformationByEventID(String eventID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
-        if (!isEventPresent(optionalEvent)) {return null;}
+        if (!isEventPresent(optionalEvent)) {
+            return null;
+        }
 
         return optionalEvent.get().toString();
     }
@@ -249,7 +249,9 @@ public class UserManagerImpl implements UserManager {
 
         var optionalEvent = getEventByID(eventID);
 
-        if (!isEventPresent(optionalEvent)) return false;
+        if (!isEventPresent(optionalEvent)) {
+            return false;
+        };
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
@@ -298,8 +300,9 @@ public class UserManagerImpl implements UserManager {
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
         String userIDofUserCreatedEvent = "";
 
-        if (!isEventPresent(optionalEvent)) {return false;}
-        if (!isUserPresent(loggedUser)) {return false;}
+        if (!isEventPresent(optionalEvent) || !loggedUser.isPresent()) {
+            return false;
+        }
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(UserManagerImpl.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
@@ -318,7 +321,9 @@ public class UserManagerImpl implements UserManager {
     public ArrayList<String> showEventParticipantList(String eventID) {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
 
-        if (!isEventPresent(optionalEvent)) {return null;}
+        if (!isEventPresent(optionalEvent)) {
+            return new ArrayList<>();
+        }
 
         return optionalEvent.get().getBookedUsersOnEvent();
     }
@@ -330,14 +335,11 @@ public class UserManagerImpl implements UserManager {
         var publicEvent = EventDatabaseConnector.readPublicEventByID(eventID);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (!isEventPresent(publicEvent)) {return false;}
-        if (!isUserPresent(loggedUser)) {return false;}
-        if (publicEvent.get().isPrivateEvent()) {return false;}
+        if (!isEventPresent(publicEvent) || !loggedUser.isPresent()) {
+            return false;
+        }
 
-        String loggedUserEmail = loggedUser.get().getEMailAddress();
-        boolean hasUserBookedTheEvent = publicEvent.get().getBookedUsersOnEvent().contains(loggedUserEmail);
-
-        if (hasUserBookedTheEvent){
+        if (getUserHasBookedEvent(publicEvent, loggedUser)){
             LoggerHelper.logErrorMessage(User.class, "Event already booked!");
 
             return false;
@@ -355,12 +357,11 @@ public class UserManagerImpl implements UserManager {
         var optionalEvent = EventDatabaseConnector.readEventByID(eventID);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (!isEventPresent(optionalEvent)) {return false;}
-        if (!isUserPresent(loggedUser)) {return false;}
+        if (!isEventPresent(optionalEvent) || !loggedUser.isPresent()) {
+            return false;
+        }
 
-        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(loggedUser.get().getEMailAddress());
-
-        if (!hasUserBookedTheEvent) {
+        if (!getUserHasBookedEvent(optionalEvent, loggedUser)) {
             LoggerHelper.logErrorMessage(User.class, "You can only cancel events for which you are registered!");
 
             return false;
@@ -379,8 +380,9 @@ public class UserManagerImpl implements UserManager {
         var userToAdd = UserDatabaseConnector.readUserByEMail(userEmail);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (!areMultipleUserPresent(loggedUser, userToAdd)) {return false;}
-        if (!isEventPresent(optionalEvent)) {return false;}
+        if (!areMultipleUserPresent(loggedUser, userToAdd) || !isEventPresent(optionalEvent)) {
+            return false;
+        }
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
@@ -388,9 +390,7 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToAdd.get().getEMailAddress());
-
-        if (hasUserBookedTheEvent){
+        if (getUserHasBookedEvent(optionalEvent, userToAdd)) {
             LoggerHelper.logErrorMessage(User.class, "User is already booked for this event!");
 
             return false;
@@ -409,9 +409,9 @@ public class UserManagerImpl implements UserManager {
         var userToRemove = UserDatabaseConnector.readUserByEMail(userEmail);
         var loggedUser = UserDatabaseConnector.readUserByID(loggedUserID);
 
-        if (!isEventPresent(optionalEvent)) {return false;}
-
-        if (!areMultipleUserPresent(loggedUser, userToRemove)) {return false;}
+        if (!isEventPresent(optionalEvent) || !areMultipleUserPresent(loggedUser, userToRemove)) {
+            return false;
+        }
 
         if (!checkCanUserPerformEventOperations(loggedUserID, eventID)) {
             LoggerHelper.logErrorMessage(User.class, NOT_EVENT_CREATOR_OR_ADMIN_MESSAGE);
@@ -419,10 +419,8 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        boolean hasUserBookedTheEvent = optionalEvent.get().getBookedUsersOnEvent().contains(userToRemove.get().getEMailAddress());
-
-        if (!hasUserBookedTheEvent) {
-            LoggerHelper.logErrorMessage(User.class, "You can only cancel events for which you are registered!");
+        if (!getUserHasBookedEvent(optionalEvent, userToRemove)) {
+            LoggerHelper.logErrorMessage(User.class, "You can only remove users who are booked on the event!");
 
             return false;
         }
@@ -433,6 +431,11 @@ public class UserManagerImpl implements UserManager {
 
         return true;
     }
+
+    private boolean getUserHasBookedEvent(Optional<? extends EventModel> event, Optional<User> user) {
+        return event.get().getBookedUsersOnEvent().contains(user.get().getEMailAddress());
+    }
+
 
     private boolean isEventPresent(Optional<? extends EventModel> optionalEvent) {
         return optionalEvent.isPresent();
@@ -469,7 +472,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public void removeAdminStatusFromUserByUserID(String userID, User loggedUser) {
-        if (!loggedUser.getRole().equals(Role.ADMIN)) {return;}
+        if (!loggedUser.getRole().equals(Role.ADMIN)) {
+            return;
+        }
 
         this.removeAdminStatusFromUser(UserDatabaseConnector.readUserByID(userID).get());
     }
@@ -500,7 +505,6 @@ public class UserManagerImpl implements UserManager {
 
     private boolean comparingPassword(String password, String checkPassword) {
         if (password.isEmpty() || checkPassword.isEmpty()) {
-
             LoggerHelper.logErrorMessage(User.class, "Wrong password!");
 
             return false;
@@ -517,7 +521,6 @@ public class UserManagerImpl implements UserManager {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, "Email address not found");
 
             return false;
-
         }
 
         return PasswordHelper.verifyPassword(password, userOptional.get().getPassword());
@@ -530,6 +533,7 @@ public class UserManagerImpl implements UserManager {
         if (getUserByID(loggedUserID).isEmpty()) {
             return false;
         }
+
         return new ExportManager().exportEvents(getUsersBookedEvents(loggedUserID));
     }
 

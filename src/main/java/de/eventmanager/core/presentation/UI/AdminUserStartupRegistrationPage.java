@@ -32,14 +32,15 @@ public class AdminUserStartupRegistrationPage implements Tab {
     }
 
     private void showCreateAdminUserDialog() {
-        String[] prompts = getPromptsForDialogs();
-        String[] userInputs = new String[prompts.length];
+        var prompts = getPromptsForDialogs();
+        var userInputs = new String[prompts.length];
 
         for (int i = 0; i < prompts.length; i++) {
             userInputs[i] = getUserInputWithValidation(prompts[i], i);
 
             if (userInputs[i].isEmpty()) {
                 view.displayErrorMessage("\n Aborting user creation\n Changing to login and registration page...");
+
                 return;
             }
         }
@@ -103,8 +104,7 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
         if (!ValidationHelper.validateAge(birthDate)) {
             DefaultDialogHelper.showInvalidInputMessageByAttribute(
-                    view,
-                    "age." + "\nYour age must be between 12 and 130 years."
+                    view, "age." + "\nYour age must be between 12 and 130 years."
             );
 
             return false;
@@ -115,6 +115,7 @@ public class AdminUserStartupRegistrationPage implements Tab {
 
     private String getUserInput(String prompt) {
         view.displayUserInputMessage(prompt);
+
         return view.getUserInput();
     }
 

@@ -513,6 +513,7 @@ public class EventDatabaseConnector {
         }
     }
 
+    //TODO @Dennis eliminate duplicate code
     private static int setPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
 
         return create.transactionResult(configuration -> {
