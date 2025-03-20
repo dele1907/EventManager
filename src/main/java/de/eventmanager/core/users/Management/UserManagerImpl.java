@@ -527,6 +527,9 @@ public class UserManagerImpl implements UserManager {
     //#region Export-Events
     @Override
     public boolean exportAllBookedEvents(String loggedUserID) {
+        if (getUserByID(loggedUserID).isEmpty()) {
+            return false;
+        }
         return new ExportManager().exportEvents(getUsersBookedEvents(loggedUserID));
     }
 

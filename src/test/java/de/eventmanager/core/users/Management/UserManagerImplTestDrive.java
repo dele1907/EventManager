@@ -260,12 +260,6 @@ public class UserManagerImplTestDrive {
     }
 
     void bookEventTests() {
-        if (userManagerImpl.getUserByID(TEST_USER_ID).isPresent()) {
-            System.out.println("Testuser existiert in DB");
-        }else {
-            System.out.println("Testuser existiert nicht in DB");
-        }
-
         tryToBookAnPrivateEventTest();
         bookEventAsUserTest();
         bookEventAsEventCreatorTest();
@@ -298,7 +292,7 @@ public class UserManagerImplTestDrive {
     }
 
     void wrongUserIDExportTest() {
-        //assertFalse(userManagerImpl.exportAllBookedEvents("998"));
+        assertFalse(userManagerImpl.exportAllBookedEvents("998"));
     }
     //#endregion Export-Test-Cases
 
