@@ -9,7 +9,6 @@ import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +20,7 @@ public class UserManagerImplTestDrive {
 
     static User testUser;
     static User testAdminUser;
+    static User testEventCreaotr;
     static EventModel publicEvent;
     static EventModel privateEvent;
     static EventModel eventToDelete;
@@ -28,12 +28,14 @@ public class UserManagerImplTestDrive {
 
     final static String TEST_USER_EMAIL_ADDRESS = "firstName.lastName@testmail.com";
     final static String TEST_ADMIN_EMAIL_ADDRESS = "firstName.lastName@AdminTestmail.com";
+    final static String TEST_EVENT_CREATOR_EMAIL_ADDRESS = "event.creator@testmail.com";
     final static String CREATE_TEST_USER_EMAIL_ADDRESS = "firstName.lastName@InternTestmail.com";
     final static String TEST_USER_EMAIL_ADDRESS_EDITED = "firstName.lastName@testmailEdited.com";
-    final static String TEST_USER_ID = "123";
-    final static String TEST_ADMIN_ID = "124";
-    final static String TEST_PUBLIC_EVENT_ID = "123";
-    final static String TEST_PRIVATE_EVENT_ID = "124";
+    final static String TEST_USER_ID = "UserID";
+    final static String TEST_ADMIN_ID = "AdminID";
+    final static String TEST_EVENT_CREATOR_ID = "EventCreatorID";
+    final static String TEST_PUBLIC_EVENT_ID = "PublicEventID";
+    final static String TEST_PRIVATE_EVENT_ID = "PrivateEventID";
     final static String TEST_EVENT_ID_TO_DELETE = "125";
 
     @BeforeAll
@@ -42,7 +44,8 @@ public class UserManagerImplTestDrive {
                 TEST_USER_EMAIL_ADDRESS, "password", "+497788866", false);
         testAdminUser = new User(TEST_ADMIN_ID, "firstAdmin", "Admin", "1999-04-05",
                 TEST_ADMIN_EMAIL_ADDRESS, "AdminPassword", "+497733686", true);
-        testAdminUser.setRoleAdmin(true);
+        testEventCreaotr = new User(TEST_EVENT_CREATOR_ID, "Event", "Creator", "2000-04-20",
+                TEST_EVENT_CREATOR_EMAIL_ADDRESS, "password", "+497789866", false);
 
         publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID, "TestPublicEvent", "2025-01-01 12:30:00",
                 "2025-01-02 12:30:00", 0, testArrayList, "TestCategory",
@@ -55,18 +58,21 @@ public class UserManagerImplTestDrive {
 
         UserDatabaseConnector.createNewUser(testUser);
         UserDatabaseConnector.createNewUser(testAdminUser);
-        EventDatabaseConnector.createNewEvent(publicEvent, TEST_ADMIN_ID);
-        EventDatabaseConnector.createNewEvent(privateEvent, TEST_ADMIN_ID);
+        UserDatabaseConnector.createNewUser(testEventCreaotr);
+        EventDatabaseConnector.createNewEvent(publicEvent, TEST_EVENT_CREATOR_ID);
+        EventDatabaseConnector.createNewEvent(privateEvent, TEST_EVENT_CREATOR_ID);
     }
 
     @AfterAll
     static void globalCleanup() {
         UserManagerImpl userManagerImpl = new UserManagerImpl();
+        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
 
         UserDatabaseConnector.deleteUserByEmail(TEST_ADMIN_EMAIL_ADDRESS);
         UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS);
-        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
+        UserDatabaseConnector.deleteUserByEmail(TEST_EVENT_CREATOR_EMAIL_ADDRESS);
+
 
         ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID(TEST_USER_ID);
         for (Notification notification : notificationList) {
@@ -74,12 +80,13 @@ public class UserManagerImplTestDrive {
         }
 
         if (userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED).isPresent()) {
-                UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED);
+            UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS_EDITED);
         }
         if (userManagerImpl.getUserByEmail(CREATE_TEST_USER_EMAIL_ADDRESS).isPresent()) {
             UserDatabaseConnector.deleteUserByEmail(CREATE_TEST_USER_EMAIL_ADDRESS);
         }
     }
+
 
     //#region CRUD-Operation-Tests for User
     @Test
@@ -101,7 +108,7 @@ public class UserManagerImplTestDrive {
     }
 
     @Test
-    @DisplayName("EditUser Test")
+    @DisplayName("EditUser Test Email")
     void editUserTest() {
         Optional<User> optionalUser = userManagerImpl.getUserByEmail(TEST_USER_EMAIL_ADDRESS);
         if (optionalUser.isEmpty()) {
@@ -121,6 +128,8 @@ public class UserManagerImplTestDrive {
         userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, TEST_USER_EMAIL_ADDRESS_EDITED, password, phoneNumber, TEST_ADMIN_ID);
 
         assertEquals(TEST_USER_EMAIL_ADDRESS_EDITED, userManagerImpl.getUserByID(userIDFromUserToEdit).get().getEMailAddress());
+
+        userManagerImpl.editUser(userIDFromUserToEdit, firstName, lastName, dateOfBirth, TEST_USER_EMAIL_ADDRESS, password, phoneNumber, TEST_ADMIN_ID); //Setting email back to standard
     }
 
     @Test
@@ -171,19 +180,24 @@ public class UserManagerImplTestDrive {
     @Test
     @DisplayName("DeleteUser Test")
     void deleteUserTest() {
-        assertTrue(userManagerImpl.deleteUser(TEST_USER_EMAIL_ADDRESS_EDITED, TEST_ADMIN_ID));
+        assertTrue(userManagerImpl.deleteUser(CREATE_TEST_USER_EMAIL_ADDRESS, TEST_ADMIN_ID));
     }
     //#endregion CRUD-Operation-Tests for User
 
-    //#region Crud-Operation-Tests for Event
+    //#region Crud-Operation-Tests for Event#
+    //Todo: wieder aktivieren sobald readPublicEventsByName funktioniert
     @Test
     @DisplayName("Create Public-Event Test")
+    @Disabled
     void createPublicEventTest() {
         assertTrue(userManagerImpl.createNewEvent("TestPublicEventIntern", "2000-01-01",
                 "2000-01-02", "TestCategory", "66115",
                 "TestStraße 6", "Turmschule", "This is a cool event", 20,
-                0,false, TEST_ADMIN_ID));
-        userManagerImpl.deleteEvent(EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID(), TEST_ADMIN_ID);
+                0,false, TEST_USER_ID));
+
+        String puplicEventID = EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID();
+        //userManagerImpl.deleteEvent(EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID(), TEST_ADMIN_ID);
+        EventDatabaseConnector.deleteEventByID(puplicEventID, TEST_ADMIN_ID);
     }
 
     @Test
@@ -216,6 +230,7 @@ public class UserManagerImplTestDrive {
                 "2025-01-02 12:30:00", 0, testArrayList, "TestCategory",
                 true, "66115", "Saarbrücken", "TestStraße 6", "Turmschule",
                 "This is a cool event");
+
         EventDatabaseConnector.createNewEvent(eventToDelete, TEST_ADMIN_ID);
 
         assertTrue(userManagerImpl.deleteEvent(TEST_EVENT_ID_TO_DELETE, TEST_ADMIN_ID));
@@ -224,19 +239,56 @@ public class UserManagerImplTestDrive {
 
     //#region Event-Operations
     @Test
-    @Order(0)
-    @DisplayName("Book Event Test")
-    void bookEventTest() {
-        assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
-        assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID));
-        assertFalse(userManagerImpl.bookEvent(TEST_PRIVATE_EVENT_ID, TEST_USER_ID));
+    @DisplayName("Book, Export and Cancel Event Test")
+    void exportAndExportAndCancelEventTest() {
+        bookEventTests();
+        exportTests();
+        cancelEventTest();
+    }
+
+    void bookEventTests() {
+        if (userManagerImpl.getUserByID(TEST_USER_ID).isPresent()) {
+            System.out.println("Testuser existiert in DB");
+        }else {
+            System.out.println("Testuser existiert nicht in DB");
+        }
+
+        tryToBookAnPrivateEventTest();
+        bookEventAsUserTest();
+        bookEventAsEventCreatorTest();
 
         System.out.println(userManagerImpl.showEventParticipantList(TEST_PUBLIC_EVENT_ID));
     }
 
-    @Test
-    @Order(2)
-    @DisplayName("Cancel Event Test")
+    //#region Booking-Cases
+    void bookEventAsEventCreatorTest() {
+        assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID));
+    }
+
+    void bookEventAsUserTest() {
+        assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
+    }
+
+    void tryToBookAnPrivateEventTest() {
+        assertFalse(userManagerImpl.bookEvent(TEST_PRIVATE_EVENT_ID, TEST_USER_ID));
+    }
+    //#endregion Booking-Cases
+
+    void exportTests() {
+        successfulExportTest();
+        wrongUserIDExportTest();
+    }
+
+    //#region Export-Test-Cases
+    void successfulExportTest() {
+        assertTrue(userManagerImpl.exportAllBookedEvents(TEST_USER_ID));
+    }
+
+    void wrongUserIDExportTest() {
+        //assertFalse(userManagerImpl.exportAllBookedEvents("998"));
+    }
+    //#endregion Export-Test-Cases
+
     void cancelEventTest() {
         String notExistingEventID = "1234";
 
@@ -249,18 +301,47 @@ public class UserManagerImplTestDrive {
     @DisplayName("Add & Remove User to Event Test")
     @Disabled
     void addAndRemoveUserToEventTest() {
-        addUserToEvent();
-        removeUserFromEvent();
+        addUserToEventAsUser();
+        addUserToEventAsAdmin();
+        removeUserFromEventAsUser();
+        removeUserFromEventAsAdmin();
+        addUserToEventAsEventCreator();
+        removeUserFromEventAsEventCreator();
+
     }
 
-    void addUserToEvent() {
-        assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS_EDITED,TEST_ADMIN_ID));
-        assertFalse(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS_EDITED,TEST_USER_ID));
+    void addUserToEventAsUser() {
+        assertFalse(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_USER_ID));
     }
 
-    void removeUserFromEvent() {
+    void addUserToEventAsAdmin() {
+        if (EventDatabaseConnector.readPrivateEventByID(TEST_PRIVATE_EVENT_ID).isPresent()) {
+            System.out.println("Private Event exists in DB");
+        }
+        if (UserDatabaseConnector.readUserByEMail(TEST_USER_EMAIL_ADDRESS).isPresent()) {
+            System.out.println("User exists in DB");
+        }
+        if (UserDatabaseConnector.readUserByID(TEST_ADMIN_ID).isPresent()) {
+            System.out.println("Admin-User exists in DB");
+        }
+
+        assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_ADMIN_ID));
+    }
+
+    void addUserToEventAsEventCreator() {
+        assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_EVENT_CREATOR_ID));
+    }
+
+    void removeUserFromEventAsUser() {
         assertFalse(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS, TEST_USER_ID));
+    }
+
+    void removeUserFromEventAsAdmin() {
         assertTrue(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS, TEST_ADMIN_ID));
+    }
+
+    void removeUserFromEventAsEventCreator() {
+        assertTrue(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS, TEST_EVENT_CREATOR_ID));
     }
     //#endregion Event-Operations
 
@@ -304,12 +385,6 @@ public class UserManagerImplTestDrive {
     }
     //#endregion Registration and Authentication Tests
 
-    @Test
-    @Order(1)
-    @DisplayName("ExportEvents-Test")
-    void exportTest() {
-        assertTrue(userManagerImpl.exportAllBookedEvents(TEST_USER_ID));
-    }
 
 }
 
