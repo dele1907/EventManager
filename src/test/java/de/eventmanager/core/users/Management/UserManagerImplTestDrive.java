@@ -388,7 +388,14 @@ public class UserManagerImplTestDrive {
     @Test
     @DisplayName("Login-System Test")
     void authenticateUserLoginTest() {
-        assertTrue(userManagerImpl.authenticationUserLogin("fiot00001@htwsaar.de", "eventManager123"));
+
+        var user =  new User( "testLastName", "testFirstName", "2000-04-20",
+                "TEST_USER_EMAIL_ADDRESS", "password", "+497788866", false);
+       UserDatabaseConnector.createNewUser(user);
+
+       assertTrue(userManagerImpl.authenticationUserLogin("TEST_USER_EMAIL_ADDRESS", "password"));
+
+       UserDatabaseConnector.deleteUserByID(user.getUserID());
     }
     //#endregion Registration and Authentication Tests
 
