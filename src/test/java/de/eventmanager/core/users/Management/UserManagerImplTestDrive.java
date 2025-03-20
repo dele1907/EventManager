@@ -210,21 +210,21 @@ public class UserManagerImplTestDrive {
             "66119", "Teststraße 6", "Test Cafee",
             "Description", 20, -1,true, TEST_ADMIN_ID);
 
-    String eventId = getEventIdByName("localPrivateEvent", TEST_ADMIN_ID);
+        String eventId = getEventIdByName("localPrivateEvent", TEST_ADMIN_ID);
 
-    assertTrue(EventDatabaseConnector.readEventByID(eventId).isPresent());
-    EventDatabaseConnector.deleteEventByID(eventId, TEST_ADMIN_ID);
-    assertFalse(EventDatabaseConnector.readEventByID(eventId).isPresent());
-}
+        assertTrue(EventDatabaseConnector.readEventByID(eventId).isPresent());
+        EventDatabaseConnector.deleteEventByID(eventId, TEST_ADMIN_ID);
+        assertFalse(EventDatabaseConnector.readEventByID(eventId).isPresent());
+    }
 
-private String getEventIdByName(String eventName, String creatorId) {
-    var usersEvents = EventDatabaseConnector.getEventsByCreatorID(creatorId);
-    return usersEvents.stream()
-            .filter(event -> event.getEventName().equals(eventName))
-            .findFirst()
-            .map(EventModel::getEventID)
-            .orElseThrow(() -> new IllegalArgumentException("Event not found"));
-}
+    private String getEventIdByName(String eventName, String creatorId) {
+        var usersEvents = EventDatabaseConnector.getEventsByCreatorID(creatorId);
+        return usersEvents.stream()
+                .filter(event -> event.getEventName().equals(eventName))
+                .findFirst()
+                .map(EventModel::getEventID)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+    }
 
     @Test
     @DisplayName("Edit Event Test")
