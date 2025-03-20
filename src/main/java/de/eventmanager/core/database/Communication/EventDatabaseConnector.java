@@ -579,7 +579,7 @@ public class EventDatabaseConnector {
     /**
      * DELETE an event
      * */
-    public static boolean deleteEventByID(String eventID, String userID) {
+    public static boolean deleteEventByID(String eventID, String creatorID) {
 
         try (Connection connection = DatabaseConnector.connect()) {
 
@@ -592,7 +592,7 @@ public class EventDatabaseConnector {
                     .execute();
 
             if (rowsAffected > 0) {
-                boolean creatorRemoved = CreatorDatabaseConnector.removeUserAsEventCreator(eventID, userID, create);
+                boolean creatorRemoved = CreatorDatabaseConnector.removeUserAsEventCreator(eventID, creatorID, create);
 
                 if (creatorRemoved) {
                     connection.commit();
