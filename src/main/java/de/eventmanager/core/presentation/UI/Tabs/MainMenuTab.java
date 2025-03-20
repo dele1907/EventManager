@@ -31,12 +31,11 @@ public class MainMenuTab implements Tab {
 
         public static Optional<MainMenuChoice> fromUserInput(String choice) {
             return switch (choice) {
-                case "1" -> Optional.of(SETTINGS);
-                case "2" -> Optional.of(INBOX);
-                case "3" -> Optional.of(EVENT_OPERATIONS);
-                case "4" -> Optional.of(LOGOUT);
-                case "5" -> Optional.of(LOGOUT_AND_EXIT_PROGRAM);
-                case "6" -> Optional.of(ADMIN_OPERATIONS);
+                case "1" -> Optional.of(INBOX);
+                case "2" -> Optional.of(EVENT_OPERATIONS);
+                case "3" -> Optional.of(LOGOUT);
+                case "4" -> Optional.of(LOGOUT_AND_EXIT_PROGRAM);
+                case "5" -> Optional.of(ADMIN_OPERATIONS);
                 default -> Optional.empty();
             };
         }
@@ -70,7 +69,7 @@ public class MainMenuTab implements Tab {
     }
 
     private void displayMainMenu(MenuType menuType) {
-        var menu = List.of("Settings", getInBoxMainMenuItem(),"Event Operations", "Logout", "Logout and Exit Program");
+        var menu = List.of(getInBoxMainMenuItem(),"Event Operations", "Logout", "Logout and Exit Program");
 
         if (menuType.equals(MenuType.ADMIN)) {
             menu = new ArrayList<>(menu);
@@ -96,7 +95,6 @@ public class MainMenuTab implements Tab {
         }
 
         switch (mainMenuChoice.get()) {
-            case SETTINGS -> view.displayErrorMessage("\nSettings page (not implemented yet)\n");
             case INBOX -> doShowInboxTab();
             case EVENT_OPERATIONS -> doShowEventOperationTab();
             case LOGOUT -> {
