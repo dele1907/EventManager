@@ -289,7 +289,7 @@ public class EventDatabaseConnectorTestDrive {
         EventDatabaseConnector.createNewEvent(testPrivateEvent, TEST_CREATOR_FOR_EVENTS);
 
         boolean privateEventDeleted = EventDatabaseConnector.deleteEventByID(testPrivateEvent.getEventID(), TEST_CREATOR_FOR_EVENTS);
-        assertTrue(privateEventDeleted, "Private event deletion was successful but should not.");
+        assertTrue(privateEventDeleted, "Private event deletion failed but should not.");
         Optional<PrivateEvent> privateEventFromDatabase = EventDatabaseConnector.readPrivateEventByID(testPrivateEvent.getEventID());
         assertFalse(privateEventFromDatabase.isPresent(), "Private event was found but should not.");
     }
@@ -306,7 +306,7 @@ public class EventDatabaseConnectorTestDrive {
         EventDatabaseConnector.createNewEvent(testPublicEvent, TEST_CREATOR_FOR_EVENTS);
 
         boolean publicEventDeleted = EventDatabaseConnector.deleteEventByID(testPublicEvent.getEventID(), TEST_CREATOR_FOR_EVENTS);
-        assertTrue(publicEventDeleted, "Public event deletion was successful but should not.");
+        assertTrue(publicEventDeleted, "Public event deletion failed but should not.");
         Optional<PublicEvent> publicEventFromDatabase = EventDatabaseConnector.readPublicEventByID(testPublicEvent.getEventID());
         assertFalse(publicEventFromDatabase.isPresent(), "Public event was found but should not.");
     }
