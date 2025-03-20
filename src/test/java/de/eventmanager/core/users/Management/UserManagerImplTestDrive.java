@@ -185,10 +185,8 @@ public class UserManagerImplTestDrive {
     //#endregion CRUD-Operation-Tests for User
 
     //#region Crud-Operation-Tests for Event#
-    //Todo: wieder aktivieren sobald readPublicEventsByName funktioniert
     @Test
     @DisplayName("Create Public-Event Test")
-    @Disabled
     void createPublicEventTest() {
         assertTrue(userManagerImpl.createNewEvent("TestPublicEventIntern", "2000-01-01",
                 "2000-01-02", "TestCategory", "66115",
@@ -196,13 +194,11 @@ public class UserManagerImplTestDrive {
                 0,false, TEST_USER_ID));
 
         String puplicEventID = EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID();
-        //userManagerImpl.deleteEvent(EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID(), TEST_ADMIN_ID);
         EventDatabaseConnector.deleteEventByID(puplicEventID, TEST_ADMIN_ID);
     }
 
     @Test
     @DisplayName("Create Private Event Test")
-    @Disabled
     void createPrivateEventTest() {
 
         userManagerImpl.createNewEvent("localPrivateEvent", "2025-03-02 15:00:00",
@@ -306,7 +302,6 @@ public class UserManagerImplTestDrive {
 
     @Test
     @DisplayName("Add & Remove User to Event Test")
-    @Disabled
     void addAndRemoveUserToEventTest() {
         addUserToEventAsUser();
         addUserToEventAsAdmin();

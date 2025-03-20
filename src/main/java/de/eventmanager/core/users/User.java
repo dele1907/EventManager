@@ -9,9 +9,10 @@ public class User extends UserModel {
 
     //#region constructor
 
-    //Administrator
+    //Normal User-Object
     public User(String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, String phoneNumber, boolean isAdmin) {
+                String eMailAddress, String password, String phoneNumber,
+                boolean isAdmin) {
 
         this.userID = IDGenerationHelper.generateRandomUUID();
         this.firstName = firstName;
@@ -24,8 +25,9 @@ public class User extends UserModel {
     }
 
     //User-Object for load DB
-    public User(String userID, String firstName, String lastName, String dateOfBirth,
-                String eMailAddress, String password, String phoneNumber, boolean isAdmin) {
+    public User(String userID, String firstName, String lastName,
+                String dateOfBirth, String eMailAddress, String password,
+                String phoneNumber, boolean isAdmin) {
 
         this.userID = userID;
         this.firstName = firstName;
@@ -39,13 +41,6 @@ public class User extends UserModel {
     //#endregion constructor
 
     //#region toString()
-
-    /**
-     * <h3>Own toString()-Method</h3>
-     * <p>
-     * Custom {@code toString()} method  for a more readable output
-     */
-
     @Override
     public String toString() {
         return "\nFirst name: " + firstName + "\nLast name: " + lastName + "\nDate of birth: " + dateOfBirth +

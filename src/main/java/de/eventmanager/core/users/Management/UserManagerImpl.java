@@ -32,8 +32,9 @@ public class UserManagerImpl implements UserManager {
 
     //#region User related CRUD-Operations
     @Override
-    public boolean createNewUser(String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                                 String password, String phoneNumber, boolean isAdmin, String loggedUserByID) {
+    public boolean createNewUser(String firstName, String lastName, String dateOfBirth,
+                                 String eMailAddress, String password, String phoneNumber,
+                                 boolean isAdmin, String loggedUserByID) {
 
         if (checkUserSelfRegisterOrCreated(loggedUserByID)) {
             LoggerHelper.logErrorMessage(User.class, MISSING_PERMISSION_MESSAGE);
@@ -41,15 +42,15 @@ public class UserManagerImpl implements UserManager {
             return false;
         }
 
-        UserDatabaseConnector.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber, isAdmin));
+        UserDatabaseConnector.createNewUser(new User(firstName, lastName, dateOfBirth, eMailAddress,
+                password, phoneNumber, isAdmin));
 
         return true;
     }
 
     @Override
-    public void editUser(String userID, String firstName,
-                         String lastName, String dateOfBirth,
-                         String eMailAddress, String password,
+    public void editUser(String userID, String firstName, String lastName,
+                         String dateOfBirth, String eMailAddress, String password,
                          String phoneNumber, String loggedUserByID
     ) {
         var user = UserDatabaseConnector.readUserByID(userID);
@@ -65,11 +66,13 @@ public class UserManagerImpl implements UserManager {
             return;
         }
 
-        UserDatabaseConnector.updateUser(setEditedValuesForUser(user, firstName, lastName, dateOfBirth, eMailAddress, password, phoneNumber));
+        UserDatabaseConnector.updateUser(setEditedValuesForUser(user, firstName, lastName, dateOfBirth,
+                eMailAddress, password, phoneNumber));
     }
 
-    private User setEditedValuesForUser(Optional<User> optionalUser,String firstName, String lastName, String dateOfBirth, String eMailAddress,
-                                        String password, String phoneNumber) {
+    private User setEditedValuesForUser(Optional<User> optionalUser,String firstName, String lastName,
+                                        String dateOfBirth, String eMailAddress, String password,
+                                        String phoneNumber) {
         var userToEdit = optionalUser.get();
 
         userToEdit.setFirstName(firstName);
@@ -123,9 +126,10 @@ public class UserManagerImpl implements UserManager {
 
     //#region Event related CRUD-Operations
     @Override
-    public boolean createNewEvent(String eventName, String eventStart, String eventEnd, String category,
-                                  String postalCode, String address, String eventLocation,
-                                  String description, int maxParticipants, int minimumAge, boolean isPrivateEvent, String loggedUserID) {
+    public boolean createNewEvent(String eventName, String eventStart, String eventEnd,
+                                  String category, String postalCode, String address,
+                                  String eventLocation, String description, int maxParticipants,
+                                  int minimumAge, boolean isPrivateEvent, String loggedUserID) {
 
         String cityNameByPostalCode = EventDatabaseConnector.getCityNameByPostalCode(postalCode);
 
@@ -138,23 +142,21 @@ public class UserManagerImpl implements UserManager {
                         description, maxParticipants, minimumAge, loggedUserID).isPresent();
     }
 
-    private Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart,
-                                                     String eventEnd, String category,
-                                                     String postalCode, String city,
-                                                     String address, String eventLocation,
-                                                     String description, String loggedUserID) {
-        PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode, city, address, eventLocation, description);
+    private Optional<PrivateEvent> createPrivateEvent(String eventName, String eventStart, String eventEnd,
+                                                      String category, String postalCode, String city,
+                                                      String address, String eventLocation, String description,
+                                                      String loggedUserID) {
+        PrivateEvent event = new PrivateEvent(eventName, eventStart, eventEnd, category, postalCode,
+                city, address, eventLocation, description);
         EventDatabaseConnector.createNewEvent(event, loggedUserID);
 
         return Optional.of(event);
     }
 
-    private Optional<PublicEvent> createPublicEvent(String eventName, String eventStart,
-                                                   String eventEnd, String category,
-                                                   String postalCode, String city,
-                                                   String address, String eventLocation,
-                                                   String description, int maxParticipants, int minimumAge,
-                                                   String loggedUserID) {
+    private Optional<PublicEvent> createPublicEvent(String eventName, String eventStart, String eventEnd,
+                                                    String category, String postalCode, String city,
+                                                   String address, String eventLocation, String description,
+                                                    int maxParticipants, int minimumAge, String loggedUserID) {
         if (maxParticipants == 0) {
             maxParticipants = -1;
         }
@@ -241,11 +243,9 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public boolean editEvent(String eventID, String eventName,
-                             String eventStart, String eventEnd,
-                             String category, String postalCode, String address,
-                             String eventLocation, String description,
-                             String loggedUserID) {
+    public boolean editEvent(String eventID, String eventName, String eventStart, String eventEnd,
+                             String category, String postalCode, String address, String eventLocation,
+                             String description, String loggedUserID) {
 
         var optionalEvent = getEventByID(eventID);
 
@@ -274,10 +274,9 @@ public class UserManagerImpl implements UserManager {
     }
 
     private EventModel setEditedValuesForEvent(Optional<? extends EventModel> optionalEvent,
-                                               String eventName, String eventStart,
-                                               String eventEnd, String category,
-                                               String postalCode, String city, String address,
-                                               String eventLocation, String description) {
+                                               String eventName, String eventStart, String eventEnd,
+                                               String category, String postalCode, String city,
+                                               String address, String eventLocation, String description) {
         EventModel eventToEdit = optionalEvent.get();
 
         eventToEdit.setEventName(eventName);
