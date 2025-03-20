@@ -42,3 +42,6 @@ app.log
 
 ### Ignore all .ics files ###
 *.ics
+
+### Ignore datasource.xml file ###
+dataSources.xml
