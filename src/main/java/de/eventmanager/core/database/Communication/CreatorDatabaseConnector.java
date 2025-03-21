@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Optional;
 
 import de.eventmanager.core.users.User;
+import helper.UserDatabaseHelper;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -127,21 +128,7 @@ public class CreatorDatabaseConnector {
                     .where(CREATED.EVENTID.eq(eventID))
                     .fetchOne();
 
-            if (record != null) {
-
-                User user = new User(
-                        record.get(USER.USERID),
-                        record.get(USER.FIRSTNAME),
-                        record.get(USER.LASTNAME),
-                        record.get(USER.BIRTHDATE),
-                        record.get(USER.EMAIL),
-                        record.get(USER.PASSWORD),
-                        record.get(USER.PHONENUMBER),
-                        record.get(USER.ISADMIN)
-                );
-
-                return Optional.of(user);
-            }
+            return UserDatabaseHelper.createUserFromRecord(record);
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(CreatorDatabaseConnector.class, EVENT_CREATOR_NOT_FOUND + exception.getMessage());

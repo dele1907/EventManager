@@ -6,6 +6,7 @@ import java.util.Optional;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
+import helper.UserDatabaseHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
@@ -85,20 +86,7 @@ public class UserDatabaseConnector {
                     .where(USER.USERID.eq(userID))
                     .fetchOne();
 
-            if (record != null) {
-                User user = new User(
-                        record.get(USER.USERID),
-                        record.get(USER.FIRSTNAME),
-                        record.get(USER.LASTNAME),
-                        record.get(USER.BIRTHDATE),
-                        record.get(USER.EMAIL),
-                        record.get(USER.PASSWORD),
-                        record.get(USER.PHONENUMBER),
-                        record.get(USER.ISADMIN)
-                );
-
-                return Optional.of(user);
-            }
+            return UserDatabaseHelper.createUserFromRecord(record);
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, USER_NOT_READ + exception.getMessage());
@@ -121,21 +109,7 @@ public class UserDatabaseConnector {
                     .where(USER.EMAIL.eq(eMailAddress))
                     .fetchOne();
 
-            if (record != null) {
-
-                User user = new User(
-                        record.get(USER.USERID),
-                        record.get(USER.FIRSTNAME),
-                        record.get(USER.LASTNAME),
-                        record.get(USER.BIRTHDATE),
-                        record.get(USER.EMAIL),
-                        record.get(USER.PASSWORD),
-                        record.get(USER.PHONENUMBER),
-                        record.get(USER.ISADMIN)
-                );
-
-                return Optional.of(user);
-            }
+            return UserDatabaseHelper.createUserFromRecord(record);
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, USER_NOT_READ + exception.getMessage());
@@ -252,7 +226,7 @@ public class UserDatabaseConnector {
                     .where(USER.ISADMIN.eq(true))
                     .fetch();
 
-            return record.size() > 0;
+            return !record.isEmpty();
 
         } catch (Exception exception) {
             LoggerHelper.logErrorMessage(UserDatabaseConnector.class, USER_NOT_READ + exception.getMessage());
