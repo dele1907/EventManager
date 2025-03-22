@@ -63,32 +63,44 @@ public class ObserverTestDrive {
      */
     @Test
     public void testObserverPattern() {
+        createEventToObserve();
+        bookEventToObserveAndEditToNotifyUser();
+        checkIfNotificationIsCorrect();
+        cancelEventToObserveAndEditAgain();
+        checkIfUserIsNotNotifiedAnymore();
+    }
 
-        // create event to observe
+    private void createEventToObserve() {
         testEvent = new PublicEvent(STANDARD_EVENT_ID, "Wacken Open Air", "2025-07-29", "2025-08-01", 0, null, "Festival", false,
                 "O-25596", "Wacken", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", 90000, 16);
 
         EventDatabaseConnector.createNewEvent(testEvent, TEST_ADMIN.getUserID());
+    }
 
-        // book event to add user as observer and edit event to notify user
+    private void bookEventToObserveAndEditToNotifyUser() {
         USER_MANAGER.bookEvent(testEvent.getEventID(), TEST_USER.getUserID());
         USER_MANAGER.editEvent(testEvent.getEventID(), testEvent.getEventID(), testEvent.getEventStart(), testEvent.getEventEnd(), "Festival",
                 "O-25596", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", TEST_ADMIN.getUserID());
+    }
 
-        // check if notification is correct and delete it from database
+    private void checkIfNotificationIsCorrect() {
         ArrayList<Notification> notificationList = NotificationDatabaseConnector.readNotificationsByUserID(TEST_USER.getUserID());
         assertEquals(1, notificationList.size());
         assertEquals(TEST_USER.getUserID(), notificationList.get(0).getUserID());
+
+        // remove test notification from database after check
         for (Notification notification : notificationList) {
             NotificationDatabaseConnector.deleteNotification(notification.getNotificationID());
         }
+    }
 
-        // cancel event to remove user as observer and edit event again
+    private void cancelEventToObserveAndEditAgain() {
         USER_MANAGER.cancelEvent(testEvent.getEventID(), TEST_USER.getUserID());
         USER_MANAGER.editEvent(testEvent.getEventID(), STANDARD_EVENT_ID, "2025-07-30", "2025-08-02", "Festival",
                 "O-25596", "Norderstraße", "Festivalgelände", "Metal-Festival in Deutschland", TEST_ADMIN.getUserID());
+    }
 
-        // check if user isn't notified anymore
+    private void checkIfUserIsNotNotifiedAnymore() {
         ArrayList<Notification> newNotificationList = NotificationDatabaseConnector.readNotificationsByUserID(TEST_USER.getUserID());
         assertTrue(newNotificationList.isEmpty(), "Notification list has data but should not.");
     }
