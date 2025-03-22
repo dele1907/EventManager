@@ -7,6 +7,9 @@ import org.jooq.impl.DSL;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jooq.*;
 import org.jooq.impl.SQLDataType;
 import org.jooq.types.DayToSecond;
@@ -65,29 +68,30 @@ public class DateOperationsHelper {
 
     //TODO @Timo - correct the method until saturday afternoon
     //TODO @Timo - test the function of the method
-    public static int timeToEvent(String eventID) {
-        int days = 0;
-        int hours = 0;
-        int minutes = 0;
+    public static Map<String, Integer> timeToEvent(String eventID) {
+        Map<String, Integer> timeMap = new HashMap<>();
 
-        try (Connection connection = DatabaseConnector.connect()){
+        try (Connection connection = DatabaseConnector.connect()) {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.field("eventStart",
-                            SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
-                            .from("events")
-                            .where(DSL.field("eventID").eq(eventID))
-                            .fetch();
+            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.field("eventStart", SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
+                    .from("events")
+                    .where(DSL.field("eventID").eq(eventID))
+                    .fetch();
 
-            if(result.isNotEmpty()) {
-
+            if (result.isNotEmpty()) {
                 for (Record1<DayToSecond> record : result) {
-                    days = record.value1().getDays();
-                    hours = record.value1().getHours();
-                    minutes = record.value1().getMinutes();
-                }
+                    DayToSecond diff = record.value1();
 
+                    int days = diff.getDays();
+                    int hours = diff.getHours();
+                    int minutes = diff.getMinutes();
+
+                    timeMap.put("days", days);
+                    timeMap.put("hours", hours);
+                    timeMap.put("minutes", minutes);
+                }
             } else {
                 LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
             }
@@ -96,7 +100,7 @@ public class DateOperationsHelper {
             LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
         }
 
-        return days;
+        return timeMap;
     }
 
     //TODO @Timo - correct the method until saturday afternoon
