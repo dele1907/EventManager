@@ -13,6 +13,7 @@ import de.eventmanager.core.observer.UserObserver;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.User;
 import helper.ConfigurationDataSupplierHelper;
+import helper.DateOperationsHelper;
 import helper.LoggerHelper;
 import helper.PasswordHelper;
 import java.util.ArrayList;
@@ -203,10 +204,21 @@ public class UserManagerImpl implements UserManager {
         var usersBookedEvents = new ArrayList<String>();
 
         getUsersBookedEvents(userID).forEach(event -> {
-            usersBookedEvents.add(event.toString());
+            usersBookedEvents.add(event.toString().concat(getTimeToEventString(event.getEventID())));
         });
 
         return usersBookedEvents;
+    }
+
+    private static String getTimeToEventString(String eventId) {
+        var daysToEvent  = DateOperationsHelper.timeToEvent(eventId).get("days");
+        var hoursToEvent = DateOperationsHelper.timeToEvent(eventId).get("hours");
+        var minutesToEvent = DateOperationsHelper.timeToEvent(eventId).get("minutes");
+
+        return "\nTime until the event starts: "
+                + daysToEvent + " days, "
+                + hoursToEvent + " hours, "
+                + minutesToEvent + " minutes\n";
     }
 
     @Override
