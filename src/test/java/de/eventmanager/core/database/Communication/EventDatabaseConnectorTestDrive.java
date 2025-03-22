@@ -331,7 +331,7 @@ public class EventDatabaseConnectorTestDrive {
         boolean privateEventCreated = EventDatabaseConnector.createNewEvent(testPrivateEvent, TEST_CREATOR_FOR_EVENTS);
         assertFalse(privateEventCreated, "Second private event creation was successful but should not.");
 
-        EventDatabaseConnector.deleteEventByID("createFailTestPrivateEventDatabaseConnector", TEST_CREATOR_FOR_EVENTS);
+        EventDatabaseConnector.deleteEventByID(testPrivateEvent.getEventID(), TEST_CREATOR_FOR_EVENTS);
     }
 
     /**
@@ -350,7 +350,7 @@ public class EventDatabaseConnectorTestDrive {
         boolean publicEventCreated = EventDatabaseConnector.createNewEvent(testPublicEvent, TEST_CREATOR_FOR_EVENTS);
         assertFalse(publicEventCreated, "Second public event creation was successful but should not.");
 
-        EventDatabaseConnector.deleteEventByID("createFailTestPublicEventDatabaseConnector", TEST_CREATOR_FOR_EVENTS);
+        EventDatabaseConnector.deleteEventByID(testPublicEvent.getEventID(), TEST_CREATOR_FOR_EVENTS);
     }
 
     /**
