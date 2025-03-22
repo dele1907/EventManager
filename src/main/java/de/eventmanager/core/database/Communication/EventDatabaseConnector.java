@@ -513,64 +513,44 @@ public class EventDatabaseConnector {
         }
     }
 
-    //TODO @Dennis eliminate duplicate code
     private static int setPrivateEvent(DSLContext create, PrivateEvent privateEvent) {
-
-        return create.transactionResult(configuration -> {
-            DSLContext ctx = DSL.using(configuration);
-
-            boolean postalCodeExists = ctx.fetchCount(ctx.selectFrom(CITIES)
-                    .where(CITIES.POSTALCODE.eq(privateEvent.getPostalCode()))) > 0;
-
-            if (!postalCodeExists) {
-                ctx.insertInto(CITIES, CITIES.CITYNAME, CITIES.POSTALCODE)
-                        .values(privateEvent.getCity(), privateEvent.getPostalCode())
-                        .execute();
-            }
-
-            int updatedEvents = ctx.update(EVENTS)
-                    .set(EVENTS.EVENTNAME, privateEvent.getEventName())
-                    .set(EVENTS.EVENTSTART, privateEvent.getEventStart())
-                    .set(EVENTS.EVENTEND, privateEvent.getEventEnd())
-                    .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, privateEvent.getNumberOfBookedUsersOnEvent())
-                    .set(EVENTS.CATEGORY, privateEvent.getCategory())
-                    .set(EVENTS.POSTALCODE, privateEvent.getPostalCode())
-                    .set(EVENTS.ADDRESS, privateEvent.getAddress())
-                    .set(EVENTS.EVENTLOCATION, privateEvent.getEventLocation())
-                    .set(EVENTS.DESCRIPTION, privateEvent.getDescription())
-                    .where(EVENTS.EVENTID.eq(privateEvent.getEventID()))
-                    .execute();
-
-            return updatedEvents;
-        });
+        return setEvent(create, privateEvent);
     }
 
     private static int setPublicEvent(DSLContext create, PublicEvent publicEvent) {
+        return setEvent(create, publicEvent);
+    }
 
+    private static int setEvent(DSLContext create, EventModel event) {
         return create.transactionResult(configuration -> {
             DSLContext ctx = DSL.using(configuration);
 
             boolean postalCodeExists = ctx.fetchCount(ctx.selectFrom(CITIES)
-                    .where(CITIES.POSTALCODE.eq(publicEvent.getPostalCode()))) > 0;
+                    .where(CITIES.POSTALCODE.eq(event.getPostalCode()))) > 0;
 
             if (!postalCodeExists) {
                 ctx.insertInto(CITIES, CITIES.CITYNAME, CITIES.POSTALCODE)
-                        .values(publicEvent.getCity(), publicEvent.getPostalCode())
+                        .values(event.getCity(), event.getPostalCode())
                         .execute();
             }
 
-            int updatedEvents = ctx.update(EVENTS)
-                    .set(EVENTS.EVENTNAME, publicEvent.getEventName())
-                    .set(EVENTS.EVENTSTART, publicEvent.getEventStart())
-                    .set(EVENTS.EVENTEND, publicEvent.getEventEnd())
-                    .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, publicEvent.getNumberOfBookedUsersOnEvent())
-                    .set(EVENTS.CATEGORY, publicEvent.getCategory())
-                    .set(EVENTS.POSTALCODE, publicEvent.getPostalCode())
-                    .set(EVENTS.ADDRESS, publicEvent.getAddress())
-                    .set(EVENTS.EVENTLOCATION, publicEvent.getEventLocation())
-                    .set(EVENTS.DESCRIPTION, publicEvent.getDescription())
-                    .set(EVENTS.MAXIMUMCAPACITY, publicEvent.getMaximumCapacity())
-                    .where(EVENTS.EVENTID.eq(publicEvent.getEventID()))
+            var updateQuery = ctx.update(EVENTS)
+                    .set(EVENTS.EVENTNAME, event.getEventName())
+                    .set(EVENTS.EVENTSTART, event.getEventStart())
+                    .set(EVENTS.EVENTEND, event.getEventEnd())
+                    .set(EVENTS.NUMBEROFBOOKEDUSERSONEVENT, event.getNumberOfBookedUsersOnEvent())
+                    .set(EVENTS.CATEGORY, event.getCategory())
+                    .set(EVENTS.POSTALCODE, event.getPostalCode())
+                    .set(EVENTS.ADDRESS, event.getAddress())
+                    .set(EVENTS.EVENTLOCATION, event.getEventLocation())
+                    .set(EVENTS.DESCRIPTION, event.getDescription());
+
+            if (event instanceof PublicEvent) {
+                updateQuery.set(EVENTS.MAXIMUMCAPACITY, ((PublicEvent) event).getMaximumCapacity());
+            }
+
+            int updatedEvents = updateQuery
+                    .where(EVENTS.EVENTID.eq(event.getEventID()))
                     .execute();
 
             return updatedEvents;
