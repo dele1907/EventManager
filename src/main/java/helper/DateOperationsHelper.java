@@ -22,7 +22,7 @@ public class DateOperationsHelper {
     private static final String NO_BIRTHDAY_FOUND = "Wrong eMail Address or no Birthday found!";
     private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
 
-
+    //TODO @Timo - Correct the error Message to english
     public static int getTheAgeFromDatabase(String eMailAddress) {
         int years = 0;
 
@@ -64,7 +64,8 @@ public class DateOperationsHelper {
     }
 
     //TODO @Timo - correct the method until saturday afternoon
-    public static int timeToEvent(String eventName) {
+    //TODO @Timo - test the function of the method
+    public static int timeToEvent(String eventID) {
         int days = 0;
         int hours = 0;
         int minutes = 0;
@@ -73,10 +74,10 @@ public class DateOperationsHelper {
 
             DSLContext create = DSL.using(connection);
 
-            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.currentTimestamp(), DSL.field("eventStart",
-                            SQLDataType.TIMESTAMP)))
+            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.field("eventStart",
+                            SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
                             .from("events")
-                            .where(DSL.field("eventName").eq(eventName))
+                            .where(DSL.field("eventID").eq(eventID))
                             .fetch();
 
             if(result.isNotEmpty()) {
@@ -108,7 +109,7 @@ public class DateOperationsHelper {
 
             Field<Timestamp> fourteenDaysOrMoreAgo = DSL.field("datetime('now', '-14 days')", SQLDataType.TIMESTAMP);
 
-            Result<Record1<Object>> result = create.select(DSL.field("eventName"))
+            Result<Record1<Object>> result = create.select(DSL.field("eventID"))
                     .from("events")
                     .where(DSL.field("eventEnd", SQLDataType.TIMESTAMP).lt(fourteenDaysOrMoreAgo))
                     .fetch();
@@ -116,8 +117,8 @@ public class DateOperationsHelper {
             if(result.isNotEmpty()) {
 
                 for (Record1<Object> record : result) {
-                    String eventName = record.value1().toString();
-                    eventsToDelete.add(eventName);
+                    String eventID = record.value1().toString();
+                    eventsToDelete.add(eventID);
                 }
 
             } else {
