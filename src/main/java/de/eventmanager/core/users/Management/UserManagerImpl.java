@@ -211,9 +211,9 @@ public class UserManagerImpl implements UserManager {
     }
 
     private static String getTimeToEventString(String eventId) {
-        var daysToEvent  = DateOperationsHelper.timeToEvent(eventId).get("days");
-        var hoursToEvent = DateOperationsHelper.timeToEvent(eventId).get("hours");
-        var minutesToEvent = DateOperationsHelper.timeToEvent(eventId).get("minutes");
+        var daysToEvent  = DateOperationsHelper.getDaysHoursMinutesToEvent(eventId).get("days");
+        var hoursToEvent = DateOperationsHelper.getDaysHoursMinutesToEvent(eventId).get("hours");
+        var minutesToEvent = DateOperationsHelper.getDaysHoursMinutesToEvent(eventId).get("minutes");
 
         return "\nTime until the event starts: "
                 + daysToEvent + " days, "
@@ -222,7 +222,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     private boolean isEventOver(EventModel event) {
-        return DateOperationsHelper.checkIfEventIsOver().contains(event.getEventID());
+        return DateOperationsHelper.getAllExpiredEvents().contains(event.getEventID());
     }
 
     @Override
@@ -251,7 +251,10 @@ public class UserManagerImpl implements UserManager {
         var createdEvents = new ArrayList<String>();
 
         EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
-            createdEvents.add(event.toString().concat(isEventOver(event) ? "Event is already over!\n" : ""));
+            createdEvents.add(event.toString().concat(isEventOver(event) ?
+                    "Event is already over for 14 days or more!\n"
+                    : "")
+            );
         });
 
         return createdEvents;
@@ -434,7 +437,9 @@ public class UserManagerImpl implements UserManager {
         }
 
         if (!getUserHasBookedEvent(optionalEvent, userToRemove)) {
-            LoggerHelper.logErrorMessage(User.class, "You can only remove users who are booked on the event!");
+            LoggerHelper.logErrorMessage(User.class,
+                    "You can only remove users who are booked on the event!"
+            );
 
             return false;
         }
@@ -460,7 +465,6 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean addAdminStatusToUser(User user){
         user.setRoleAdmin(true);
-
         UserDatabaseConnector.updateUser(user);
 
         return getUserByEmail(user.getEMailAddress()).get().getRole().equals(Role.ADMIN);
@@ -469,7 +473,6 @@ public class UserManagerImpl implements UserManager {
     @Override
     public boolean removeAdminStatusFromUser(User user) {
         user.setRoleAdmin(false);
-
         UserDatabaseConnector.updateUser(user);
 
         return !getUserByEmail(user.getEMailAddress()).get().getRole().equals(Role.ADMIN);

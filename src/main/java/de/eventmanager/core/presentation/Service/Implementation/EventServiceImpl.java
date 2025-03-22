@@ -151,7 +151,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void removeAlreadyPassedEvents() {
-        var eventsToDelete = DateOperationsHelper.checkIfEventIsOver();
+        var eventsToDelete = DateOperationsHelper.getAllExpiredEvents();
 
         for (var eventID : eventsToDelete) {
             deleteEvent(eventID);
