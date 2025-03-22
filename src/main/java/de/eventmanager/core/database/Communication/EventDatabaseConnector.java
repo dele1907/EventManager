@@ -8,7 +8,6 @@ import java.util.Optional;
 import de.eventmanager.core.events.EventModel;
 import de.eventmanager.core.events.PrivateEvent;
 import de.eventmanager.core.events.PublicEvent;
-import de.eventmanager.core.users.User;
 import helper.LoggerHelper;
 import org.jooq.DSLContext;
 import org.jooq.Record;

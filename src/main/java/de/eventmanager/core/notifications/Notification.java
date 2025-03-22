@@ -1,6 +1,5 @@
 package de.eventmanager.core.notifications;
 
-import de.eventmanager.core.events.EventModel;
 import helper.IDGenerationHelper;
 
 import java.util.Objects;

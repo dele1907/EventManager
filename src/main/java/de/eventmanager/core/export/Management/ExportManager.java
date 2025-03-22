@@ -13,7 +13,6 @@ import net.fortuna.ical4j.model.parameter.Cn;
 import net.fortuna.ical4j.model.parameter.CuType;
 import net.fortuna.ical4j.model.parameter.Role;
 import net.fortuna.ical4j.model.property.*;
-import org.jooq.Log;
 
 import java.net.URI;
 import java.util.GregorianCalendar;

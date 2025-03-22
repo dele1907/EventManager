@@ -2,8 +2,6 @@ package de.eventmanager.core.observer;
 
 import de.eventmanager.core.database.Communication.NotificationDatabaseConnector;
 import de.eventmanager.core.events.EventModel;
-import de.eventmanager.core.events.PrivateEvent;
-import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.notifications.Notification;
 import de.eventmanager.core.users.User;
 

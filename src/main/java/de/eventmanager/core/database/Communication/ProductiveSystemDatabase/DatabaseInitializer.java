@@ -3,7 +3,6 @@ package de.eventmanager.core.database.Communication.ProductiveSystemDatabase;
 
 import de.eventmanager.core.database.Communication.DatabaseConnector;
 import helper.LoggerHelper;
-import org.jooq.DSLContext;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
