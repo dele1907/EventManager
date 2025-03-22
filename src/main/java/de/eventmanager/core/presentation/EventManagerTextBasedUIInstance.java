@@ -22,13 +22,12 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
     private static ProductionModePage productionModePage = new ProductionModePage(textView);
 
     public void startEventManagerInstance() {
+        ConfigurationDataSupplierHelper.setIsProductionMode(true);
         productionModePage.start();
-
-        boolean isProductiveSystem = ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE;
 
         initPages();
 
-        initDatabase(isProductiveSystem);
+        initDatabase(ConfigurationDataSupplierHelper.IS_PRODUCTION_MODE);
 
         boolean programIsRunning = true;
         boolean adminInDatabase = userService.getAdminUserIsPresentInDatabase();
@@ -56,7 +55,7 @@ public class EventManagerTextBasedUIInstance implements EventManagerInstance {
         String databasePath = DatabasePathManager.loadDatabasePath(isProductiveSystem);
         DatabaseConnector.setDatabasePath(databasePath);
         DatabaseInitializer.initialize();
-        textView.displaySuccessMessage("\nDatabase path: " + databasePath + "\n");
+        //textView.displaySuccessMessage("\nDatabase path: " + databasePath + "\n");
     }
 
     private void initPages() {
