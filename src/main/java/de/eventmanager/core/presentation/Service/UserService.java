@@ -7,13 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    boolean registerUser(UserRegistrationDataPayload userRegistrationDataPayload, String LoggedInUserUserID);
-    boolean registerAdminUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedUserID);
+    boolean registerUser(UserRegistrationDataPayload userRegistrationDataPayload,
+                         boolean isAdminUser, String LoggedInUserUserID);
     String loginUser(String email, String password);
     boolean deleteUser(String userToDeleteEmail, String loggedInUserEmail);
     void editUser(String userEmailAddress, String loggedInUserID, String newFirstName, String newLastName,
                   String newEmailAddress, String newPhoneNumber);
-    Optional<User> readUserByEmail(String email);
     boolean getUserIsPresentInDatabaseByEmail(String eMailAddress);
     boolean getAdminUserIsPresentInDatabase();
     boolean getUserIsAdminUserByID(String userID);

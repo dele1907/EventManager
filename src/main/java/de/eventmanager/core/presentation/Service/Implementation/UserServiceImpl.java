@@ -7,7 +7,6 @@ import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.roles.Role;
 import de.eventmanager.core.users.Management.UserManager;
 import de.eventmanager.core.users.Management.UserManagerImpl;
-import de.eventmanager.core.users.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,8 @@ public class UserServiceImpl implements UserService {
     UserManager userManagerImpl = new UserManagerImpl();
 
     @Override
-    public boolean registerUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedInUserUserID) {
+    public boolean registerUser(UserRegistrationDataPayload userRegistrationDataPayload,
+                                boolean isAdminUser, String loggedInUserUserID) {
 
         if (!userManagerImpl.isValidRegistrationPassword(
                 userRegistrationDataPayload.password(),
@@ -25,8 +25,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        return createNewUserFromPayload(userRegistrationDataPayload, false, loggedInUserUserID);
-
+        return createNewUserFromPayload(userRegistrationDataPayload, isAdminUser, loggedInUserUserID);
     }
 
     private boolean createNewUserFromPayload(UserRegistrationDataPayload userRegistrationDataPayload,
@@ -46,31 +45,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerAdminUser(UserRegistrationDataPayload userRegistrationDataPayload, String loggedUserID) {
-
-        if (!userManagerImpl.isValidRegistrationPassword(
-                userRegistrationDataPayload.password(),
-                userRegistrationDataPayload.confirmPassword()
-        )) {
-            return false;
-        }
-
-        return createNewUserFromPayload(userRegistrationDataPayload, true, loggedUserID);
-    }
-
-    @Override
     public String loginUser(String email, String password) {
         if (!userManagerImpl.authenticationUserLogin(email, password)) {
             return "";
         }
+
         return userManagerImpl.getUserByEmail(email).get().getUserID();
     }
 
     @Override
     public boolean deleteUser(String userToDeleteEmail, String loggedInUserID) {
-        var userToDelete = userManagerImpl.getUserByEmail(userToDeleteEmail);
-
-        if (userToDelete.isEmpty()) {
+        if (userManagerImpl.getUserByEmail(userToDeleteEmail).isEmpty()) {
             return false;
         }
 
@@ -93,18 +78,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> readUserByEmail(String email) {
-        return userManagerImpl.getUserByEmail(email);
-    }
-
-    @Override
     public String getUserInformationByEmail(String email) {
-        return getUserIsPresentInDatabaseByEmail(email) ? readUserByEmail(email).get().toString() : "";
+        return getUserIsPresentInDatabaseByEmail(email) ?
+                userManagerImpl.getUserByEmail(email).get().toString() :
+                "";
     }
 
     @Override
     public boolean getUserIsPresentInDatabaseByEmail(String eMailAddress) {
-        return readUserByEmail(eMailAddress).isPresent();
+        return userManagerImpl.getUserByEmail(eMailAddress).isPresent();
     }
 
     @Override
@@ -133,7 +115,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        return userManagerImpl.addAdminStatusToUser(readUserByEmail(email).get());
+        return userManagerImpl.addAdminStatusToUser(userManagerImpl.getUserByEmail(email).get());
     }
 
     public boolean removeAdminRightsFromUser(String email) {
@@ -141,7 +123,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        return userManagerImpl.removeAdminStatusFromUser(readUserByEmail(email).get());
+        return userManagerImpl.removeAdminStatusFromUser(userManagerImpl.getUserByEmail(email).get());
     }
 
     @Override

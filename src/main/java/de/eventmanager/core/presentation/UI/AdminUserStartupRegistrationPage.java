@@ -50,8 +50,9 @@ public class AdminUserStartupRegistrationPage implements Tab {
                 userInputs[3], userInputs[4], userInputs[5], userInputs[6]
         );
 
-        new UserServiceImpl().registerAdminUser(
+        new UserServiceImpl().registerUser(
                 userRegistrationDataPayload,
+                true,
                 ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID
         );
     }

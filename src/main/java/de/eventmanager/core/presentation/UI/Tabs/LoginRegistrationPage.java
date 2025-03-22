@@ -86,6 +86,7 @@ public class LoginRegistrationPage implements Tab {
     private void validateRegisterUser(UserRegistrationDataPayload userRegistrationDataPayload) {
 
         if (!(new UserServiceImpl().registerUser(userRegistrationDataPayload,
+                false,
                 ConfigurationDataSupplierHelper.REGISTER_NEW_USER_ID))) {
 
             view.displayErrorMessage("\nUser registration failed\n");

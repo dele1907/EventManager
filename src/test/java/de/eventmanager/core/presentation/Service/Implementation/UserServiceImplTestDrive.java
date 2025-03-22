@@ -25,7 +25,7 @@ public class UserServiceImplTestDrive {
                 "12345678",
                 "123456",
                 "123456"
-                ), "iwbLeZWwmrg5E0oC8KIs"
+                ), false, "iwbLeZWwmrg5E0oC8KIs"
 
         );
         System.out.println("User registered: " + isRegistered);

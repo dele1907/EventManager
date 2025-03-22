@@ -27,7 +27,7 @@ public class AdminCreateUserTab implements Tab {
 
     private void validateCreateUser(UserRegistrationDataPayload userRegistrationDataPayload) {
 
-        if (!(new UserServiceImpl().registerUser(userRegistrationDataPayload, loggedInUserUserID))) {
+        if (!(new UserServiceImpl().registerUser(userRegistrationDataPayload, false, loggedInUserUserID))) {
             view.displayErrorMessage("\nFailed to create user.\n");
 
             return;
