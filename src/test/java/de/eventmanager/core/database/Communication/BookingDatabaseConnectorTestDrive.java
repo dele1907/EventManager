@@ -87,16 +87,31 @@ public class BookingDatabaseConnectorTestDrive {
 
         EventDatabaseConnector.createNewEvent(testEventForBooking, TEST_CREATOR_ID);
 
+        addBookingForTest();
+        testGettingBookedEventsByUser();
+        testGettingUsersOnEvent();
+        testGettingUsersAfterCancellingEvent();
+
+        EventDatabaseConnector.deleteEventByID(testEventForBooking.getEventID(), TEST_CREATOR_ID);
+        UserDatabaseConnector.deleteUserByID(TEST_USER_FOR_BOOKING_1.getUserID());
+        UserDatabaseConnector.deleteUserByID(TEST_USER_FOR_BOOKING_2.getUserID());
+    }
+
+    private void addBookingForTest() {
         BookingDatabaseConnector.addBooking(testEventForBooking.getEventID(), TEST_USER_FOR_BOOKING_1.getUserID());
         BookingDatabaseConnector.addBooking(testEventForBooking.getEventID(), TEST_USER_FOR_BOOKING_2.getUserID());
+    }
 
+    private void testGettingBookedEventsByUser() {
         ArrayList<Optional<? extends EventModel>> bookedTestEvents = BookingDatabaseConnector.getEventsBookedByUser(TEST_USER_FOR_BOOKING_1.getUserID());
         ArrayList<Optional<? extends EventModel>> expectedBookedTestEvents = new ArrayList<>();
         expectedBookedTestEvents.add(Optional.ofNullable(testEventForBooking));
 
-        // test of event list for user 1
+        // test of events booked by user 1
         assertEquals(expectedBookedTestEvents, bookedTestEvents);
+    }
 
+    private void testGettingUsersOnEvent() {
         ArrayList<String> bookedTestUsers = BookingDatabaseConnector.getBookedUsersInformationOnEvent(testEventForBooking.getEventID());
         ArrayList<String> expectedBookedTestUsers = new ArrayList<>();
         expectedBookedTestUsers.add(TEST_USER_FOR_BOOKING_1.getEMailAddress());
@@ -107,16 +122,14 @@ public class BookingDatabaseConnectorTestDrive {
 
         // test of user number after booking
         assertEquals(2, EventDatabaseConnector.readPublicEventByID(testEventForBooking.getEventID()).get().getNumberOfBookedUsersOnEvent());
+    }
 
+    private void testGettingUsersAfterCancellingEvent() {
         BookingDatabaseConnector.removeBooking(testEventForBooking.getEventID(), TEST_USER_FOR_BOOKING_1.getUserID());
         BookingDatabaseConnector.removeBooking(testEventForBooking.getEventID(), TEST_USER_FOR_BOOKING_2.getUserID());
 
         // test of user number after cancelling
         assertEquals(0, EventDatabaseConnector.readPublicEventByID(testEventForBooking.getEventID()).get().getNumberOfBookedUsersOnEvent());
-
-        EventDatabaseConnector.deleteEventByID(testEventForBooking.getEventID(), TEST_CREATOR_ID);
-        UserDatabaseConnector.deleteUserByID(TEST_USER_FOR_BOOKING_1.getUserID());
-        UserDatabaseConnector.deleteUserByID(TEST_USER_FOR_BOOKING_2.getUserID());
     }
 
     /**
