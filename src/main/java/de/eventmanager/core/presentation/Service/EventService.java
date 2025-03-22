@@ -25,4 +25,5 @@ public interface EventService {
     boolean exportEventToCalendarFile(String eventID);
     boolean getEventIsExistingByID(String eventID);
     List<String> getPublicEventsUserCanBookByID(String loggedUserID);
+    void removeAlreadyPassedEvents();
 }

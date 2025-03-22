@@ -25,7 +25,6 @@ public class DateOperationsHelper {
     private static final String NO_BIRTHDAY_FOUND = "Wrong eMail Address or no Birthday found!";
     private static final String NO_EVENT_START_FOUND = "Wrong Event Name or no start day found";
 
-    //TODO @Timo - Correct the error Message to english
     public static int getTheAgeFromDatabase(String eMailAddress) {
         int years = 0;
 
@@ -47,7 +46,10 @@ public class DateOperationsHelper {
                     String test = record.value1().toString();
 
                     if (test.startsWith("+")) {
-                        LoggerHelper.logErrorMessage(DateOperationsHelper.class, "Das eingegebene Alter liegt in der Zukunft, bitte gib ein richtigs Geburtsdatum an!");
+                        LoggerHelper.logErrorMessage(DateOperationsHelper.class,
+                                "Invalid birthdate: it is in the future"
+                        );
+
                         return 0;
                     }
 
@@ -60,7 +62,9 @@ public class DateOperationsHelper {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL +
+                    exception.getMessage()
+            );
         }
 
         return years;
@@ -69,60 +73,55 @@ public class DateOperationsHelper {
     //TODO @Timo - correct the method until saturday afternoon
     //TODO @Timo - test the function of the method
     public static Map<String, Integer> timeToEvent(String eventID) {
-        Map<String, Integer> timeMap = new HashMap<>();
+        var timeToEventMap = new HashMap<String, Integer>();
 
         try (Connection connection = DatabaseConnector.connect()) {
 
-            DSLContext create = DSL.using(connection);
-
-            Result<Record1<DayToSecond>> result = create.select(DSL.timestampDiff(DSL.field("eventStart", SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
+            var result = DSL.using(connection)
+                    .select(DSL.timestampDiff(DSL.field("eventStart", SQLDataType.TIMESTAMP), DSL.currentTimestamp()))
                     .from("events")
                     .where(DSL.field("eventID").eq(eventID))
                     .fetch();
 
             if (result.isNotEmpty()) {
-                for (Record1<DayToSecond> record : result) {
-                    DayToSecond diff = record.value1();
+                for (var record : result) {
+                    var differenceToCurrentTime = record.value1();
 
-                    int days = diff.getDays();
-                    int hours = diff.getHours();
-                    int minutes = diff.getMinutes();
-
-                    timeMap.put("days", days);
-                    timeMap.put("hours", hours);
-                    timeMap.put("minutes", minutes);
+                    timeToEventMap.put("days", differenceToCurrentTime.getDays());
+                    timeToEventMap.put("hours", differenceToCurrentTime.getHours());
+                    timeToEventMap.put("minutes", differenceToCurrentTime.getMinutes());
                 }
             } else {
                 LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL +
+                    exception.getMessage()
+            );
         }
 
-        return timeMap;
+        return timeToEventMap;
     }
 
     //TODO @Timo - correct the method until saturday afternoon
     public static ArrayList<String> checkIfEventIsOver() {
-        ArrayList<String> eventsToDelete = new ArrayList<>();
+        var eventsToDelete = new ArrayList<String>();
 
         try (Connection connection = DatabaseConnector.connect()) {
 
-            DSLContext create = DSL.using(connection);
+            var fourteenDaysOrMoreAgo = DSL.field("datetime('now', '-14 days')", SQLDataType.TIMESTAMP);
 
-            Field<Timestamp> fourteenDaysOrMoreAgo = DSL.field("datetime('now', '-14 days')", SQLDataType.TIMESTAMP);
-
-            Result<Record1<Object>> result = create.select(DSL.field("eventID"))
+            var result = DSL.using(connection)
+                    .select(DSL.field("eventID"))
                     .from("events")
                     .where(DSL.field("eventEnd", SQLDataType.TIMESTAMP).lt(fourteenDaysOrMoreAgo))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<Object> record : result) {
-                    String eventID = record.value1().toString();
-                    eventsToDelete.add(eventID);
+                for (var record : result) {
+                    eventsToDelete.add(record.value1().toString());
                 }
 
             } else {
@@ -130,29 +129,28 @@ public class DateOperationsHelper {
             }
 
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL +
+                    exception.getMessage()
+            );
         }
 
         return eventsToDelete;
     }
 
-    //TODO @Timo - correct the method to use eventId
-    public static int getEventStartValue(String eventName, String formatSpecifier) {
+    public static int getEventEndValue(String eventId, String formatSpecifier) {
         int value = 0;
 
-        try (Connection connection = DatabaseConnector.connect()) {
+        try (var connection = DatabaseConnector.connect()) {
 
-            DSLContext create = DSL.using(connection);
-            String expression = String.format("strftime('%%%s', eventStart)", formatSpecifier);
-
-            Result<Record1<Integer>> result = create.select(DSL.field(expression, Integer.class))
+            var result = DSL.using(connection)
+                    .select(DSL.field( String.format("strftime('%%%s', eventEnd)", formatSpecifier), Integer.class))
                     .from("events")
-                    .where(DSL.field("eventName").eq(eventName))
+                    .where(DSL.field("eventId").eq(eventId))
                     .fetch();
 
             if(result.isNotEmpty()) {
 
-                for (Record1<Integer> record : result) {
+                for (var record : result) {
                     value = record.value1();
                 }
 
@@ -166,23 +164,19 @@ public class DateOperationsHelper {
         return value;
     }
 
-    //TODO @Timo - correct the method to use eventId
-    public static int getEventEndValue(String eventName, String formatSpecifier) {
+    public static int getEventStartValue(String eventId, String formatSpecifier) {
         int value = 0;
 
-        try (Connection connection = DatabaseConnector.connect()) {
+        try (var connection = DatabaseConnector.connect()) {
 
-            DSLContext create = DSL.using(connection);
-            String expression = String.format("strftime('%%%s', eventEnd)", formatSpecifier);
-
-            Result<Record1<Integer>> result = create.select(DSL.field(expression, Integer.class))
+            var result =  DSL.using(connection)
+                    .select(DSL.field(String.format("strftime('%%%s', eventStart)", formatSpecifier), Integer.class))
                     .from("events")
-                    .where(DSL.field("eventName").eq(eventName))
+                    .where(DSL.field("eventId").eq(eventId))
                     .fetch();
 
             if(result.isNotEmpty()) {
-
-                for (Record1<Integer> record : result) {
+                for (var record : result) {
                     value = record.value1();
                 }
 
@@ -190,7 +184,9 @@ public class DateOperationsHelper {
                 LoggerHelper.logErrorMessage(EventDatabaseConnector.class, NO_EVENT_START_FOUND);
             }
         } catch (Exception exception) {
-            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL + exception.getMessage());
+            LoggerHelper.logErrorMessage(EventDatabaseConnector.class, CONNECTION_FAIL +
+                    exception.getMessage()
+            );
         }
 
         return value;

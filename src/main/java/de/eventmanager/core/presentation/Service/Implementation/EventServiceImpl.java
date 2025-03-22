@@ -1,5 +1,6 @@
 package de.eventmanager.core.presentation.Service.Implementation;
 
+import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.presentation.Service.EventService;
@@ -143,8 +144,26 @@ public class EventServiceImpl implements EventService {
         return userManager.exportEventByEventID(eventID);
     }
 
+    @Override
     public boolean getEventIsExistingByID(String eventID) {
         return userManager.getEventByID(eventID).isPresent();
+    }
+
+    @Override
+    public void removeAlreadyPassedEvents() {
+        var eventsToDelete = DateOperationsHelper.checkIfEventIsOver();
+
+        for (var eventID : eventsToDelete) {
+            deleteEvent(eventID);
+        }
+    }
+
+    private void deleteEvent(String eventId) {
+       var eventCreator = CreatorDatabaseConnector.getEventCreator(eventId);
+
+       if (eventCreator.isPresent()) {
+           EventDatabaseConnector.deleteEventByID(eventId, eventCreator.get().getUserID());
+       }
     }
     //#endregion event operations
 }

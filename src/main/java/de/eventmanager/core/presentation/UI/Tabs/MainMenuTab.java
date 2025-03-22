@@ -1,6 +1,8 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
+import de.eventmanager.core.presentation.Service.EventService;
+import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
 import de.eventmanager.core.presentation.UI.Tabs.Inbox.UsersInboxTab;
@@ -42,7 +44,6 @@ public class MainMenuTab implements Tab {
     }
 
     public MainMenuTab(View view, String loggedInUserID, LoginRegistrationPage loginRegistrationPage) {
-
         this.view = view;
         this.loggedInUserID = loggedInUserID;
         this.loginRegistrationPage = loginRegistrationPage;
@@ -51,6 +52,8 @@ public class MainMenuTab implements Tab {
 
     @Override
     public void start() {
+        new EventServiceImpl().removeAlreadyPassedEvents();
+
         if (userService.getUserIsAdminUserByID(loggedInUserID)) {
             showMainMenu(MenuType.ADMIN);
         } else {

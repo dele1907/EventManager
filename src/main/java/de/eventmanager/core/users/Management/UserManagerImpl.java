@@ -221,6 +221,10 @@ public class UserManagerImpl implements UserManager {
                 + minutesToEvent + " minutes\n";
     }
 
+    private boolean isEventOver(EventModel event) {
+        return DateOperationsHelper.checkIfEventIsOver().contains(event.getEventID());
+    }
+
     @Override
     public List<EventModel> getUsersBookedEvents(String userID) {
         return EventDatabaseConnector.getUsersBookedEventsByUserID(userID);
@@ -247,7 +251,7 @@ public class UserManagerImpl implements UserManager {
         var createdEvents = new ArrayList<String>();
 
         EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
-            createdEvents.add(event.toString());
+            createdEvents.add(event.toString().concat(isEventOver(event) ? "Event is already over!\n" : ""));
         });
 
         return createdEvents;
