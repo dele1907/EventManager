@@ -1,7 +1,6 @@
 package de.eventmanager.core.presentation.UI.Tabs;
 
 import de.eventmanager.core.presentation.PresentationHelpers.DefaultDialogHelper;
-import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.presentation.Service.Implementation.EventServiceImpl;
 import de.eventmanager.core.presentation.Service.Implementation.UserServiceImpl;
 import de.eventmanager.core.presentation.Service.UserService;
@@ -52,7 +51,7 @@ public class MainMenuTab implements Tab {
 
     @Override
     public void start() {
-        new EventServiceImpl().removeAlreadyPassedEvents();
+        new EventServiceImpl().deleteAllExpiredEvents();
 
         if (userService.getUserIsAdminUserByID(loggedInUserID)) {
             showMainMenu(MenuType.ADMIN);

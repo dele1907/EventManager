@@ -32,9 +32,19 @@ public class UserObserver implements Observer {
             return;
         }
 
-        String updateMessage = "-- UPDATE INFORMATION --" + event;
+        String updateMessage = "-- UPDATED EVENT INFORMATION --" + event;
 
         NotificationDatabaseConnector.addNotification(new Notification(this.user.getUserID(), updateMessage));
+    }
+
+    @Override
+    public void updateOnEventDeleted(EventModel event) {
+        String deleteMessage = "-- EVENT DELETED --" +
+                event +
+                "\nHINT: The event has been deleted by the event manager " +
+                "due to the event is expired for more than 14 days.\n";
+
+        NotificationDatabaseConnector.addNotification(new Notification(this.user.getUserID(), deleteMessage));
     }
 
     //#endregion observer

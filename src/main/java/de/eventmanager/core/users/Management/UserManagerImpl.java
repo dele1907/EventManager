@@ -251,10 +251,7 @@ public class UserManagerImpl implements UserManager {
         var createdEvents = new ArrayList<String>();
 
         EventDatabaseConnector.getEventsByCreatorID(userID).forEach(event -> {
-            createdEvents.add(event.toString().concat(isEventOver(event) ?
-                    "Event is already over for 14 days or more!\n"
-                    : "")
-            );
+            createdEvents.add(event.toString());
         });
 
         return createdEvents;

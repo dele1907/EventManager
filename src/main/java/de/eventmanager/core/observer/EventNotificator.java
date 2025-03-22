@@ -36,4 +36,11 @@ public class EventNotificator implements Subject {
         }
     }
 
+    @Override
+    public void notifyObserversOnEventDeleted(EventModel event) {
+        for (Observer observer : OBSERVERS) {
+            observer.updateOnEventDeleted(event);
+        }
+    }
+
 }

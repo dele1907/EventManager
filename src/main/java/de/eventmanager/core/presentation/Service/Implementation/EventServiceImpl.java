@@ -3,6 +3,8 @@ package de.eventmanager.core.presentation.Service.Implementation;
 import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
 import de.eventmanager.core.events.PublicEvent;
+import de.eventmanager.core.observer.EventNotificator;
+import de.eventmanager.core.observer.UserObserver;
 import de.eventmanager.core.presentation.Service.EventService;
 import de.eventmanager.core.users.Management.UserManagerImpl;
 import helper.DateOperationsHelper;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class EventServiceImpl implements EventService {
     UserManagerImpl userManager = new UserManagerImpl();
+    EventNotificator eventNotificator = new EventNotificator();
 
     //#region readEvents
    public List<String> getPublicEventsUserCanBookByID(String loggedUserID) {
@@ -150,7 +153,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void removeAlreadyPassedEvents() {
+    public void deleteAllExpiredEvents() {
         var eventsToDelete = DateOperationsHelper.getAllExpiredEvents();
 
         for (var eventID : eventsToDelete) {
@@ -160,9 +163,13 @@ public class EventServiceImpl implements EventService {
 
     private void deleteEvent(String eventId) {
        var eventCreator = CreatorDatabaseConnector.getEventCreator(eventId);
+       var event = userManager.getEventByID(eventId);
 
        if (eventCreator.isPresent()) {
            EventDatabaseConnector.deleteEventByID(eventId, eventCreator.get().getUserID());
+
+            eventNotificator.addObserver(new UserObserver(eventCreator.get(), event.get()));
+            eventNotificator.notifyObserversOnEventDeleted(event.get());
        }
     }
     //#endregion event operations
