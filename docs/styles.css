@@ -1,3 +1,4 @@
+/* Basis-Reset */
 * {
     margin: 0;
     padding: 0;
@@ -5,60 +6,97 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
     color: #333;
     line-height: 1.6;
     padding: 20px;
+    text-align: center;
 }
 
 header {
-    background-color: #007bff;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
     color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 8px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 header p {
     font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 0;
 }
 
-/*
-#video-section {
+/* #video-section {
     margin-top: 40px;
-    text-align: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+#video-section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
 
 #video-container {
     margin-top: 20px;
-}*/
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 0.9rem;
-    color: #777;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-/*
+video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+} */
+
+/**video:hover {
+    transform: scale(1.05);
+}*/
+
+
+footer {
+    margin-top: 40px;
+    font-size: 1rem;
+    color: #777;
+    padding-top: 20px;
+}
+
+/**
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     header p {
         font-size: 1rem;
     }
 
-    #video-container video {
+    #video-section h2 {
+        font-size: 1.5rem;
+    }
+
+    video {
         width: 100%;
         max-width: 100%;
-    }*/
-}
-
+    }
+}*/
