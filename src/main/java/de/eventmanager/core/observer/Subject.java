@@ -8,5 +8,5 @@ public interface Subject {
     void removeObserver(Observer observer);
     void notifyObservers(EventModel event);
     void notifyObserversOnEventDeleted(EventModel event);
-
+    void notifyObserversOnEventInvitation(EventModel event);
 }

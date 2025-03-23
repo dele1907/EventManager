@@ -6,5 +6,6 @@ public interface Observer {
 
     void update(EventModel event);
     void updateOnEventDeleted(EventModel event);
+    void updateOnEventInvitation(EventModel event);
 
 }

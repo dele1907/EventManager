@@ -47,6 +47,15 @@ public class UserObserver implements Observer {
         NotificationDatabaseConnector.addNotification(new Notification(this.user.getUserID(), deleteMessage));
     }
 
+    @Override
+    public void updateOnEventInvitation(EventModel event) {
+        String deleteMessage = "-- EVENT INVITATION --" +
+                event +
+                "\nHINT: You have been invited to this event.\n" +
+                "If you do not want to participate in the event, " +
+                "you can cancel your participation using the event operations\n";
+    }
+
     //#endregion observer
 
     public User getUser() {

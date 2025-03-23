@@ -2,6 +2,7 @@ package de.eventmanager.core.presentation.Service.Implementation;
 
 import de.eventmanager.core.database.Communication.CreatorDatabaseConnector;
 import de.eventmanager.core.database.Communication.EventDatabaseConnector;
+import de.eventmanager.core.database.Communication.UserDatabaseConnector;
 import de.eventmanager.core.events.PublicEvent;
 import de.eventmanager.core.observer.EventNotificator;
 import de.eventmanager.core.observer.UserObserver;
@@ -114,13 +115,19 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public boolean addUserToEventByUserEmail(String eventID, String userEmail, String loggedInUserID) {
-        if (!userManager.getUserByEmail(userEmail).isPresent()) {
+        var eventOptional = EventDatabaseConnector.readEventByID(eventID);
+        var invitedUserOptional = userManager.getUserByEmail(userEmail);
+
+        if (!invitedUserOptional.isPresent() || !eventOptional.isPresent()) {
             return false;
         }
 
-        userManager.addUserToEvent(eventID, userEmail, loggedInUserID);
+        if (invitedUserOptional.isPresent() && eventOptional.isPresent()) {
+            eventNotificator.addObserver(new UserObserver(invitedUserOptional.get(), eventOptional.get()));
+            eventNotificator.notifyObserversOnEventInvitation(eventOptional.get());
+        }
 
-        return true;
+        return  userManager.addUserToEvent(eventID, userEmail, loggedInUserID);
     }
 
     @Override
@@ -165,7 +172,7 @@ public class EventServiceImpl implements EventService {
        var eventCreator = CreatorDatabaseConnector.getEventCreator(eventId);
        var event = userManager.getEventByID(eventId);
 
-       if (eventCreator.isPresent()) {
+       if (eventCreator.isPresent() && event.isPresent()) {
            EventDatabaseConnector.deleteEventByID(eventId, eventCreator.get().getUserID());
 
             eventNotificator.addObserver(new UserObserver(eventCreator.get(), event.get()));

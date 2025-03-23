@@ -43,4 +43,10 @@ public class EventNotificator implements Subject {
         }
     }
 
+    @Override
+    public void notifyObserversOnEventInvitation(EventModel event) {
+        for (Observer observer : OBSERVERS) {
+            observer.updateOnEventInvitation(event);
+        }
+    }
 }
