@@ -65,8 +65,8 @@ public class UserManagerImplTestDrive {
     @AfterAll
     static void globalCleanup() {
         UserManagerImpl userManagerImpl = new UserManagerImpl();
-        EventDatabaseConnector.deleteEventByID(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
-        EventDatabaseConnector.deleteEventByID(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
+        userManagerImpl.deleteEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID);
+        userManagerImpl.deleteEvent(TEST_PRIVATE_EVENT_ID, TEST_ADMIN_ID);
 
         UserDatabaseConnector.deleteUserByEmail(TEST_ADMIN_EMAIL_ADDRESS);
         UserDatabaseConnector.deleteUserByEmail(TEST_USER_EMAIL_ADDRESS);
@@ -192,8 +192,8 @@ public class UserManagerImplTestDrive {
                 "TestStraße 6", "Turmschule", "This is a cool event", 20,
                 0,false, TEST_USER_ID));
 
-        String puplicEventID = EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID();
-        EventDatabaseConnector.deleteEventByID(puplicEventID, TEST_ADMIN_ID);
+        String publicEventID = EventDatabaseConnector.readPublicEventsByName("TestPublicEventIntern").get(0).getEventID();
+        userManagerImpl.deleteEvent(publicEventID, TEST_ADMIN_ID);
     }
 
     @Test
