@@ -26,3 +26,6 @@ In den Projektordner "EventManager" navigieren.
 EventManager startet.
 
 Die Initialisierung der Datenbank erfolgt automatisch im Verzeichnis homeVerzeichnisUser/EventManagerFiles als eventmanagerdata.sqlite.
+
+Eine BenutzerAnleitung in Videofrom ist hier zu finden:
+https://dele1907.github.io/EventManager/
