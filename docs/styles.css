@@ -14,7 +14,7 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #007bff, #00c6ff);
+    background: linear-gradient(200deg, darkblue, #00c6ff);
     color: white;
     padding: 40px;
     border-radius: 10px;
@@ -24,16 +24,16 @@ header {
 
 header h1 {
     font-size: 3rem;
-    margin-bottom: 15px;
-    font-weight: 700;
+    margin-bottom: 10px;
+    font-weight: bolder;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 header p {
     font-size: 1.2rem;
-    font-weight: 300;
-    line-height: 1.5;
+    font-weight: bold;
+    line-height: 1.0;
     margin-bottom: 0;
 }
 
@@ -59,19 +59,19 @@ header p {
     margin-right: auto;
     border-radius: 8px;
     overflow: hidden;
+    margin-bottom: 20px;
+}
+
+#video-container:hover {
+    transform: scale(1.05);
 }
 
 video {
     width: 100%;
     height: auto;
-    border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
-} */
-
-video:hover {
-    transform: scale(1.05);
+    border-radius: 10px;
+    transition: transform 0.3s ease-out;
 }
-
 
 footer {
     margin-top: 40px;
