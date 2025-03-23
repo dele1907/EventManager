@@ -317,16 +317,6 @@ public class UserManagerImplTestDrive {
     }
 
     void addUserToEventAsAdmin() {
-        if (EventDatabaseConnector.readPrivateEventByID(TEST_PRIVATE_EVENT_ID).isPresent()) {
-            System.out.println("Private Event exists in DB");
-        }
-        if (UserDatabaseConnector.readUserByEMail(TEST_USER_EMAIL_ADDRESS).isPresent()) {
-            System.out.println("User exists in DB");
-        }
-        if (UserDatabaseConnector.readUserByID(TEST_ADMIN_ID).isPresent()) {
-            System.out.println("Admin-User exists in DB");
-        }
-
         assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_ADMIN_ID));
     }
 
