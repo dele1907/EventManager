@@ -34,7 +34,7 @@ public class EventCreatorAddUserToEventTab implements Tab {
         view.displayUserInputMessage("\nEnter eventID of the event you want to add a user to\n> ");
         String eventID = view.getUserInput();
 
-        if (eventService.getEventInformationByID(eventID).isEmpty()) {
+        if (!eventService.getEventIsExistingByID(eventID)) {
             view.displayErrorMessage("Event does not exist.");
 
             return;
