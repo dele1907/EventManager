@@ -1,15 +1,28 @@
-Nutung des Event Managers
+# Event Manager Setup Anleitung
 
-	Kommando: git clone *ssh-key des Repositories*.
+## Voraussetzungen
 
-	Navigation an den Speicherort des Projekts.
+- Maven-Version >= 3.6.3
+- Java-Version >= 21.0.3
 
-	In ProjektOrdner "EventManager" navigieren.
+## Nutzung des Event Managers
 
-	Kommando: mvn clean install
+1. **Kommando:**
+	```bash
+ 	git clone *ssh-key des Repositories*
 
-	Kommando: java -jar target/EventManagementSystem-1.0.0-jar-with-dependencies.jar ausfueheren
+Navigation an den Speicherort des Projekts.
 
-	EventManager startet.
+In den Projektordner "EventManager" navigieren.
 
-	Initialisierung der Datenbank erfolgt automatisch in homeVerzeichnisUser/EventManagerFiles als eventmanagerdata.sqlite
+2. **Kommando:**
+	```bash
+	mvn clean install
+
+3. **Kommando:**
+	```bash
+	java -jar target/EventManagementSystem-1.0.0-jar-with-dependencies.jar ausfuehren
+
+EventManager startet.
+
+Die Initialisierung der Datenbank erfolgt automatisch im Verzeichnis homeVerzeichnisUser/EventManagerFiles als eventmanagerdata.sqlite.
