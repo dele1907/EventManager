@@ -14,7 +14,8 @@ public class PublicEvent extends EventModel {
     /**
      * Regular constructor for initialising a public event
      * */
-    public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city, String address, String eventLocation, String description, int minimumAge) {
+    public PublicEvent(String eventName, String eventStart, String eventEnd, String category, String postalCode, String city, String address,
+                       String eventLocation, String description, int minimumAge) {
         this.eventID = IDGenerationHelper.generateRandomUUID();
         this.eventName = eventName;
         this.eventStart = eventStart;

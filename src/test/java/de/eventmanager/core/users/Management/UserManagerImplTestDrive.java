@@ -13,14 +13,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserManagerImplTestDrive {
 
     UserManagerImpl userManagerImpl = new UserManagerImpl();
 
     static User testUser;
     static User testAdminUser;
-    static User testEventCreaotr;
+    static User testEventCreator;
     static EventModel publicEvent;
     static EventModel privateEvent;
     static EventModel eventToDelete;
@@ -44,7 +43,7 @@ public class UserManagerImplTestDrive {
                 TEST_USER_EMAIL_ADDRESS, "password", "+497788866", false);
         testAdminUser = new User(TEST_ADMIN_ID, "firstAdmin", "Admin", "1999-04-05",
                 TEST_ADMIN_EMAIL_ADDRESS, "AdminPassword", "+497733686", true);
-        testEventCreaotr = new User(TEST_EVENT_CREATOR_ID, "Event", "Creator", "2000-04-20",
+        testEventCreator = new User(TEST_EVENT_CREATOR_ID, "Event", "Creator", "2000-04-20",
                 TEST_EVENT_CREATOR_EMAIL_ADDRESS, "password", "+497789866", false);
 
         publicEvent = new PublicEvent(TEST_PUBLIC_EVENT_ID, "TestPublicEvent", "2025-01-01 12:30:00",
@@ -58,7 +57,7 @@ public class UserManagerImplTestDrive {
 
         UserDatabaseConnector.createNewUser(testUser);
         UserDatabaseConnector.createNewUser(testAdminUser);
-        UserDatabaseConnector.createNewUser(testEventCreaotr);
+        UserDatabaseConnector.createNewUser(testEventCreator);
         EventDatabaseConnector.createNewEvent(publicEvent, TEST_EVENT_CREATOR_ID);
         EventDatabaseConnector.createNewEvent(privateEvent, TEST_EVENT_CREATOR_ID);
     }
@@ -255,7 +254,7 @@ public class UserManagerImplTestDrive {
         cancelEventTest();
     }
 
-    void bookEventTests() {
+    private void bookEventTests() {
         tryToBookAnPrivateEventTest();
         bookEventAsUserTest();
         bookEventAsEventCreatorTest();
@@ -264,41 +263,54 @@ public class UserManagerImplTestDrive {
     }
 
     //#region Booking-Cases
-    void bookEventAsEventCreatorTest() {
+    private void bookEventAsEventCreatorTest() {
         assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID));
     }
 
-    void bookEventAsUserTest() {
+    private void bookEventAsUserTest() {
         assertTrue(userManagerImpl.bookEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
     }
 
-    void tryToBookAnPrivateEventTest() {
+    private void tryToBookAnPrivateEventTest() {
         assertFalse(userManagerImpl.bookEvent(TEST_PRIVATE_EVENT_ID, TEST_USER_ID));
     }
     //#endregion Booking-Cases
 
-    void exportTests() {
+    private void exportTests() {
         successfulExportTest();
         wrongUserIDExportTest();
     }
 
     //#region Export-Test-Cases
-    void successfulExportTest() {
+    private void successfulExportTest() {
         assertTrue(userManagerImpl.exportAllBookedEvents(TEST_USER_ID));
     }
 
-    void wrongUserIDExportTest() {
+    private void wrongUserIDExportTest() {
         assertFalse(userManagerImpl.exportAllBookedEvents("998"));
     }
     //#endregion Export-Test-Cases
 
-    void cancelEventTest() {
-        String notExistingEventID = "1234";
+    private void cancelEventTest() {
+        wrongEventIDExportTest();
+        cancelEventAsAdminTest();
+        cancelEventAsUserTest();
+    }
 
+    //#region Cancel-Test-Cases
+    private void wrongEventIDExportTest() {
+        String notExistingEventID = "1234";
         assertFalse(userManagerImpl.cancelEvent(notExistingEventID, TEST_USER_ID));
+    }
+
+    private void cancelEventAsAdminTest() {
         assertTrue(userManagerImpl.cancelEvent(TEST_PUBLIC_EVENT_ID, TEST_ADMIN_ID));
+    }
+
+    private void cancelEventAsUserTest() {
         assertTrue(userManagerImpl.cancelEvent(TEST_PUBLIC_EVENT_ID, TEST_USER_ID));
     }
+    //#endregion Cancel-Test-Cases
 
     @Test
     @DisplayName("Add & Remove User to Event Test")
@@ -309,32 +321,36 @@ public class UserManagerImplTestDrive {
         removeUserFromEventAsAdmin();
         addUserToEventAsEventCreator();
         removeUserFromEventAsEventCreator();
-
     }
 
-    void addUserToEventAsUser() {
+    //#region Add-User-To-Event-Cases
+    private void addUserToEventAsUser() {
         assertFalse(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_USER_ID));
     }
 
-    void addUserToEventAsAdmin() {
+    private void addUserToEventAsAdmin() {
         assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_ADMIN_ID));
     }
 
-    void addUserToEventAsEventCreator() {
+    private void addUserToEventAsEventCreator() {
         assertTrue(userManagerImpl.addUserToEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS,TEST_EVENT_CREATOR_ID));
     }
+    //#endregion Add-User-To-Event-Cases
 
-    void removeUserFromEventAsUser() {
+    //#region Remove-User-To-Event-Cases
+    private void removeUserFromEventAsUser() {
         assertFalse(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS, TEST_USER_ID));
     }
 
-    void removeUserFromEventAsAdmin() {
+    private void removeUserFromEventAsAdmin() {
         assertTrue(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS, TEST_ADMIN_ID));
     }
 
-    void removeUserFromEventAsEventCreator() {
+    private void removeUserFromEventAsEventCreator() {
         assertTrue(userManagerImpl.removeUserFromEvent(TEST_PRIVATE_EVENT_ID,TEST_USER_EMAIL_ADDRESS, TEST_EVENT_CREATOR_ID));
     }
+    //#endregion Remove-User-To-Event-Cases
+
     //#endregion Event-Operations
 
     //#region Permission Tests
@@ -354,7 +370,6 @@ public class UserManagerImplTestDrive {
         userManagerImpl.removeAdminStatusFromUserByUserID(TEST_USER_ID, testAdminUser);
         assertNotEquals(Role.ADMIN, userManagerImpl.getUserByID(testUser.getUserID()).get().getRole());
     }
-
     //#endregion Permission Tests
 
     //#region Registration and Authentication Tests

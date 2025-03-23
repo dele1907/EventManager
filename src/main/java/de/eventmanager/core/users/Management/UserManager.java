@@ -10,15 +10,12 @@ import java.util.Optional;
 public interface UserManager {
 
     //#region User related CRUD-Operations
-    boolean createNewUser(
-            String firstName, String lastName,
-            String dateOfBirth, String eMailAddress,
-            String password, String phoneNumber,
-            boolean isAdmin, String loggedUserByID);
+    boolean createNewUser(String firstName, String lastName, String dateOfBirth,
+                          String eMailAddress, String password, String phoneNumber,
+                          boolean isAdmin, String loggedUserByID);
 
-    void editUser(String userID, String firstName,
-                  String lastName, String dateOfBirth,
-                  String eMailAddress, String password,
+    void editUser(String userID, String firstName, String lastName,
+                  String dateOfBirth, String eMailAddress, String password,
                   String phoneNumber, String loggedUserByID);
 
     boolean deleteUser(String eMailUserToDelete, String loggedUserByID);
@@ -29,11 +26,10 @@ public interface UserManager {
     //#endregion User related Crud-Operations
 
     //#region Event related CRUD-Operations
-    boolean createNewEvent(String eventName, String eventStart,
-                           String eventEnd, String category,
-                           String postalCode, String address, String eventLocation,
-                           String description, int maxParticipants, int minimumAge,
-                           boolean isPrivateEvent, String loggedUserID);
+    boolean createNewEvent(String eventName, String eventStart, String eventEnd,
+                           String category, String postalCode, String address,
+                           String eventLocation, String description, int maxParticipants,
+                           int minimumAge, boolean isPrivateEvent, String loggedUserID);
 
     Optional<? extends EventModel> getEventByID(String eventID);
 
@@ -53,10 +49,9 @@ public interface UserManager {
 
     List<String> readCreatedEventsByUserID(String userID);
 
-    boolean editEvent(String eventID, String eventName,
-                      String eventStart, String eventEnd,
-                      String category, String postalCode, String address,
-                      String eventLocation, String description,
+    boolean editEvent(String eventID, String eventName, String eventStart,
+                      String eventEnd, String category, String postalCode,
+                      String address, String eventLocation, String description,
                       String loggedUserID);
 
     boolean deleteEvent(String eventID, String loggedUserID);
@@ -92,6 +87,7 @@ public interface UserManager {
 
     //#region Export-Events
     boolean exportAllBookedEvents(String loggedUserID);
+
     boolean exportEventByEventID(String eventID);
     //#endregion Export-Events
 }
