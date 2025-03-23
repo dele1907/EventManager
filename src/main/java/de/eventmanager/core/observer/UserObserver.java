@@ -54,6 +54,8 @@ public class UserObserver implements Observer {
                 "\nHINT: You have been invited to this event.\n" +
                 "If you do not want to participate in the event, " +
                 "you can cancel your participation using the event operations\n";
+
+        NotificationDatabaseConnector.addNotification(new Notification(this.user.getUserID(), deleteMessage));
     }
 
     //#endregion observer
