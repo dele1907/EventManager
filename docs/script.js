@@ -1,4 +1,3 @@
-/**
 document.getElementById('program-video').addEventListener('click', function() {
     var video = document.getElementById('program-video');
     if (video.paused) {
@@ -6,5 +5,5 @@ document.getElementById('program-video').addEventListener('click', function() {
     } else {
         video.pause();
     }
-});*/
+});
 
