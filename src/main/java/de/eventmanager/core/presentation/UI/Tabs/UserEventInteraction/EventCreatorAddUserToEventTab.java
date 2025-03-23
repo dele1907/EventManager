@@ -35,7 +35,7 @@ public class EventCreatorAddUserToEventTab implements Tab {
         String eventID = view.getUserInput();
 
         if (!eventService.getEventIsExistingByID(eventID)) {
-            view.displayErrorMessage("Event does not exist.");
+            view.displayErrorMessage("Event with Id: " + eventID + " does not exist.\n" + "Please try again.\n");
 
             return;
         }
@@ -44,7 +44,7 @@ public class EventCreatorAddUserToEventTab implements Tab {
         String userEmail = view.getUserInput();
 
         if (!userService.getUserIsPresentInDatabaseByEmail(userEmail)) {
-            view.displayErrorMessage("\nUser does not exist.\n");
+            view.displayErrorMessage("\nUser does not exist.\nPlease try again.\n");
 
             return;
         }
