@@ -101,12 +101,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean getUserIsAdminUserByEmail(String email) {
-        return userManagerImpl.getUserByEmail(email).get().getRole().equals(Role.ADMIN);
+        var userOptional = userManagerImpl.getUserByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+
+        return userOptional.get().getRole().equals(Role.ADMIN);
     }
 
     @Override
     public String getLoggedInUserName(String userID) {
-        return userManagerImpl.getUserByID(userID).get().getFirstName();
+        var userOptional = userManagerImpl.getUserByID(userID);
+
+        if (userOptional.isEmpty()) {
+            return "";
+        }
+
+        return userOptional.get().getFirstName();
     }
 
     @Override
