@@ -81,13 +81,18 @@ public class EventCreationTab implements Tab {
         int minimumAge = 0;
 
         if (!isPrivateEvent) {
-            view.displayUserInputMessage("\nEnter event maximum capacity\n> ");
+            String enterToNotSetASpecificValue = "(Press Enter if there is none)";
+            view.displayUserInputMessage("\nEnter event maximum capacity" +
+                    enterToNotSetASpecificValue +
+                    "\n> "
+            );
             String maxCapacityInputString = view.getUserInput();
             maxCapacity = maxCapacityInputString.isEmpty() ? 9999 : Integer.parseInt(maxCapacityInputString);
 
             view.displayUserInputMessage(
                     "\nEnter minimum age to participate on the event " +
-                            "(Press Enter if there is none)\n> "
+                            enterToNotSetASpecificValue +
+                            "\n> "
             );
             String minimumAgeString = view.getUserInput();
 

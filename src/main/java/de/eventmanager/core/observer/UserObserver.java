@@ -32,14 +32,14 @@ public class UserObserver implements Observer {
             return;
         }
 
-        String updateMessage = "-- UPDATED EVENT INFORMATION --" + event;
+        var updateMessage = "-- UPDATED EVENT INFORMATION --" + event;
 
         NotificationDatabaseConnector.addNotification(new Notification(this.user.getUserID(), updateMessage));
     }
 
     @Override
     public void updateOnEventDeleted(EventModel event) {
-        String deleteMessage = "-- EVENT DELETED --" +
+        var deleteMessage = "-- EVENT DELETED --" +
                 event +
                 "\nHINT: The event has been deleted by the event manager " +
                 "due to the event is expired for more than 14 days.\n";
@@ -49,7 +49,7 @@ public class UserObserver implements Observer {
 
     @Override
     public void updateOnEventInvitation(EventModel event) {
-        String deleteMessage = "-- EVENT INVITATION --" +
+        var deleteMessage = "-- EVENT INVITATION --" +
                 event +
                 "\nHINT: You have been invited to this event.\n" +
                 "If you do not want to participate in the event, " +
