@@ -35,7 +35,7 @@ build/
 .DS_Store
 
 ### Ignore all log files ###
-app.log
+*.log
 
 ### Ignore all .sqlite files ###
 *.sqlite

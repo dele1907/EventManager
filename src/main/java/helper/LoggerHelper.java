@@ -1,7 +1,7 @@
 package helper;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoggerHelper {
 
@@ -13,7 +13,7 @@ public class LoggerHelper {
     * */
     //#region new logger
     private static Logger getLogger(Class<?> objectClass) {
-        Logger logger = LogManager.getLogger(objectClass);
+        Logger logger = LoggerFactory.getLogger(objectClass);
 
         return logger;
     }
