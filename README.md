@@ -42,7 +42,8 @@
   mvn clean install
 
 - Die erstellte .jar Datei ausführen
-	-‼️ Es werden zwei .jar Dateien erstellt, die auszuführendene ist 		folgendermaßen benannt:
+
+  	-‼️ Es werden zwei .jar Dateien erstellt, die auszuführendene ist 		folgendermaßen benannt:
   	
 	**EventManagementSystem-1.0.0-jar-with-dependencies.jar**
 
