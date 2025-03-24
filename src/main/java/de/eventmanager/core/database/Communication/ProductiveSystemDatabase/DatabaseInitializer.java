@@ -6,10 +6,7 @@ import helper.LoggerHelper;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -96,7 +93,7 @@ public class DatabaseInitializer {
 
        try {
            initDataBaseTables(connection);
-           insertCitiesFromCSV(connection, "src/main/resources/Germany_postalcode_cityname.csv");
+           insertCitiesFromCSV(connection);
        } catch (SQLException e) {
            LoggerHelper.logErrorMessage(DatabaseInitializer.class,
                    "Error initializing database: " + e.getMessage());
@@ -173,31 +170,33 @@ public class DatabaseInitializer {
     //#endregion methods
 
     //#region cities/postcode init from csv
-    private static List<String[]> readCSV(String filePath) {
+    private static List<String[]> readCSV() {
         var records = new ArrayList<String[]>();
 
-        try (var bufferedReader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            bufferedReader.readLine();
+        try (var inputStream = DatabaseInitializer.class.getClassLoader().getResourceAsStream("Germany_postalcode_cityname.csv");
+             var reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
-            while ((line = bufferedReader.readLine()) != null) {
+            String line;
+            reader.readLine(); // Erste Zeile überspringen (Header)
+
+            while ((line = reader.readLine()) != null) {
                 var values = line.split(",");
-                records.add(new String[]{values[3], values[2]}); // plz and ort
+                records.add(new String[]{values[3], values[2]}); // plz und ort
             }
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             LoggerHelper.logErrorMessage(
                     DatabaseInitializer.class,
-                    "Error reading CSV file: " +
-                    e.getMessage()
+                    "Error reading CSV file: " + e.getMessage()
             );
         }
 
         return records;
     }
 
-    private static void insertCitiesFromCSV(Connection connection, String csvFilePath) {
+
+    private static void insertCitiesFromCSV(Connection connection) {
         var create = DSL.using(connection);
-        var cities = readCSV(csvFilePath);
+        var cities = readCSV();
 
         for (var city : cities) {
             try {
