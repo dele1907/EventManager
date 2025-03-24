@@ -88,7 +88,7 @@ public class EventBookingTab implements Tab {
         );
 
         if (view.getUserInput().equalsIgnoreCase(DefaultDialogHelper.CONFIRM)) {
-            if (!eventService.exportEventToCalendarFile(eventID)) {
+            if (!eventService.exportEventToCalendarFile(eventID, false)) {
                 view.displayErrorMessage("\nAbort exporting event to .ics.\n");
 
                 return;

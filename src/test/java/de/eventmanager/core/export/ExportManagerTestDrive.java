@@ -73,7 +73,7 @@ public class ExportManagerTestDrive {
     @Test
     @DisplayName("Export Events Test")
     void exportEventsTest() {
-        assertTrue(exportManager.exportEvents(eventList));
+        assertTrue(exportManager.exportEvents(eventList, true));
     }
 
 }

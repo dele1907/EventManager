@@ -39,7 +39,7 @@ public class EventExportTab implements Tab {
         });
 
         view.displayUserInputMessage("\nEnter event ID you want to export\n> ");
-        if (!eventService.exportEventToCalendarFile(view.getUserInput())) {
+        if (!eventService.exportEventToCalendarFile(view.getUserInput(), false)) {
             view.displayMessage("\nEvent export failed. Maybe the event does not exist.\n");
 
             return;

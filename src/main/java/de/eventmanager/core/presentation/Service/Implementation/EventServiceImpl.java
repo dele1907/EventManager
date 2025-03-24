@@ -146,12 +146,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean exportEventToCalendarFile(String eventID) {
+    public boolean exportEventToCalendarFile(String eventID, boolean isTestExport) {
         if (!getEventIsExistingByID(eventID) || eventID.isEmpty()) {
             return false;
         }
 
-        return userManager.exportEventByEventID(eventID);
+        return userManager.exportEventByEventID(eventID, isTestExport);
     }
 
     @Override

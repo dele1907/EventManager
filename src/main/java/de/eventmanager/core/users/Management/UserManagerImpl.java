@@ -543,17 +543,17 @@ public class UserManagerImpl implements UserManager {
 
     //#region Export-Events
     @Override
-    public boolean exportAllBookedEvents(String loggedUserID) {
+    public boolean exportAllBookedEvents(String loggedUserID, boolean isTestExport) {
         if (getUserByID(loggedUserID).isEmpty()) {
             return false;
         }
 
-        return new ExportManager().exportEvents(getUsersBookedEvents(loggedUserID));
+        return new ExportManager().exportEvents(getUsersBookedEvents(loggedUserID), isTestExport);
     }
 
     @Override
-    public boolean exportEventByEventID(String eventID) {
-        return new ExportManager().exportEvents(List.of(getEventByID(eventID).get()));
+    public boolean exportEventByEventID(String eventID, boolean isTestExport) {
+        return new ExportManager().exportEvents(List.of(getEventByID(eventID).get()), isTestExport);
     }
     //#endregion Export-Events
 }

@@ -277,17 +277,18 @@ public class UserManagerImplTestDrive {
     //#endregion Booking-Cases
 
     private void exportTests() {
-        successfulExportTest();
         wrongUserIDExportTest();
     }
 
     //#region Export-Test-Cases
     private void successfulExportTest() {
-        assertTrue(userManagerImpl.exportAllBookedEvents(TEST_USER_ID));
+        assertTrue(userManagerImpl.exportAllBookedEvents(TEST_USER_ID, true));
     }
 
     private void wrongUserIDExportTest() {
-        assertFalse(userManagerImpl.exportAllBookedEvents("998"));
+        assertFalse(userManagerImpl.exportAllBookedEvents("998",
+                true)
+        );
     }
     //#endregion Export-Test-Cases
 

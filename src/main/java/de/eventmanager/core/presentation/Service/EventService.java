@@ -22,7 +22,7 @@ public interface EventService {
     List<String> getUsersBookedEventsInformation(String userID);
     boolean getUserHasAlreadyBookedEventByID(String userID, String eventID);
     boolean getUserHasAlreadyBookedEventByEMail(String userEMail, String eventID);
-    boolean exportEventToCalendarFile(String eventID);
+    boolean exportEventToCalendarFile(String eventID, boolean isTestExport);
     boolean getEventIsExistingByID(String eventID);
     List<String> getPublicEventsUserCanBookByID(String loggedUserID);
     void deleteAllExpiredEvents();

@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class Exporter {
 
-    public static boolean exportEventToICSFile(Calendar calendar) {
+    public static boolean exportEventToICSFile(Calendar calendar, boolean isTestExport) {
         try {
             String path;
             if (System.getenv("CI") != null) {
@@ -19,7 +19,9 @@ public class Exporter {
             } else {
                 // Locale Device: Save in Downloads
                 String userHome = System.getProperty("user.home");
-                path = Paths.get(userHome, "Downloads", "mycalendar.ics").toString();
+                path = isTestExport ?
+                        Paths.get("src", "main", "resources", "mycalendar.ics").toString() :
+                        Paths.get(userHome, "Downloads", "mycalendar.ics").toString();
             }
 
             FileOutputStream fileOutputStream = new FileOutputStream(path);

@@ -30,7 +30,7 @@ public class ExportManager {
     private final VTimeZone V_TIMEZONE_GERMANY = TIMEZONE_GERMANY.getVTimeZone();
     //#endregion constants
 
-    public boolean exportEvents(List<? extends EventModel> eventList) {
+    public boolean exportEvents(List<? extends EventModel> eventList, boolean isTestExport) {
         var optionalCalendar = createCalendar(eventList);
 
         if (optionalCalendar.isEmpty()) {
@@ -41,7 +41,7 @@ public class ExportManager {
 
         Calendar calendar = optionalCalendar.get();
 
-        return Exporter.exportEventToICSFile(calendar);
+        return Exporter.exportEventToICSFile(calendar, isTestExport);
     }
 
     //#region Create Calendar
