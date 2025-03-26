@@ -62,10 +62,6 @@ header p {
     margin-bottom: 20px;
 }
 
-#video-container:hover {
-    transform: scale(1.05);
-}
-
 video {
     width: 100%;
     height: auto;
