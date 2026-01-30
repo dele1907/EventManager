@@ -79,11 +79,6 @@ Neben der zentralen Eventplanung erleichtert sie den Überblick über öffentlic
 	  - *application.log*: Log-Datei der Anwendung
 	  - *eventmanager.sqlite*: Datenbank-Datei
 
-## 📽️ Anwendungsbeispiele
-
-Eine Demonstration unseres Event-Managers, inklusive Beispielen, findet man im hier angehängten Video:  
-https://dele1907.github.io/EventManager/
-
 ## ⛔ Bekannte Einschränkungen
 
 - Exportfunktion für mehrere Events gleichzeitig ist deaktiviert aufgrund von Duplikaten beim Apple-Kalendar
