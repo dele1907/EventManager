@@ -1,9 +1,4 @@
 name: Workflow
-on:
-  push:
-    branches:
-      - main # Workflow wird bei jedem Push auf dem Main-Branch ausgeführt
-  workflow_dispatch:  # Ermöglicht das manuelle Starten des Workflows
 
 jobs:
   build:
